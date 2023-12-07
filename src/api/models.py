@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import ARRAY
 
 db = SQLAlchemy()
 
@@ -6,7 +7,7 @@ class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
+    password = db.Column(db.String(180), unique=False, nullable=False)
     first_name=db.Column(db.String(40),unique=False,nullable=False)
     last_name=db.Column(db.String(40),unique=False,nullable=False)
     location=db.Column(db.String(80),unique=False,nullable=False)
@@ -127,38 +128,49 @@ class Employer(db.Model):
     __tablename__ = 'employer'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
-    first_name=db.Column(db.String(40),unique=False,nullable=False)
-    last_name=db.Column(db.String(40),unique=False,nullable=False)
-    location=db.Column(db.String(80),unique=False,nullable=False)
-    employer_phone_number=db.Column(db.Integer,unique=True,nullable=False)
+    password = db.Column(db.String(180), unique=False, nullable=False)
     job = db.relationship('Postjobs', backref="employer_jobs")
+
+    def __init__(self,email,password):
+        self.email=email
+        self.password=password
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            # "job": [job.serialize() for job in self.job]
+            }
 
 class Postjobs(db.Model):
     __tablename__ = 'postjobs'
     id = db.Column(db.Integer, primary_key=True)
     employer_id = db.Column(db.Integer, db.ForeignKey('employer.id'),nullable=False)
     company_name=db.Column(db.String(80),unique=False,nullable=False)
-    # company_logo=db.Column(db.String(80),unique=False,nullable=False)
+    company_logo = db.Column(db.LargeBinary, unique=False, nullable=True)
+    company_size=db.Column(db.String(80),unique=False,nullable=True)
+    first_name=db.Column(db.String(40),unique=False,nullable=False)
+    last_name=db.Column(db.String(40),unique=False,nullable=False)
+    employer_phone_number=db.Column(db.Integer,unique=True,nullable=True)
+    job_title=db.Column(db.String(500),unique=False,nullable=False)
     company_email = db.Column(db.String(120), unique=True, nullable=False)
-    company_phone_number = db.Column(db.Integer, unique=True, nullable=False)
-    job_title=db.Column(db.String(500),unique=False,nullable=True)
+    company_phone_number = db.Column(db.Integer, unique=True, nullable=True)
+    number_hiring=db.Column(db.Integer,unique=False,nullable=False)
+    work_location_type=db.Column(db.String(80),unique=False,nullable=False)
+    location=db.Column(db.String(80),unique=False,nullable=True)
+    job_type=db.Column(db.String(80),unique=False,nullable=False)
+    working_hours=db.Column(db.Integer,unique=False,nullable=True)
+    experience_level_type=db.Column(db.String(80),unique=False,nullable=False)
+    min_experience=db.Column(db.Integer,unique=False,nullable=True)
+    max_experience=db.Column(db.Integer,unique=False,nullable=True)
     min_salary=db.Column(db.Integer,unique=False,nullable=True)
-    relocation=db.Column(db.String(80),unique=False,nullable=True)
-    temperory_job=db.Column(db.String(80),unique=False,nullable=True)
-    permanent_job=db.Column(db.String(80),unique=False,nullable=True)
-    contract_job=db.Column(db.String(80),unique=False,nullable=True)
-    part_time_job=db.Column(db.String(80),unique=False,nullable=True)
-    full_time_job=db.Column(db.String(80),unique=False,nullable=True)
-    remote_job=db.Column(db.String(80),unique=False,nullable=True)
-    onsite_job=db.Column(db.String(80),unique=False,nullable=True)
-    hybrid_job=db.Column(db.String(80),unique=False,nullable=True)
+    max_salary=db.Column(db.Integer,unique=False,nullable=True)
     day_shift_job=db.Column(db.String(80),unique=False,nullable=True)
     night_shift_job=db.Column(db.String(80),unique=False,nullable=True)
-    location=db.Column(db.String(100),unique=False,nullable=True)
     description=db.Column(db.String(5000),unique=False,nullable=True)
-    min_experience=db.Column(db.Integer,unique=False,nullable=False)
+    weekend_job=db.Column(db.String(80),unique=False,nullable=True)
     resume_required=db.Column(db.String(20),unique=False,nullable=True)
+    benefits = db.Column(ARRAY(db.String), unique=False, nullable=True)
     language=db.Column(db.String(50),unique=False,nullable=True)
     employer = db.relationship(Employer, backref="employer_postjobs")
 
