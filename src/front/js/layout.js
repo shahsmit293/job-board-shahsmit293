@@ -21,6 +21,7 @@ import { EmployerHome } from "./pages/employerhomepage";
 import { EmployerCreateJobPost } from "./pages/createjobpost";
 import { Applicants } from "./pages/applicants";
 import { MatchedProfiles } from "./pages/matchedprofiles";
+import { EditPostJob } from "./pages/editpostjob";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -65,6 +66,7 @@ const Layout = () => {
             <Route element={<MatchedProfiles />} path="/matchedprofiles" />
             <Route element={<Demo />} path="/demo" />
             <Route element={<Single />} path="/single/:theid" />
+            <Route element={<EditPostJob />} path="/editpost/:post_id" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />

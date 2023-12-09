@@ -1,13 +1,42 @@
 import React, { useContext, useState } from "react";
-import "../../styles/home.css";
-import { EmployerSidebar } from "../component/employersidebar";
 import { Context } from "../store/appContext";
-import QuillEditor from "../component/textarea";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { EmployerSidebar } from "../component/employersidebar";
+import QuillEditor from "../component/textarea";
 
-export const EmployerCreateJobPost = () => {
+export const EditPostJob = () => {
+  const { post_id } = useParams();
   const { store, actions } = useContext(Context);
-  const navigate = useNavigate("");
+  const navigate = useNavigate();
+  useEffect(() => {
+    // Fetch the book details when the component mounts
+    actions.geteditjobs(
+      +post_id,
+      setCompanyNameValue,
+      setCompanyLogoValue,
+      setFirstNameValue,
+      setLastNameValue,
+      setPhoneNumberValue,
+      setCompanyEmailValue,
+      setJobTitleValue,
+      setNumberHiringValue,
+      setWorkLocationTypeValue,
+      setJobTypeValue,
+      setLocationValue,
+      setWorkingHoursValue,
+      setExperienceLevelValue,
+      setMinExperienceValue,
+      setMaxExperienceValue,
+      setMinSalaryValue,
+      setMaxSalaryValue,
+      setWorkingTimesValue,
+      setWeekendRequiredValue,
+      setLanguageValue,
+      setEditorText
+    );
+  }, [post_id]);
   const [editorText, setEditorText] = useState("");
 
   const handleTextChange = (text) => {
@@ -165,6 +194,7 @@ export const EmployerCreateJobPost = () => {
               id="workLocationType"
               name="workLocationType"
               required
+              value={workLocationTypeValue}
               onChange={sorted}
             >
               <option value="">Select...</option>
@@ -174,7 +204,13 @@ export const EmployerCreateJobPost = () => {
             </select>
             <br />
             <label htmlFor="jobType">Job Type</label>
-            <select id="jobType" name="jobType" required onChange={sorted}>
+            <select
+              id="jobType"
+              name="jobType"
+              required
+              onChange={sorted}
+              value={jobTypeValue}
+            >
               <option value="">Select...</option>
               <option value="Full Time">Full Time</option>
               <option value="Part Time">Part Time</option>
@@ -205,6 +241,7 @@ export const EmployerCreateJobPost = () => {
               id="experienceLevel"
               name="experienceLevel"
               required
+              value={experienceLevelsValue}
               onChange={sorted}
             >
               <option value="">Select...</option>
@@ -254,7 +291,12 @@ export const EmployerCreateJobPost = () => {
             />
             <br />
             <label htmlFor="workingTimes">Working Times</label>
-            <select id="workingTimes" name="workingTimes" onChange={sorted}>
+            <select
+              id="workingTimes"
+              name="workingTimes"
+              onChange={sorted}
+              value={workingTimesValue}
+            >
               <option value="">Select...</option>
               <option value="Day Shift">Day Shift</option>
               <option value="Night Shift">Night Shift</option>
@@ -266,6 +308,7 @@ export const EmployerCreateJobPost = () => {
               id="weekendRequired"
               name="weekendRequired"
               onChange={sorted}
+              value={weekendRequiredValue}
             >
               <option value="">Select...</option>
               <option value="Yes">Yes</option>
@@ -283,12 +326,13 @@ export const EmployerCreateJobPost = () => {
             />
             <br />
             <QuillEditor handleTextChange={handleTextChange} />
+            <br />
             <button
-              type="button"
               onClick={(e) => {
+                e.preventDefault();
                 actions
-                  .addjob(
-                    store.activeuser,
+                  .editjobs(
+                    post_id,
                     companyNameValue,
                     companyLogoValue,
                     firstNameValue,
@@ -313,7 +357,9 @@ export const EmployerCreateJobPost = () => {
                   )
                   .then(() => navigate("/employerhome"));
               }}
-            />
+            >
+              Submit
+            </button>
           </form>
         </div>
       ) : (

@@ -18,6 +18,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       accessToken: null,
       activeuser: undefined,
       employer: {},
+      alljobs: undefined,
+      seepostjobs: undefined,
+      editpost: undefined,
     },
 
     actions: {
@@ -73,7 +76,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({
           employer: data.employer,
           accessToken: data.token,
-          activeuser: data.user.id,
+          activeuser: data.employer.id,
         });
         const employerToString = JSON.stringify(data.employer);
         sessionStorage.setItem("token", data.token);
@@ -91,6 +94,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         if (data.token) {
           const actions = getActions();
           actions.logUserInTheStore(data);
+          actions.watchjobpost(data.employer.id);
         } else {
           setStore({ error_message_login: data });
         }
@@ -119,6 +123,266 @@ const getState = ({ getStore, getActions, setStore }) => {
         if (confirmLogout) {
           actions.logout();
           window.location.href = "/";
+        }
+      },
+
+      /*to create job*/
+      addjob: async (
+        employer_id,
+        company_name,
+        company_logo,
+        first_name,
+        last_name,
+        job_title,
+        company_email,
+        company_phone_number,
+        number_hiring,
+        work_location_type,
+        location,
+        job_type,
+        working_hours,
+        experience_level_type,
+        min_experience,
+        max_experience,
+        min_salary,
+        max_salary,
+        working_times,
+        description,
+        weekend_job,
+        language
+      ) => {
+        const store = getStore();
+        const formData = new FormData();
+        formData.append("employer_id", employer_id);
+        formData.append("company_name", company_name);
+        formData.append("company_logo", company_logo);
+        formData.append("first_name", first_name);
+        formData.append("last_name", last_name);
+        formData.append("job_title", job_title);
+        formData.append("company_email", company_email);
+        formData.append("company_phone_number", company_phone_number);
+        formData.append("number_hiring", number_hiring);
+        formData.append("work_location_type", work_location_type);
+        formData.append("location", location);
+        formData.append("job_type", job_type);
+        formData.append("working_hours", working_hours);
+        formData.append("experience_level_type", experience_level_type);
+        formData.append("min_experience", min_experience);
+        formData.append("max_experience", max_experience);
+        formData.append("min_salary", min_salary);
+        formData.append("max_salary", max_salary);
+        formData.append("working_times", working_times);
+        formData.append("description", description);
+        formData.append("weekend_job", weekend_job);
+        formData.append("language", language);
+
+        const resp = await fetch(backend + "api/addjob", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+          body: formData,
+        });
+        const data = await resp.json();
+        console.log(data);
+      },
+
+      /*to see each job post*/
+      watchjobpost: (id) => {
+        const store = getStore();
+        return fetch(`${backend}api/watchjob/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          .then((data) => {
+            console.log(data);
+            setStore({ seepostjobs: data });
+          });
+      },
+
+      //for edit book
+      editjobs: async (
+        post_id,
+        company_name,
+        company_logo,
+        first_name,
+        last_name,
+        job_title,
+        company_email,
+        company_phone_number,
+        number_hiring,
+        work_location_type,
+        location,
+        job_type,
+        working_hours,
+        experience_level_type,
+        min_experience,
+        max_experience,
+        min_salary,
+        max_salary,
+        working_times,
+        description,
+        weekend_job,
+        language
+      ) => {
+        const store = getStore();
+        const formData = new FormData();
+        formData.append("company_name", company_name);
+        formData.append("company_logo", company_logo);
+        formData.append("first_name", first_name);
+        formData.append("last_name", last_name);
+        formData.append("job_title", job_title);
+        formData.append("company_email", company_email);
+        formData.append("company_phone_number", company_phone_number);
+        formData.append("number_hiring", number_hiring);
+        formData.append("work_location_type", work_location_type);
+        formData.append("location", location);
+        formData.append("job_type", job_type);
+        formData.append("working_hours", working_hours);
+        formData.append("experience_level_type", experience_level_type);
+        formData.append("min_experience", min_experience);
+        formData.append("max_experience", max_experience);
+        formData.append("min_salary", min_salary);
+        formData.append("max_salary", max_salary);
+        formData.append("working_times", working_times);
+        formData.append("description", description);
+        formData.append("weekend_job", weekend_job);
+        formData.append("language", language);
+        const resp = await fetch(`${backend}api/editpost/${post_id}`, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+          body: formData,
+        });
+
+        const data = await resp.json();
+        store.seepostjobs = store.seepostjobs.map((b) =>
+          b.post_id === post_id ? data.job : b
+        );
+      },
+
+      //get editbooks
+      geteditjobs: async (
+        post_id,
+        setCompanyNameValue,
+        setCompanyLogoValue,
+        setFirstNameValue,
+        setLastNameValue,
+        setPhoneNumberValue,
+        setCompanyEmailValue,
+        setJobTitleValue,
+        setNumberHiringValue,
+        setWorkLocationTypeValue,
+        setJobTypeValue,
+        setLocationValue,
+        setWorkingHoursValue,
+        setExperienceLevelValue,
+        setMinExperienceValue,
+        setMaxExperienceValue,
+        setMinSalaryValue,
+        setMaxSalaryValue,
+        setWorkingTimesValue,
+        setWeekendRequiredValue,
+        setLanguageValue,
+        setEditorText
+      ) => {
+        const store = getStore();
+        const response = await fetch(`${backend}api/geteditpost/${post_id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        console.log(data);
+        setCompanyNameValue(data.company_name);
+        setCompanyLogoValue(data.company_logo);
+        setFirstNameValue(data.first_name);
+        setLastNameValue(data.last_name);
+        setPhoneNumberValue(data.company_phone_number);
+        setCompanyEmailValue(data.company_email);
+        setJobTitleValue(data.job_title);
+        setNumberHiringValue(data.number_hiring);
+        setWorkLocationTypeValue(data.work_location_type);
+        setJobTypeValue(data.job_type);
+        setLocationValue(data.location);
+        setWorkingHoursValue(data.working_hours);
+        setExperienceLevelValue(data.experience_level_type);
+        setMinExperienceValue(data.min_experience);
+        setMaxExperienceValue(data.max_experience);
+        setMinSalaryValue(data.min_salary);
+        setMaxSalaryValue(data.max_salary);
+        setWorkingTimesValue(data.working_times);
+        setWeekendRequiredValue(data.weekend_job);
+        setLanguageValue(data.language);
+        setEditorText(data.description);
+        setStore({ editpost: data });
+      },
+
+      //for single user
+      singleUser: (j) => {
+        fetch(`${backend}api/user/${j}`)
+          .then((resp) => {
+            if (resp.ok) {
+              return resp.json();
+            }
+          })
+          .then((data) => {
+            setStore({ singleUser: data });
+          });
+      },
+
+      //to delete jobpost
+      deleteJob: (post_id) => {
+        const store = getStore();
+        fetch(`${backend}api/deletejob/${post_id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("error deleting book");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting book", error);
+          });
+      },
+
+      //for all jobs
+      alljobsdata: async () => {
+        const response = await fetch(backend + "api/alljobs");
+        if (response.ok) {
+          console.log(response);
+          const data = await response.json();
+
+          setStore({
+            alljobs: data,
+          });
+        } else {
+          console.log(
+            "Fetch request failed:",
+            response.status,
+            response.statusText
+          );
         }
       },
     },
