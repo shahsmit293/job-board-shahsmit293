@@ -1,7 +1,16 @@
-/*
-    home.css: This website contains selectors only used in home.css
-
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  padding: 20px;
+  border: 1px solid black;
+  z-index: 10;
+  margin: 15px;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "../../styles/home.css";
+import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 export const UserLoginSignup = () => {
+  const [loginEmailValue, setloginEmailValue] = useState("");
+  const [loginPasswordValue, setloginPasswordValue] = useState("");
+  const [signupEmailValue, setsignupEmailValue] = useState("");
+  const [signupPasswordValue, setsignupPasswordValue] = useState("");
+  const { store, actions } = useContext(Context);
+  const navigate = useNavigate("");
   return (
     <div className="login">
       <form>
@@ -15,6 +23,10 @@ export const UserLoginSignup = () => {
             className="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
+            value={loginEmailValue}
+            onChange={(e) => {
+              setloginEmailValue(e.target.value);
+            }}
           />
           <div id="emailHelp" className="form-text">
             We'll never share your email with anyone else.
@@ -28,19 +40,20 @@ export const UserLoginSignup = () => {
             type="password"
             className="form-control"
             id="exampleInputPassword1"
+            value={loginPasswordValue}
+            onChange={(e) => {
+              setloginPasswordValue(e.target.value);
+            }}
           />
         </div>
-        <div className="mb-3 form-check">
-          <input
-            type="checkbox"
-            className="form-check-input"
-            id="exampleCheck1"
-          />
-          <label className="form-check-label" htmlFor="exampleCheck1">
-            Check me out
-          </label>
-        </div>
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="submit"
+          className="btn btn-primary"
+          onClick={() => {
+            actions.jobseekerlogin(loginEmailValue, loginPasswordValue);
+            navigate("/");
+          }}
+        >
           Log In
         </button>
       </form>
@@ -55,6 +68,10 @@ export const UserLoginSignup = () => {
             className="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
+            value={signupEmailValue}
+            onChange={(e) => {
+              setsignupEmailValue(e.target.value);
+            }}
           />
           <div id="emailHelp" className="form-text">
             We'll never share your email with anyone else.
@@ -68,19 +85,21 @@ export const UserLoginSignup = () => {
             type="password"
             className="form-control"
             id="exampleInputPassword1"
+            value={signupPasswordValue}
+            onChange={(e) => {
+              setsignupPasswordValue(e.target.value);
+            }}
           />
         </div>
-        <div className="mb-3 form-check">
-          <input
-            type="checkbox"
-            className="form-check-input"
-            id="exampleCheck1"
-          />
-          <label className="form-check-label" htmlFor="exampleCheck1">
-            Check me out
-          </label>
-        </div>
-        <button type="submit" className="btn btn-primary">
+
+        <button
+          type="submit"
+          className="btn btn-primary"
+          onClick={() => {
+            actions.jobseekersignup(signupEmailValue, signupPasswordValue);
+            navigate("/");
+          }}
+        >
           Create Account
         </button>
       </form>

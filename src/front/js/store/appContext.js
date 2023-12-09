@@ -25,10 +25,14 @@ const injectContext = (PassedComponent) => {
       var token = sessionStorage.getItem("token");
       if (token) {
         let employer = JSON.parse(sessionStorage.getItem("employer"));
-        state.actions.logUserInTheStore({
-          employer: employer,
-          token: token,
-        });
+        if (employer) {
+          state.actions.logUserInTheStore({
+            employer: employer,
+            token: token,
+          });
+        }
+        let user = JSON.parse(sessionStorage.getItem("user"));
+        state.actions.logJobseekerInTheStore({ user: user, token: token });
       }
       state.actions.watchjobpost(state.store.activeuser);
       state.actions.alljobsdata();

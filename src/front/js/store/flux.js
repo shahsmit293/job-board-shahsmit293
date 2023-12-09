@@ -21,6 +21,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       alljobs: undefined,
       seepostjobs: undefined,
       editpost: undefined,
+      user: {},
+      useraccessToken: null,
+      activejobseeker: undefined,
+      currentviewjobpost: undefined,
     },
 
     actions: {
@@ -113,8 +117,13 @@ const getState = ({ getStore, getActions, setStore }) => {
       logout: () => {
         sessionStorage.removeItem("token");
         sessionStorage.removeItem("employer");
+        sessionStorage.removeItem("user");
         setStore({ accessToken: null });
         setStore({ employer: null });
+        setStore({
+          useraccessToken: null,
+        });
+        setStore({ user: null });
       },
 
       handleLogout: () => {
@@ -384,6 +393,76 @@ const getState = ({ getStore, getActions, setStore }) => {
             response.statusText
           );
         }
+      },
+
+      //for user signup.................
+      jobseekersignup: async (email, password) => {
+        const resp = await fetch(backend + "api/jobseekerloginsignup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        });
+        if (resp.status === 409) {
+          alert("Email already exists. Please use a different email.");
+          window.location.reload();
+          throw new Error("Email conflict");
+        }
+        const data = await resp.json();
+        setStore({
+          user: data.user,
+          useraccessToken: data.token,
+          activejobseeker: data.user.id,
+        });
+        const userToString = JSON.stringify(data.user);
+        sessionStorage.setItem("token", data.token);
+        sessionStorage.setItem("user", userToString);
+      },
+
+      viewjob: (id) => {
+        const store = getStore();
+        return fetch(`${backend}api/viewsinglejob/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          .then((data) => {
+            setStore({ currentviewjobpost: data });
+          });
+      },
+
+      jobseekerlogin: async (email, password) => {
+        const store = getStore();
+        const resp = await fetch(backend + "api/jobseekerlogin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email, password: password }),
+        });
+        const data = await resp.json();
+        if (data.token) {
+          const actions = getActions();
+          actions.logJobseekerInTheStore(data);
+        } else {
+          setStore({ error_message_login: data });
+        }
+      },
+
+      logJobseekerInTheStore: (data) => {
+        setStore({
+          user: data.user,
+          useraccessToken: data.token,
+          activejobseeker: data.user.id,
+        });
+        sessionStorage.setItem("token", data.token);
+        sessionStorage.setItem("user", JSON.stringify(data.user));
       },
     },
   };

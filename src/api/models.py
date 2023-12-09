@@ -8,7 +8,22 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(180), unique=False, nullable=False)
+
+    def __init__(self,email,password):
+        self.email=email
+        self.password=password
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            }
+    
+class UserBio(db.Model):
+    __tablename__ = 'userbio'
+    id = db.Column(db.Integer, primary_key=True)
     first_name=db.Column(db.String(40),unique=False,nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     last_name=db.Column(db.String(40),unique=False,nullable=False)
     location=db.Column(db.String(80),unique=False,nullable=False)
     phone_number=db.Column(db.Integer,unique=True,nullable=False)
@@ -17,15 +32,8 @@ class User(db.Model):
     work_authorization=db.Column(db.String(80),unique=False,nullable=False)
     race=db.Column(db.String(80),unique=False,nullable=True)
     language=db.Column(db.String(80),unique=False,nullable=True)
-    user_visibility_profile=db.Column(db.String(80),unique=False,nullable=True) 
-    
+    user = db.relationship(User, backref="user_bio")
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "email": self.email,
-            # do not serialize the password, its a security breach
-        }
 
 class Usereducation(db.Model):
     __tablename__ = 'usereducation'
@@ -71,6 +79,7 @@ class Userpreference(db.Model):
     day_shift_job=db.Column(db.String(80),unique=False,nullable=True)
     night_shift_job=db.Column(db.String(80),unique=False,nullable=True)
     location_preference=db.Column(db.String(500),unique=False,nullable=True)
+    user_visibility_profile=db.Column(db.String(80),unique=False,nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     user = db.relationship(User, backref="user_preference")
 

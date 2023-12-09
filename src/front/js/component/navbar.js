@@ -22,7 +22,11 @@ export const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <button className="nav-link active" aria-current="page" href="#">
+              <button
+                className="nav-link active"
+                aria-current="page"
+                onClick={() => navigate("/jobseekerloginsignup")}
+              >
                 job seeker
               </button>
             </li>

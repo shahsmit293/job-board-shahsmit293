@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import { ViewJobPage } from "../pages/viewjobpage";
+import { Context } from "../store/appContext";
 
 export const JobCard = (props) => {
+  const navigate = useNavigate("");
+  const { store, actions } = useContext(Context);
+  // const [showPopup, setShowPopup] = useState(false);
   return (
     <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
       <div className="card">
@@ -14,26 +21,36 @@ export const JobCard = (props) => {
           <h5 className="card-title">
             <b>{props.jobtitlename}</b>
           </h5>
-          <p className="card-text">Company</p>
-          <p className="card-text">Location</p>
-          <p className="card-text">Salary</p>
-          <p className="card-text">Date posted</p>
-          <p className="card-text">Job type</p>
+          <p className="card-text">{props.Company}</p>
+          <p className="card-text">{props.Location}</p>
+          <p className="card-text">{props.Jobtype}</p>
         </div>
         <div className="buttons">
-          <button>View</button>
-          <button>Don't show again</button>
+          <button
+            onClick={() => {
+              actions
+                .viewjob(props.viewid)
+                .then(() => props.onViewClick(props.viewid));
+            }}
+          >
+            View
+          </button>
+          {/* {showPopup && (
+            <div className="popup">
+              <button onClick={() => setShowPopup(false)}>Close</button>
+              <ViewJobPage viewid={props.viewid} />
+            </div>
+          )} */}
         </div>
       </div>
     </div>
   );
 };
 
-// JobCard.propTypes = {
-//   jobtitlename: propTypes.string,
-//   company: propTypes.string,
-//   location: propTypes.string,
-//   salary: propTypes.number,
-//   dateposted: propTypes.string,
-//   jobtype: propTypes.string,
-// };
+JobCard.PropTypes = {
+  jobtitlename: PropTypes.string,
+  Company: PropTypes.string,
+  Location: PropTypes.string,
+  Jobtype: PropTypes.number,
+  viewid: PropTypes.number,
+};

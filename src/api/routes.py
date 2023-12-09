@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs
+from api.models import db, Employer,Postjobs,User
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -193,3 +193,45 @@ def delete_job(post_id):
     db.session.delete(job)
     db.session.commit()
     return jsonify("book deleted successfully"), 200
+
+##user routes starts from here...................................
+@api.route('/jobseekerloginsignup', methods=['POST'])
+def jobseekerloginsignup():
+    body = request.json
+    user = User.query.filter_by(email=body['email']).first()
+    if user:
+        return jsonify({"error": "Email already exists. Please use a different email."}), 409
+
+    user = User(
+        email=body["email"],
+        password=generate_password_hash(body["password"]),
+    )
+    db.session.add(user)
+    db.session.commit()
+    token = create_access_token(identity=user.email)
+    return jsonify(user=user.serialize(), token=token), 201
+
+@api.route('/jobseekerlogin', methods=['POST'])
+def jobseekerLogin():
+    password = request.json.get("password", None)
+    email = request.json.get("email", None)
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify("Email or password are incorrect!"), 401
+    if not check_password_hash(user.password, password):
+        return jsonify("Email or password are incorrect!"), 401
+    token = create_access_token(identity=email)
+    return jsonify(token=token, user=user.serialize()), 200
+
+@api.route('/viewsinglejob/<int:id>', methods=['GET'])
+@jwt_required()
+def view_single_job_post(id):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("This employer doesn't exist"), 400
+    job = Postjobs.query.filter_by(id=id).one_or_none()
+    if job:
+        return jsonify(job.serialize()), 200
+    else:
+        return jsonify({"message": "Jobs not found"}), 404
