@@ -1,15 +1,22 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { EmployerSidebar } from "../component/employersidebar";
 import { PostJobCard } from "../component/postjobcard";
+import { ViewJobPost } from "./viewjobpost";
 
 export const EmployerHome = () => {
   const { store, actions } = useContext(Context);
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
   useEffect(() => {
     actions.watchjobpost(store.activeuser);
     actions.alljobsdata();
   }, [store.activeuser]);
+  const handleViewClick = (jobId) => {
+    setSelectedJob(jobId);
+    setShowPopup(true);
+  };
   return (
     <div className="text-center mt-5">
       <div className="sidebar">
@@ -26,11 +33,18 @@ export const EmployerHome = () => {
                 Location={element.location}
                 Jobtype={element.job_type}
                 post_id={element.id}
+                onViewClick={handleViewClick}
               />
             );
           })
         ) : (
           <p>No jobs posted yet.</p>
+        )}
+        {showPopup && (
+          <div className="popup">
+            <button onClick={() => setShowPopup(false)}>Close</button>
+            <ViewJobPost viewid={selectedJob} />
+          </div>
         )}
       </div>
     </div>

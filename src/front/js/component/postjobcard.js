@@ -24,7 +24,7 @@ export const PostJobCard = (props) => {
           <p className="card-text">{props.Jobtype}</p>
         </div>
         <div className="buttons">
-          <button>View</button>
+          <button onClick={() => props.onViewClick(props.post_id)}>View</button>
           <button onClick={() => navigate(`/editpost/${props.post_id}`)}>
             Edit
           </button>
@@ -44,4 +44,5 @@ PostJobCard.PropTypes = {
   Location: PropTypes.string,
   Jobtype: PropTypes.string,
   post_id: PropTypes.number,
+  onViewClick: PropTypes.func,
 };

@@ -22,7 +22,6 @@ import { EmployerCreateJobPost } from "./pages/createjobpost";
 import { Applicants } from "./pages/applicants";
 import { MatchedProfiles } from "./pages/matchedprofiles";
 import { EditPostJob } from "./pages/editpostjob";
-import { ViewJobPage } from "./pages/viewjobpage";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -55,7 +54,6 @@ const Layout = () => {
             <Route element={<UserNotification />} path="/usernotification" />
             <Route element={<UserSavedJobs />} path="/usersavedjobs" />
             <Route element={<UserAppliedJobs />} path="/userappliedjobs" />
-            <Route element={<ViewJobPage />} path="/viewjobpage/:viewid" />
             <Route element={<UserProfile />} path="/userprofile" />
             <Route element={<UserCustomResume />} path="/customresumebuild" />
             <Route element={<UserPreference />} path="/userpreference" />

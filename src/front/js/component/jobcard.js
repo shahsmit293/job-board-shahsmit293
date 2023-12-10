@@ -1,13 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { ViewJobPage } from "../pages/viewjobpage";
 import { Context } from "../store/appContext";
 
 export const JobCard = (props) => {
   const navigate = useNavigate("");
   const { store, actions } = useContext(Context);
-  // const [showPopup, setShowPopup] = useState(false);
   return (
     <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
       <div className="card">
@@ -35,12 +33,6 @@ export const JobCard = (props) => {
           >
             View
           </button>
-          {/* {showPopup && (
-            <div className="popup">
-              <button onClick={() => setShowPopup(false)}>Close</button>
-              <ViewJobPage viewid={props.viewid} />
-            </div>
-          )} */}
         </div>
       </div>
     </div>
@@ -53,4 +45,5 @@ JobCard.PropTypes = {
   Location: PropTypes.string,
   Jobtype: PropTypes.number,
   viewid: PropTypes.number,
+  onViewClick: PropTypes.func,
 };
