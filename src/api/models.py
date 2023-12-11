@@ -22,18 +22,41 @@ class User(db.Model):
 class UserBio(db.Model):
     __tablename__ = 'userbio'
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
     first_name=db.Column(db.String(40),unique=False,nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     last_name=db.Column(db.String(40),unique=False,nullable=False)
-    location=db.Column(db.String(80),unique=False,nullable=False)
-    phone_number=db.Column(db.Integer,unique=True,nullable=False)
+    location=db.Column(db.String(80),unique=False,nullable=True)
+    phone_number=db.Column(db.Integer,unique=True,nullable=True)
+    user = db.relationship(User, backref="user_bio")
+
+    def __init__(self,user_id,first_name,last_name,location,phone_number):
+        self.user_id=user_id
+        self.first_name=first_name
+        self.last_name=last_name
+        self.location=location
+        self.phone_number=phone_number
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id":self.user_id,
+            "first_name":self.first_name,
+            "last_name":self.last_name,
+            "location":self.location,
+            "phone_number":self.phone_number,
+            "user":self.user.serialize()
+            }
+
+class UserExtraDetail(db.Model):
+    __tablename__ = 'userextradetail'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     gender=db.Column(db.String(40),unique=False,nullable=True)
     disability=db.Column(db.String(40),unique=False,nullable=True)
     work_authorization=db.Column(db.String(80),unique=False,nullable=False)
     race=db.Column(db.String(80),unique=False,nullable=True)
     language=db.Column(db.String(80),unique=False,nullable=True)
-    user = db.relationship(User, backref="user_bio")
-
+    user = db.relationship(User, backref="user_extra_detail")
 
 class Usereducation(db.Model):
     __tablename__ = 'usereducation'

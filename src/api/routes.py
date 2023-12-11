@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User,Userresume
+from api.models import db, Employer,Postjobs,User,Userresume,UserBio
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -290,7 +290,7 @@ def get_resume_detail(user_id):
         results = [resume.serialize() for resume in userresume]
         return jsonify(results), 200
 
-@api.route('deleteresume/<int:resume_id>', methods=["DELETE"])
+@api.route('/deleteresume/<int:resume_id>', methods=["DELETE"])
 @jwt_required()
 def delete_resume(resume_id):
     email = get_jwt_identity()
@@ -305,3 +305,54 @@ def delete_resume(resume_id):
     db.session.delete(resume)
     db.session.commit()
     return jsonify("resume deleted successfully"), 200
+
+@api.route('/adduserbio',methods=['POST'])
+@jwt_required()
+def add_userbio():
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    body = request.json
+    bio=UserBio(
+        user_id=body["user_id"],
+        first_name=body["first_name"],
+        last_name=body["last_name"],
+        location=body["location"],
+        phone_number=body["phone_number"])
+    db.session.add(bio)
+    db.session.commit()
+    return jsonify(bio.serialize())
+
+@api.route('/getuserbio/<int:bioid>',methods=['GET'])
+@jwt_required()
+def get_userbio(bioid):
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    bio = UserBio.query.filter_by(user_id=bioid).one_or_none()
+    if bio:
+        return jsonify(bio.serialize()), 200
+    else:
+        return jsonify({"message": "bio not found"}), 404
+
+@api.route('/edituserbio/<int:id>', methods=['PUT'])
+@jwt_required()
+def edit_user_bio(id):
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+
+    bio = UserBio.query.filter_by(user_id=id).one_or_none()
+    if bio is None:
+        return jsonify("Book doesn't exist"), 400
+
+    body = request.json
+    bio.first_name = body.get("first_name", bio.first_name)
+    bio.last_name = body.get("last_name", bio.last_name)
+    bio.location = body.get("location", bio.location)
+    bio.phone_number = body.get("phone_number", bio.phone_number)
+    db.session.commit()
+    return jsonify(bio.serialize())

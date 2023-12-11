@@ -28,6 +28,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       success_message_resume: undefined,
       resumeUrl: undefined,
       resume_detail: undefined,
+      userbio: undefined,
     },
 
     actions: {
@@ -545,6 +546,78 @@ const getState = ({ getStore, getActions, setStore }) => {
           })
           .catch((error) => {
             console.error("error deleting book", error);
+          });
+      },
+
+      //add User Bio
+      adduserbio: async (
+        user_id,
+        first_name,
+        last_name,
+        location,
+        phone_number
+      ) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/adduserbio`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            user_id: user_id,
+            first_name: first_name,
+            last_name: last_name,
+            location: location,
+            phone_number: phone_number,
+          }),
+        });
+        const data = await resp.json();
+        console.log(data);
+        window.location.reload();
+      },
+
+      //get userbio
+      getuserbio: (id, setFirstname, setLastname, setLocation, setPhone) => {
+        const store = getStore();
+        fetch(`${backend}api/getuserbio/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            setFirstname(data.first_name);
+            setLastname(data.last_name);
+            setLocation(data.location);
+            setPhone(data.phone_number);
+            console.log(data);
+            setStore({ userbio: data });
+          });
+      },
+
+      //edit userbio
+      editbooks: (id, first_name, last_name, location, phone_number) => {
+        const store = getStore();
+        return fetch(`${backend}api/edituserbio/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            first_name: first_name,
+            last_name: last_name,
+            location: location,
+            phone_number: phone_number,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ userbio: data });
           });
       },
     },
