@@ -99,9 +99,23 @@ class Userinternship(db.Model):
 class Userresume(db.Model):
     __tablename__ = 'userresume'
     id = db.Column(db.Integer, primary_key=True)
-    # resume_pdf=db.Co
+    user_resume=db.Column(db.LargeBinary,unique=False, nullable=True)
+    resume_name=db.Column(db.String(80))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     user = db.relationship(User, backref="user_resume")
+
+    def __init__(self,user_id,user_resume,resume_name):
+        self.user_id=user_id
+        self.user_resume=user_resume
+        self.resume_name=resume_name
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id":self.user_id,
+            "resume_name":self.resume_name,
+            "user":self.user.serialize()
+            }
 
 class Userskills(db.Model):
     __tablename__ = 'userskills'
@@ -233,7 +247,7 @@ class Postjobs(db.Model):
             "description": self.description,
             "weekend_job": self.weekend_job,
             "language": self.language,
-            
+            "employer":self.employer.serialize()
         }
 
 # class Beneifits(db.Model):

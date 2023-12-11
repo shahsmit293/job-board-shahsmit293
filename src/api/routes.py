@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User
+from api.models import db, Employer,Postjobs,User,Userresume
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -18,7 +18,9 @@ from sqlalchemy import or_
 from flask import Response
 import json
 import base64
-
+from flask import send_file
+from io import BytesIO
+from werkzeug.wrappers import Response
 
 api = Blueprint('api', __name__)
 # Allow CORS requests to this API
@@ -235,3 +237,71 @@ def view_single_job_post(id):
         return jsonify(job.serialize()), 200
     else:
         return jsonify({"message": "Jobs not found"}), 404
+
+@api.route('/addresume', methods=['POST'])
+@jwt_required()
+def add_resume():
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+
+    file=request.files["file"]
+
+    userresume = Userresume(
+        user_id=user.id,  # Set the user_id to the id of the user
+        user_resume=file.read(),
+        resume_name=file.filename # Save the resume file data
+    )
+    db.session.add(userresume)
+    db.session.commit()
+    return userresume.serialize()  # Make sure your Userresume model has a serialize method
+
+
+
+@api.route('/getresume/<int:user_id>', methods=['GET'])
+@jwt_required()
+def get_resume(user_id):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    
+    userresume = Userresume.query.filter_by(user_id=user_id).all()
+    if userresume is None:
+        return jsonify("No resume found for this user"), 400
+    if userresume:
+        results = [resume.serialize() for resume in userresume]
+        return jsonify(results), 200
+    return send_file(BytesIO(userresume.user_resume), attachment_filename='resume_name.pdf', as_attachment=True)
+
+@api.route('/getresumedetail/<int:user_id>', methods=['GET'])
+@jwt_required()
+def get_resume_detail(user_id):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    
+    userresume = Userresume.query.filter_by(user_id=user_id).all()
+    if userresume is None:
+        return jsonify("No resume found for this user"), 400
+    if userresume:
+        results = [resume.serialize() for resume in userresume]
+        return jsonify(results), 200
+
+@api.route('deleteresume/<int:resume_id>', methods=["DELETE"])
+@jwt_required()
+def delete_resume(resume_id):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+
+    resume = Userresume.query.get(resume_id)
+    if resume is None:
+        return jsonify("This resume doesn't exist"), 400
+
+    db.session.delete(resume)
+    db.session.commit()
+    return jsonify("resume deleted successfully"), 200

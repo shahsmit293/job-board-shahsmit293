@@ -1,55 +1,66 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "../../styles/home.css";
 import { Sidebar } from "../component/sidebar";
+import { Context } from "../store/appContext"; // Import your Flux context
+import { useNavigate } from "react-router-dom";
+import { Document, Page } from "react-pdf";
 
 export const UserProfile = () => {
+  const [file, setFile] = useState(null); // Create a state variable for the file
+  const { store, actions } = useContext(Context); // Access your Flux actions
+  const navigate = useNavigate("");
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]); // Update the file state when a file is selected
+  };
+
+  useEffect(() => {
+    actions.downloadResume(store.activejobseeker);
+    actions.getresumedetail(store.activejobseeker);
+  }, []);
+
   return (
     <div className="profile">
       <div className="sidebar">
         <Sidebar />
       </div>
       <div className="details">
-        <div className="email">
-          <h2>Email</h2>
-          <h4>shahsmit@gmail.com</h4>
-          <i class="fas fa-edit"></i>
-        </div>
-        <div className="password">
-          <h2>Password</h2>
-          <h4>*********</h4>
-          <i class="fas fa-edit"></i>
-        </div>
-        <div className="phone">
-          <h2>Phone Number</h2>
-          <h4>1234567890</h4>
-          <i class="fas fa-edit"></i>
-        </div>
-        <div className="visibilityprofile">
-          <h2>Visible Profile</h2>
-          <h4>add toggle switch here</h4>
-        </div>
         <div className="resume">
-          <h2>Resume</h2>
-          <ul>
-            <li>
-              Coffee <i class="fas fa-plus"></i> <i class="fas fa-trash"></i>
-            </li>
-            <li>
-              Tea <i class="fas fa-plus"></i> <i class="fas fa-trash"></i>
-            </li>
-            <li>
-              Milk <i class="fas fa-plus"></i> <i class="fas fa-trash"></i>
-            </li>
-          </ul>
-        </div>
-        <div className="customresumebuild">
-          <button>customresumebuild</button>
-        </div>
-        <div className="preference">
-          <button>My Preference</button>
-        </div>
-        <div className="deleteuseraccount">
-          <button>Delete My Account</button>
+          {!store.resume_detail ? (
+            <>
+              <label>Resume</label>
+              <input type="file" onChange={handleFileChange}></input>
+              <button
+                onClick={() => {
+                  actions
+                    .adduserresume(store.activejobseeker, file)
+                    .then(navigate("/"));
+                }}
+              >
+                Submit
+              </button>
+            </>
+          ) : (
+            <>
+              {store.resume_detail.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <h4>{item.resume_name}</h4>
+                    <button onClick={() => window.open(store.resumeUrl)}>
+                      Download
+                    </button>
+                    <button
+                      onClick={() => {
+                        actions.deleteresume(item.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                );
+              })}
+            </>
+          )}
         </div>
       </div>
     </div>

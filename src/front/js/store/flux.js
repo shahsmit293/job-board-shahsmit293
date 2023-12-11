@@ -25,6 +25,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       useraccessToken: null,
       activejobseeker: undefined,
       currentviewjobpost: undefined,
+      success_message_resume: undefined,
+      resumeUrl: undefined,
+      resume_detail: undefined,
     },
 
     actions: {
@@ -463,6 +466,86 @@ const getState = ({ getStore, getActions, setStore }) => {
         });
         sessionStorage.setItem("token", data.token);
         sessionStorage.setItem("user", JSON.stringify(data.user));
+      },
+
+      adduserresume: async (userid, file) => {
+        const store = getStore();
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("userid", userid);
+        const resp = await fetch(`${backend}api/addresume`, {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${store.useraccessToken}`, // Assuming the JWT token is stored in local storage
+          },
+        });
+
+        const data = await resp.json();
+        if (data) {
+          console.log(data);
+        } else {
+          setStore({ error_message_resume: data });
+        }
+      },
+
+      //to get useresume
+      downloadResume: async (userid) => {
+        const store = getStore();
+        const response = await fetch(`${backend}api/getresume/${userid}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        setStore({ resumeUrl: url });
+      },
+
+      //gey resume details
+      getresumedetail: async (userid) => {
+        const store = getStore();
+        const response = await fetch(
+          `${backend}api/getresumedetail/${userid}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${store.useraccessToken}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setStore({ resume_detail: data });
+      },
+      //delete resume
+      deleteresume: (resumeid) => {
+        const store = getStore();
+        fetch(`${backend}api/deleteresume/${resumeid}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("error deleting book");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting book", error);
+          });
       },
     },
   };

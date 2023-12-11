@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+
 export const Navbar = () => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -21,43 +23,78 @@ export const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
-            <li className="nav-item">
-              <button
-                className="nav-link active"
-                aria-current="page"
-                onClick={() => navigate("/jobseekerloginsignup")}
-              >
-                job seeker
-              </button>
-            </li>
-            <li className="nav-item">
-              <button
-                className="nav-link"
-                onClick={() => navigate("/employerloginsignup")}
-              >
-                employer
-              </button>
-            </li>
-            <li className="nav-item">
-              <button className="nav-link" href="#">
-                chat
-              </button>
-            </li>
-            <li className="nav-item">
-              <button className="nav-link" href="#">
-                notification
-              </button>
-            </li>
-            <li className="nav-item">
-              <button className="nav-link" href="#">
-                profile
-              </button>
-            </li>
-            <li className="nav-item">
-              <button className="nav-link" onClick={actions.handleLogout}>
-                log out
-              </button>
-            </li>
+            {!store.accessToken && !store.useraccessToken ? (
+              <>
+                <li className="nav-item">
+                  <button
+                    className="nav-link active"
+                    aria-current="page"
+                    onClick={() => navigate("/jobseekerloginsignup")}
+                  >
+                    job seeker
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button
+                    className="nav-link"
+                    onClick={() => navigate("/employerloginsignup")}
+                  >
+                    employer
+                  </button>
+                </li>
+              </>
+            ) : null}
+
+            {store.accessToken ? (
+              <>
+                <li className="nav-item">
+                  <button className="nav-link" href="#">
+                    chat
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button className="nav-link" href="#">
+                    notification
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button className="nav-link" href="#">
+                    profile
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button className="nav-link" onClick={actions.handleLogout}>
+                    log out
+                  </button>
+                </li>
+              </>
+            ) : store.useraccessToken ? (
+              <>
+                <li className="nav-item">
+                  <button className="nav-link" href="#">
+                    chat
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button className="nav-link" href="#">
+                    notification
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button
+                    className="nav-link"
+                    onClick={() => navigate("/userprofile")}
+                  >
+                    profile
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button className="nav-link" onClick={actions.handleLogout}>
+                    log out
+                  </button>
+                </li>
+              </>
+            ) : null}
           </ul>
         </div>
       </div>
