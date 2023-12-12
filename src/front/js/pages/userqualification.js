@@ -4,16 +4,7 @@ import propTypes from "prop-types";
 export const UserQualification = (props) => {
   const { store, actions } = useContext(Context);
   useEffect(() => {
-    actions.getusereducation(
-      store.activejobseeker,
-      setCollagename,
-      setStartyear,
-      setEndyear,
-      setGpa,
-      setMajor,
-      setDegree,
-      setLocation
-    );
+    actions.getusereducation(store.activejobseeker);
   }, [store.activejobseeker]);
   const [showeducationdetails, setshoweducationdetails] = useState(true);
   const [addeducationform, setaddeducationform] = useState(false);
@@ -199,7 +190,7 @@ export const UserQualification = (props) => {
             onClick={() => {
               actions
                 .editusereducation(
-                  store.activejobseeker,
+                  props.id,
                   valueCollagename,
                   valuestartyear,
                   valueEndyear,
@@ -235,4 +226,5 @@ UserQualification.propTypes = {
   major: propTypes.string,
   degree: propTypes.string,
   location: propTypes.string,
+  id: propTypes.number,
 };

@@ -27,6 +27,7 @@ export const UserProfile = () => {
   useEffect(() => {
     actions.downloadResume(store.activejobseeker);
     actions.getresumedetail(store.activejobseeker);
+    actions.getusereducation(store.activejobseeker);
   }, []);
 
   return (
@@ -136,19 +137,22 @@ export const UserProfile = () => {
             phonenumber={store.userbio && store.userbio.phone_number}
           />
         )}
-        {viewQualification && (
-          <UserQualification
-            collagename={
-              store.usereducation && store.usereducation.collage_name
-            }
-            startyear={store.usereducation && store.usereducation.start_year}
-            endyear={store.usereducation && store.usereducation.end_year}
-            gpa={store.usereducation && store.usereducation.gpa}
-            major={store.usereducation && store.usereducation.major}
-            degree={store.usereducation && store.usereducation.degree}
-            location={store.usereducation && store.usereducation.location}
-          />
-        )}
+        {viewQualification &&
+          store.usereducation &&
+          store.usereducation.map((education, index) => (
+            <UserQualification
+              key={index}
+              collagename={education.collage_name}
+              startyear={education.start_year}
+              endyear={education.end_year}
+              gpa={education.gpa}
+              major={education.major}
+              degree={education.degree}
+              location={education.location}
+              id={education.id}
+            />
+          ))}
+
         {viewPreference && <UserPreference />}
         {viewAdditional && <UserAdditionalInfo />}
       </div>

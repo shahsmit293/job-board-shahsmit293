@@ -402,7 +402,7 @@ def edit_user_education(id):
     if user is None:
         return jsonify("user doesn't exist"),400
 
-    education = Usereducation.query.filter_by(user_id=id).one_or_none()
+    education = Usereducation.query.filter_by(id=id).first()
     if education is None:
         return jsonify("education doesn't exist"), 400
 

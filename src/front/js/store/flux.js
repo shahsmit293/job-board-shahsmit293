@@ -657,16 +657,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //get userbio
-      getusereducation: (
-        id,
-        setCollagename,
-        setStartyear,
-        setEndyear,
-        setGpa,
-        setMajor,
-        setDegree,
-        setLocation
-      ) => {
+      getusereducation: (id) => {
         const store = getStore();
         fetch(`${backend}api/getusereducation/${id}`, {
           method: "GET",
@@ -677,14 +668,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         })
           .then((resp) => resp.json())
           .then((data) => {
-            setCollagename(data.collage_name);
-            setStartyear(data.start_year);
-            setEndyear(data.end_year);
-            setGpa(data.gpa);
-            setMajor(data.major);
-            setDegree(data.degree);
-            setLocation(data.location);
-
             console.log(data);
             setStore({ usereducation: data });
           });
@@ -720,7 +703,9 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((resp) => resp.json())
           .then((data) => {
             console.log(data);
-            setStore({ usereducation: data });
+            store.usereducation = store.usereducation.map((b) =>
+              b.id === id ? data.education : b
+            );
           });
       },
     },
