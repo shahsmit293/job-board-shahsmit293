@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User,Userresume,UserBio
+from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -356,3 +356,63 @@ def edit_user_bio(id):
     bio.phone_number = body.get("phone_number", bio.phone_number)
     db.session.commit()
     return jsonify(bio.serialize())
+
+
+@api.route('/addusereducation',methods=['POST'])
+@jwt_required()
+def add_usereducation():
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    body = request.json
+    education=Usereducation(
+        collage_name=body["collage_name"],
+        start_year=body["start_year"],
+        end_year=body["end_year"],
+        gpa=body["gpa"],
+        major=body["major"],
+        degree=body["degree"],
+        location=body["location"],
+        user_id=body["user_id"]
+        )
+    db.session.add(education)
+    db.session.commit()
+    return jsonify(education.serialize())
+
+@api.route('/getusereducation/<int:eduid>',methods=['GET'])
+@jwt_required()
+def get_usereducation(eduid):
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    education = Usereducation.query.filter_by(user_id=eduid).all()
+    if education:
+        result=[edu.serialize() for edu in education]  
+        return jsonify(result), 200
+    else:
+        return jsonify({"message": "education not found"}), 404
+
+@api.route('/editusereducation/<int:id>', methods=['PUT'])
+@jwt_required()
+def edit_user_education(id):
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+
+    education = Usereducation.query.filter_by(user_id=id).one_or_none()
+    if education is None:
+        return jsonify("education doesn't exist"), 400
+
+    body = request.json
+    education.collage_name = body.get("collage_name", education.collage_name)
+    education.start_year = body.get("start_year", education.start_year)
+    education.end_year = body.get("end_year", education.end_year)
+    education.gpa = body.get("gpa", education.gpa)
+    education.major = body.get("major", education.major)
+    education.degree = body.get("degree", education.degree)
+    education.location = body.get("location", education.location)
+    db.session.commit()
+    return jsonify(education.serialize())

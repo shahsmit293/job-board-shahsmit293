@@ -146,7 +146,7 @@ export const UserContactInfo = (props) => {
           <button
             onClick={() => {
               actions
-                .editbooks(
+                .editbio(
                   store.activejobseeker,
                   valueFirstname,
                   valueLastname,

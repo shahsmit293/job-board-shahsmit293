@@ -136,7 +136,19 @@ export const UserProfile = () => {
             phonenumber={store.userbio && store.userbio.phone_number}
           />
         )}
-        {viewQualification && <UserQualification />}
+        {viewQualification && (
+          <UserQualification
+            collagename={
+              store.usereducation && store.usereducation.collage_name
+            }
+            startyear={store.usereducation && store.usereducation.start_year}
+            endyear={store.usereducation && store.usereducation.end_year}
+            gpa={store.usereducation && store.usereducation.gpa}
+            major={store.usereducation && store.usereducation.major}
+            degree={store.usereducation && store.usereducation.degree}
+            location={store.usereducation && store.usereducation.location}
+          />
+        )}
         {viewPreference && <UserPreference />}
         {viewAdditional && <UserAdditionalInfo />}
       </div>

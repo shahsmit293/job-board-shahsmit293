@@ -71,6 +71,29 @@ class Usereducation(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     user = db.relationship(User, backref="user_education")
     
+    def __init__(self,collage_name,start_year,end_year,gpa,major,degree,location,user_id):
+        self.collage_name=collage_name
+        self.start_year=start_year
+        self.end_year=end_year
+        self.gpa=gpa
+        self.major=major
+        self.degree=degree
+        self.location=location
+        self.user_id=user_id
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "collage_name":self.collage_name,
+            "start_year":self.start_year,
+            "end_year":self.end_year,
+            "gpa":self.gpa,
+            "major":self.major,
+            "degree":self.degree,
+            "location":self.location,
+            "user_id":self.user_id,
+            "user":self.user.serialize()
+            }
 
 class Userexperience(db.Model):
     __tablename__ = 'userexperience'

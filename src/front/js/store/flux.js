@@ -29,6 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       resumeUrl: undefined,
       resume_detail: undefined,
       userbio: undefined,
+      usereducation: undefined,
     },
 
     actions: {
@@ -283,7 +284,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         );
       },
 
-      //get editbooks
+      //get editjob
       geteditjobs: async (
         post_id,
         setCompanyNameValue,
@@ -599,7 +600,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //edit userbio
-      editbooks: (id, first_name, last_name, location, phone_number) => {
+      editbio: (id, first_name, last_name, location, phone_number) => {
         const store = getStore();
         return fetch(`${backend}api/edituserbio/${id}`, {
           method: "PUT",
@@ -618,6 +619,108 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((data) => {
             console.log(data);
             setStore({ userbio: data });
+          });
+      },
+
+      //addd usereducation
+      addusereducation: async (
+        collage_name,
+        start_year,
+        end_year,
+        gpa,
+        major,
+        degree,
+        location,
+        user_id
+      ) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/addusereducation`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            collage_name: collage_name,
+            start_year: start_year,
+            end_year: end_year,
+            gpa: gpa,
+            major: major,
+            degree: degree,
+            location: location,
+            user_id: user_id,
+          }),
+        });
+        const data = await resp.json();
+        console.log(data);
+        window.location.reload();
+      },
+
+      //get userbio
+      getusereducation: (
+        id,
+        setCollagename,
+        setStartyear,
+        setEndyear,
+        setGpa,
+        setMajor,
+        setDegree,
+        setLocation
+      ) => {
+        const store = getStore();
+        fetch(`${backend}api/getusereducation/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            setCollagename(data.collage_name);
+            setStartyear(data.start_year);
+            setEndyear(data.end_year);
+            setGpa(data.gpa);
+            setMajor(data.major);
+            setDegree(data.degree);
+            setLocation(data.location);
+
+            console.log(data);
+            setStore({ usereducation: data });
+          });
+      },
+      //edit usereducation
+      editusereducation: (
+        id,
+        collage_name,
+        start_year,
+        end_year,
+        gpa,
+        major,
+        degree,
+        location
+      ) => {
+        const store = getStore();
+        return fetch(`${backend}api/editusereducation/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            collage_name: collage_name,
+            start_year: start_year,
+            end_year: end_year,
+            gpa: gpa,
+            major: major,
+            degree: degree,
+            location: location,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ usereducation: data });
           });
       },
     },
