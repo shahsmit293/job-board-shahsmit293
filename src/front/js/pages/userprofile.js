@@ -8,11 +8,13 @@ import { UserContactInfo } from "./usercontactinfo";
 import { UserQualification } from "./userqualification";
 import { UserPreference } from "./userpreference";
 import { UserAdditionalInfo } from "./useradditionalinfo";
+import { UserExperience } from "./userexperience";
 
 export const UserProfile = () => {
   const [viewContact, SetViewContact] = useState(true);
   const [viewResume, SetViewResume] = useState(false);
   const [viewQualification, SetViewQualification] = useState(false);
+  const [viewExperience, SetViewExperience] = useState(false);
   const [viewPreference, SetViewPreference] = useState(false);
   const [viewAdditional, SetViewAdditional] = useState(false);
 
@@ -28,6 +30,7 @@ export const UserProfile = () => {
     actions.downloadResume(store.user.id);
     actions.getresumedetail(store.user.id);
     actions.getusereducation(store.user.id);
+    actions.getuserexperience(store.user.id);
   }, [store.user.id]);
 
   return (
@@ -38,6 +41,7 @@ export const UserProfile = () => {
             SetViewResume(false);
             SetViewContact(true);
             SetViewQualification(false);
+            SetViewExperience(false);
             SetViewPreference(false);
             SetViewAdditional(false);
           }}
@@ -49,6 +53,7 @@ export const UserProfile = () => {
             SetViewResume(true);
             SetViewContact(false);
             SetViewQualification(false);
+            SetViewExperience(false);
             SetViewPreference(false);
             SetViewAdditional(false);
           }}
@@ -60,6 +65,7 @@ export const UserProfile = () => {
             SetViewResume(false);
             SetViewContact(false);
             SetViewQualification(true);
+            SetViewExperience(false);
             SetViewPreference(false);
             SetViewAdditional(false);
           }}
@@ -71,6 +77,19 @@ export const UserProfile = () => {
             SetViewResume(false);
             SetViewContact(false);
             SetViewQualification(false);
+            SetViewExperience(true);
+            SetViewPreference(false);
+            SetViewAdditional(false);
+          }}
+        >
+          My Experience
+        </button>
+        <button
+          onClick={() => {
+            SetViewResume(false);
+            SetViewContact(false);
+            SetViewQualification(false);
+            SetViewExperience(false);
             SetViewPreference(true);
             SetViewAdditional(false);
           }}
@@ -82,6 +101,7 @@ export const UserProfile = () => {
             SetViewResume(false);
             SetViewContact(false);
             SetViewQualification(false);
+            SetViewExperience(false);
             SetViewPreference(false);
             SetViewAdditional(true);
           }}
@@ -158,7 +178,27 @@ export const UserProfile = () => {
               />
             ))
           ))}
-
+        {viewExperience &&
+          (!Array.isArray(store.userexperience) ||
+          store.userexperience.length === 0 ? (
+            <UserExperience />
+          ) : (
+            store.userexperience.map((education, index) => (
+              <UserExperience
+                key={index}
+                jobtitle={education.job_title}
+                companyname={education.company_name}
+                jobtype={education.job_type}
+                startyear={education.start_year}
+                endyear={education.end_year}
+                description={education.description}
+                location={education.location}
+                id={education.id}
+                track={index}
+                deleteid={education.id}
+              />
+            ))
+          ))}
         {viewPreference && <UserPreference />}
         {viewAdditional && <UserAdditionalInfo />}
       </div>

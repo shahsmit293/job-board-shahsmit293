@@ -30,6 +30,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       resume_detail: undefined,
       userbio: undefined,
       usereducation: [],
+      userexperience: [],
     },
 
     actions: {
@@ -656,7 +657,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         window.location.reload();
       },
 
-      //get userbio
+      //get usereducation
       getusereducation: (id) => {
         const store = getStore();
         fetch(`${backend}api/getusereducation/${id}`, {
@@ -672,6 +673,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             setStore({ usereducation: data });
           });
       },
+
       //edit usereducation
       editusereducation: (
         id,
@@ -727,6 +729,115 @@ const getState = ({ getStore, getActions, setStore }) => {
           })
           .catch((error) => {
             console.error("error deleting education", error);
+          });
+      },
+
+      //add userexperience
+      adduserexperience: async (
+        job_title,
+        company_name,
+        job_type,
+        start_year,
+        end_year,
+        description,
+        location,
+        user_id
+      ) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/adduserexperience`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            job_title: job_title,
+            company_name: company_name,
+            job_type: job_type,
+            start_year: start_year,
+            end_year: end_year,
+            description: description,
+            location: location,
+            user_id: user_id,
+          }),
+        });
+        const data = await resp.json();
+        console.log(data);
+        window.location.reload();
+      },
+
+      //get userexperience
+      getuserexperience: (id) => {
+        const store = getStore();
+        fetch(`${backend}api/getuserexperience/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ userexperience: data });
+          });
+      },
+
+      //edit userexperience
+      editexperience: (
+        id,
+        job_title,
+        company_name,
+        job_type,
+        start_year,
+        end_year,
+        description,
+        location
+      ) => {
+        const store = getStore();
+        return fetch(`${backend}api/edituserexperience/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            job_title: job_title,
+            company_name: company_name,
+            job_type: job_type,
+            start_year: start_year,
+            end_year: end_year,
+            description: description,
+            location: location,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            store.userexperience = store.userexperience.map((b) =>
+              b.id === id ? data.education : b
+            );
+          });
+      },
+
+      //delete user experience
+      deleteexperience: (id) => {
+        const store = getStore();
+        fetch(`${backend}api/deleteuserexperience/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("error deleting experience");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting experience", error);
           });
       },
     },

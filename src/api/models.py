@@ -108,6 +108,30 @@ class Userexperience(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     user = db.relationship(User, backref="user_experience")
 
+    def __init__(self,job_title,company_name,job_type,start_year,end_year,description,location,user_id):
+        self.job_title=job_title
+        self.company_name=company_name
+        self.job_type=job_type
+        self.start_year=start_year
+        self.end_year=end_year
+        self.description=description
+        self.location=location
+        self.user_id=user_id
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "job_title":self.job_title,
+            "company_name":self.company_name,
+            "job_type":self.job_type,
+            "start_year":self.start_year,
+            "end_year":self.end_year,
+            "description":self.description,
+            "location":self.location,
+            "user_id":self.user_id,
+            "user":self.user.serialize()
+            }
+
 class Userpreference(db.Model):
     __tablename__ = 'userpreference'
     id = db.Column(db.Integer, primary_key=True)

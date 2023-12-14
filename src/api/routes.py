@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation
+from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -432,3 +432,78 @@ def delete_usereducation(id):
     db.session.delete(education)
     db.session.commit()
     return jsonify("education deleted successfully"), 200
+
+@api.route('/adduserexperience',methods=['POST'])
+@jwt_required()
+def add_userexperience():
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    body = request.json
+    experience=Userexperience(
+        job_title=body["job_title"],
+        company_name=body["company_name"],
+        job_type=body["job_type"],
+        start_year=body["start_year"],
+        end_year=body["end_year"],
+        description=body["description"],
+        location=body["location"],
+        user_id=body["user_id"]
+        )
+    db.session.add(experience)
+    db.session.commit()
+    return jsonify(experience.serialize())
+
+@api.route('/getuserexperience/<int:exid>',methods=['GET'])
+@jwt_required()
+def get_userexperience(exid):
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    experience = Userexperience.query.filter_by(user_id=exid).all()
+    if experience:
+        result=[exp.serialize() for exp in experience]  
+        return jsonify(result), 200
+    else:
+        return jsonify({"message": "experience not found"}), 404
+    
+@api.route('/edituserexperience/<int:id>', methods=['PUT'])
+@jwt_required()
+def edit_user_experience(id):
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+
+    experience = Userexperience.query.filter_by(id=id).first()
+    if experience is None:
+        return jsonify("experience doesn't exist"), 400
+
+    body = request.json
+    experience.job_title = body.get("job_title", experience.job_title)
+    experience.company_name = body.get("company_name", experience.company_name)
+    experience.job_type = body.get("job_type", experience.job_type)
+    experience.start_year = body.get("start_year", experience.start_year)
+    experience.end_year = body.get("end_year", experience.end_year)
+    experience.description = body.get("description", experience.description)
+    experience.location = body.get("location", experience.location)
+    db.session.commit()
+    return jsonify(experience.serialize())
+
+@api.route('/deleteuserexperience/<int:id>', methods=["DELETE"])
+@jwt_required()
+def delete_userexperience(id):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+
+    experience = Userexperience.query.get(id)
+    if experience is None:
+        return jsonify("This experience doesn't exist"), 400
+
+    db.session.delete(experience)
+    db.session.commit()
+    return jsonify("experience deleted successfully"), 200
