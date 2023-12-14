@@ -416,3 +416,19 @@ def edit_user_education(id):
     education.location = body.get("location", education.location)
     db.session.commit()
     return jsonify(education.serialize())
+
+@api.route('/deleteusereducation/<int:id>', methods=["DELETE"])
+@jwt_required()
+def delete_usereducation(id):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+
+    education = Usereducation.query.get(id)
+    if education is None:
+        return jsonify("This education doesn't exist"), 400
+
+    db.session.delete(education)
+    db.session.commit()
+    return jsonify("education deleted successfully"), 200

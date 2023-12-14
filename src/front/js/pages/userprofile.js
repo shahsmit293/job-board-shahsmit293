@@ -25,10 +25,10 @@ export const UserProfile = () => {
   };
 
   useEffect(() => {
-    actions.downloadResume(store.activejobseeker);
-    actions.getresumedetail(store.activejobseeker);
-    actions.getusereducation(store.activejobseeker);
-  }, []);
+    actions.downloadResume(store.user.id);
+    actions.getresumedetail(store.user.id);
+    actions.getusereducation(store.user.id);
+  }, [store.user.id]);
 
   return (
     <div className="profile">
@@ -99,7 +99,7 @@ export const UserProfile = () => {
                 <button
                   onClick={() => {
                     actions
-                      .adduserresume(store.activejobseeker, file)
+                      .adduserresume(store.user.id, file)
                       .then(navigate("/"));
                   }}
                 >
@@ -138,19 +138,25 @@ export const UserProfile = () => {
           />
         )}
         {viewQualification &&
-          store.usereducation &&
-          store.usereducation.map((education, index) => (
-            <UserQualification
-              key={index}
-              collagename={education.collage_name}
-              startyear={education.start_year}
-              endyear={education.end_year}
-              gpa={education.gpa}
-              major={education.major}
-              degree={education.degree}
-              location={education.location}
-              id={education.id}
-            />
+          (!Array.isArray(store.usereducation) ||
+          store.usereducation.length === 0 ? (
+            <UserQualification />
+          ) : (
+            store.usereducation.map((education, index) => (
+              <UserQualification
+                key={index}
+                collagename={education.collage_name}
+                startyear={education.start_year}
+                endyear={education.end_year}
+                gpa={education.gpa}
+                major={education.major}
+                degree={education.degree}
+                location={education.location}
+                id={education.id}
+                track={index}
+                deleteid={education.id}
+              />
+            ))
           ))}
 
         {viewPreference && <UserPreference />}

@@ -5,13 +5,13 @@ export const UserContactInfo = (props) => {
   const { store, actions } = useContext(Context);
   useEffect(() => {
     actions.getuserbio(
-      store.activejobseeker,
+      store.user.id,
       setFirstname,
       setLastname,
       setLocation,
       setPhone
     );
-  }, [store.activejobseeker]);
+  }, [store.user.id]);
   const [showdetails, setShowdetails] = useState(true);
   const [addForm, setaddform] = useState(false);
   const [editForm, setEditform] = useState(false);
@@ -93,7 +93,7 @@ export const UserContactInfo = (props) => {
           <button
             onClick={() => {
               actions.adduserbio(
-                store.activejobseeker,
+                store.user.id,
                 valueFirstname,
                 valueLastname,
                 valueLocation,
@@ -147,7 +147,7 @@ export const UserContactInfo = (props) => {
             onClick={() => {
               actions
                 .editbio(
-                  store.activejobseeker,
+                  store.user.id,
                   valueFirstname,
                   valueLastname,
                   valueLocation,

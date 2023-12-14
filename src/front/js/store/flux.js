@@ -29,7 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       resumeUrl: undefined,
       resume_detail: undefined,
       userbio: undefined,
-      usereducation: undefined,
+      usereducation: [],
     },
 
     actions: {
@@ -706,6 +706,27 @@ const getState = ({ getStore, getActions, setStore }) => {
             store.usereducation = store.usereducation.map((b) =>
               b.id === id ? data.education : b
             );
+          });
+      },
+
+      //delete user education
+      deleteusereducation: (id) => {
+        const store = getStore();
+        fetch(`${backend}api/deleteusereducation/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("error deleting education");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting education", error);
           });
       },
     },

@@ -11,7 +11,7 @@ export const Home = () => {
   const [selectedJob, setSelectedJob] = useState(null);
   useEffect(() => {
     actions.alljobsdata();
-  }, [store.activejobseeker]);
+  }, [store.user.id]);
 
   const handleViewClick = (jobId) => {
     setSelectedJob(jobId);

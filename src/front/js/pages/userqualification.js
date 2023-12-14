@@ -3,9 +3,7 @@ import { Context } from "../store/appContext";
 import propTypes from "prop-types";
 export const UserQualification = (props) => {
   const { store, actions } = useContext(Context);
-  useEffect(() => {
-    actions.getusereducation(store.activejobseeker);
-  }, [store.activejobseeker]);
+
   const [showeducationdetails, setshoweducationdetails] = useState(true);
   const [addeducationform, setaddeducationform] = useState(false);
   const [editeducationform, setediteducationform] = useState(false);
@@ -25,10 +23,28 @@ export const UserQualification = (props) => {
   const [valueLocation, setLocation] = useState(
     props.location ? props.location : ""
   );
+
+  const [addvalueCollagename, setaddCollagename] = useState("");
+  const [addvaluestartyear, setaddStartyear] = useState("");
+  const [addvalueEndyear, setaddEndyear] = useState("");
+  const [addvaluegpa, setaddGpa] = useState("");
+  const [addvalueMajor, setaddMajor] = useState("");
+  const [addvalueDegree, setaddDegree] = useState("");
+  const [addvalueLocation, setaddLocation] = useState("");
   return (
     <div className="educationinfo">
       {showeducationdetails && (
         <div className="details">
+          {props.track == 0 ? (
+            <button
+              onClick={() => {
+                setshoweducationdetails(false);
+                setaddeducationform(true);
+              }}
+            >
+              Add
+            </button>
+          ) : null}
           <h4>COLLAGE NAME{props.collagename}</h4>
           <h4>START YEAR:{props.startyear}</h4>
           <h4>END YEAR:{props.endyear} </h4>
@@ -52,14 +68,23 @@ export const UserQualification = (props) => {
               Add
             </button>
           ) : (
-            <button
-              onClick={() => {
-                setshoweducationdetails(false);
-                setediteducationform(true);
-              }}
-            >
-              edit
-            </button>
+            <>
+              <button
+                onClick={() => {
+                  setshoweducationdetails(false);
+                  setediteducationform(true);
+                }}
+              >
+                edit
+              </button>
+              <button
+                onClick={() => {
+                  actions.deleteusereducation(props.deleteid);
+                }}
+              >
+                Delete
+              </button>
+            </>
           )}
         </div>
       )}
@@ -69,60 +94,60 @@ export const UserQualification = (props) => {
           <label>COLLAGE NAME:</label>
           <input
             typeof="text"
-            value={valueCollagename}
-            onChange={(e) => setCollagename(e.target.value)}
+            value={addvalueCollagename}
+            onChange={(e) => setaddCollagename(e.target.value)}
             required
           ></input>
           <label>START YEAR::</label>
           <input
             typeof="number"
-            value={valuestartyear}
-            onChange={(e) => setStartyear(e.target.value)}
+            value={addvaluestartyear}
+            onChange={(e) => setaddStartyear(e.target.value)}
             required
           ></input>
           <label>END YEAR::</label>
           <input
             typeof="number"
-            value={valueEndyear}
-            onChange={(e) => setEndyear(e.target.value)}
+            value={addvalueEndyear}
+            onChange={(e) => setaddEndyear(e.target.value)}
             required
           ></input>
           <label>GPA:</label>
           <input
             typeof="number"
-            value={valuegpa}
-            onChange={(e) => setGpa(e.target.value)}
+            value={addvaluegpa}
+            onChange={(e) => setaddGpa(e.target.value)}
             required
           ></input>
           <label>MAJOR:</label>
           <input
             typeof="text"
-            value={valueMajor}
-            onChange={(e) => setMajor(e.target.value)}
+            value={addvalueMajor}
+            onChange={(e) => setaddMajor(e.target.value)}
           ></input>
           <label>DEGREE:</label>
           <input
             typeof="text"
-            value={valueDegree}
-            onChange={(e) => setDegree(e.target.value)}
+            value={addvalueDegree}
+            onChange={(e) => setaddDegree(e.target.value)}
           ></input>
           <label>LOCATION:</label>
           <input
             typeof="text"
-            value={valueLocation}
-            onChange={(e) => setLocation(e.target.value)}
+            value={addvalueLocation}
+            onChange={(e) => setaddLocation(e.target.value)}
           ></input>
           <button
             onClick={() => {
               actions.addusereducation(
-                valueCollagename,
-                valuestartyear,
-                valueEndyear,
-                valuegpa,
-                valueMajor,
-                valueDegree,
-                valueLocation,
-                store.activejobseeker
+                addvalueCollagename,
+                addvaluestartyear,
+                addvalueEndyear,
+                addvaluegpa,
+                addvalueMajor,
+                addvalueDegree,
+                addvalueLocation,
+                store.user.id
               );
             }}
           >
@@ -227,4 +252,6 @@ UserQualification.propTypes = {
   degree: propTypes.string,
   location: propTypes.string,
   id: propTypes.number,
+  track: propTypes.number,
+  deleteid: propTypes.number,
 };
