@@ -191,8 +191,22 @@ class Userskills(db.Model):
     __tablename__ = 'userskills'
     id = db.Column(db.Integer, primary_key=True)
     skill=db.Column(db.String(80),unique=False,nullable=True)
+    skill_year=db.Column(db.Integer,unique=False,nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     user = db.relationship(User, backref="user_skills")
+    
+    def __init__(self,skill,skill_year,user_id):
+        self.skill=skill
+        self.skill_year=skill_year
+        self.user_id=user_id
+    
+    def serialize(self):
+        return{
+            "id":self.id,
+            "skill":self.skill,
+            "skill_year":self.skill_year,
+            "user_id":self.user_id
+        }
 
 class Usercertificates(db.Model):
     __tablename__ = 'usercertificates'

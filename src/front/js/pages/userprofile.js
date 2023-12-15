@@ -9,6 +9,7 @@ import { UserQualification } from "./userqualification";
 import { UserPreference } from "./userpreference";
 import { UserAdditionalInfo } from "./useradditionalinfo";
 import { UserExperience } from "./userexperience";
+import { Userskill } from "./userskill";
 
 export const UserProfile = () => {
   const [viewContact, SetViewContact] = useState(true);
@@ -17,6 +18,7 @@ export const UserProfile = () => {
   const [viewExperience, SetViewExperience] = useState(false);
   const [viewPreference, SetViewPreference] = useState(false);
   const [viewAdditional, SetViewAdditional] = useState(false);
+  const [viewSkill, SetViewSkill] = useState(false);
 
   const [file, setFile] = useState(null); // Create a state variable for the file
   const { store, actions } = useContext(Context); // Access your Flux actions
@@ -31,6 +33,7 @@ export const UserProfile = () => {
     actions.getresumedetail(store.user.id);
     actions.getusereducation(store.user.id);
     actions.getuserexperience(store.user.id);
+    actions.getuserskill(store.user.id);
   }, [store.user.id]);
 
   return (
@@ -44,6 +47,7 @@ export const UserProfile = () => {
             SetViewExperience(false);
             SetViewPreference(false);
             SetViewAdditional(false);
+            SetViewSkill(false);
           }}
         >
           Contact Information
@@ -56,6 +60,7 @@ export const UserProfile = () => {
             SetViewExperience(false);
             SetViewPreference(false);
             SetViewAdditional(false);
+            SetViewSkill(false);
           }}
         >
           My Reume
@@ -68,6 +73,7 @@ export const UserProfile = () => {
             SetViewExperience(false);
             SetViewPreference(false);
             SetViewAdditional(false);
+            SetViewSkill(false);
           }}
         >
           Qualification
@@ -80,6 +86,7 @@ export const UserProfile = () => {
             SetViewExperience(true);
             SetViewPreference(false);
             SetViewAdditional(false);
+            SetViewSkill(false);
           }}
         >
           My Experience
@@ -90,8 +97,22 @@ export const UserProfile = () => {
             SetViewContact(false);
             SetViewQualification(false);
             SetViewExperience(false);
+            SetViewPreference(false);
+            SetViewAdditional(false);
+            SetViewSkill(true);
+          }}
+        >
+          My Skill
+        </button>
+        <button
+          onClick={() => {
+            SetViewResume(false);
+            SetViewContact(false);
+            SetViewQualification(false);
+            SetViewExperience(false);
             SetViewPreference(true);
             SetViewAdditional(false);
+            SetViewSkill(false);
           }}
         >
           My preference
@@ -104,6 +125,7 @@ export const UserProfile = () => {
             SetViewExperience(false);
             SetViewPreference(false);
             SetViewAdditional(true);
+            SetViewSkill(false);
           }}
         >
           Additional Information
@@ -196,6 +218,21 @@ export const UserProfile = () => {
                 id={education.id}
                 track={index}
                 deleteid={education.id}
+              />
+            ))
+          ))}
+        {viewSkill &&
+          (!Array.isArray(store.userskill) || store.userskill.length === 0 ? (
+            <Userskill />
+          ) : (
+            store.userskill.map((skills, index) => (
+              <Userskill
+                key={index}
+                skillname={skills.skill}
+                skillyear={skills.skill_year}
+                id={skills.id}
+                track={index}
+                deleteid={skills.id}
               />
             ))
           ))}

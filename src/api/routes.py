@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience
+from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -507,3 +507,68 @@ def delete_userexperience(id):
     db.session.delete(experience)
     db.session.commit()
     return jsonify("experience deleted successfully"), 200
+
+@api.route('/adduserskill',methods=['POST'])
+@jwt_required()
+def add_userskill():
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    body = request.json
+    skill=Userskills(
+        skill=body["skill"],
+        skill_year=body["skill_year"],
+        user_id=body["user_id"],
+        )
+    db.session.add(skill)
+    db.session.commit()
+    return jsonify(skill.serialize())
+
+@api.route('/getuserskill/<int:skillid>',methods=['GET'])
+@jwt_required()
+def get_userskill(skillid):
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    skill = Userskills.query.filter_by(user_id=skillid).all()
+    if skill:
+        result=[item.serialize() for item in skill]  
+        return jsonify(result), 200
+    else:
+        return jsonify({"message": "skill not found"}), 404
+    
+@api.route('/edituserskill/<int:id>', methods=['PUT'])
+@jwt_required()
+def edit_user_skill(id):
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+
+    skill = Userskills.query.filter_by(id=id).first()
+    if skill is None:
+        return jsonify("skill doesn't exist"), 400
+
+    body = request.json
+    skill.skill = body.get("skill", skill.skill)
+    skill.skill_year = body.get("skill_year", skill.skill_year)
+    db.session.commit()
+    return jsonify(skill.serialize())
+
+@api.route('/deleteuserskill/<int:id>', methods=["DELETE"])
+@jwt_required()
+def delete_userskill(id):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+
+    skill = Userskills.query.get(id)
+    if skill is None:
+        return jsonify("This skill doesn't exist"), 400
+
+    db.session.delete(skill)
+    db.session.commit()
+    return jsonify("skill deleted successfully"), 200

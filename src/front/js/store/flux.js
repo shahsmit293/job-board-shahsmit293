@@ -31,6 +31,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userbio: undefined,
       usereducation: [],
       userexperience: [],
+      userskill: [],
     },
 
     actions: {
@@ -838,6 +839,87 @@ const getState = ({ getStore, getActions, setStore }) => {
           })
           .catch((error) => {
             console.error("error deleting experience", error);
+          });
+      },
+
+      //add userskill
+      adduserskill: async (skill, skill_year, user_id) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/adduserskill`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            skill: skill,
+            skill_year: skill_year,
+            user_id: user_id,
+          }),
+        });
+        const data = await resp.json();
+        console.log(data);
+        window.location.reload();
+      },
+
+      //get userskill
+      getuserskill: (id) => {
+        const store = getStore();
+        fetch(`${backend}api/getuserskill/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ userskill: data });
+          });
+      },
+
+      //edit userskill
+      editskill: (id, skill, skill_year) => {
+        const store = getStore();
+        return fetch(`${backend}api/edituserskill/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            skill: skill,
+            skill_year: skill_year,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            store.userskill = store.userskill.map((b) =>
+              b.id === id ? data.skill : b
+            );
+          });
+      },
+
+      //delete user skill
+      deleteskill: (id) => {
+        const store = getStore();
+        fetch(`${backend}api/deleteuserskill/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("error deleting skill");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting skill", error);
           });
       },
     },
