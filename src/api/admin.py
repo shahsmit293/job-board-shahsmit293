@@ -1,7 +1,7 @@
   
 import os
 from flask_admin import Admin
-from .models import db, User,Usereducation,Userexperience,UserBio,Userpreference,Userinternship,Userresume,Userskills,Usercertificates,Usersavedjobs,Userappliedjobs,Employer,Postjobs,Applicants,Favoriteapplicant
+from .models import db, User,Usereducation,Userexperience,UserBio,Userpreference,Userresume,Userskills,Usercertificates,Usersavedjobs,Userappliedjobs,Employer,Postjobs,Applicants,Favoriteapplicant
 from flask_admin.contrib.sqla import ModelView
 
 def setup_admin(app):
@@ -16,7 +16,6 @@ def setup_admin(app):
     admin.add_view(ModelView(Usereducation, db.session))
     admin.add_view(ModelView(Userexperience, db.session))
     admin.add_view(ModelView(Userpreference, db.session))
-    admin.add_view(ModelView(Userinternship, db.session))
     admin.add_view(ModelView(Userresume, db.session))
     admin.add_view(ModelView(Userskills, db.session))
     admin.add_view(ModelView(Usercertificates, db.session))

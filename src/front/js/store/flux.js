@@ -32,6 +32,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       usereducation: [],
       userexperience: [],
       userskill: [],
+      userpreference: undefined,
     },
 
     actions: {
@@ -904,6 +905,221 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       //delete user skill
       deleteskill: (id) => {
+        const store = getStore();
+        fetch(`${backend}api/deleteuserskill/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("error deleting skill");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting skill", error);
+          });
+      },
+
+      //add userpreference
+      adduserpreference: async (
+        job_title_preference,
+        full_time_job,
+        part_time_job,
+        contract_job,
+        temperory_job,
+        internship,
+        monday_to_friday,
+        weekend_as_needed,
+        weekend_only,
+        no_weekends,
+        holidays,
+        rotating_weekends,
+        weekdays,
+        every_weekend,
+        four_hour_shift,
+        eight_hour_shift,
+        ten_hour_shift,
+        twelve_hour_shift,
+        day_shift,
+        night_shift,
+        evening_shift,
+        no_night,
+        overnight_shift,
+        rotating_shift,
+        split_shift,
+        overtime,
+        min_salary,
+        salary_type,
+        relocation,
+        relocation_place,
+        remote_job,
+        hybrid_job,
+        in_person,
+        temperory_remote_job,
+        user_id
+      ) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/adduserpreference`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            job_title_preference: job_title_preference,
+            full_time_job: full_time_job,
+            part_time_job: part_time_job,
+            contract_job: contract_job,
+            temperory_job: temperory_job,
+            internship: internship,
+            monday_to_friday: monday_to_friday,
+            weekend_as_needed: weekend_as_needed,
+            weekend_only: weekend_only,
+            no_weekends: no_weekends,
+            holidays: holidays,
+            rotating_weekends: rotating_weekends,
+            weekdays: weekdays,
+            every_weekend: every_weekend,
+            four_hour_shift: four_hour_shift,
+            eight_hour_shift: eight_hour_shift,
+            ten_hour_shift: ten_hour_shift,
+            twelve_hour_shift: twelve_hour_shift,
+            day_shift: day_shift,
+            night_shift: night_shift,
+            evening_shift: evening_shift,
+            no_night: no_night,
+            overnight_shift: overnight_shift,
+            rotating_shift: rotating_shift,
+            split_shift: split_shift,
+            overtime: overtime,
+            min_salary: min_salary,
+            salary_type: salary_type,
+            relocation: relocation,
+            relocation_place: relocation_place,
+            remote_job: remote_job,
+            hybrid_job: hybrid_job,
+            in_person: in_person,
+            temperory_remote_job: temperory_remote_job,
+            user_id: user_id,
+          }),
+        });
+        const data = await resp.json();
+        console.log(data);
+        window.location.reload();
+      },
+
+      //get userpreference
+      getuserpreference: (id) => {
+        const store = getStore();
+        fetch(`${backend}api/getuserpreference/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ userpreference: data });
+          });
+      },
+
+      //edit userpreference
+      editpreference: (
+        id,
+        job_title_preference,
+        full_time_job,
+        part_time_job,
+        contract_job,
+        temperory_job,
+        internship,
+        monday_to_friday,
+        weekend_as_needed,
+        weekend_only,
+        no_weekends,
+        holidays,
+        rotating_weekends,
+        weekdays,
+        every_weekend,
+        four_hour_shift,
+        eight_hour_shift,
+        ten_hour_shift,
+        twelve_hour_shift,
+        day_shift,
+        night_shift,
+        evening_shift,
+        no_night,
+        overnight_shift,
+        rotating_shift,
+        split_shift,
+        overtime,
+        min_salary,
+        salary_type,
+        relocation,
+        relocation_place,
+        remote_job,
+        hybrid_job,
+        in_person,
+        temperory_remote_job
+      ) => {
+        const store = getStore();
+        return fetch(`${backend}api/edituserpreference/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            job_title_preference: job_title_preference,
+            full_time_job: full_time_job,
+            part_time_job: part_time_job,
+            contract_job: contract_job,
+            temperory_job: temperory_job,
+            internship: internship,
+            monday_to_friday: monday_to_friday,
+            weekend_as_needed: weekend_as_needed,
+            weekend_only: weekend_only,
+            no_weekends: no_weekends,
+            holidays: holidays,
+            rotating_weekends: rotating_weekends,
+            weekdays: weekdays,
+            every_weekend: every_weekend,
+            four_hour_shift: four_hour_shift,
+            eight_hour_shift: eight_hour_shift,
+            ten_hour_shift: ten_hour_shift,
+            twelve_hour_shift: twelve_hour_shift,
+            day_shift: day_shift,
+            night_shift: night_shift,
+            evening_shift: evening_shift,
+            no_night: no_night,
+            overnight_shift: overnight_shift,
+            rotating_shift: rotating_shift,
+            split_shift: split_shift,
+            overtime: overtime,
+            min_salary: min_salary,
+            salary_type: salary_type,
+            relocation: relocation,
+            relocation_place: relocation_place,
+            remote_job: remote_job,
+            hybrid_job: hybrid_job,
+            in_person: in_person,
+            temperory_remote_job: temperory_remote_job,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ userpreference: data });
+          });
+      },
+
+      //delete user preference
+      deletepreference: (id) => {
         const store = getStore();
         fetch(`${backend}api/deleteuserskill/${id}`, {
           method: "DELETE",

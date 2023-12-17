@@ -136,35 +136,155 @@ class Userpreference(db.Model):
     __tablename__ = 'userpreference'
     id = db.Column(db.Integer, primary_key=True)
     job_title_preference=db.Column(db.String(500),unique=False,nullable=True)
-    min_salary=db.Column(db.Integer,unique=False,nullable=True)
-    relocation=db.Column(db.String(80),unique=False,nullable=True)
-    temperory_job=db.Column(db.String(80),unique=False,nullable=True)
-    permanent_job=db.Column(db.String(80),unique=False,nullable=True)
-    contract_job=db.Column(db.String(80),unique=False,nullable=True)
-    part_time_job=db.Column(db.String(80),unique=False,nullable=True)
     full_time_job=db.Column(db.String(80),unique=False,nullable=True)
+    part_time_job=db.Column(db.String(80),unique=False,nullable=True)
+    contract_job=db.Column(db.String(80),unique=False,nullable=True)
+    temperory_job=db.Column(db.String(80),unique=False,nullable=True)
+    internship=db.Column(db.String(80),unique=False,nullable=True)
+    monday_to_friday=db.Column(db.String(80),unique=False,nullable=True)
+    weekend_as_needed=db.Column(db.String(80),unique=False,nullable=True)
+    weekend_only=db.Column(db.String(80),unique=False,nullable=True)
+    no_weekends=db.Column(db.String(80),unique=False,nullable=True)
+    holidays=db.Column(db.String(80),unique=False,nullable=True)
+    rotating_weekends=db.Column(db.String(80),unique=False,nullable=True)
+    weekdays=db.Column(db.String(80),unique=False,nullable=True)
+    every_weekend=db.Column(db.String(80),unique=False,nullable=True)
+    four_hour_shift=db.Column(db.String(80),unique=False,nullable=True)
+    eight_hour_shift=db.Column(db.String(80),unique=False,nullable=True)
+    ten_hour_shift=db.Column(db.String(80),unique=False,nullable=True)
+    twelve_hour_shift=db.Column(db.String(80),unique=False,nullable=True)
+    day_shift=db.Column(db.String(80),unique=False,nullable=True)
+    night_shift=db.Column(db.String(80),unique=False,nullable=True)
+    evening_shift=db.Column(db.String(80),unique=False,nullable=True)
+    no_night=db.Column(db.String(80),unique=False,nullable=True)
+    overnight_shift=db.Column(db.String(80),unique=False,nullable=True)
+    rotating_shift=db.Column(db.String(80),unique=False,nullable=True)
+    split_shift=db.Column(db.String(80),unique=False,nullable=True)
+    overtime=db.Column(db.String(80),unique=False,nullable=True)
+    min_salary=db.Column(db.Integer,unique=False,nullable=True)
+    salary_type=db.Column(db.String(80),unique=False,nullable=True)
+    relocation=db.Column(db.String(80),unique=False,nullable=True)
+    relocation_place=db.Column(db.String(120),unique=False,nullable=True)
     remote_job=db.Column(db.String(80),unique=False,nullable=True)
-    onsite_job=db.Column(db.String(80),unique=False,nullable=True)
     hybrid_job=db.Column(db.String(80),unique=False,nullable=True)
-    day_shift_job=db.Column(db.String(80),unique=False,nullable=True)
-    night_shift_job=db.Column(db.String(80),unique=False,nullable=True)
-    location_preference=db.Column(db.String(500),unique=False,nullable=True)
-    user_visibility_profile=db.Column(db.String(80),unique=False,nullable=True)
+    in_person=db.Column(db.String(80),unique=False,nullable=True)
+    temperory_remote_job=db.Column(db.String(80),unique=False,nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     user = db.relationship(User, backref="user_preference")
 
-class Userinternship(db.Model):
-    __tablename__ = 'userinternship'
-    id = db.Column(db.Integer, primary_key=True)
-    job_title=db.Column(db.String(80),unique=False,nullable=True)
-    company_name=db.Column(db.String(80),unique=False,nullable=True)
-    job_type=db.Column(db.String(80),unique=False,nullable=True)
-    start_year=db.Column(db.Integer,unique=False,nullable=True)
-    end_year=db.Column(db.Integer,unique=False,nullable=True)
-    description=db.Column(db.String(4000),unique=False,nullable=True)
-    location=db.Column(db.String(80),unique=False,nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    user = db.relationship(User, backref="user_internship")
+    def __init__(self,job_title_preference,
+full_time_job,
+part_time_job,
+contract_job,
+temperory_job,
+internship,
+monday_to_friday,
+weekend_as_needed,
+weekend_only,
+no_weekends,
+holidays,
+rotating_weekends,
+weekdays,
+every_weekend,
+four_hour_shift,
+eight_hour_shift,
+ten_hour_shift,
+twelve_hour_shift,
+day_shift,
+night_shift,
+evening_shift,
+no_night,
+overnight_shift,
+rotating_shift,
+split_shift,
+overtime,
+min_salary,
+salary_type,
+relocation,
+relocation_place,
+remote_job,
+hybrid_job,
+in_person,
+temperory_remote_job,
+user_id):
+        self.job_title_preference=job_title_preference
+        self.full_time_job=full_time_job
+        self.part_time_job=part_time_job
+        self.contract_job=contract_job
+        self.temperory_job=temperory_job
+        self.internship=internship
+        self.monday_to_friday=monday_to_friday
+        self.weekend_as_needed=weekend_as_needed
+        self.weekend_only=weekend_only
+        self.no_weekends=no_weekends
+        self.holidays=holidays
+        self.rotating_weekends=rotating_weekends
+        self.weekdays=weekdays
+        self.every_weekend=every_weekend
+        self.four_hour_shift=four_hour_shift
+        self.eight_hour_shift=eight_hour_shift
+        self.ten_hour_shift=ten_hour_shift
+        self.twelve_hour_shift=twelve_hour_shift
+        self.day_shift=day_shift
+        self.night_shift=night_shift
+        self.evening_shift=evening_shift
+        self.no_night=no_night
+        self.overnight_shift=overnight_shift
+        self.rotating_shift=rotating_shift
+        self.split_shift=split_shift
+        self.overtime=overtime
+        self.min_salary=min_salary
+        self.salary_type=salary_type
+        self.relocation=relocation
+        self.relocation_place=relocation_place
+        self.remote_job=remote_job
+        self.hybrid_job=hybrid_job
+        self.in_person=in_person
+        self.temperory_remote_job=temperory_remote_job
+        self.user_id=user_id
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "job_title_preference":self.job_title_preference,
+            "full_time_job":self.full_time_job,
+            "part_time_job":self.part_time_job,
+            "contract_job":self.contract_job,
+            "temperory_job":self.temperory_job,
+            "internship":self.internship,
+            "monday_to_friday":self.monday_to_friday,
+            "weekend_as_needed":self.weekend_as_needed,
+            "weekend_only":self.weekend_only,
+            "no_weekends":self.no_weekends,
+            "holidays":self.holidays,
+            "rotating_weekends":self.rotating_weekends,
+            "weekdays":self.weekdays,
+            "every_weekend":self.every_weekend,
+            "four_hour_shift":self.four_hour_shift,
+            "eight_hour_shift":self.eight_hour_shift,
+            "ten_hour_shift":self.ten_hour_shift,
+            "twelve_hour_shift":self.twelve_hour_shift,
+            "day_shift":self.day_shift,
+            "night_shift":self.night_shift,
+            "evening_shift":self.evening_shift,
+            "no_night":self.no_night,
+            "overnight_shift":self.overnight_shift,
+            "rotating_shift":self.rotating_shift,
+            "split_shift":self.split_shift,
+            "overtime":self.overtime,
+            "min_salary":self.min_salary,
+            "salary_type":self.salary_type,
+            "relocation":self.relocation,
+            "relocation_place":self.relocation_place,
+            "remote_job":self.remote_job,
+            "hybrid_job":self.hybrid_job,
+            "in_person":self.in_person,
+            "temperory_remote_job":self.temperory_remote_job,
+            "user_id":self.user_id,
+            "user":self.user.serialize()
+            }
+
+
 
 class Userresume(db.Model):
     __tablename__ = 'userresume'

@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills
+from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -572,3 +572,131 @@ def delete_userskill(id):
     db.session.delete(skill)
     db.session.commit()
     return jsonify("skill deleted successfully"), 200
+
+@api.route('/adduserpreference',methods=['POST'])
+@jwt_required()
+def add_userpreference():
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    body = request.json
+    preference=Userpreference(
+        job_title_preference=body["job_title_preference"],
+        full_time_job=body["full_time_job"],
+        part_time_job=body["part_time_job"],
+        contract_job=body["contract_job"],
+        temperory_job=body["temperory_job"],
+        internship=body["internship"],
+        monday_to_friday=body["monday_to_friday"],
+        weekend_as_needed=body["weekend_as_needed"],
+        weekend_only=body["weekend_only"],
+        no_weekends=body["no_weekends"],
+        holidays=body["holidays"],
+        rotating_weekends=body["rotating_weekends"],
+        weekdays=body["weekdays"],
+        every_weekend=body["every_weekend"],
+        four_hour_shift=body["four_hour_shift"],
+        eight_hour_shift=body["eight_hour_shift"],
+        ten_hour_shift=body["ten_hour_shift"],
+        twelve_hour_shift=body["twelve_hour_shift"],
+        day_shift=body["day_shift"],
+        night_shift=body["night_shift"],
+        evening_shift=body["evening_shift"],
+        no_night=body["no_night"],
+        overnight_shift=body["overnight_shift"],
+        rotating_shift=body["rotating_shift"],
+        split_shift=body["split_shift"],
+        overtime=body["overtime"],
+        min_salary=body["min_salary"],
+        salary_type=body["salary_type"],
+        relocation=body["relocation"],
+        relocation_place=body["relocation_place"],
+        remote_job=body["remote_job"],
+        hybrid_job=body["hybrid_job"],
+        in_person=body["in_person"],
+        temperory_remote_job=body["temperory_remote_job"],
+        user_id=body["user_id"],
+        )
+    db.session.add(preference)
+    db.session.commit()
+    return jsonify(preference.serialize())
+
+@api.route('/getuserpreference/<int:preferid>',methods=['GET'])
+@jwt_required()
+def get_userpreference(preferid):
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    preference = Userpreference.query.filter_by(user_id=preferid).first()
+    if preference:  
+        return jsonify(preference.serialize()), 200
+    else:
+        return jsonify({"message": "preference not found"}), 404
+    
+@api.route('/edituserpreference/<int:id>', methods=['PUT'])
+@jwt_required()
+def edit_user_preference(id):
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+
+    preference = Userpreference.query.filter_by(user_id=id).first()
+    if preference is None:
+        return jsonify("preference doesn't exist"), 400
+
+    body = request.json
+    preference.job_title_preference = body.get("job_title_preference", preference.job_title_preference)
+    preference.full_time_job = body.get("full_time_job", preference.full_time_job)
+    preference.part_time_job = body.get("part_time_job", preference.part_time_job)
+    preference.contract_job = body.get("contract_job", preference.contract_job)
+    preference.temperory_job = body.get("temperory_job", preference.temperory_job)
+    preference.internship = body.get("internship", preference.internship)
+    preference.monday_to_friday = body.get("monday_to_friday", preference.monday_to_friday)
+    preference.weekend_as_needed = body.get("weekend_as_needed", preference.weekend_as_needed)
+    preference.weekend_only = body.get("weekend_only", preference.weekend_only)
+    preference.no_weekends = body.get("no_weekends", preference.no_weekends)
+    preference.holidays = body.get("holidays", preference.holidays)
+    preference.rotating_weekends = body.get("rotating_weekends", preference.rotating_weekends)
+    preference.weekdays = body.get("weekdays", preference.weekdays)
+    preference.every_weekend = body.get("every_weekend", preference.every_weekend)
+    preference.four_hour_shift = body.get("four_hour_shift", preference.four_hour_shift)
+    preference.eight_hour_shift = body.get("eight_hour_shift", preference.eight_hour_shift)
+    preference.ten_hour_shift = body.get("ten_hour_shift", preference.ten_hour_shift)
+    preference.twelve_hour_shift = body.get("twelve_hour_shift", preference.twelve_hour_shift)
+    preference.day_shift = body.get("day_shift", preference.day_shift)
+    preference.night_shift = body.get("night_shift", preference.night_shift)
+    preference.evening_shift = body.get("evening_shift", preference.evening_shift)
+    preference.no_night = body.get("no_night", preference.no_night)
+    preference.overnight_shift = body.get("overnight_shift", preference.overnight_shift)
+    preference.rotating_shift = body.get("rotating_shift", preference.rotating_shift)
+    preference.split_shift = body.get("split_shift", preference.split_shift)
+    preference.overtime = body.get("overtime", preference.overtime)
+    preference.min_salary = body.get("min_salary", preference.min_salary)
+    preference.salary_type = body.get("salary_type", preference.salary_type)
+    preference.relocation = body.get("relocation", preference.relocation)
+    preference.relocation_place = body.get("relocation_place", preference.relocation_place)
+    preference.remote_job = body.get("remote_job", preference.remote_job)
+    preference.hybrid_job = body.get("hybrid_job", preference.hybrid_job)
+    preference.in_person = body.get("in_person", preference.in_person)
+    preference.temperory_remote_job = body.get("temperory_remote_job", preference.temperory_remote_job)
+    db.session.commit()
+    return jsonify(preference.serialize())
+
+@api.route('/deleteuserpreference/<int:id>', methods=["DELETE"])
+@jwt_required()
+def delete_userpreference(id):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+
+    preference = Userpreference.query.get(id)
+    if preference is None:
+        return jsonify("This preference doesn't exist"), 400
+
+    db.session.delete(preference)
+    db.session.commit()
+    return jsonify("preference deleted successfully"), 200
