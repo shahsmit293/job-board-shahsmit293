@@ -339,9 +339,20 @@ class Usercertificates(db.Model):
 class Usersavedjobs(db.Model):
     __tablename__ = 'usersavedjobs'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
+    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=True)
     user = db.relationship(User, backref="user_savedjobs")
+
+    def __init__(self,user_id,job_id):
+        self.user_id=user_id
+        self.job_id=job_id
+    
+    def serialize(self):
+        return{
+            "id":self.id,
+            "user_id":self.user_id,
+            "job_id":self.job_id,
+        }
 
 class Userappliedjobs(db.Model):
     __tablename__ = 'userappliedjobs'

@@ -33,6 +33,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userexperience: [],
       userskill: [],
       userpreference: undefined,
+      usersaved: [],
     },
 
     actions: {
@@ -1122,6 +1123,61 @@ const getState = ({ getStore, getActions, setStore }) => {
       deletepreference: (id) => {
         const store = getStore();
         fetch(`${backend}api/deleteuserskill/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("error deleting skill");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting skill", error);
+          });
+      },
+
+      //add user saved job
+      addusersavedjob: async (user_id, job_id) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/addusersaved`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            user_id: user_id,
+            job_id: job_id,
+          }),
+        });
+        const data = await resp.json();
+        console.log(data);
+      },
+
+      //get user saved job
+      getusersavedjob: (id) => {
+        const store = getStore();
+        fetch(`${backend}api/getusersaved/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ usersaved: data });
+          });
+      },
+      //delete user saved job
+      deletesavedjobs: (userid, jobid) => {
+        const store = getStore();
+        fetch(`${backend}api/deleteusersave/${userid}/${jobid}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${store.useraccessToken}`,

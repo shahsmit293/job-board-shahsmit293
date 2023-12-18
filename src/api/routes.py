@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference
+from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -700,3 +700,51 @@ def delete_userpreference(id):
     db.session.delete(preference)
     db.session.commit()
     return jsonify("preference deleted successfully"), 200
+
+@api.route('/addusersaved',methods=['POST'])
+@jwt_required()
+def add_usersave():
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    body = request.json
+    save=Usersavedjobs(
+        user_id=body["user_id"],
+        job_id=body["job_id"],
+        )
+    db.session.add(save)
+    db.session.commit()
+    return jsonify(save.serialize())
+
+@api.route('/getusersaved/<int:id>',methods=['GET'])
+@jwt_required()
+def get_usersaved(id):
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    allsave = Usersavedjobs.query.filter_by(user_id=id).all()
+    if allsave:  
+        results=[saved.serialize() for saved in allsave]
+        return jsonify(results), 200
+    else:
+        return jsonify({"message": "saved job not found"}), 404
+
+@api.route('/deleteusersave/<int:userid>/<int:jobid>', methods=["DELETE"])
+@jwt_required()
+def delete_usersave(userid,jobid):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+
+    saved = Usersavedjobs.query.filter_by(user_id=userid, job_id=jobid).first()
+    if saved is None:
+        return jsonify("This saved job doesn't exist"), 400
+
+    db.session.delete(saved)
+    db.session.commit()
+    return jsonify("saved job deleted successfully"), 200
+
+

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
@@ -6,6 +6,19 @@ import { Context } from "../store/appContext";
 export const JobCard = (props) => {
   const navigate = useNavigate("");
   const { store, actions } = useContext(Context);
+  const [viewsave, setsave] = useState("");
+  const [viewunsave, setunsave] = useState("");
+  const handleSave = async () => {
+    await actions.addusersavedjob(store.user.id, props.jobid);
+    setsave("none");
+    setunsave("inline");
+  };
+
+  const handleUnsave = async () => {
+    await actions.deletesavedjobs(store.user.id, props.jobid);
+    setunsave("none");
+    setsave("inline");
+  };
   return (
     <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
       <div className="card">
@@ -33,6 +46,24 @@ export const JobCard = (props) => {
           >
             View
           </button>
+          {store.user.id ? (
+            <div>
+              <button
+                style={{
+                  display: viewsave || props.display,
+                }}
+                onClick={handleSave}
+              >
+                <i class="far fa-bookmark"></i>
+              </button>
+              <button
+                style={{ display: viewunsave || props.displayunsave }}
+                onClick={handleUnsave}
+              >
+                Unsave
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
@@ -46,4 +77,7 @@ JobCard.PropTypes = {
   Jobtype: PropTypes.number,
   viewid: PropTypes.number,
   onViewClick: PropTypes.func,
+  jobid: PropTypes.number,
+  display: PropTypes.string,
+  displayunsave: PropTypes.string,
 };

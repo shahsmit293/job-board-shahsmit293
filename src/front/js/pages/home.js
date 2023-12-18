@@ -11,11 +11,36 @@ export const Home = () => {
   const [selectedJob, setSelectedJob] = useState(null);
   useEffect(() => {
     actions.alljobsdata();
+    if (store.user) {
+      actions.getusersavedjob(store.user.id);
+    }
   }, [store.user.id]);
 
   const handleViewClick = (jobId) => {
     setSelectedJob(jobId);
     setShowPopup(true);
+  };
+
+  const displaysave = (id) => {
+    if (Array.isArray(store.usersaved)) {
+      return store.usersaved.some((item) => item.job_id === id)
+        ? "none"
+        : "inline";
+    } else {
+      console.error("store.usersaved is not an array");
+      return "inline"; // or return a default value
+    }
+  };
+
+  const displayunsave = (id) => {
+    if (Array.isArray(store.usersaved)) {
+      return store.usersaved.some((item) => item.job_id === id)
+        ? "inline"
+        : "none";
+    } else {
+      console.error("store.usersaved is not an array");
+      return "none"; // or return a default value
+    }
   };
 
   return (
@@ -41,6 +66,9 @@ export const Home = () => {
                 Jobtype={element.job_type}
                 viewid={element.id}
                 onViewClick={handleViewClick}
+                jobid={element.id}
+                display={displaysave(element.id)}
+                displayunsave={displayunsave(element.id)}
               />
             );
           })

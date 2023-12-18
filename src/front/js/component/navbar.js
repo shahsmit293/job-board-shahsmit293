@@ -9,7 +9,20 @@ export const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
-        <button className="navbar-brand">Logo</button>
+        <button
+          className="navbar-brand"
+          onClick={() => {
+            if (store.activeuser) {
+              navigate("/employerhome");
+            } else if (store.activejobseeker) {
+              navigate("/");
+            } else {
+              navigate("/");
+            }
+          }}
+        >
+          Logo
+        </button>
         <button
           className="navbar-toggler"
           type="button"
