@@ -39,9 +39,7 @@ export const JobCard = (props) => {
         <div className="buttons">
           <button
             onClick={() => {
-              actions
-                .viewjob(props.viewid)
-                .then(() => props.onViewClick(props.viewid));
+              actions.viewjob(props.viewid).then(() => props.onViewClick());
             }}
           >
             View
@@ -62,6 +60,14 @@ export const JobCard = (props) => {
               >
                 Unsave
               </button>
+              <p
+                style={{
+                  backgroundColor: "green",
+                  display: props.displayapplied,
+                }}
+              >
+                Applied <i class="far fa-check-circle"></i>
+              </p>
             </div>
           ) : null}
         </div>
@@ -80,4 +86,5 @@ JobCard.PropTypes = {
   jobid: PropTypes.number,
   display: PropTypes.string,
   displayunsave: PropTypes.string,
+  displayapplied: PropTypes.string,
 };

@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs
+from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs,Userappliedjobs
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -249,13 +249,13 @@ def add_resume():
     file=request.files["file"]
 
     userresume = Userresume(
-        user_id=user.id,  # Set the user_id to the id of the user
+        user_id=user.id, 
         user_resume=file.read(),
-        resume_name=file.filename # Save the resume file data
+        resume_name=file.filename 
     )
     db.session.add(userresume)
     db.session.commit()
-    return userresume.serialize()  # Make sure your Userresume model has a serialize method
+    return userresume.serialize()  
 
 
 
@@ -747,4 +747,33 @@ def delete_usersave(userid,jobid):
     db.session.commit()
     return jsonify("saved job deleted successfully"), 200
 
+@api.route('/adduserapplied',methods=['POST'])
+@jwt_required()
+def add_userapplied():
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    body = request.json
+    applied=Userappliedjobs(
+        user_id=body["user_id"],
+        job_id=body["job_id"],
+        employer_id=body["employer_id"]
+        )
+    db.session.add(applied)
+    db.session.commit()
+    return jsonify(applied.serialize())
 
+@api.route('/getuserapplied/<int:id>',methods=['GET'])
+@jwt_required()
+def get_userapplied(id):
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    allapplied = Userappliedjobs.query.filter_by(user_id=id).all()
+    if allapplied:  
+        results=[apply.serialize() for apply in allapplied]
+        return jsonify(results), 200
+    else:
+        return jsonify({"message": "applied job not found"}), 404

@@ -8,16 +8,16 @@ import { ViewJobPage } from "./viewjobpage";
 export const Home = () => {
   const { store, actions } = useContext(Context);
   const [showPopup, setShowPopup] = useState(false);
-  const [selectedJob, setSelectedJob] = useState(null);
+
   useEffect(() => {
     actions.alljobsdata();
+    actions.getuserappliedjobs(store.user.id);
     if (store.user) {
       actions.getusersavedjob(store.user.id);
     }
   }, [store.user.id]);
 
-  const handleViewClick = (jobId) => {
-    setSelectedJob(jobId);
+  const handleViewClick = () => {
     setShowPopup(true);
   };
 
@@ -28,6 +28,17 @@ export const Home = () => {
         : "inline";
     } else {
       console.error("store.usersaved is not an array");
+      return "inline"; // or return a default value
+    }
+  };
+
+  const displayapplied = (id) => {
+    if (Array.isArray(store.userappliedjobs)) {
+      return store.userappliedjobs.some((item) => item.job_id === id)
+        ? "inline"
+        : "none";
+    } else {
+      console.error("store.userappliedjobs is not an array");
       return "inline"; // or return a default value
     }
   };
@@ -69,6 +80,7 @@ export const Home = () => {
                 jobid={element.id}
                 display={displaysave(element.id)}
                 displayunsave={displayunsave(element.id)}
+                displayapplied={displayapplied(element.id)}
               />
             );
           })
@@ -78,7 +90,7 @@ export const Home = () => {
         {showPopup && (
           <div className="popup">
             <button onClick={() => setShowPopup(false)}>Close</button>
-            <ViewJobPage viewid={selectedJob} />
+            <ViewJobPage />
           </div>
         )}
       </div>

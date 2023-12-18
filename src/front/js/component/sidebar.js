@@ -10,7 +10,12 @@ export const Sidebar = (props) => {
       {store.useraccessToken && (
         <ul className="nav flex-column">
           <li className="nav-item">
-            <button className="nav-link active">Applied Jobs</button>
+            <button
+              className="nav-link active"
+              onClick={() => navigate("/userappliedjobs")}
+            >
+              Applied Jobs
+            </button>
           </li>
           <li className="nav-item">
             <button

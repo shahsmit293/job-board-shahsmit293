@@ -24,6 +24,24 @@ export const ViewJobPage = (props) => {
         <p className="card-text">COMPANY NAME:</p>
         <p className="card-text">LOCATION:</p>
         <p className="card-text">JOBTYPE</p>
+        <button
+          style={{
+            display: store.userappliedjobs.some(
+              (item) => item.job_id === store.currentviewjobpost.id
+            )
+              ? "none"
+              : "inline",
+          }}
+          onClick={() =>
+            actions.adduserappliedjob(
+              store.user.id,
+              store.currentviewjobpost.id,
+              store.currentviewjobpost.employer_id
+            )
+          }
+        >
+          Apply now
+        </button>
       </div>
     </div>
   );
@@ -31,4 +49,5 @@ export const ViewJobPage = (props) => {
 
 ViewJobPage.PropTypes = {
   id: PropTypes.number,
+  displayapply: PropTypes.string,
 };

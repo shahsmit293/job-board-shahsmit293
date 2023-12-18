@@ -34,6 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userskill: [],
       userpreference: undefined,
       usersaved: [],
+      userappliedjobs: [],
     },
 
     actions: {
@@ -1192,6 +1193,42 @@ const getState = ({ getStore, getActions, setStore }) => {
           })
           .catch((error) => {
             console.error("error deleting skill", error);
+          });
+      },
+
+      //add user applied job
+      adduserappliedjob: async (user_id, job_id, employer_id) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/adduserapplied`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            user_id: user_id,
+            job_id: job_id,
+            employer_id: employer_id,
+          }),
+        });
+        const data = await resp.json();
+        window.location.reload();
+        console.log(data);
+      },
+
+      getuserappliedjobs: (id) => {
+        const store = getStore();
+        fetch(`${backend}api/getuserapplied/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ userappliedjobs: data });
           });
       },
     },

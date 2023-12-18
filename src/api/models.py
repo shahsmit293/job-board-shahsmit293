@@ -359,8 +359,24 @@ class Userappliedjobs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=False)
+    employer_id = db.Column(db.Integer, db.ForeignKey('employer.id'),nullable=False)
     user = db.relationship(User, backref="user_appliedjobs")
     job = db.relationship('Postjobs', backref="job_appliedjobs")
+
+    def __init__(self,user_id,job_id,employer_id):
+        self.user_id=user_id
+        self.job_id=job_id
+        self.employer_id=employer_id
+    
+    def serialize(self):
+        return{
+            "id":self.id,
+            "user_id":self.user_id,
+            "job_id":self.job_id,
+            "employer_id":self.employer_id,
+            "user":self.user.serialize(),
+            "job":self.job.serialize()
+        }
 
 class Employer(db.Model):
     __tablename__ = 'employer'
