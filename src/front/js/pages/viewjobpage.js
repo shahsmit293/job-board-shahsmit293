@@ -26,11 +26,13 @@ export const ViewJobPage = (props) => {
         <p className="card-text">JOBTYPE</p>
         <button
           style={{
-            display: store.userappliedjobs.some(
-              (item) => item.job_id === store.currentviewjobpost.id
-            )
-              ? "none"
-              : "inline",
+            display:
+              Array.isArray(store.userappliedjobs) &&
+              store.userappliedjobs.some(
+                (item) => item.job_id === store.currentviewjobpost.id
+              )
+                ? "none"
+                : "inline",
           }}
           onClick={() =>
             actions.adduserappliedjob(

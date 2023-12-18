@@ -8,6 +8,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(180), unique=False, nullable=False)
+    user_bio = db.relationship('UserBio', backref="user", uselist=False)
 
     def __init__(self,email,password):
         self.email=email
@@ -27,7 +28,6 @@ class UserBio(db.Model):
     last_name=db.Column(db.String(40),unique=False,nullable=False)
     location=db.Column(db.String(80),unique=False,nullable=True)
     phone_number=db.Column(db.Integer,unique=True,nullable=True)
-    user = db.relationship(User, backref="user_bio")
 
     def __init__(self,user_id,first_name,last_name,location,phone_number):
         self.user_id=user_id
@@ -375,7 +375,8 @@ class Userappliedjobs(db.Model):
             "job_id":self.job_id,
             "employer_id":self.employer_id,
             "user":self.user.serialize(),
-            "job":self.job.serialize()
+            "job":self.job.serialize(),
+            "userbio": self.user.user_bio.serialize() if self.user.user_bio else None
         }
 
 class Employer(db.Model):

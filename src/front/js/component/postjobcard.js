@@ -32,6 +32,15 @@ export const PostJobCard = (props) => {
             Delete
           </button>
           <button>Pause</button>
+          <button
+            onClick={() => {
+              actions.getallapplicants(props.post_id);
+              navigate(`/applicants/${props.post_id}`);
+            }}
+          >
+            Applicants
+          </button>
+          <button>Matched profile1</button>
         </div>
       </div>
     </div>

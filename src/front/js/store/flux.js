@@ -35,6 +35,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userpreference: undefined,
       usersaved: [],
       userappliedjobs: [],
+      applicants: [],
     },
 
     actions: {
@@ -1230,6 +1231,24 @@ const getState = ({ getStore, getActions, setStore }) => {
             console.log(data);
             setStore({ userappliedjobs: data });
           });
+      },
+
+      //get all requested applicants
+      getallapplicants: async (jobid) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/getapplicants/${jobid}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        });
+        const data = await resp.json();
+        if (!Array.isArray(data)) {
+          data = [];
+        }
+        console.log(data);
+        setStore({ applicants: data });
       },
     },
   };

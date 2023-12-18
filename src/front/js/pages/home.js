@@ -31,15 +31,14 @@ export const Home = () => {
       return "inline"; // or return a default value
     }
   };
-
+  console.log(store.userappliedjobs);
   const displayapplied = (id) => {
-    if (Array.isArray(store.userappliedjobs)) {
+    if (!Array.isArray(store.userappliedjobs)) {
+      return "none";
+    } else {
       return store.userappliedjobs.some((item) => item.job_id === id)
         ? "inline"
         : "none";
-    } else {
-      console.error("store.userappliedjobs is not an array");
-      return "inline"; // or return a default value
     }
   };
 

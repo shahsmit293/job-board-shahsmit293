@@ -115,7 +115,13 @@ def all_jobs():
     return jsonify(alljobs_dictionary), 200
 
 @api.route('/watchjob/<int:id>', methods=['GET'])
+@jwt_required()
 def watch_job_post(id):
+    email = get_jwt_identity()
+    employer = Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("employer doesn't exist"), 400
+    
     jobs = Postjobs.query.filter_by(employer_id=id).all()
     if jobs:
         results = [job.serialize() for job in jobs]
@@ -776,4 +782,19 @@ def get_userapplied(id):
         results=[apply.serialize() for apply in allapplied]
         return jsonify(results), 200
     else:
-        return jsonify({"message": "applied job not found"}), 404
+        return jsonify("applied job not found"), 404
+
+@api.route('/getapplicants/<int:jobid>',methods=['GET'])
+@jwt_required()
+def get_applicants(jobid):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    
+    allapplcants = Userappliedjobs.query.filter_by(job_id=jobid).all()
+    if allapplcants:  
+        results=[applicant.serialize() for applicant in allapplcants]
+        return jsonify(results), 200
+    else:
+        return jsonify("No applicants found for the provided employer and job ID"), 204

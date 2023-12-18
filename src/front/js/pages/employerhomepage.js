@@ -10,9 +10,8 @@ export const EmployerHome = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
   useEffect(() => {
-    actions.watchjobpost(store.activeuser);
-    actions.alljobsdata();
-  }, [store.activeuser]);
+    actions.watchjobpost(store.employer.id);
+  }, [store.employer.id]);
   const handleViewClick = (jobId) => {
     setSelectedJob(jobId);
     setShowPopup(true);

@@ -62,7 +62,7 @@ const Layout = () => {
               element={<EmployerCreateJobPost />}
               path="/employercreatejobpost"
             />
-            <Route element={<Applicants />} path="/applicants" />
+            <Route element={<Applicants />} path="/applicants/:jobid" />
             <Route element={<MatchedProfiles />} path="/matchedprofiles" />
             <Route element={<Demo />} path="/demo" />
             <Route element={<Single />} path="/single/:theid" />

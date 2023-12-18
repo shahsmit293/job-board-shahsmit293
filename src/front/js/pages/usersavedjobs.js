@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
 import { JobCard } from "../component/jobcard";
 import { Sidebar } from "../component/sidebar";
@@ -12,6 +11,7 @@ export const UserSavedJobs = () => {
   const [selectedJob, setSelectedJob] = useState(null);
   useEffect(() => {
     actions.alljobsdata();
+    actions.getuserappliedjobs(store.user.id);
     if (store.user) {
       actions.getusersavedjob(store.user.id);
     }
@@ -21,7 +21,16 @@ export const UserSavedJobs = () => {
     setSelectedJob(jobId);
     setShowPopup(true);
   };
-
+  console.log(store.userappliedjobs);
+  const displayapplied = (id) => {
+    if (!Array.isArray(store.userappliedjobs)) {
+      return "none";
+    } else {
+      return store.userappliedjobs.some((item) => item.job_id === id)
+        ? "inline"
+        : "none";
+    }
+  };
   return (
     <div className="text-center mt-5">
       <div className="row gy-3 mt-4">
@@ -46,7 +55,7 @@ export const UserSavedJobs = () => {
                     jobid={element.id}
                     display="none"
                     displayunsave="inline"
-                    savedid={element.id}
+                    displayapplied={displayapplied(element.id)}
                   />
                 );
               })

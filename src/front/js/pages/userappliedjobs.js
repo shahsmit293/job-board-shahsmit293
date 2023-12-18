@@ -47,7 +47,6 @@ export const UserAppliedJobs = () => {
                     jobid={element.id}
                     display="none"
                     displayunsave="none"
-                    savedid={element.id}
                     displayapplied="none"
                   />
                 );
