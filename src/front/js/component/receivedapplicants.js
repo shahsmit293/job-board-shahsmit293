@@ -1,9 +1,28 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 export const ReceivedApplicants = (props) => {
+  const { store, actions } = useContext(Context);
+  const [viewsave, setsave] = useState("");
+  const [viewunsave, setunsave] = useState("");
+  const handleSave = async () => {
+    await actions.addemployersaveduser(
+      props.employerid,
+      props.userid,
+      props.jobid
+    );
+    setsave("none");
+    setunsave("inline");
+    window.location.reload();
+  };
+
+  const handleUnsave = async () => {
+    await actions.deleteemployersaveduser(props.userid, props.jobid);
+    setunsave("none");
+    setsave("inline");
+  };
   return (
     <div>
       <div className="applicants">
@@ -12,7 +31,18 @@ export const ReceivedApplicants = (props) => {
         <p>phone number: {props.applicantphonenumber}</p>
         <button>view profile</button>
         <button>download resume</button>
-        <button>Bookmark</button>
+        <button
+          style={{ display: viewsave || props.displaysave }}
+          onClick={handleSave}
+        >
+          Save
+        </button>
+        <button
+          style={{ display: viewunsave || props.displayunsave }}
+          onClick={handleUnsave}
+        >
+          Unsave
+        </button>
         <button>chat</button>
       </div>
     </div>
@@ -23,4 +53,9 @@ ReceivedApplicants.PropTypes = {
   applicantname: PropTypes.string,
   applicantemail: PropTypes.string,
   applicantphonenumber: PropTypes.string,
+  userid: PropTypes.number,
+  jobid: PropTypes.number,
+  employerid: PropTypes.number,
+  displaysave: PropTypes.string,
+  displayunsave: PropTypes.string,
 };

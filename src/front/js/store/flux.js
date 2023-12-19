@@ -36,6 +36,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       usersaved: [],
       userappliedjobs: [],
       applicants: [],
+      employersavedusers: [],
     },
 
     actions: {
@@ -1249,6 +1250,65 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
         console.log(data);
         setStore({ applicants: data });
+      },
+
+      //add employer saved user
+      addemployersaveduser: async (employer_id, user_id, job_id) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/addemployersavedapplicant`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+          body: JSON.stringify({
+            employer_id: employer_id,
+            user_id: user_id,
+            job_id: job_id,
+          }),
+        });
+        const data = await resp.json();
+        console.log(data);
+      },
+
+      //get employer saved user
+      getemployersaveduser: (id) => {
+        const store = getStore();
+        fetch(`${backend}api/getemployersavedapplicants/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ employersavedusers: data });
+          });
+      },
+      //delete employer saved users
+      deleteemployersaveduser: (userid, jobid) => {
+        const store = getStore();
+        fetch(
+          `${backend}api/deleteemployersavedapplicants/${userid}/${jobid}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${store.accessToken}`,
+            },
+          }
+        )
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("error deleting skill");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting skill", error);
+          });
       },
     },
   };

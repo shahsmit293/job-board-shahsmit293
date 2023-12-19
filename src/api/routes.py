@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs,Userappliedjobs
+from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs,Userappliedjobs,Favoriteapplicant
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -798,3 +798,52 @@ def get_applicants(jobid):
         return jsonify(results), 200
     else:
         return jsonify("No applicants found for the provided employer and job ID"), 204
+
+@api.route('/addemployersavedapplicant',methods=['POST'])
+@jwt_required()
+def add_employersavedapplicant():
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    
+    body = request.json
+    employersavedapplicants=Favoriteapplicant(
+        employer_id=body["employer_id"],
+        user_id=body["user_id"],
+        job_id=body["job_id"]
+        )
+    db.session.add(employersavedapplicants)
+    db.session.commit()
+    return jsonify(employersavedapplicants.serialize())
+
+@api.route('/getemployersavedapplicants/<int:id>',methods=['GET'])
+@jwt_required()
+def get_employersavedapplicant(id):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    
+    employersavedapplicants = Favoriteapplicant.query.filter_by(job_id=id).all()
+    if employersavedapplicants:  
+        results=[saved.serialize() for saved in employersavedapplicants]
+        return jsonify(results), 200
+    else:
+        return jsonify({"message": "saved user not found"}), 404
+
+@api.route('/deleteemployersavedapplicants/<int:userid>/<int:jobid>', methods=["DELETE"])
+@jwt_required()
+def delete_employersavedapplicant(userid,jobid):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+
+    employersavedapplicants = Favoriteapplicant.query.filter_by(user_id=userid, job_id=jobid).first()
+    if employersavedapplicants is None:
+        return jsonify("This saved user doesn't exist"), 400
+
+    db.session.delete(employersavedapplicants)
+    db.session.commit()
+    return jsonify("saved user deleted successfully"), 200

@@ -512,6 +512,23 @@ class Favoriteapplicant(db.Model):
     job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=False)
     employer = db.relationship(Employer, backref="employer_favoriteapplicant")
     user = db.relationship(User, backref="user_favoriteapplicant")
+    job = db.relationship('Postjobs', backref="employer_saved_jobs")
+
+    def __init__(self,employer_id,user_id,job_id):
+        self.employer_id=employer_id
+        self.user_id=user_id
+        self.job_id=job_id
+
+    def serialize(self):
+        return{
+            "id":self.id,
+            "employer_id":self.employer_id,
+            "user_id":self.user_id,
+            "job_id":self.job_id,
+            "user":self.user.serialize(),
+            "job":self.job.serialize(),
+            "userbio": self.user.user_bio.serialize() if self.user.user_bio else None
+        }
 
 # class Matcheduser(db.Model):
 #     __tablename__ = 'matcheduser'

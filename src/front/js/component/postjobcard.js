@@ -36,6 +36,7 @@ export const PostJobCard = (props) => {
             onClick={() => {
               actions.getallapplicants(props.post_id);
               navigate(`/applicants/${props.post_id}`);
+              actions.getemployersaveduser(props.post_id);
             }}
           >
             Applicants
