@@ -830,7 +830,7 @@ def get_employersavedapplicant(id):
         results=[saved.serialize() for saved in employersavedapplicants]
         return jsonify(results), 200
     else:
-        return jsonify({"message": "saved user not found"}), 404
+        return jsonify({"message": "applicant not found"}), 404
 
 @api.route('/deleteemployersavedapplicants/<int:userid>/<int:jobid>', methods=["DELETE"])
 @jwt_required()
@@ -847,3 +847,17 @@ def delete_employersavedapplicant(userid,jobid):
     db.session.delete(employersavedapplicants)
     db.session.commit()
     return jsonify("saved user deleted successfully"), 200
+
+@api.route('/viewapplicantprofile/<int:userid>',methods=['GET'])
+@jwt_required()
+def get_viewapplicantprofile(userid):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    
+    viewapplicantprofile = User.query.get(userid)
+    if viewapplicantprofile:  
+        return jsonify(viewapplicantprofile.serialize()), 200
+    else:
+        return jsonify({"message": "applicant not found"}), 404

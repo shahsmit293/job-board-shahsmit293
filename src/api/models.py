@@ -9,6 +9,8 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(180), unique=False, nullable=False)
     user_bio = db.relationship('UserBio', backref="user", uselist=False)
+    user_education = db.relationship('Usereducation', backref="user",uselist=True)
+    user_experience = db.relationship('Userexperience', backref="user")
 
     def __init__(self,email,password):
         self.email=email
@@ -18,6 +20,9 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
+            "user_bio":self.user_bio.serialize(),
+            "user_education": [edu.serialize() for edu in self.user_education],
+            "user_experience": [exp.serialize() for exp in self.user_experience]
             }
     
 class UserBio(db.Model):
@@ -44,7 +49,6 @@ class UserBio(db.Model):
             "last_name":self.last_name,
             "location":self.location,
             "phone_number":self.phone_number,
-            "user":self.user.serialize()
             }
 
 class UserExtraDetail(db.Model):
@@ -69,7 +73,6 @@ class Usereducation(db.Model):
     degree=db.Column(db.String(80),unique=False,nullable=True)
     location=db.Column(db.String(80),unique=False,nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    user = db.relationship(User, backref="user_education")
     
     def __init__(self,collage_name,start_year,end_year,gpa,major,degree,location,user_id):
         self.collage_name=collage_name
@@ -92,7 +95,6 @@ class Usereducation(db.Model):
             "degree":self.degree,
             "location":self.location,
             "user_id":self.user_id,
-            "user":self.user.serialize()
             }
 
 class Userexperience(db.Model):
@@ -106,7 +108,6 @@ class Userexperience(db.Model):
     description=db.Column(db.String(4000),unique=False,nullable=True)
     location=db.Column(db.String(80),unique=False,nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    user = db.relationship(User, backref="user_experience")
 
     def __init__(self,job_title,company_name,job_type,start_year,end_year,description,location,user_id):
         self.job_title=job_title
@@ -129,7 +130,6 @@ class Userexperience(db.Model):
             "description":self.description,
             "location":self.location,
             "user_id":self.user_id,
-            "user":self.user.serialize()
             }
 
 class Userpreference(db.Model):
@@ -376,7 +376,6 @@ class Userappliedjobs(db.Model):
             "employer_id":self.employer_id,
             "user":self.user.serialize(),
             "job":self.job.serialize(),
-            "userbio": self.user.user_bio.serialize() if self.user.user_bio else None
         }
 
 class Employer(db.Model):

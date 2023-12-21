@@ -13,9 +13,9 @@ export const ReceivedApplicants = (props) => {
       props.userid,
       props.jobid
     );
+    window.location.reload();
     setsave("none");
     setunsave("inline");
-    window.location.reload();
   };
 
   const handleUnsave = async () => {
@@ -29,7 +29,14 @@ export const ReceivedApplicants = (props) => {
         <p>name: {props.applicantname}</p>
         <p>email: {props.applicantemail}</p>
         <p>phone number: {props.applicantphonenumber}</p>
-        <button>view profile</button>
+        <button
+          onClick={() => {
+            props.onViewClick();
+            actions.getviewapplicantprofile(props.userid);
+          }}
+        >
+          view profile
+        </button>
         <button>download resume</button>
         <button
           style={{ display: viewsave || props.displaysave }}
@@ -58,4 +65,5 @@ ReceivedApplicants.PropTypes = {
   employerid: PropTypes.number,
   displaysave: PropTypes.string,
   displayunsave: PropTypes.string,
+  onViewClick: PropTypes.func,
 };

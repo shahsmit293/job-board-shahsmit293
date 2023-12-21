@@ -37,6 +37,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userappliedjobs: [],
       applicants: [],
       employersavedusers: [],
+      viewapplicantprofile: undefined,
     },
 
     actions: {
@@ -480,6 +481,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       adduserresume: async (userid, file) => {
         const store = getStore();
         const formData = new FormData();
+        useraccessToken;
         formData.append("file", file);
         formData.append("userid", userid);
         const resp = await fetch(`${backend}api/addresume`, {
@@ -1308,6 +1310,23 @@ const getState = ({ getStore, getActions, setStore }) => {
           })
           .catch((error) => {
             console.error("error deleting skill", error);
+          });
+      },
+
+      //get applicant viewprofile
+      getviewapplicantprofile: (userid) => {
+        const store = getStore();
+        fetch(`${backend}api/viewapplicantprofile/${userid}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ viewapplicantprofile: data });
           });
       },
     },
