@@ -37,7 +37,9 @@ export const ReceivedApplicants = (props) => {
         >
           view profile
         </button>
-        <button>download resume</button>
+        <button onClick={() => actions.downloadResumeForEmployer(props.userid)}>
+          download resume
+        </button>
         <button
           style={{ display: viewsave || props.displaysave }}
           onClick={handleSave}

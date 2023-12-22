@@ -15,6 +15,7 @@ export const Applicants = () => {
   const [showallapplicants, setallapplicants] = useState(true);
   const [showssavedapplicants, setsavedapplicants] = useState(false);
   useEffect(() => {
+    actions.getemployersaveduser(job_id);
     const fetchApplicants = async () => {
       try {
         await actions.getallapplicants(job_id);
@@ -26,7 +27,6 @@ export const Applicants = () => {
     };
 
     fetchApplicants();
-    actions.getemployersaveduser(job_id);
   }, [store.employer]);
 
   const displaysave = (id, userid) => {
@@ -82,7 +82,7 @@ export const Applicants = () => {
                   <ReceivedApplicants
                     key={index}
                     applicantname={item.user.user_bio.first_name}
-                    applicantemail={item.user.user_bio.email}
+                    applicantemail={item.user.email}
                     applicantphonenumber={item.user.user_bio.phone_number}
                     userid={item.user_id}
                     jobid={item.job_id}
@@ -109,7 +109,7 @@ export const Applicants = () => {
                   <ReceivedApplicants
                     key={index}
                     applicantname={item.userbio.first_name}
-                    applicantemail={item.userbio.user.email}
+                    applicantemail={item.user.email}
                     applicantphonenumber={item.userbio.phone_number}
                     userid={item.user_id}
                     jobid={item.job_id}

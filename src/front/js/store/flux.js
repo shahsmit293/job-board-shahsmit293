@@ -481,7 +481,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       adduserresume: async (userid, file) => {
         const store = getStore();
         const formData = new FormData();
-        useraccessToken;
         formData.append("file", file);
         formData.append("userid", userid);
         const resp = await fetch(`${backend}api/addresume`, {
@@ -516,7 +515,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
-        setStore({ resumeUrl: url });
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "resume_name.pdf";
+        link.click();
+
+        // Revoke the blob URL
+        window.URL.revokeObjectURL(url);
       },
 
       //gey resume details
@@ -1328,6 +1333,34 @@ const getState = ({ getStore, getActions, setStore }) => {
             console.log(data);
             setStore({ viewapplicantprofile: data });
           });
+      },
+
+      //download reesume of users from employer
+      downloadResumeForEmployer: async (userid) => {
+        const store = getStore();
+        const response = await fetch(
+          `${backend}api/getresumeemployer/${userid}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${store.accessToken}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "resume_name.pdf";
+        link.click();
+
+        // Revoke the blob URL
+        window.URL.revokeObjectURL(url);
       },
     },
   };

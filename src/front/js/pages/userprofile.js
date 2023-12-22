@@ -29,7 +29,6 @@ export const UserProfile = () => {
   };
 
   useEffect(() => {
-    actions.downloadResume(store.user.id);
     actions.getresumedetail(store.user.id);
     actions.getusereducation(store.user.id);
     actions.getuserexperience(store.user.id);
@@ -155,7 +154,9 @@ export const UserProfile = () => {
                   return (
                     <div key={item.id}>
                       <h4>{item.resume_name}</h4>
-                      <button onClick={() => window.open(store.resumeUrl)}>
+                      <button
+                        onClick={() => actions.downloadResume(store.user.id)}
+                      >
                         Download
                       </button>
                       <button
