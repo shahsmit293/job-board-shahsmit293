@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs,Userappliedjobs,Favoriteapplicant
+from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs,Userappliedjobs,Favoriteapplicant,Applicants
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -920,3 +920,53 @@ def get_resume_employer(user_id):
     )
     response.headers["Content-Disposition"] = content_disposition
     return response
+
+@api.route('/addapplicant',methods=['POST'])
+@jwt_required()
+def addapplicant():
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    body = request.json
+    applied=Applicants(
+        user_id=body["user_id"],
+        email=body["email"],
+        first_name=body["first_name"],
+        last_name=body["last_name"],
+        phone_number=body["phone_number"],
+        job_id=body["job_id"],
+        employer_id=body["employer_id"]
+        )
+    db.session.add(applied)
+    db.session.commit()
+    return jsonify(applied.serialize())
+
+@api.route('/getapplicant/<int:id>',methods=['GET'])
+@jwt_required()
+def getapplicant(id):
+    email=get_jwt_identity()
+    user=User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"),400
+    allapplied = Applicants.query.filter_by(user_id=id).all()
+    if allapplied:  
+        results=[apply.serialize() for apply in allapplied]
+        return jsonify(results), 200
+    else:
+        return jsonify("applied job not found"), 404
+
+@api.route('/allapplicants/<int:jobid>',methods=['GET'])
+@jwt_required()
+def getallapplicants(jobid):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    
+    allapplcants = Applicants.query.filter_by(job_id=jobid).all()
+    if allapplcants:  
+        results=[applicant.serialize() for applicant in allapplcants]
+        return jsonify(results), 200
+    else:
+        return jsonify("No applicants found for the provided employer and job ID"), 204

@@ -13,7 +13,7 @@ export const UserAppliedJobs = () => {
   useEffect(() => {
     actions.alljobsdata();
     if (store.user) {
-      actions.getuserappliedjobs(store.user.id);
+      actions.getapplicant(store.user.id);
     }
   }, [store.user.id]);
 
@@ -26,13 +26,13 @@ export const UserAppliedJobs = () => {
     <div className="text-center mt-5">
       <div className="row gy-3 mt-4">
         {store.alljobs && store.alljobs.length > 0 ? (
-          Array.isArray(store.userappliedjobs) &&
-          store.userappliedjobs.length > 0 ? (
+          Array.isArray(store.applliedapplicants) &&
+          store.applliedapplicants.length > 0 ? (
             store.alljobs
               .filter(
                 (item) =>
-                  Array.isArray(store.userappliedjobs) &&
-                  store.userappliedjobs.some((b) => b.job_id === item.id)
+                  Array.isArray(store.applliedapplicants) &&
+                  store.applliedapplicants.some((b) => b.job.id === item.id)
               )
               .map((element, index) => {
                 return (
@@ -52,10 +52,10 @@ export const UserAppliedJobs = () => {
                 );
               })
           ) : (
-            <p>No jobs saved yet.</p>
+            <p>No jobs applied yet.</p>
           )
         ) : (
-          <p>No jobs posted yet.</p>
+          <p>No jobs available yet.</p>
         )}
         {showPopup && (
           <div className="popup">

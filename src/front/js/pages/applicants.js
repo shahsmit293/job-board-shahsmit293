@@ -18,7 +18,7 @@ export const Applicants = () => {
     actions.getemployersaveduser(job_id);
     const fetchApplicants = async () => {
       try {
-        await actions.getallapplicants(job_id);
+        await actions.allapplicant(job_id);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -71,13 +71,13 @@ export const Applicants = () => {
       </div>
       {showallapplicants &&
         (loading ? (
-          <p>Loading applicants...</p> // Display a loading message or a spinner
-        ) : store.applicants.length === 0 ? (
+          <p>Loading allapplicants...</p> // Display a loading message or a spinner
+        ) : store.allapplicants.length === 0 ? (
           <p>No applicant yet</p>
         ) : (
-          <div className="list of applicants">
-            {Array.isArray(store.applicants) &&
-              store.applicants.map((item, index) => {
+          <div className="list of allapplicants">
+            {Array.isArray(store.allapplicants) &&
+              store.allapplicants.map((item, index) => {
                 return (
                   <ReceivedApplicants
                     key={index}
@@ -85,10 +85,10 @@ export const Applicants = () => {
                     applicantemail={item.user.email}
                     applicantphonenumber={item.user.user_bio.phone_number}
                     userid={item.user_id}
-                    jobid={item.job_id}
-                    employerid={item.employer_id}
-                    displaysave={displaysave(item.job_id, item.user_id)}
-                    displayunsave={displayunsave(item.job_id, item.user_id)}
+                    jobid={item.job.id}
+                    employerid={item.job.employer_id}
+                    displaysave={displaysave(item.job.id, item.user_id)}
+                    displayunsave={displayunsave(item.job.id, item.user_id)}
                     onViewClick={handleViewClick}
                   />
                 );

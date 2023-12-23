@@ -497,11 +497,60 @@ class Postjobs(db.Model):
 class Applicants(db.Model): 
     __tablename__ = 'applicants'
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    email = db.Column(db.String(120), unique=False, nullable=False)
+    first_name=db.Column(db.String(40),unique=False,nullable=False)
+    last_name=db.Column(db.String(40),unique=False,nullable=False)
+    phone_number=db.Column(db.Integer,unique=False,nullable=False)
+    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=False)
     employer_id = db.Column(db.Integer, db.ForeignKey('employer.id'),nullable=False)
+    user = db.relationship(User, backref="user_applicants")
+    job = db.relationship('Postjobs', backref="appliedjobs")
+
+
+    def __init__(self,user_id,email,first_name,last_name,phone_number,job_id,employer_id):
+        self.user_id=user_id
+        self.email=email
+        self.first_name=first_name
+        self.last_name=last_name
+        self.phone_number=phone_number
+        self.job_id=job_id
+        self.employer_id=employer_id
+    def serialize(self):
+        return{
+            "id":self.id,
+            "user_id":self.user_id,
+            "email":self.email,
+            "first_name":self.first_name,
+            "last_name":self.last_name,
+            "phone_number":self.phone_number,
+            "user":self.user.serialize(),
+            "job":self.job.serialize()
+        }
+
+class Applicantresume(db.Model):
+    __tablename__ = 'applicantresume'
+    id = db.Column(db.Integer, primary_key=True)
+    applicant_user_resume=db.Column(db.LargeBinary,unique=False, nullable=True)
+    applicant_resume_name=db.Column(db.String(80),unique=False, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=False)
-    employer = db.relationship(Employer, backref="employer_applicants")
-    user = db.relationship(User, backref="user_applicants")
+    user = db.relationship(User, backref="applicant_resume")
+
+    def __init__(self,user_id,job_id,applicant_user_resume,applicant_resume_name):
+        self.user_id=user_id
+        self.job_id=job_id
+        self.applicant_user_resume=applicant_user_resume
+        self.applicant_resume_name=applicant_resume_name
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id":self.user_id,
+            "job_id":self.job_id,
+            "applicant_resume_name":self.applicant_resume_name,
+            "user":self.user.serialize()
+            }
 
 class Favoriteapplicant(db.Model):
     __tablename__ = 'favoriteapplicant'

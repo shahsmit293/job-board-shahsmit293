@@ -38,6 +38,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       applicants: [],
       employersavedusers: [],
       viewapplicantprofile: undefined,
+      applliedapplicants: [],
+      allapplicants: [],
     },
 
     actions: {
@@ -1205,41 +1207,41 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
       },
 
-      //add user applied job
-      adduserappliedjob: async (user_id, job_id, employer_id) => {
-        const store = getStore();
-        const resp = await fetch(`${backend}api/adduserapplied`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${store.useraccessToken}`,
-          },
-          body: JSON.stringify({
-            user_id: user_id,
-            job_id: job_id,
-            employer_id: employer_id,
-          }),
-        });
-        const data = await resp.json();
-        window.location.reload();
-        console.log(data);
-      },
+      // //add user applied job
+      // adduserappliedjob: async (user_id, job_id, employer_id) => {
+      //   const store = getStore();
+      //   const resp = await fetch(`${backend}api/adduserapplied`, {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${store.useraccessToken}`,
+      //     },
+      //     body: JSON.stringify({
+      //       user_id: user_id,
+      //       job_id: job_id,
+      //       employer_id: employer_id,
+      //     }),
+      //   });
+      //   const data = await resp.json();
+      //   window.location.reload();
+      //   console.log(data);
+      // },
 
-      getuserappliedjobs: (id) => {
-        const store = getStore();
-        fetch(`${backend}api/getuserapplied/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${store.useraccessToken}`,
-          },
-        })
-          .then((resp) => resp.json())
-          .then((data) => {
-            console.log(data);
-            setStore({ userappliedjobs: data });
-          });
-      },
+      // getuserappliedjobs: (id) => {
+      //   const store = getStore();
+      //   fetch(`${backend}api/getuserapplied/${id}`, {
+      //     method: "GET",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${store.useraccessToken}`,
+      //     },
+      //   })
+      //     .then((resp) => resp.json())
+      //     .then((data) => {
+      //       console.log(data);
+      //       setStore({ userappliedjobs: data });
+      //     });
+      // },
 
       //get all requested applicants
       getallapplicants: async (jobid) => {
@@ -1361,6 +1363,70 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         // Revoke the blob URL
         window.URL.revokeObjectURL(url);
+      },
+
+      addapplicant: async (
+        user_id,
+        email,
+        first_name,
+        last_name,
+        phone_number,
+        job_id,
+        employer_id
+      ) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/addapplicant`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            user_id: user_id,
+            email: email,
+            first_name: first_name,
+            last_name: last_name,
+            phone_number: phone_number,
+            job_id: job_id,
+            employer_id: employer_id,
+          }),
+        });
+        const data = await resp.json();
+        console.log(data);
+      },
+
+      getapplicant: (id) => {
+        const store = getStore();
+        fetch(`${backend}api/getapplicant/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ applliedapplicants: data });
+          });
+      },
+
+      //get all requested applicants
+      allapplicant: async (jobid) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/allapplicants/${jobid}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        });
+        const data = await resp.json();
+        if (!Array.isArray(data)) {
+          data = [];
+        }
+        console.log(data);
+        setStore({ allapplicants: data });
       },
     },
   };

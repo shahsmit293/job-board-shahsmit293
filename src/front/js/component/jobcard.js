@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const JobCard = (props) => {
-  const navigate = useNavigate("");
   const { store, actions } = useContext(Context);
   const [viewsave, setsave] = useState("");
   const [viewunsave, setunsave] = useState("");

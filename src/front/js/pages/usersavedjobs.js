@@ -11,7 +11,7 @@ export const UserSavedJobs = () => {
   const [selectedJob, setSelectedJob] = useState(null);
   useEffect(() => {
     actions.alljobsdata();
-    actions.getuserappliedjobs(store.user.id);
+    actions.getapplicant(store.user.id);
     if (store.user) {
       actions.getusersavedjob(store.user.id);
     }
@@ -21,12 +21,12 @@ export const UserSavedJobs = () => {
     setSelectedJob(jobId);
     setShowPopup(true);
   };
-  console.log(store.userappliedjobs);
+  console.log(store.applliedapplicants);
   const displayapplied = (id) => {
-    if (!Array.isArray(store.userappliedjobs)) {
+    if (!Array.isArray(store.applliedapplicants)) {
       return "none";
     } else {
-      return store.userappliedjobs.some((item) => item.job_id === id)
+      return store.applliedapplicants.some((item) => item.job.id === id)
         ? "inline"
         : "none";
     }
