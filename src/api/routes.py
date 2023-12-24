@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs,Userappliedjobs,Favoriteapplicant,Applicants
+from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs,Userappliedjobs,Favoriteapplicant,Applicants,Applicantresume
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -300,10 +300,6 @@ def get_resume(user_id):
     )
     response.headers["Content-Disposition"] = content_disposition
     return response
-
-
-
-
 
 @api.route('/getresumedetail/<int:user_id>', methods=['GET'])
 @jwt_required()
@@ -886,40 +882,7 @@ def get_viewapplicantprofile(userid):
     else:
         return jsonify({"message": "applicant not found"}), 404
     
-@api.route('/getresumeemployer/<int:user_id>', methods=['GET'])
-@jwt_required()
-def get_resume_employer(user_id):
-    email=get_jwt_identity()
-    employer= Employer.query.filter_by(email=email).one_or_none()
-    if employer is None:
-        return jsonify("No employer found with the provided email"), 400
 
-    # # Check if the authenticated user is the same as the user whose resume is being requested
-    # if user.id != user_id:
-    #     return jsonify("You do not have permission to access this file"), 403
-
-    userresume = Userresume.query.filter_by(user_id=user_id).first()
-    if userresume is None:
-        return jsonify("No resume found for this user"), 400
-
-    # Create a BytesIO object from your file
-    data = BytesIO(userresume.user_resume)
-
-    # Create a safe version of your filename that can be used in HTTP headers
-    safe_filename = secure_filename(userresume.resume_name)
-
-    # Create the Content-Disposition header
-    content_disposition = f"attachment; filename={safe_filename}"
-
-    # Send the file with the Content-Disposition header
-    response = send_file(
-        data,
-        mimetype="application/pdf",
-        as_attachment=True,
-        download_name=safe_filename
-    )
-    response.headers["Content-Disposition"] = content_disposition
-    return response
 
 @api.route('/addapplicant',methods=['POST'])
 @jwt_required()
@@ -970,3 +933,85 @@ def getallapplicants(jobid):
         return jsonify(results), 200
     else:
         return jsonify("No applicants found for the provided employer and job ID"), 204
+
+
+
+@api.route('/addsentresume', methods=['POST'])
+@jwt_required()
+def add_sent_resume():
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+
+    file=request.files["file"]
+
+    usersentresume = Applicantresume(
+        user_id=request.form.get("user_id"),
+        job_id=request.form.get("job_id"),
+        applicant_user_resume=file.read(),
+        applicant_resume_name=file.filename 
+    )
+    db.session.add(usersentresume)
+    db.session.commit()
+    return usersentresume.serialize()
+
+@api.route('/getsentresumeemployer/<int:user_id>/<int:job_id>', methods=['GET'])
+@jwt_required()
+def get_sent_resume_employer(user_id,job_id):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    sentuserresume = Applicantresume.query.filter_by(user_id=user_id,job_id=job_id).first()
+    if sentuserresume is None:
+        return jsonify("No resume found for this user"), 400
+
+    # Create a BytesIO object from your file
+    data = BytesIO(sentuserresume.applicant_user_resume)
+
+    # Create a safe version of your filename that can be used in HTTP headers
+    safe_filename = secure_filename(sentuserresume.applicant_resume_name)
+
+    # Create the Content-Disposition header
+    content_disposition = f"attachment; filename={safe_filename}"
+
+    # Send the file with the Content-Disposition header
+    response = send_file(
+        data,
+        mimetype="application/pdf",
+        as_attachment=True,
+        download_name=safe_filename
+    )
+    response.headers["Content-Disposition"] = content_disposition
+    return response
+
+@api.route('/getdefaultresumeemployer/<int:user_id>', methods=['GET'])
+@jwt_required()
+def get_default_resume_employer(user_id):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    userresume = Userresume.query.filter_by(user_id=user_id).first()
+    if userresume is None:
+        return jsonify("No resume found for this user"), 400
+
+    # Create a BytesIO object from your file
+    data = BytesIO(userresume.user_resume)
+
+    # Create a safe version of your filename that can be used in HTTP headers
+    safe_filename = secure_filename(userresume.resume_name)
+
+    # Create the Content-Disposition header
+    content_disposition = f"attachment; filename={safe_filename}"
+
+    # Send the file with the Content-Disposition header
+    response = send_file(
+        data,
+        mimetype="application/pdf",
+        as_attachment=True,
+        download_name=safe_filename
+    )
+    response.headers["Content-Disposition"] = content_disposition
+    return response

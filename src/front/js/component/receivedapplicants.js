@@ -37,9 +37,20 @@ export const ReceivedApplicants = (props) => {
         >
           view profile
         </button>
-        <button onClick={() => actions.downloadResumeForEmployer(props.userid)}>
+        <button
+          onClick={() => {
+            actions
+              .downloadsentResumeForEmployer(props.userid, props.jobid)
+              .catch((error) => {
+                if (error.message === "HTTP error! status: 400") {
+                  actions.downloaddefaultResumeForEmployer(props.userid);
+                }
+              });
+          }}
+        >
           download resume
         </button>
+
         <button
           style={{ display: viewsave || props.displaysave }}
           onClick={handleSave}

@@ -40,6 +40,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       viewapplicantprofile: undefined,
       applliedapplicants: [],
       allapplicants: [],
+      resume_detail_blob: undefined,
     },
 
     actions: {
@@ -545,6 +546,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         const data = await response.json();
         setStore({ resume_detail: data });
       },
+
       //delete resume
       deleteresume: (resumeid) => {
         const store = getStore();
@@ -1337,34 +1339,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
       },
 
-      //download reesume of users from employer
-      downloadResumeForEmployer: async (userid) => {
-        const store = getStore();
-        const response = await fetch(
-          `${backend}api/getresumeemployer/${userid}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${store.accessToken}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "resume_name.pdf";
-        link.click();
-
-        // Revoke the blob URL
-        window.URL.revokeObjectURL(url);
-      },
-
+      //add applicants
       addapplicant: async (
         user_id,
         email,
@@ -1427,6 +1402,84 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
         console.log(data);
         setStore({ allapplicants: data });
+      },
+
+      addsentresume: async (user_id, job_id, file) => {
+        const store = getStore();
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("user_id", user_id);
+        formData.append("job_id", job_id);
+        const resp = await fetch(`${backend}api/addsentresume`, {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${store.useraccessToken}`, // Assuming the JWT token is stored in local storage
+          },
+        });
+
+        const data = await resp.json();
+        if (data) {
+          console.log(data);
+        } else {
+          setStore({ message_sent_resume: data });
+        }
+      },
+
+      //download reesume of users which sent during applying job
+      downloadsentResumeForEmployer: async (userid, jobid) => {
+        const store = getStore();
+        const response = await fetch(
+          `${backend}api/getsentresumeemployer/${userid}/${jobid}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${store.accessToken}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "resume_name.pdf";
+        link.click();
+
+        // Revoke the blob URL
+        window.URL.revokeObjectURL(url);
+      },
+
+      //download reesume of user's default resume
+      downloaddefaultResumeForEmployer: async (userid) => {
+        const store = getStore();
+        const response = await fetch(
+          `${backend}api/getdefaultresumeemployer/${userid}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${store.accessToken}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "resume_name.pdf";
+        link.click();
+
+        // Revoke the blob URL
+        window.URL.revokeObjectURL(url);
       },
     },
   };

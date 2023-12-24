@@ -11,7 +11,7 @@ export const ViewJobPage = (props) => {
     setFile(event.target.files[0].name);
   };
   const replaceFileChange = (event) => {
-    setReplacefile(event.target.files[0].name);
+    setReplacefile(event.target.files[0]);
   };
   const [valueFirstname, setFirstname] = useState(
     `${store.user.user_bio.first_name}`
@@ -220,7 +220,7 @@ export const ViewJobPage = (props) => {
 
             {viewSubmit && (
               <button
-                onClick={() =>
+                onClick={() => {
                   actions.addapplicant(
                     store.user.id,
                     valueEmail,
@@ -229,8 +229,15 @@ export const ViewJobPage = (props) => {
                     valuePhone,
                     store.currentviewjobpost.id,
                     store.currentviewjobpost.employer_id
-                  )
-                }
+                  );
+                  if (replacefile) {
+                    actions.addsentresume(
+                      store.user.id,
+                      store.currentviewjobpost.id,
+                      replacefile
+                    );
+                  }
+                }}
               >
                 Submit
               </button>
