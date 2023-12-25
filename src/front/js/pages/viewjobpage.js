@@ -31,6 +31,7 @@ export const ViewJobPage = (props) => {
   const [viewPreview, setPreview] = useState(false);
   const [viewSubmit, setSubmit] = useState(false);
   const [viewconfirmbutton, setconfirmbutton] = useState(false);
+  const [viewsubmitted, setsubmitted] = useState(false);
 
   // const {viewid} = useParams();
   // let id = parseInt(viewid);
@@ -237,6 +238,10 @@ export const ViewJobPage = (props) => {
                       replacefile
                     );
                   }
+                  actions.getapplicant(store.user.id);
+                  setsubmitted(true);
+                  setSubmit(false);
+                  setConfirm(false);
                 }}
               >
                 Submit
@@ -244,6 +249,7 @@ export const ViewJobPage = (props) => {
             )}
           </div>
         )}
+        {viewsubmitted && <p style={{ backgroundColor: "green" }}>Submitted</p>}
       </div>
     </div>
   );

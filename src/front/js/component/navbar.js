@@ -84,8 +84,11 @@ export const Navbar = () => {
             ) : store.useraccessToken ? (
               <>
                 <li className="nav-item">
-                  <button className="nav-link" href="#">
-                    chat
+                  <button
+                    className="nav-link"
+                    onClick={() => navigate("/userinbox")}
+                  >
+                    Inbox
                   </button>
                 </li>
                 <li className="nav-item">

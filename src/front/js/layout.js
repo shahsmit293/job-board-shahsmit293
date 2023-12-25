@@ -23,9 +23,12 @@ import { Applicants } from "./pages/applicants";
 import { MatchedProfiles } from "./pages/matchedprofiles";
 import { EditPostJob } from "./pages/editpostjob";
 import injectContext from "./store/appContext";
-
+import { Userchat } from "./pages/userchat";
+import { Userinbox } from "./pages/userinbox";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+import { Employerchat } from "./pages/employerchat";
+import { Employerinbox } from "./pages/employerinbox";
 
 //create your first component
 const Layout = () => {
@@ -67,6 +70,13 @@ const Layout = () => {
             <Route element={<Demo />} path="/demo" />
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<EditPostJob />} path="/editpost/:post_id" />
+            <Route element={<Userchat />} path="/userchat/:job_id" />
+            <Route element={<Userinbox />} path="/userinbox" />
+            <Route
+              element={<Employerchat />}
+              path="/employerchat/:user_id/:job_id"
+            />
+            <Route element={<Employerinbox />} path="/employerinbox/:job_id" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />

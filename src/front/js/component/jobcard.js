@@ -18,6 +18,7 @@ export const JobCard = (props) => {
     setunsave("none");
     setsave("inline");
   };
+  const navigate = useNavigate("");
   return (
     <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
       <div className="card">
@@ -42,6 +43,15 @@ export const JobCard = (props) => {
             }}
           >
             View
+          </button>
+          <button
+            style={{
+              backgroundColor: "green",
+              display: props.displayapplied,
+            }}
+            onClick={() => navigate(`/userchat/${props.jobid}`)}
+          >
+            chat
           </button>
           {store.user.id ? (
             <div>

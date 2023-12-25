@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Date, Time
+from sqlalchemy import func
 # from sqlalchemy import ARRAY
 
 db = SQLAlchemy()
@@ -584,3 +586,58 @@ class Favoriteapplicant(db.Model):
 #     # user_id=db.Column(db.Integer,unique=False,nullable=True)
 #     # job_id=db.Column(db.Integer,unique=False,nullable=True)
 
+class Applicantchat(db.Model):
+    __tablename__ = 'applicantchat'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=False)
+    message = db.Column(db.String(4000), nullable=False)
+    current_date = db.Column(Date, default=func.current_date())
+    current_time = db.Column(Time, default=func.current_time())
+    user = db.relationship(User, backref="applicantchat_user")
+    job = db.relationship('Postjobs', backref="applicantchat_job")
+
+    def __init__(self,user_id,job_id,message):
+        self.user_id=user_id
+        self.job_id=job_id
+        self.message=message
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "job_id": self.job_id,
+            "message":self.message,
+            "current_date": self.current_date.isoformat() if self.current_date else None,
+            "current_time": self.current_time.strftime('%H:%M') if self.current_time else None,
+            "user": self.user.serialize(),
+            "job": self.job.serialize()
+        }
+
+class Employerchat(db.Model):
+    __tablename__ = 'employerchat'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=False)
+    message = db.Column(db.String(4000), nullable=False)
+    current_date = db.Column(Date, default=func.current_date())
+    current_time = db.Column(Time, default=func.current_time())
+    user = db.relationship(User, backref="employer_user")
+    job = db.relationship('Postjobs', backref="employer_job")
+
+    def __init__(self,user_id,job_id,message):
+        self.user_id=user_id
+        self.job_id=job_id
+        self.message=message
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "job_id": self.job_id,
+            "message":self.message,
+            "current_date": self.current_date.isoformat() if self.current_date else None,
+            "current_time": self.current_time.strftime('%H:%M') if self.current_time else None,
+            "user": self.user.serialize(),
+            "job": self.job.serialize()
+        }

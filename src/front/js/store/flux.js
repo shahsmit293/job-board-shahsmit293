@@ -41,6 +41,12 @@ const getState = ({ getStore, getActions, setStore }) => {
       applliedapplicants: [],
       allapplicants: [],
       resume_detail_blob: undefined,
+      applicantchats: [],
+      employerchatsforapplicant: [],
+      contacted: [],
+      employerchat: [],
+      applicantchatsforemployer: [],
+      contactedemployer: [],
     },
 
     actions: {
@@ -1480,6 +1486,178 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         // Revoke the blob URL
         window.URL.revokeObjectURL(url);
+      },
+
+      //addchat
+      addapplicantchats: (user_id, job_id, message) => {
+        const store = getStore();
+        return fetch(`${backend}api/addapplicantchat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            user_id: user_id,
+            job_id: job_id,
+            message: message,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            return data.applicantchat;
+          });
+      },
+
+      //get messages
+      getapplicantchats: (userid, jobid) => {
+        const store = getStore();
+        const token = store.useraccessToken
+          ? store.useraccessToken
+          : store.accessToken;
+        return fetch(`${backend}api/getapplicantchat/${userid}&${jobid}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            setStore({
+              applicantchats: data,
+            });
+          });
+      },
+
+      //get messages fro employer
+      getemployerchatsforapplicants: (userid, jobid) => {
+        const store = getStore();
+        const token = store.useraccessToken
+          ? store.useraccessToken
+          : store.accessToken;
+        return fetch(
+          `${backend}api/getemployerchatforapplicant/${userid}&${jobid}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            setStore({
+              employerchatsforapplicant: data,
+            });
+          });
+      },
+      //get inbox messages list
+      applicantinboxchats: (userid) => {
+        const store = getStore();
+        return fetch(`${backend}api/applicantinbox/${userid}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            setStore({
+              contacted: data,
+            });
+          });
+      },
+
+      //addchat for employer
+      addemployerchats: (user_id, job_id, message) => {
+        const store = getStore();
+        return fetch(`${backend}api/employerchat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+          body: JSON.stringify({
+            user_id: user_id,
+            job_id: job_id,
+            message: message,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            return data.employerchat;
+          });
+      },
+
+      //get messages fro employer
+      getemployerchats: (userid, jobid) => {
+        const store = getStore();
+        const token = store.useraccessToken
+          ? store.useraccessToken
+          : store.accessToken;
+        return fetch(`${backend}api/getemployerchat/${userid}&${jobid}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            setStore({
+              employerchat: data,
+            });
+          });
+      },
+
+      //get messages of applicant from employer
+      getapplicantchatsforemployer: (userid, jobid) => {
+        const store = getStore();
+        const token = store.useraccessToken
+          ? store.useraccessToken
+          : store.accessToken;
+        return fetch(
+          `${backend}api/getapplicantchatforemployer/${userid}&${jobid}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            setStore({
+              applicantchatsforemployer: data,
+            });
+          });
+      },
+      //get inbox messages list for employer
+      employerinboxchats: (jobid) => {
+        const store = getStore();
+        return fetch(`${backend}api/employerinbox/${jobid}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            setStore({
+              contactedemployer: data,
+            });
+          });
       },
     },
   };

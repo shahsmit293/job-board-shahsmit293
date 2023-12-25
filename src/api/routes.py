@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs,Userappliedjobs,Favoriteapplicant,Applicants,Applicantresume
+from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs,Userappliedjobs,Favoriteapplicant,Applicants,Applicantresume,Applicantchat,Employerchat
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -22,6 +22,7 @@ from flask import send_file
 from io import BytesIO
 from werkzeug.wrappers import Response
 from werkzeug.utils import secure_filename
+from sqlalchemy import union
 
 api = Blueprint('api', __name__)
 # Allow CORS requests to this API
@@ -1015,3 +1016,122 @@ def get_default_resume_employer(user_id):
     )
     response.headers["Content-Disposition"] = content_disposition
     return response
+
+@api.route('/addapplicantchat', methods=["POST"])
+@jwt_required()
+def add_user_chat():
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    body=request.json
+    applicantchat=Applicantchat(
+        user_id=body["user_id"],
+        job_id=body["job_id"],
+        message=body["message"]
+    )
+    db.session.add(applicantchat)
+    db.session.commit()
+    return applicantchat.serialize(),200
+
+@api.route('/getapplicantchat/<userid>&<jobid>', methods=["GET"])
+@jwt_required()
+def get_applicant_chat(userid,jobid):
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    results = Applicantchat.query.filter_by(user_id=userid,job_id=jobid).all()
+    results_dict = [item.serialize() for item in results]
+    return jsonify(results_dict),200
+
+@api.route('/getemployerchatforapplicant/<userid>&<jobid>', methods=["GET"])
+@jwt_required()
+def get_employer_chat_applicant(userid,jobid):
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+    results = Employerchat.query.filter_by(user_id=userid,job_id=jobid).all()
+    results_dict = [item.serialize() for item in results]
+    return jsonify(results_dict),200
+
+@api.route('/applicantinbox/<userid>', methods=["GET"])
+@jwt_required()
+def applicant_inbox(userid):
+    email=get_jwt_identity()
+    user= User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify("user doesn't exist"), 400
+
+    applicant_chats = Applicantchat.query.filter_by(user_id=userid).all()
+    employer_chats = Employerchat.query.filter_by(user_id=userid).all()
+        # Combine the results
+    all_chats = applicant_chats + employer_chats
+
+    # Serialize each chat
+    serialized_chats = [chat.serialize() for chat in all_chats]
+
+    return jsonify(serialized_chats),200
+
+
+@api.route('/employerchat', methods=["POST"])
+@jwt_required()
+def add_employer_chat():
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    body=request.json
+    employerchat=Employerchat(
+        user_id=body["user_id"],
+        job_id=body["job_id"],
+        message=body["message"]
+    )
+    db.session.add(employerchat)
+    db.session.commit()
+    return employerchat.serialize(),200
+
+@api.route('/getemployerchat/<userid>&<jobid>', methods=["GET"])
+@jwt_required()
+def get_employer_chat(userid,jobid):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    results = Employerchat.query.filter_by(user_id=userid,job_id=jobid).all()
+    results_dict = [item.serialize() for item in results]
+    return jsonify(results_dict),200
+
+@api.route('/getapplicantchatforemployer/<userid>&<jobid>', methods=["GET"])
+@jwt_required()
+def get_applicant_chat_employer(userid,jobid):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    results = Applicantchat.query.filter_by(user_id=userid,job_id=jobid).all()
+    results_dict = [item.serialize() for item in results]
+    return jsonify(results_dict),200
+
+
+@api.route('/employerinbox/<jobid>', methods=["GET"])
+@jwt_required()
+def employer_inbox(jobid):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+
+    # Query both tables for chats with the given job_id
+    applicant_chats = Applicantchat.query.filter_by(job_id=jobid).all()
+    employer_chats = Employerchat.query.filter_by(job_id=jobid).all()
+
+    # Combine the results
+    all_chats = applicant_chats + employer_chats
+
+    # Serialize each chat
+    serialized_chats = [chat.serialize() for chat in all_chats]
+
+    return jsonify(serialized_chats), 200
+

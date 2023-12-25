@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../../styles/home.css";
 import { ReceivedApplicants } from "../component/receivedapplicants";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { ViewApplicantProfile } from "./viewapplicantprofile";
 import "../../styles/home.css";
+
 export const Applicants = () => {
   const { jobid } = useParams();
   const { store, actions } = useContext(Context);
   const [showPopup, setShowPopup] = useState(false);
-
+  const navigate = useNavigate("");
   let job_id = parseInt(jobid);
   const [loading, setLoading] = useState(true);
   const [showallapplicants, setallapplicants] = useState(true);
@@ -67,6 +68,9 @@ export const Applicants = () => {
           }}
         >
           Saved Applicants
+        </button>
+        <button onClick={() => navigate(`/employerinbox/${job_id}`)}>
+          Inbox
         </button>
       </div>
       {showallapplicants &&

@@ -7,6 +7,7 @@ export const ReceivedApplicants = (props) => {
   const { store, actions } = useContext(Context);
   const [viewsave, setsave] = useState("");
   const [viewunsave, setunsave] = useState("");
+  const navigate = useNavigate("");
   const handleSave = async () => {
     await actions.addemployersaveduser(
       props.employerid,
@@ -63,7 +64,13 @@ export const ReceivedApplicants = (props) => {
         >
           Unsave
         </button>
-        <button>chat</button>
+        <button
+          onClick={() =>
+            navigate(`/employerchat/${props.userid}/${props.jobid}`)
+          }
+        >
+          chat
+        </button>
       </div>
     </div>
   );

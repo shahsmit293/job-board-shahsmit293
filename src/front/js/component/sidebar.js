@@ -25,9 +25,6 @@ export const Sidebar = (props) => {
               Saved Jobs
             </button>
           </li>
-          <li className="nav-item">
-            <button className="nav-link">Search History</button>
-          </li>
         </ul>
       )}
     </div>
