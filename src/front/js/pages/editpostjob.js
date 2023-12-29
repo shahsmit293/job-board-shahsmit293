@@ -5,17 +5,22 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { EmployerSidebar } from "../component/employersidebar";
 import QuillEditor from "../component/textarea";
+import LocationSearchInput from "../component/locationSearchInput";
 
 export const EditPostJob = () => {
   const { post_id } = useParams();
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
+  const [coordinates, setCoordinates] = useState({
+    lat: null,
+    lng: null,
+  });
+  const [location, setLocation] = useState("");
   useEffect(() => {
     // Fetch the book details when the component mounts
     actions.geteditjobs(
       +post_id,
       setCompanyNameValue,
-      setCompanyLogoValue,
       setFirstNameValue,
       setLastNameValue,
       setPhoneNumberValue,
@@ -24,7 +29,7 @@ export const EditPostJob = () => {
       setNumberHiringValue,
       setWorkLocationTypeValue,
       setJobTypeValue,
-      setLocationValue,
+      setLocation,
       setWorkingHoursValue,
       setExperienceLevelValue,
       setMinExperienceValue,
@@ -44,7 +49,6 @@ export const EditPostJob = () => {
   };
 
   const [companyNameValue, setCompanyNameValue] = useState("");
-  const [companyLogoValue, setCompanyLogoValue] = useState("");
   const [firstNameValue, setFirstNameValue] = useState("");
   const [lastNameValue, setLastNameValue] = useState("");
   const [phoneNumberValue, setPhoneNumberValue] = useState("");
@@ -53,7 +57,6 @@ export const EditPostJob = () => {
   const [numberHiringValue, setNumberHiringValue] = useState("");
   const [workLocationTypeValue, setWorkLocationTypeValue] = useState("");
   const [jobTypeValue, setJobTypeValue] = useState("");
-  const [locationValue, setLocationValue] = useState("");
   const [workingHoursValue, setWorkingHoursValue] = useState("");
   const [experienceLevelsValue, setExperienceLevelValue] = useState("");
   const [minExperienceValue, setMinExperienceValue] = useState("");
@@ -120,14 +123,6 @@ export const EditPostJob = () => {
               required
               value={companyNameValue}
               onChange={(e) => setCompanyNameValue(e.target.value)}
-            />
-            <br />
-            <label htmlFor="companyLogo">Company Logo:</label>
-            <input
-              type="file"
-              id="companyLogo"
-              name="companyLogo"
-              onChange={(e) => setCompanyLogoValue(e.target.files[0])}
             />
             <br />
             <label htmlFor="firstName">First Name</label>
@@ -218,14 +213,13 @@ export const EditPostJob = () => {
               <option value="Contract">Contract</option>
             </select>
             <br />
-            <label htmlFor="location">Location:</label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              value={locationValue}
-              onChange={(e) => setLocationValue(e.target.value)}
+            <label>Address:</label>
+            <LocationSearchInput
+              setLocation={setLocation}
+              setCoordinates={setCoordinates}
+              location={location}
             />
+            <br />
             <br />
             <label htmlFor="workingHours">Working Hours:</label>
             <input
@@ -325,7 +319,10 @@ export const EditPostJob = () => {
               onChange={(e) => setLanguageValue(e.target.value)}
             />
             <br />
-            <QuillEditor handleTextChange={handleTextChange} />
+            <QuillEditor
+              handleTextChange={handleTextChange}
+              initialContent={editorText}
+            />
             <br />
             <button
               onClick={(e) => {
@@ -334,7 +331,6 @@ export const EditPostJob = () => {
                   .editjobs(
                     post_id,
                     companyNameValue,
-                    companyLogoValue,
                     firstNameValue,
                     lastNameValue,
                     jobTitleValue,
@@ -342,7 +338,7 @@ export const EditPostJob = () => {
                     phoneNumberValue,
                     numberHiringValue,
                     workLocationTypeValue,
-                    locationValue,
+                    location,
                     jobTypeValue,
                     workingHoursValue,
                     experienceLevelsValue,

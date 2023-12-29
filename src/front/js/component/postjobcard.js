@@ -9,12 +9,6 @@ export const PostJobCard = (props) => {
   return (
     <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
       <div className="card">
-        <img
-          className="card-img-top"
-          src={props.image}
-          alt="Card image cap"
-          style={{ width: "100%", height: "200px", objectFit: "contain" }}
-        />
         <div className="container">
           <h5 className="card-title">
             <b>{props.jobtitlename}</b>

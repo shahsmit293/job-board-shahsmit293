@@ -161,7 +161,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       addjob: async (
         employer_id,
         company_name,
-        company_logo,
         first_name,
         last_name,
         job_title,
@@ -183,39 +182,40 @@ const getState = ({ getStore, getActions, setStore }) => {
         language
       ) => {
         const store = getStore();
-        const formData = new FormData();
-        formData.append("employer_id", employer_id);
-        formData.append("company_name", company_name);
-        formData.append("company_logo", company_logo);
-        formData.append("first_name", first_name);
-        formData.append("last_name", last_name);
-        formData.append("job_title", job_title);
-        formData.append("company_email", company_email);
-        formData.append("company_phone_number", company_phone_number);
-        formData.append("number_hiring", number_hiring);
-        formData.append("work_location_type", work_location_type);
-        formData.append("location", location);
-        formData.append("job_type", job_type);
-        formData.append("working_hours", working_hours);
-        formData.append("experience_level_type", experience_level_type);
-        formData.append("min_experience", min_experience);
-        formData.append("max_experience", max_experience);
-        formData.append("min_salary", min_salary);
-        formData.append("max_salary", max_salary);
-        formData.append("working_times", working_times);
-        formData.append("description", description);
-        formData.append("weekend_job", weekend_job);
-        formData.append("language", language);
+        const data = {
+          employer_id,
+          company_name,
+          first_name,
+          last_name,
+          job_title,
+          company_email,
+          company_phone_number,
+          number_hiring,
+          work_location_type,
+          location,
+          job_type,
+          working_hours,
+          experience_level_type,
+          min_experience,
+          max_experience,
+          min_salary,
+          max_salary,
+          working_times,
+          description,
+          weekend_job,
+          language,
+        };
 
         const resp = await fetch(backend + "api/addjob", {
           method: "POST",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${store.accessToken}`,
           },
-          body: formData,
+          body: JSON.stringify(data),
         });
-        const data = await resp.json();
-        console.log(data);
+        const respData = await resp.json();
+        console.log(respData);
       },
 
       /*to see each job post*/
@@ -243,7 +243,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       editjobs: async (
         post_id,
         company_name,
-        company_logo,
         first_name,
         last_name,
         job_title,
@@ -265,39 +264,41 @@ const getState = ({ getStore, getActions, setStore }) => {
         language
       ) => {
         const store = getStore();
-        const formData = new FormData();
-        formData.append("company_name", company_name);
-        formData.append("company_logo", company_logo);
-        formData.append("first_name", first_name);
-        formData.append("last_name", last_name);
-        formData.append("job_title", job_title);
-        formData.append("company_email", company_email);
-        formData.append("company_phone_number", company_phone_number);
-        formData.append("number_hiring", number_hiring);
-        formData.append("work_location_type", work_location_type);
-        formData.append("location", location);
-        formData.append("job_type", job_type);
-        formData.append("working_hours", working_hours);
-        formData.append("experience_level_type", experience_level_type);
-        formData.append("min_experience", min_experience);
-        formData.append("max_experience", max_experience);
-        formData.append("min_salary", min_salary);
-        formData.append("max_salary", max_salary);
-        formData.append("working_times", working_times);
-        formData.append("description", description);
-        formData.append("weekend_job", weekend_job);
-        formData.append("language", language);
+        const data = {
+          company_name,
+          first_name,
+          last_name,
+          job_title,
+          company_email,
+          company_phone_number,
+          number_hiring,
+          work_location_type,
+          location,
+          job_type,
+          working_hours,
+          experience_level_type,
+          min_experience,
+          max_experience,
+          min_salary,
+          max_salary,
+          working_times,
+          description,
+          weekend_job,
+          language,
+        };
+
         const resp = await fetch(`${backend}api/editpost/${post_id}`, {
           method: "PUT",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${store.accessToken}`,
           },
-          body: formData,
+          body: JSON.stringify(data),
         });
 
-        const data = await resp.json();
+        const respData = await resp.json();
         store.seepostjobs = store.seepostjobs.map((b) =>
-          b.post_id === post_id ? data.job : b
+          b.post_id === post_id ? respData.job : b
         );
       },
 
@@ -305,7 +306,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       geteditjobs: async (
         post_id,
         setCompanyNameValue,
-        setCompanyLogoValue,
         setFirstNameValue,
         setLastNameValue,
         setPhoneNumberValue,
@@ -341,7 +341,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         const data = await response.json();
         console.log(data);
         setCompanyNameValue(data.company_name);
-        setCompanyLogoValue(data.company_logo);
         setFirstNameValue(data.first_name);
         setLastNameValue(data.last_name);
         setPhoneNumberValue(data.company_phone_number);

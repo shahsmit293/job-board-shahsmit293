@@ -69,46 +69,46 @@ def employerLogin():
     token = create_access_token(identity=email)
     return jsonify(token=token, employer=employer.serialize()), 200
 
+from flask import request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
 @api.route('/addjob', methods=['POST'])
 @jwt_required()
 def add_job():
-    email=get_jwt_identity()
-    employer= Employer.query.filter_by(email=email).one_or_none()
+    email = get_jwt_identity()
+    employer = Employer.query.filter_by(email=email).one_or_none()
     if employer is None:
         return jsonify("employer doesn't exist"), 400
 
-    binary_data = None
-    if 'companyLogo' in request.files:
-        file = request.files['companyLogo']
-        binary_data = base64.b64encode(file.read())
+    data = request.get_json()
 
-    job=Postjobs(
-        employer_id=request.form.get("employer_id"),
-        company_name=request.form.get("company_name"),
-        company_logo=binary_data,
-        first_name=request.form.get("first_name"),
-        last_name=request.form.get("last_name"),
-        job_title=request.form.get("job_title"),
-        company_email=request.form.get("company_email"),
-        company_phone_number=request.form.get("company_phone_number"),
-        number_hiring=request.form.get("number_hiring"),
-        work_location_type=request.form.get("work_location_type"),
-        location=request.form.get("location"),
-        job_type=request.form.get("job_type"),
-        working_hours=request.form.get("working_hours"),
-        experience_level_type=request.form.get("experience_level_type"),
-        min_experience=request.form.get("min_experience"),
-        max_experience=request.form.get("max_experience"),
-        min_salary=request.form.get("min_salary"),
-        max_salary=request.form.get("max_salary"),
-        working_times=request.form.get("working_times"),
-        description=request.form.get("description"),
-        weekend_job=request.form.get("weekend_job"),
-        language=request.form.get("language"),
+    job = Postjobs(
+        employer_id=data["employer_id"],
+        company_name=data["company_name"],
+        first_name=data["first_name"],
+        last_name=data["last_name"],
+        job_title=data["job_title"],
+        company_email=data["company_email"],
+        company_phone_number=data["company_phone_number"],
+        number_hiring=data["number_hiring"],
+        work_location_type=data["work_location_type"],
+        location=data["location"],
+        job_type=data["job_type"],
+        working_hours=data["working_hours"],
+        experience_level_type=data["experience_level_type"],
+        min_experience=data["min_experience"],
+        max_experience=data["max_experience"],
+        min_salary=data["min_salary"],
+        max_salary=data["max_salary"],
+        working_times=data["working_times"],
+        description=data["description"],
+        weekend_job=data["weekend_job"],
+        language=data["language"],
     )
     db.session.add(job)
     db.session.commit()
     return job.serialize()
+
 
 @api.route('/alljobs', methods=['GET'])
 def all_jobs():
@@ -143,33 +143,29 @@ def edit_post(post_id):
     job = Postjobs.query.get(post_id)
     if job is None:
         return jsonify("Job doesn't exist"), 400
-    binary_data = None
-    if 'companyLogo' in request.files:
-        file = request.files['companyLogo']
-        binary_data = base64.b64encode(file.read())
 
-    job.company_name=request.form.get("company_name")
-    job.company_logo=binary_data
-    job.first_name=request.form.get("first_name")
-    job.last_name=request.form.get("last_name")
-    job.job_title=request.form.get("job_title")
-    job.company_email=request.form.get("company_email")
-    job.company_phone_number=request.form.get("company_phone_number")
-    job.number_hiring=request.form.get("number_hiring"),
-    job.work_location_type=request.form.get("work_location_type")
-    job.location=request.form.get("location")
-    job.job_type=request.form.get("job_type")
-    job.working_hours=request.form.get("working_hours")
-    job.experience_level_type=request.form.get("experience_level_type")
-    job.min_experience=request.form.get("min_experience")
-    job.max_experience=request.form.get("max_experience")
-    job.min_salary=request.form.get("min_salary")
-    job.max_salary=request.form.get("max_salary")
-    job.working_times=request.form.get("working_times")
-    job.description=request.form.get("description")
-    job.weekend_job=request.form.get("weekend_job")
-    job.language=request.form.get("language")
-    job.description=request.form.get("description")
+    data = request.get_json()
+
+    job.company_name = data["company_name"]
+    job.first_name = data["first_name"]
+    job.last_name = data["last_name"]
+    job.job_title = data["job_title"]
+    job.company_email = data["company_email"]
+    job.company_phone_number = data["company_phone_number"]
+    job.number_hiring = data["number_hiring"]
+    job.work_location_type = data["work_location_type"]
+    job.location = data["location"]
+    job.job_type = data["job_type"]
+    job.working_hours = data["working_hours"]
+    job.experience_level_type = data["experience_level_type"]
+    job.min_experience = data["min_experience"]
+    job.max_experience = data["max_experience"]
+    job.min_salary = data["min_salary"]
+    job.max_salary = data["max_salary"]
+    job.working_times = data["working_times"]
+    job.description = data["description"]
+    job.weekend_job = data["weekend_job"]
+    job.language = data["language"]
 
     db.session.commit()
     return jsonify(job.serialize())

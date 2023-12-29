@@ -4,8 +4,14 @@ import { EmployerSidebar } from "../component/employersidebar";
 import { Context } from "../store/appContext";
 import QuillEditor from "../component/textarea";
 import { useNavigate } from "react-router-dom";
+import LocationSearchInput from "../component/locationSearchInput";
 
 export const EmployerCreateJobPost = () => {
+  const [coordinates, setCoordinates] = useState({
+    lat: null,
+    lng: null,
+  });
+  const [location, setLocation] = useState("");
   const { store, actions } = useContext(Context);
   const navigate = useNavigate("");
   const [editorText, setEditorText] = useState("");
@@ -15,7 +21,6 @@ export const EmployerCreateJobPost = () => {
   };
 
   const [companyNameValue, setCompanyNameValue] = useState("");
-  const [companyLogoValue, setCompanyLogoValue] = useState("");
   const [firstNameValue, setFirstNameValue] = useState("");
   const [lastNameValue, setLastNameValue] = useState("");
   const [phoneNumberValue, setPhoneNumberValue] = useState("");
@@ -24,7 +29,6 @@ export const EmployerCreateJobPost = () => {
   const [numberHiringValue, setNumberHiringValue] = useState("");
   const [workLocationTypeValue, setWorkLocationTypeValue] = useState("");
   const [jobTypeValue, setJobTypeValue] = useState("");
-  const [locationValue, setLocationValue] = useState("");
   const [workingHoursValue, setWorkingHoursValue] = useState("");
   const [experienceLevelsValue, setExperienceLevelValue] = useState("");
   const [minExperienceValue, setMinExperienceValue] = useState("");
@@ -34,6 +38,7 @@ export const EmployerCreateJobPost = () => {
   const [workingTimesValue, setWorkingTimesValue] = useState("");
   const [weekendRequiredValue, setWeekendRequiredValue] = useState("");
   const [languageValue, setLanguageValue] = useState("");
+
   const sorted = (e) => {
     if (e.target.value === "Remote") {
       setWorkLocationTypeValue("Remote");
@@ -93,14 +98,6 @@ export const EmployerCreateJobPost = () => {
               onChange={(e) => setCompanyNameValue(e.target.value)}
             />
             <br />
-            <label htmlFor="companyLogo">Company Logo:</label>
-            <input
-              type="file"
-              id="companyLogo"
-              name="companyLogo"
-              onChange={(e) => setCompanyLogoValue(e.target.files[0])}
-            />
-            <br />
             <label htmlFor="firstName">First Name</label>
             <input
               type="text"
@@ -125,6 +122,7 @@ export const EmployerCreateJobPost = () => {
             <input
               type="tel"
               id="phoneNumber"
+              maxlength="10"
               name="phoneNumber"
               value={phoneNumberValue}
               onChange={(e) => setPhoneNumberValue(e.target.value)}
@@ -153,6 +151,7 @@ export const EmployerCreateJobPost = () => {
             <label htmlFor="numberHiring">Number Hiring</label>
             <input
               type="number"
+              min={1}
               id="numberHiring"
               name="numberHiring"
               required
@@ -182,18 +181,19 @@ export const EmployerCreateJobPost = () => {
               <option value="Contract">Contract</option>
             </select>
             <br />
-            <label htmlFor="location">Location:</label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              value={locationValue}
-              onChange={(e) => setLocationValue(e.target.value)}
+            <label>Address:</label>
+            <LocationSearchInput
+              setLocation={setLocation}
+              setCoordinates={setCoordinates}
+              location={location}
             />
             <br />
-            <label htmlFor="workingHours">Working Hours:</label>
+            <label htmlFor="workingHours">
+              Minimum working Hours Per Week:
+            </label>
             <input
-              type="text"
+              type="number"
+              min={0}
               id="workingHours"
               name="workingHours"
               value={workingHoursValue}
@@ -219,6 +219,7 @@ export const EmployerCreateJobPost = () => {
             <label htmlFor="minExperience">Minimum Year Experience:</label>
             <input
               type="number"
+              min="0"
               id="minExperience"
               name="minExperience"
               required
@@ -231,13 +232,16 @@ export const EmployerCreateJobPost = () => {
               type="number"
               id="maxExperience"
               name="maxExperience"
+              min={minExperienceValue}
               value={maxExperiencesValue}
               onChange={(e) => setMaxExperienceValue(e.target.value)}
             />
+
             <br />
             <label htmlFor="minSalary">Minimum Salary:</label>
             <input
               type="number"
+              min={0}
               id="minSalary"
               name="minSalary"
               value={minSalaryValue}
@@ -247,6 +251,7 @@ export const EmployerCreateJobPost = () => {
             <label htmlFor="maxSalary">Maximum Salary:</label>
             <input
               type="number"
+              min={minSalaryValue}
               id="maxSalary"
               name="maxSalary"
               value={maxSalaryValue}
@@ -284,13 +289,12 @@ export const EmployerCreateJobPost = () => {
             <br />
             <QuillEditor handleTextChange={handleTextChange} />
             <button
-              type="button"
               onClick={(e) => {
+                e.preventDefault();
                 actions
                   .addjob(
-                    store.activeuser,
+                    store.employer.id,
                     companyNameValue,
-                    companyLogoValue,
                     firstNameValue,
                     lastNameValue,
                     jobTitleValue,
@@ -298,7 +302,7 @@ export const EmployerCreateJobPost = () => {
                     phoneNumberValue,
                     numberHiringValue,
                     workLocationTypeValue,
-                    locationValue,
+                    location,
                     jobTypeValue,
                     workingHoursValue,
                     experienceLevelsValue,
@@ -313,7 +317,9 @@ export const EmployerCreateJobPost = () => {
                   )
                   .then(() => navigate("/employerhome"));
               }}
-            />
+            >
+              Submit
+            </button>
           </form>
         </div>
       ) : (

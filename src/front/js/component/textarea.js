@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import "quill/dist/quill.snow.css"; // import styles
 import Quill from "quill";
 
@@ -19,7 +19,13 @@ const QuillEditor = ({ initialContent, handleTextChange }) => {
     }
 
     if (initialContent) {
-      quillInstance.current.clipboard.dangerouslyPasteHTML(initialContent);
+      let stringWithoutAnchors = initialContent.replace(
+        /<a[^>]*>([^<]+)<\/a>/g,
+        "$1"
+      );
+      quillInstance.current.clipboard.dangerouslyPasteHTML(
+        stringWithoutAnchors
+      );
     }
   }, [initialContent, handleTextChange]);
 
