@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { EmployerSidebar } from "../component/employersidebar";
-import QuillEditor from "../component/textarea";
 import LocationSearchInput from "../component/locationSearchInput";
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 export const EditPostJob = () => {
   const { post_id } = useParams();
   const { store, actions } = useContext(Context);
@@ -39,15 +39,9 @@ export const EditPostJob = () => {
       setWorkingTimesValue,
       setWeekendRequiredValue,
       setLanguageValue,
-      setEditorText
+      setDescriptionValue
     );
   }, [post_id]);
-  const [editorText, setEditorText] = useState("");
-
-  const handleTextChange = (text) => {
-    setEditorText(text);
-  };
-
   const [companyNameValue, setCompanyNameValue] = useState("");
   const [firstNameValue, setFirstNameValue] = useState("");
   const [lastNameValue, setLastNameValue] = useState("");
@@ -66,6 +60,7 @@ export const EditPostJob = () => {
   const [workingTimesValue, setWorkingTimesValue] = useState("");
   const [weekendRequiredValue, setWeekendRequiredValue] = useState("");
   const [languageValue, setLanguageValue] = useState("");
+  const [descriptionValue, setDescriptionValue] = useState("");
   const sorted = (e) => {
     if (e.target.value === "Remote") {
       setWorkLocationTypeValue("Remote");
@@ -319,9 +314,10 @@ export const EditPostJob = () => {
               onChange={(e) => setLanguageValue(e.target.value)}
             />
             <br />
-            <QuillEditor
-              handleTextChange={handleTextChange}
-              initialContent={editorText}
+            <ReactQuill
+              theme="snow"
+              value={descriptionValue}
+              onChange={setDescriptionValue}
             />
             <br />
             <button
@@ -347,7 +343,7 @@ export const EditPostJob = () => {
                     minSalaryValue,
                     maxSalaryValue,
                     workingTimesValue,
-                    editorText,
+                    descriptionValue,
                     weekendRequiredValue,
                     languageValue
                   )

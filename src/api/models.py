@@ -477,7 +477,7 @@ class Postjobs(db.Model):
             "description": self.description,
             "weekend_job": self.weekend_job,
             "language": self.language,
-            "employer":self.employer.serialize()
+            # "employer":self.employer.serialize()
         }
 
 # class Beneifits(db.Model):

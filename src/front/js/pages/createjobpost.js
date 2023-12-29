@@ -2,9 +2,10 @@ import React, { useContext, useState } from "react";
 import "../../styles/home.css";
 import { EmployerSidebar } from "../component/employersidebar";
 import { Context } from "../store/appContext";
-import QuillEditor from "../component/textarea";
 import { useNavigate } from "react-router-dom";
 import LocationSearchInput from "../component/locationSearchInput";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 export const EmployerCreateJobPost = () => {
   const [coordinates, setCoordinates] = useState({
@@ -14,11 +15,6 @@ export const EmployerCreateJobPost = () => {
   const [location, setLocation] = useState("");
   const { store, actions } = useContext(Context);
   const navigate = useNavigate("");
-  const [editorText, setEditorText] = useState("");
-
-  const handleTextChange = (text) => {
-    setEditorText(text);
-  };
 
   const [companyNameValue, setCompanyNameValue] = useState("");
   const [firstNameValue, setFirstNameValue] = useState("");
@@ -38,6 +34,7 @@ export const EmployerCreateJobPost = () => {
   const [workingTimesValue, setWorkingTimesValue] = useState("");
   const [weekendRequiredValue, setWeekendRequiredValue] = useState("");
   const [languageValue, setLanguageValue] = useState("");
+  const [descriptionValue, setDescriptionValue] = useState("");
 
   const sorted = (e) => {
     if (e.target.value === "Remote") {
@@ -287,7 +284,11 @@ export const EmployerCreateJobPost = () => {
               onChange={(e) => setLanguageValue(e.target.value)}
             />
             <br />
-            <QuillEditor handleTextChange={handleTextChange} />
+            <ReactQuill
+              theme="snow"
+              value={descriptionValue}
+              onChange={setDescriptionValue}
+            />
             <button
               onClick={(e) => {
                 e.preventDefault();
@@ -311,7 +312,7 @@ export const EmployerCreateJobPost = () => {
                     minSalaryValue,
                     maxSalaryValue,
                     workingTimesValue,
-                    editorText,
+                    descriptionValue,
                     weekendRequiredValue,
                     languageValue
                   )
