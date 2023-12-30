@@ -136,7 +136,7 @@ export const ViewJobPage = (props) => {
           (!store.resume_detail ? (
             <>
               <label>Resume</label>
-              <input type="file" onChange={handleFileChange}></input>
+              <input type="file" onChange={replaceFileChange}></input>
             </>
           ) : (
             <>

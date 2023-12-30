@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs,Userappliedjobs,Favoriteapplicant,Applicants,Applicantresume,Applicantchat,Employerchat
+from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs,Favoriteapplicant,Applicants,Applicantresume,Applicantchat,Employerchat
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -23,6 +23,7 @@ from io import BytesIO
 from werkzeug.wrappers import Response
 from werkzeug.utils import secure_filename
 from sqlalchemy import union
+from sqlalchemy import or_
 
 api = Blueprint('api', __name__)
 # Allow CORS requests to this API
@@ -96,6 +97,7 @@ def add_job():
         job_type=data["job_type"],
         working_hours=data["working_hours"],
         experience_level_type=data["experience_level_type"],
+        education_degree=data["education_degree"],
         min_experience=data["min_experience"],
         max_experience=data["max_experience"],
         min_salary=data["min_salary"],
@@ -158,6 +160,7 @@ def edit_post(post_id):
     job.job_type = data["job_type"]
     job.working_hours = data["working_hours"]
     job.experience_level_type = data["experience_level_type"]
+    job.education_degree=data["education_degree"]
     job.min_experience = data["min_experience"]
     job.max_experience = data["max_experience"]
     job.min_salary = data["min_salary"]
@@ -770,36 +773,36 @@ def delete_usersave(userid,jobid):
     db.session.commit()
     return jsonify("saved job deleted successfully"), 200
 
-@api.route('/adduserapplied',methods=['POST'])
-@jwt_required()
-def add_userapplied():
-    email=get_jwt_identity()
-    user=User.query.filter_by(email=email).one_or_none()
-    if user is None:
-        return jsonify("user doesn't exist"),400
-    body = request.json
-    applied=Userappliedjobs(
-        user_id=body["user_id"],
-        job_id=body["job_id"],
-        employer_id=body["employer_id"]
-        )
-    db.session.add(applied)
-    db.session.commit()
-    return jsonify(applied.serialize())
+# @api.route('/adduserapplied',methods=['POST'])
+# @jwt_required()
+# def add_userapplied():
+#     email=get_jwt_identity()
+#     user=User.query.filter_by(email=email).one_or_none()
+#     if user is None:
+#         return jsonify("user doesn't exist"),400
+#     body = request.json
+#     applied=Userappliedjobs(
+#         user_id=body["user_id"],
+#         job_id=body["job_id"],
+#         employer_id=body["employer_id"]
+#         )
+#     db.session.add(applied)
+#     db.session.commit()
+#     return jsonify(applied.serialize())
 
-@api.route('/getuserapplied/<int:id>',methods=['GET'])
-@jwt_required()
-def get_userapplied(id):
-    email=get_jwt_identity()
-    user=User.query.filter_by(email=email).one_or_none()
-    if user is None:
-        return jsonify("user doesn't exist"),400
-    allapplied = Userappliedjobs.query.filter_by(user_id=id).all()
-    if allapplied:  
-        results=[apply.serialize() for apply in allapplied]
-        return jsonify(results), 200
-    else:
-        return jsonify("applied job not found"), 404
+# @api.route('/getuserapplied/<int:id>',methods=['GET'])
+# @jwt_required()
+# def get_userapplied(id):
+#     email=get_jwt_identity()
+#     user=User.query.filter_by(email=email).one_or_none()
+#     if user is None:
+#         return jsonify("user doesn't exist"),400
+#     allapplied = Userappliedjobs.query.filter_by(user_id=id).all()
+#     if allapplied:  
+#         results=[apply.serialize() for apply in allapplied]
+#         return jsonify(results), 200
+#     else:
+#         return jsonify("applied job not found"), 404
 
 @api.route('/getapplicants/<int:jobid>',methods=['GET'])
 @jwt_required()
@@ -809,7 +812,7 @@ def get_applicants(jobid):
     if employer is None:
         return jsonify("No employer found with the provided email"), 400
     
-    allapplcants = Userappliedjobs.query.filter_by(job_id=jobid).all()
+    allapplcants = Applicants.query.filter_by(job_id=jobid).all()
     if allapplcants:  
         results=[applicant.serialize() for applicant in allapplcants]
         return jsonify(results), 200
@@ -1130,4 +1133,16 @@ def employer_inbox(jobid):
     serialized_chats = [chat.serialize() for chat in all_chats]
 
     return jsonify(serialized_chats), 200
+
+@api.route('/searchjobs', methods=['GET'])
+def search_jobs():
+    jobtitle = request.args.get('jobtitle', default=None, type=str)
+    if jobtitle:
+        jobtitle = jobtitle.lower().split()
+        jobs = Postjobs.query.filter(or_(Postjobs.job_title.ilike('%' + title + '%') for title in jobtitle)).all()
+    else:
+        jobs = Postjobs.query.all()
+    alljobs_dictionary = [job.serialize() for job in jobs]
+    return jsonify(alljobs_dictionary), 200
+
 

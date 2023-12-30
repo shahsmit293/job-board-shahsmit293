@@ -56,7 +56,7 @@ class UserBio(db.Model):
 class UserExtraDetail(db.Model):
     __tablename__ = 'userextradetail'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
     gender=db.Column(db.String(40),unique=False,nullable=True)
     disability=db.Column(db.String(40),unique=False,nullable=True)
     work_authorization=db.Column(db.String(80),unique=False,nullable=False)
@@ -74,7 +74,7 @@ class Usereducation(db.Model):
     major=db.Column(db.String(80),unique=False,nullable=True)
     degree=db.Column(db.String(80),unique=False,nullable=True)
     location=db.Column(db.String(80),unique=False,nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
     
     def __init__(self,collage_name,start_year,end_year,gpa,major,degree,location,user_id):
         self.collage_name=collage_name
@@ -109,7 +109,7 @@ class Userexperience(db.Model):
     end_year=db.Column(db.Integer,unique=False,nullable=True)
     description=db.Column(db.String(4000),unique=False,nullable=True)
     location=db.Column(db.String(80),unique=False,nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
 
     def __init__(self,job_title,company_name,job_type,start_year,end_year,description,location,user_id):
         self.job_title=job_title
@@ -171,7 +171,7 @@ class Userpreference(db.Model):
     hybrid_job=db.Column(db.String(80),unique=False,nullable=True)
     in_person=db.Column(db.String(80),unique=False,nullable=True)
     temperory_remote_job=db.Column(db.String(80),unique=False,nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
     user = db.relationship(User, backref="user_preference")
 
     def __init__(self,job_title_preference,
@@ -293,7 +293,7 @@ class Userresume(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_resume=db.Column(db.LargeBinary,unique=False, nullable=True)
     resume_name=db.Column(db.String(80))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
     user = db.relationship(User, backref="user_resume")
 
     def __init__(self,user_id,user_resume,resume_name):
@@ -314,7 +314,7 @@ class Userskills(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     skill=db.Column(db.String(80),unique=False,nullable=True)
     skill_year=db.Column(db.Integer,unique=False,nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
     user = db.relationship(User, backref="user_skills")
     
     def __init__(self,skill,skill_year,user_id):
@@ -330,20 +330,13 @@ class Userskills(db.Model):
             "user_id":self.user_id
         }
 
-class Usercertificates(db.Model):
-    __tablename__ = 'usercertificates'
-    id = db.Column(db.Integer, primary_key=True)
-    certificate_name=db.Column(db.String(80),unique=False,nullable=True)
-    # certificate_image=db.Column(db.String(80),unique=False,nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    user = db.relationship(User, backref="user_certificates")
-
 class Usersavedjobs(db.Model):
     __tablename__ = 'usersavedjobs'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
     job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=True)
     user = db.relationship(User, backref="user_savedjobs")
+    job = db.relationship('Postjobs', backref="user_saved_job")
 
     def __init__(self,user_id,job_id):
         self.user_id=user_id
@@ -359,9 +352,9 @@ class Usersavedjobs(db.Model):
 class Userappliedjobs(db.Model):
     __tablename__ = 'userappliedjobs'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=False)
-    employer_id = db.Column(db.Integer, db.ForeignKey('employer.id'),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
+    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=True)
+    employer_id = db.Column(db.Integer, db.ForeignKey('employer.id'),nullable=True)
     user = db.relationship(User, backref="user_appliedjobs")
     job = db.relationship('Postjobs', backref="job_appliedjobs")
 
@@ -414,6 +407,7 @@ class Postjobs(db.Model):
     job_type=db.Column(db.String(80),unique=False,nullable=True)
     working_hours=db.Column(db.Integer,unique=False,nullable=True)
     experience_level_type=db.Column(db.String(80),unique=False,nullable=True)
+    education_degree=db.Column(db.String(80),unique=False,nullable=True)
     min_experience=db.Column(db.Integer,unique=False,nullable=True)
     max_experience=db.Column(db.Integer,unique=False,nullable=True)
     min_salary=db.Column(db.Integer,unique=False,nullable=True)
@@ -426,12 +420,18 @@ class Postjobs(db.Model):
     current_date = db.Column(Date, default=func.current_date())
     current_time = db.Column(Time, default=func.current_time())
     employer = db.relationship(Employer, backref="employer_postjobs")
+    applicants = db.relationship('Applicants', backref='postjobs', cascade='all, delete-orphan')
+    applicantsresume = db.relationship('Applicantresume', backref='postjobs', cascade='all, delete-orphan')
+    favoriteapplicant = db.relationship('Favoriteapplicant', backref='postjobs', cascade='all, delete-orphan')
+    applicantchat = db.relationship('Applicantchat', backref='postjobs', cascade='all, delete-orphan')
+    employerchat = db.relationship('Employerchat', backref='postjobs', cascade='all, delete-orphan')
+    uersavedjobs = db.relationship('Usersavedjobs', backref='postjobs', cascade='all, delete-orphan')
 
     def __init__(self,employer_id,company_name
                  ,first_name,last_name,job_title,
                  company_email,company_phone_number,number_hiring,
                  work_location_type,location,job_type,working_hours,
-                 experience_level_type,min_experience,max_experience,
+                 experience_level_type,education_degree,min_experience,max_experience,
                  min_salary,max_salary,working_times,description,weekend_job,language):
         self.employer_id=employer_id
         self.company_name=company_name
@@ -446,6 +446,7 @@ class Postjobs(db.Model):
         self.job_type=job_type
         self.working_hours=working_hours
         self.experience_level_type=experience_level_type
+        self.education_degree=education_degree
         self.min_experience=min_experience
         self.max_experience=max_experience
         self.min_salary=min_salary
@@ -471,6 +472,7 @@ class Postjobs(db.Model):
             "job_type": self.job_type,
             "working_hours": self.working_hours,
             "experience_level_type": self.experience_level_type,
+            "education_degree":self.education_degree,
             "min_experience": self.min_experience,
             "max_experience": self.max_experience,
             "min_salary": self.min_salary,
@@ -500,13 +502,13 @@ class Postjobs(db.Model):
 class Applicants(db.Model): 
     __tablename__ = 'applicants'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
     email = db.Column(db.String(120), unique=False, nullable=False)
     first_name=db.Column(db.String(40),unique=False,nullable=False)
     last_name=db.Column(db.String(40),unique=False,nullable=False)
     phone_number=db.Column(db.Integer,unique=False,nullable=False)
-    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=False)
-    employer_id = db.Column(db.Integer, db.ForeignKey('employer.id'),nullable=False)
+    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=True)
+    employer_id = db.Column(db.Integer, db.ForeignKey('employer.id'),nullable=True)
     user = db.relationship(User, backref="user_applicants")
     job = db.relationship('Postjobs', backref="appliedjobs")
 
@@ -536,8 +538,8 @@ class Applicantresume(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     applicant_user_resume=db.Column(db.LargeBinary,unique=False, nullable=True)
     applicant_resume_name=db.Column(db.String(80),unique=False, nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
+    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=True)
     user = db.relationship(User, backref="applicant_resume")
 
     def __init__(self,user_id,job_id,applicant_user_resume,applicant_resume_name):
@@ -558,9 +560,9 @@ class Applicantresume(db.Model):
 class Favoriteapplicant(db.Model):
     __tablename__ = 'favoriteapplicant'
     id = db.Column(db.Integer, primary_key=True)
-    employer_id = db.Column(db.Integer, db.ForeignKey('employer.id'),nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=False)
+    employer_id = db.Column(db.Integer, db.ForeignKey('employer.id'),nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
+    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=True)
     employer = db.relationship(Employer, backref="employer_favoriteapplicant")
     user = db.relationship(User, backref="user_favoriteapplicant")
     job = db.relationship('Postjobs', backref="employer_saved_jobs")
@@ -590,8 +592,8 @@ class Favoriteapplicant(db.Model):
 class Applicantchat(db.Model):
     __tablename__ = 'applicantchat'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
+    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=True)
     message = db.Column(db.String(4000), nullable=False)
     current_date = db.Column(Date, default=func.current_date())
     current_time = db.Column(Time, default=func.current_time())
@@ -618,8 +620,8 @@ class Applicantchat(db.Model):
 class Employerchat(db.Model):
     __tablename__ = 'employerchat'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
+    job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=True)
     message = db.Column(db.String(4000), nullable=False)
     current_date = db.Column(Date, default=func.current_date())
     current_time = db.Column(Time, default=func.current_time())

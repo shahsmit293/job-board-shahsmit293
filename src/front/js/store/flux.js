@@ -47,6 +47,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       employerchat: [],
       applicantchatsforemployer: [],
       contactedemployer: [],
+      searchjobs: [],
     },
 
     actions: {
@@ -172,6 +173,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         job_type,
         working_hours,
         experience_level_type,
+        education_degree,
         min_experience,
         max_experience,
         min_salary,
@@ -196,6 +198,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           job_type,
           working_hours,
           experience_level_type,
+          education_degree,
           min_experience,
           max_experience,
           min_salary,
@@ -254,6 +257,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         job_type,
         working_hours,
         experience_level_type,
+        education_degree,
         min_experience,
         max_experience,
         min_salary,
@@ -277,6 +281,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           job_type,
           working_hours,
           experience_level_type,
+          education_degree,
           min_experience,
           max_experience,
           min_salary,
@@ -317,6 +322,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         setLocationValue,
         setWorkingHoursValue,
         setExperienceLevelValue,
+        setEducationValue,
         setMinExperienceValue,
         setMaxExperienceValue,
         setMinSalaryValue,
@@ -352,6 +358,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         setLocationValue(data.location);
         setWorkingHoursValue(data.working_hours);
         setExperienceLevelValue(data.experience_level_type);
+        setEducationValue(data.education_degree);
         setMinExperienceValue(data.min_experience);
         setMaxExperienceValue(data.max_experience);
         setMinSalaryValue(data.min_salary);
@@ -1657,6 +1664,27 @@ const getState = ({ getStore, getActions, setStore }) => {
               contactedemployer: data,
             });
           });
+      },
+
+      //for search jobs
+      searchjobsdata: async (jobtitle) => {
+        const response = await fetch(
+          backend + "api/searchjobs?jobtitle=" + jobtitle
+        );
+        if (response.ok) {
+          console.log(response);
+          const data = await response.json();
+
+          setStore({
+            searchjobs: data,
+          });
+        } else {
+          console.log(
+            "Fetch request failed:",
+            response.status,
+            response.statusText
+          );
+        }
       },
     },
   };

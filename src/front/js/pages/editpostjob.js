@@ -4,17 +4,65 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { EmployerSidebar } from "../component/employersidebar";
-import LocationSearchInput from "../component/locationSearchInput";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 export const EditPostJob = () => {
+  let states = [
+    "Alabama",
+    "Alaska",
+    "Arizona",
+    "Arkansas",
+    "California",
+    "Colorado",
+    "Connecticut",
+    "Delaware",
+    "Florida",
+    "Georgia",
+    "Hawaii",
+    "Idaho",
+    "Illinois",
+    "Indiana",
+    "Iowa",
+    "Kansas",
+    "Kentucky",
+    "Louisiana",
+    "Maine",
+    "Maryland",
+    "Massachusetts",
+    "Michigan",
+    "Minnesota",
+    "Mississippi",
+    "Missouri",
+    "Montana",
+    "Nebraska",
+    "Nevada",
+    "New Hampshire",
+    "New Jersey",
+    "New Mexico",
+    "New York",
+    "North Carolina",
+    "North Dakota",
+    "Ohio",
+    "Oklahoma",
+    "Oregon",
+    "Pennsylvania",
+    "Rhode Island",
+    "South Carolina",
+    "South Dakota",
+    "Tennessee",
+    "Texas",
+    "Utah",
+    "Vermont",
+    "Virginia",
+    "Washington",
+    "West Virginia",
+    "Wisconsin",
+    "Wyoming",
+  ];
   const { post_id } = useParams();
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-  const [coordinates, setCoordinates] = useState({
-    lat: null,
-    lng: null,
-  });
+
   const [location, setLocation] = useState("");
   useEffect(() => {
     // Fetch the book details when the component mounts
@@ -32,6 +80,7 @@ export const EditPostJob = () => {
       setLocation,
       setWorkingHoursValue,
       setExperienceLevelValue,
+      setEducationValue,
       setMinExperienceValue,
       setMaxExperienceValue,
       setMinSalaryValue,
@@ -61,6 +110,8 @@ export const EditPostJob = () => {
   const [weekendRequiredValue, setWeekendRequiredValue] = useState("");
   const [languageValue, setLanguageValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
+  const [educationdegreeValue, setEducationValue] = useState("");
+
   const sorted = (e) => {
     if (e.target.value === "Remote") {
       setWorkLocationTypeValue("Remote");
@@ -100,6 +151,18 @@ export const EditPostJob = () => {
       setWeekendRequiredValue("No");
     } else if (e.target.value === "Occasionaly") {
       setWeekendRequiredValue("Occasionaly");
+    } else if (e.target.value === "High School Degree") {
+      setEducationValue("High School Degree");
+    } else if (e.target.value === "Associate Degree") {
+      setEducationValue("Associate Degree");
+    } else if (e.target.value === "Bachelor's Degree") {
+      setEducationValue("Bachelor's Degree");
+    } else if (e.target.value === "Mid-Senior level") {
+      setEducationValue("Mid-Senior level");
+    } else if (e.target.value === "Master's Degree") {
+      setEducationValue("Master's Degree");
+    } else if (e.target.value === "Doctoral Degree") {
+      setEducationValue("Doctoral Degree");
     }
   };
   return (
@@ -209,11 +272,20 @@ export const EditPostJob = () => {
             </select>
             <br />
             <label>Address:</label>
-            <LocationSearchInput
-              setLocation={setLocation}
-              setCoordinates={setCoordinates}
-              location={location}
-            />
+            <select value={location}>
+              <option value="" onClick={() => setLocation("")}>
+                Select a state
+              </option>
+              {states.map((state) => (
+                <option
+                  key={state}
+                  value={state}
+                  onClick={() => setLocation(state)}
+                >
+                  {state}
+                </option>
+              ))}
+            </select>
             <br />
             <br />
             <label htmlFor="workingHours">Working Hours:</label>
@@ -240,6 +312,21 @@ export const EditPostJob = () => {
               <option value="Mid-Senior level">Mid-Senior level</option>
               <option value="Director">Director</option>
               <option value="Executive">Executive</option>
+            </select>
+            <br />
+            <select
+              id="educationdegree"
+              name="educationdegree"
+              required
+              value={educationdegreeValue}
+              onChange={sorted}
+            >
+              <option value="">Select...</option>
+              <option value="High School Degree">High School Degree</option>
+              <option value="Associate Degree">Associate Degree</option>
+              <option value="Bachelor's Degree">Bachelor's Degree</option>
+              <option value="Master's Degree">Master's Degree</option>
+              <option value="Doctoral Degree">Doctoral Degree</option>
             </select>
             <br />
             <label htmlFor="minExperience">Minimum Year Experience:</label>
@@ -338,6 +425,7 @@ export const EditPostJob = () => {
                     jobTypeValue,
                     workingHoursValue,
                     experienceLevelsValue,
+                    educationdegreeValue,
                     minExperienceValue,
                     maxExperiencesValue,
                     minSalaryValue,
