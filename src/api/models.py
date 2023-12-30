@@ -423,6 +423,8 @@ class Postjobs(db.Model):
     weekend_job=db.Column(db.String(80),unique=False,nullable=True)
     # benefits = db.Column(ARRAY(db.String), unique=False, nullable=True)
     language=db.Column(db.String(50),unique=False,nullable=True)
+    current_date = db.Column(Date, default=func.current_date())
+    current_time = db.Column(Time, default=func.current_time())
     employer = db.relationship(Employer, backref="employer_postjobs")
 
     def __init__(self,employer_id,company_name
@@ -477,6 +479,8 @@ class Postjobs(db.Model):
             "description": self.description,
             "weekend_job": self.weekend_job,
             "language": self.language,
+            "current_date": self.current_date.isoformat() if self.current_date else None,
+            "current_time": self.current_time.strftime('%H:%M') if self.current_time else None,
             # "employer":self.employer.serialize()
         }
 

@@ -230,12 +230,12 @@ def jobseekerLogin():
     return jsonify(token=token, user=user.serialize()), 200
 
 @api.route('/viewsinglejob/<int:id>', methods=['GET'])
-@jwt_required()
+# @jwt_required()
 def view_single_job_post(id):
-    email = get_jwt_identity()
-    user = User.query.filter_by(email=email).one_or_none()
-    if user is None:
-        return jsonify("This employer doesn't exist"), 400
+    # email = get_jwt_identity()
+    # user = User.query.filter_by(email=email).one_or_none()
+    # if user is None:
+    #     return jsonify("This employer doesn't exist"), 400
     job = Postjobs.query.filter_by(id=id).one_or_none()
     if job:
         return jsonify(job.serialize()), 200

@@ -1,12 +1,18 @@
 import React, { useEffect, useContext, useState } from "react";
 import "../../styles/home.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 
 export const ViewJobPage = (props) => {
   const { store, actions } = useContext(Context);
+  const navigate = useNavigate("");
   const [replacefile, setReplacefile] = useState("");
+  console.log(store.currentviewjobpost);
+  if (!store.currentviewjobpost) {
+    return <div>Loading...</div>; // or some other placeholder
+  }
+
   const handleFileChange = (event) => {
     setFile(event.target.files[0].name);
   };
@@ -14,14 +20,18 @@ export const ViewJobPage = (props) => {
     setReplacefile(event.target.files[0]);
   };
   const [valueFirstname, setFirstname] = useState(
-    `${store.user.user_bio.first_name}`
+    store.user.user_bio == undefined ? "" : `${store.user.user_bio.first_name}`
   );
   const [valueLastname, setLastname] = useState(
-    `${store.user.user_bio.last_name}`
+    store.user.user_bio == undefined ? "" : `${store.user.user_bio.last_name}`
   );
-  const [valueEmail, setEmail] = useState(`${store.user.email}`);
+  const [valueEmail, setEmail] = useState(
+    store.user.user_bio == undefined ? "" : `${store.user.email}`
+  );
   const [valuePhone, setPhone] = useState(
-    `${store.user.user_bio.phone_number}`
+    store.user.user_bio == undefined
+      ? ""
+      : `${store.user.user_bio.phone_number}`
   );
   const [viewApply, setApply] = useState(true);
   const [viewContact, setContact] = useState(false);
@@ -38,10 +48,6 @@ export const ViewJobPage = (props) => {
   // useEffect(() => {
   //   actions.viewjob(props.id);
   // }, []);
-  console.log(store.currentviewjobpost);
-  if (!store.currentviewjobpost) {
-    return <div>Loading...</div>; // or some other placeholder
-  }
 
   const [file, setFile] = useState(
     store.resume_detail !== undefined ? store.resume_detail[0].resume_name : ""
@@ -68,11 +74,20 @@ export const ViewJobPage = (props) => {
                   : "inline",
             }}
             onClick={() => {
-              setContact(true);
-              setApply(false);
-              setResume(true);
-              setPreview(true);
+              if (!store.useraccessToken) {
+                if (window.confirm("Please log in to continue")) {
+                  navigate("/jobseekerloginsignup");
+                }
+              } else {
+                (() => {
+                  setContact(true);
+                  setApply(false);
+                  setResume(true);
+                  setPreview(true);
+                })();
+              }
             }}
+
             // onClick={() =>
             //   actions.adduserappliedjob(
             //     store.user.id,
@@ -222,15 +237,6 @@ export const ViewJobPage = (props) => {
             {viewSubmit && (
               <button
                 onClick={() => {
-                  actions.addapplicant(
-                    store.user.id,
-                    valueEmail,
-                    valueFirstname,
-                    valueLastname,
-                    valuePhone,
-                    store.currentviewjobpost.id,
-                    store.currentviewjobpost.employer_id
-                  );
                   if (replacefile) {
                     actions.addsentresume(
                       store.user.id,
@@ -238,7 +244,17 @@ export const ViewJobPage = (props) => {
                       replacefile
                     );
                   }
-                  actions.getapplicant(store.user.id);
+                  actions
+                    .addapplicant(
+                      store.user.id,
+                      valueEmail,
+                      valueFirstname,
+                      valueLastname,
+                      valuePhone,
+                      store.currentviewjobpost.id,
+                      store.currentviewjobpost.employer_id
+                    )
+                    .then(() => actions.getapplicant(store.user.id));
                   setsubmitted(true);
                   setSubmit(false);
                   setConfirm(false);

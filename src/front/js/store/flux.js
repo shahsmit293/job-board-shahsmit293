@@ -446,9 +446,9 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore();
         return fetch(`${backend}api/viewsinglejob/${id}`, {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${store.useraccessToken}`,
-          },
+          // headers: {
+          //   Authorization: `Bearer ${store.useraccessToken}`,
+          // },
         })
           .then((response) => {
             if (response.ok) {

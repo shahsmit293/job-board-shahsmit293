@@ -72,17 +72,50 @@ export const Userchat = (props) => {
       >
         Send
       </button>
-      {merged.map((item, index) => (
-        <p
-          key={index}
-          style={{
-            textAlign:
-              item.source === "employerchatsforapplicant" ? "left" : "right",
-          }}
-        >
-          {item.message}
-        </p>
-      ))}
+      {merged.map((item, index) => {
+        // Create Date objects for the current date and the item's date
+        const currentDate = new Date();
+        const itemDate = new Date(item.current_date);
+
+        // Calculate the difference in time and convert it to days
+        const diffTime = Math.abs(currentDate - itemDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        // Array of days
+        const daysOfWeek = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+
+        let displayDate;
+
+        if (diffDays === 0) {
+          displayDate = "Today";
+        } else if (diffDays === 1) {
+          displayDate = "Yesterday";
+        } else if (diffDays < 7) {
+          displayDate = daysOfWeek[itemDate.getDay()];
+        } else {
+          displayDate = item.current_date;
+        }
+
+        return (
+          <p
+            key={index}
+            style={{
+              textAlign:
+                item.source === "employerchatsforapplicant" ? "left" : "right",
+            }}
+          >
+            {item.message} (Posted {displayDate})
+          </p>
+        );
+      })}
     </div>
   );
 };
