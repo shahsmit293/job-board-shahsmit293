@@ -6,7 +6,7 @@ import { Sidebar } from "../component/sidebar";
 import { ViewJobPage } from "./viewjobpage";
 
 export const Home = () => {
-  let states = [
+  const states = [
     "Alabama",
     "Alaska",
     "Arizona",
@@ -69,6 +69,20 @@ export const Home = () => {
     "Director",
     "Executive",
   ];
+  const educationDegrees = [
+    "High School Degree",
+    "Associate Degree",
+    "Bachelor's Degree",
+    "Master's Degree",
+    "Doctoral Degree",
+  ];
+  const daysposted = [
+    "Last 24 Hours",
+    "Last 3 Days",
+    "Last 7 Days",
+    "More Than 7 Days",
+  ];
+
   const { store, actions } = useContext(Context);
   const [showPopup, setShowPopup] = useState(false);
   const [location, setLocation] = useState("");
@@ -76,7 +90,9 @@ export const Home = () => {
   const [valueworklocation, setworklocation] = useState("");
   const [jobtype, setjobtype] = useState("");
   const [experiencelevel, setexperiencelevel] = useState("");
+  const [education, seteducationValue] = useState("");
   const [workingtimes, setworkingtimes] = useState("");
+  const [postdays, setpostdays] = useState("");
   useEffect(() => {
     actions.alljobsdata();
     actions.getresumedetail(store.user.id);
@@ -122,8 +138,26 @@ export const Home = () => {
     }
   };
   useEffect(() => {
-    actions.searchjobsdata(valueJobtitle);
-  }, [valueJobtitle]);
+    actions.searchjobsdata(
+      valueJobtitle,
+      location,
+      valueworklocation,
+      jobtype,
+      experiencelevel,
+      education,
+      workingtimes,
+      postdays
+    );
+  }, [
+    valueJobtitle,
+    location,
+    valueworklocation,
+    jobtype,
+    experiencelevel,
+    education,
+    workingtimes,
+    postdays,
+  ]);
   return (
     <div className="text-center mt-5">
       <div className="search">
@@ -147,6 +181,7 @@ export const Home = () => {
             </option>
           ))}
         </select>
+        <label>Work location Type:</label>
         <select id="workLocationType" name="workLocationType">
           <option value="" onClick={() => setworklocation("")}>
             Select...
@@ -161,7 +196,7 @@ export const Home = () => {
             </option>
           ))}
         </select>
-        <label htmlFor="jobType">Job Type</label>
+        <label>Job Type</label>
         <select id="jobType" name="jobType">
           <option value="" onClick={() => setjobtype("")}>
             Select...
@@ -172,7 +207,7 @@ export const Home = () => {
             </option>
           ))}
         </select>
-        <label htmlFor="experienceLevel">Experience Level</label>
+        <label>Experience Level</label>
         <select id="experienceLevel" name="experienceLevel">
           <option value="" onClick={() => setexperiencelevel("")}>
             Select...
@@ -187,7 +222,22 @@ export const Home = () => {
             </option>
           ))}
         </select>
-        <label htmlFor="workingTimes">Working Times</label>
+        <label>Education Degree</label>
+        <select id="educationdegree" name="educationdegree">
+          <option value="" onClick={() => seteducationValue("")}>
+            Select...
+          </option>
+          {educationDegrees.map((degree) => (
+            <option
+              key={degree}
+              value={degree}
+              onClick={() => seteducationValue(degree)}
+            >
+              {degree}
+            </option>
+          ))}
+        </select>
+        <label>Working Times</label>
         <select id="workingTimes" name="workingTimes">
           <option value="" onClick={() => setworkingtimes("")}>
             Select...
@@ -202,7 +252,31 @@ export const Home = () => {
             </option>
           ))}
         </select>
-        <button onClick={() => actions.searchjobsdata(valueJobtitle)}>
+        <label>Posted Job</label>
+        <select id="posted" name="posted">
+          <option value="" onClick={() => setpostdays("")}>
+            Select...
+          </option>
+          {daysposted.map((day) => (
+            <option key={day} value={day} onClick={() => setpostdays(day)}>
+              {day}
+            </option>
+          ))}
+        </select>
+        <button
+          onClick={() =>
+            actions.searchjobsdata(
+              valueJobtitle,
+              location,
+              valueworklocation,
+              jobtype,
+              experiencelevel,
+              education,
+              workingtimes,
+              postdays
+            )
+          }
+        >
           Search
         </button>
       </div>

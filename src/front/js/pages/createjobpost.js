@@ -145,7 +145,7 @@ export const EmployerCreateJobPost = () => {
             <EmployerSidebar />
           </div>
           <form>
-            <label htmlFor="companyName">Company Name</label>
+            <label>Company Name</label>
             <input
               type="text"
               id="companyName"
@@ -155,7 +155,7 @@ export const EmployerCreateJobPost = () => {
               onChange={(e) => setCompanyNameValue(e.target.value)}
             />
             <br />
-            <label htmlFor="firstName">First Name</label>
+            <label>First Name</label>
             <input
               type="text"
               id="firstName"
@@ -165,7 +165,7 @@ export const EmployerCreateJobPost = () => {
               onChange={(e) => setFirstNameValue(e.target.value)}
             />
             <br />
-            <label htmlFor="lastName">Last Name</label>
+            <label>Last Name</label>
             <input
               type="text"
               id="lastName"
@@ -175,7 +175,7 @@ export const EmployerCreateJobPost = () => {
               onChange={(e) => setLastNameValue(e.target.value)}
             />
             <br />
-            <label htmlFor="phoneNumber">Phone Number</label>
+            <label>Phone Number</label>
             <input
               type="tel"
               id="phoneNumber"
@@ -185,7 +185,7 @@ export const EmployerCreateJobPost = () => {
               onChange={(e) => setPhoneNumberValue(e.target.value)}
             />
             <br />
-            <label htmlFor="companyEmail">Company Email</label>
+            <label>Company Email</label>
             <input
               type="email"
               id="companyEmail"
@@ -195,7 +195,7 @@ export const EmployerCreateJobPost = () => {
               onChange={(e) => setCompanyEmailValue(e.target.value)}
             />
             <br />
-            <label htmlFor="jobTitle">Job Title</label>
+            <label>Job Title</label>
             <input
               type="text"
               id="jobTitle"
@@ -205,7 +205,7 @@ export const EmployerCreateJobPost = () => {
               onChange={(e) => setJobTitleValue(e.target.value)}
             />
             <br />
-            <label htmlFor="numberHiring">Number Hiring</label>
+            <label>Number Hiring</label>
             <input
               type="number"
               min={1}
@@ -216,7 +216,7 @@ export const EmployerCreateJobPost = () => {
               onChange={(e) => setNumberHiringValue(e.target.value)}
             />
             <br />
-            <label htmlFor="workLocationType">Work Location Type</label>
+            <label>Work Location Type</label>
             <select
               id="workLocationType"
               name="workLocationType"
@@ -245,7 +245,7 @@ export const EmployerCreateJobPost = () => {
               ))}
             </select>
             <br />
-            <label htmlFor="jobType">Job Type</label>
+            <label>Job Type</label>
             <select id="jobType" name="jobType" required onChange={sorted}>
               <option value="">Select...</option>
               <option value="Full Time">Full Time</option>
@@ -255,9 +255,7 @@ export const EmployerCreateJobPost = () => {
             </select>
             <br />
 
-            <label htmlFor="workingHours">
-              Minimum working Hours Per Week:
-            </label>
+            <label>Minimum working Hours Per Week:</label>
             <input
               type="number"
               min={0}
@@ -267,7 +265,7 @@ export const EmployerCreateJobPost = () => {
               onChange={(e) => setWorkingHoursValue(e.target.value)}
             />
             <br />
-            <label htmlFor="experienceLevel">Experience Level</label>
+            <label>Experience Level</label>
             <select
               id="experienceLevel"
               name="experienceLevel"
@@ -283,7 +281,7 @@ export const EmployerCreateJobPost = () => {
               <option value="Executive">Executive</option>
             </select>
             <br />
-            <label htmlFor="experienceLevel">Education Degree</label>
+            <label>Education Degree</label>
             <select
               id="educationdegree"
               name="educationdegree"
@@ -298,7 +296,7 @@ export const EmployerCreateJobPost = () => {
               <option value="Doctoral Degree">Doctoral Degree</option>
             </select>
             <br />
-            <label htmlFor="minExperience">Minimum Year Experience:</label>
+            <label>Minimum Year Experience:</label>
             <input
               type="number"
               min="0"
@@ -309,7 +307,7 @@ export const EmployerCreateJobPost = () => {
               onChange={(e) => setMinExperienceValue(e.target.value)}
             />
             <br />
-            <label htmlFor="maxExperience">Maximum Year Experience:</label>
+            <label>Maximum Year Experience:</label>
             <input
               type="number"
               id="maxExperience"
@@ -320,7 +318,7 @@ export const EmployerCreateJobPost = () => {
             />
 
             <br />
-            <label htmlFor="minSalary">Minimum Salary:</label>
+            <label>Minimum Salary:</label>
             <input
               type="number"
               min={0}
@@ -330,7 +328,7 @@ export const EmployerCreateJobPost = () => {
               onChange={(e) => setMinSalaryValue(e.target.value)}
             />
             <br />
-            <label htmlFor="maxSalary">Maximum Salary:</label>
+            <label>Maximum Salary:</label>
             <input
               type="number"
               min={minSalaryValue}
@@ -340,7 +338,7 @@ export const EmployerCreateJobPost = () => {
               onChange={(e) => setMaxSalaryValue(e.target.value)}
             />
             <br />
-            <label htmlFor="workingTimes">Working Times</label>
+            <label>Working Times</label>
             <select id="workingTimes" name="workingTimes" onChange={sorted}>
               <option value="">Select...</option>
               <option value="Day Shift">Day Shift</option>
@@ -348,7 +346,7 @@ export const EmployerCreateJobPost = () => {
               <option value="Afternoon Shift">Afternoon Shift</option>
             </select>
             <br />
-            <label htmlFor="weekendRequired">Weekend Required</label>
+            <label>Weekend Required</label>
             <select
               id="weekendRequired"
               name="weekendRequired"
@@ -360,7 +358,7 @@ export const EmployerCreateJobPost = () => {
               <option value="Occasionaly">Occasionaly</option>
             </select>
             <br />
-            <label htmlFor="language">Language:</label>
+            <label>Language:</label>
             <input
               type="text"
               id="language"

@@ -1134,15 +1134,48 @@ def employer_inbox(jobid):
 
     return jsonify(serialized_chats), 200
 
+from datetime import datetime, timedelta
+
 @api.route('/searchjobs', methods=['GET'])
 def search_jobs():
     jobtitle = request.args.get('jobtitle', default=None, type=str)
+    location = request.args.get('location', default=None, type=str)
+    valueworklocation = request.args.get('valueworklocation', default=None, type=str)
+    jobtype = request.args.get('jobtype', default=None, type=str)
+    experiencelevel = request.args.get('experiencelevel', default=None, type=str)
+    education = request.args.get('education', default=None, type=str)
+    workingtimes = request.args.get('workingtimes', default=None, type=str)
+    daysposted = request.args.get('daysposted', default=None, type=str)
+
+    query = Postjobs.query
     if jobtitle:
         jobtitle = jobtitle.lower().split()
-        jobs = Postjobs.query.filter(or_(Postjobs.job_title.ilike('%' + title + '%') for title in jobtitle)).all()
-    else:
-        jobs = Postjobs.query.all()
+        query = query.filter(or_(Postjobs.job_title.ilike('%' + title + '%') for title in jobtitle))
+    if location:
+        query = query.filter(Postjobs.location.ilike('%' + location + '%'))
+    if valueworklocation:
+        query = query.filter(Postjobs.work_location_type.ilike('%' + valueworklocation + '%'))
+    if jobtype:
+        query = query.filter(Postjobs.job_type.ilike('%' + jobtype + '%'))
+    if experiencelevel:
+        query = query.filter(Postjobs.experience_level_type.ilike('%' + experiencelevel + '%'))
+    if education:
+        query = query.filter(Postjobs.education_degree.ilike('%' + education + '%'))
+    if workingtimes:
+        query = query.filter(Postjobs.working_times.ilike('%' + workingtimes + '%'))
+    if daysposted:
+        if daysposted == "Last 24 Hours":
+            query = query.filter(Postjobs.current_date >= datetime.now() - timedelta(days=1))
+        elif daysposted == "Last 3 Days":
+            query = query.filter(Postjobs.current_date >= datetime.now() - timedelta(days=3))
+        elif daysposted == "Last 7 Days":
+            query = query.filter(Postjobs.current_date >= datetime.now() - timedelta(days=7))
+        elif daysposted == "More Than 7 Days":
+            query = query.filter(Postjobs.current_date < datetime.now() - timedelta(days=7))
+
+    jobs = query.all()
     alljobs_dictionary = [job.serialize() for job in jobs]
     return jsonify(alljobs_dictionary), 200
+
 
 

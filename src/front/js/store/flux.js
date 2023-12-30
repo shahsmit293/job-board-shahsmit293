@@ -1667,9 +1667,34 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //for search jobs
-      searchjobsdata: async (jobtitle) => {
+      searchjobsdata: async (
+        jobtitle,
+        location,
+        valueworklocation,
+        jobtype,
+        experiencelevel,
+        education,
+        workingtimes,
+        daysposted
+      ) => {
         const response = await fetch(
-          backend + "api/searchjobs?jobtitle=" + jobtitle
+          backend +
+            "api/searchjobs?jobtitle=" +
+            jobtitle +
+            "&location=" +
+            location +
+            "&valueworklocation=" +
+            valueworklocation +
+            "&jobtype=" +
+            jobtype +
+            "&experiencelevel=" +
+            experiencelevel +
+            "&education=" +
+            education +
+            "&workingtimes=" +
+            workingtimes +
+            "&daysposted=" +
+            daysposted
         );
         if (response.ok) {
           console.log(response);
