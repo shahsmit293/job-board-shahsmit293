@@ -4,6 +4,58 @@ import propTypes from "prop-types";
 
 export const UserPreference = (props) => {
   const { store, actions } = useContext(Context);
+  const states = [
+    "Alabama",
+    "Alaska",
+    "Arizona",
+    "Arkansas",
+    "California",
+    "Colorado",
+    "Connecticut",
+    "Delaware",
+    "Florida",
+    "Georgia",
+    "Hawaii",
+    "Idaho",
+    "Illinois",
+    "Indiana",
+    "Iowa",
+    "Kansas",
+    "Kentucky",
+    "Louisiana",
+    "Maine",
+    "Maryland",
+    "Massachusetts",
+    "Michigan",
+    "Minnesota",
+    "Mississippi",
+    "Missouri",
+    "Montana",
+    "Nebraska",
+    "Nevada",
+    "New Hampshire",
+    "New Jersey",
+    "New Mexico",
+    "New York",
+    "North Carolina",
+    "North Dakota",
+    "Ohio",
+    "Oklahoma",
+    "Oregon",
+    "Pennsylvania",
+    "Rhode Island",
+    "South Carolina",
+    "South Dakota",
+    "Tennessee",
+    "Texas",
+    "Utah",
+    "Vermont",
+    "Virginia",
+    "Washington",
+    "West Virginia",
+    "Wisconsin",
+    "Wyoming",
+  ];
   const handleLocationChange = (event) => {
     let newLocations = valueRelocationplace
       .split(", ")
@@ -499,36 +551,18 @@ export const UserPreference = (props) => {
                 valueRelocationplace !== "" && (
                   <>
                     <label>Choose location</label>
-                    <div>
-                      <input
-                        type="checkbox"
-                        id="NJ"
-                        name="location"
-                        value="NJ"
-                        onChange={handleLocationChange}
-                      />
-                      <label htmlFor="NJ">NJ</label>
-                      <br />
-                      <input
-                        type="checkbox"
-                        id="NY"
-                        name="location"
-                        value="NY"
-                        onChange={handleLocationChange}
-                      />
-                      <label htmlFor="NY">NY</label>
-                      <br />
-                      <input
-                        type="checkbox"
-                        id="PA"
-                        name="location"
-                        value="PA"
-                        onChange={handleLocationChange}
-                      />
-                      <label htmlFor="PA">PA</label>
-                      <br />
-                      {/* Add all other states here */}
-                    </div>
+                    {states.map((location) => (
+                      <div key={location}>
+                        <input
+                          type="checkbox"
+                          id={location}
+                          name="location"
+                          value={location}
+                          onChange={handleLocationChange}
+                        />
+                        <label htmlFor={location}>{location}</label>
+                      </div>
+                    ))}
                   </>
                 )}
             </>
@@ -920,36 +954,21 @@ export const UserPreference = (props) => {
                 valueRelocationplace !== "" && (
                   <>
                     <label>Choose location</label>
-                    <div>
-                      <input
-                        type="checkbox"
-                        id="NJ"
-                        name="location"
-                        value="NJ"
-                        onChange={handleLocationChange}
-                      />
-                      <label htmlFor="NJ">NJ</label>
-                      <br />
-                      <input
-                        type="checkbox"
-                        id="NY"
-                        name="location"
-                        value="NY"
-                        onChange={handleLocationChange}
-                      />
-                      <label htmlFor="NY">NY</label>
-                      <br />
-                      <input
-                        type="checkbox"
-                        id="PA"
-                        name="location"
-                        value="PA"
-                        onChange={handleLocationChange}
-                      />
-                      <label htmlFor="PA">PA</label>
-                      <br />
-                      {/* Add all other states here */}
-                    </div>
+                    {states.map((location) => (
+                      <div key={location}>
+                        <input
+                          type="checkbox"
+                          id={location}
+                          name="location"
+                          value={location}
+                          onChange={handleLocationChange}
+                          checked={valueRelocationplace
+                            .split(", ")
+                            .includes(location)}
+                        />
+                        <label htmlFor={location}>{location}</label>
+                      </div>
+                    ))}
                   </>
                 )}
             </>

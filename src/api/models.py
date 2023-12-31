@@ -22,7 +22,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "user_bio":self.user_bio.serialize(),
+            "user_bio": self.user_bio.serialize() if self.user_bio else None,
             "user_education": [edu.serialize() for edu in self.user_education],
             "user_experience": [exp.serialize() for exp in self.user_experience]
             }

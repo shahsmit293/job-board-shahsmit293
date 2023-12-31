@@ -24,6 +24,14 @@ export const EmployerSidebar = () => {
             Managae All Jobs
           </button>
         </li>
+        <li className="nav-item">
+          <button
+            className="nav-link"
+            onClick={() => navigate("/employerhome")}
+          >
+            Seach Profiles
+          </button>
+        </li>
       </ul>
     </div>
   );

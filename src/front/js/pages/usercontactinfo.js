@@ -3,6 +3,58 @@ import { Context } from "../store/appContext";
 import propTypes from "prop-types";
 export const UserContactInfo = (props) => {
   const { store, actions } = useContext(Context);
+  const states = [
+    "Alabama",
+    "Alaska",
+    "Arizona",
+    "Arkansas",
+    "California",
+    "Colorado",
+    "Connecticut",
+    "Delaware",
+    "Florida",
+    "Georgia",
+    "Hawaii",
+    "Idaho",
+    "Illinois",
+    "Indiana",
+    "Iowa",
+    "Kansas",
+    "Kentucky",
+    "Louisiana",
+    "Maine",
+    "Maryland",
+    "Massachusetts",
+    "Michigan",
+    "Minnesota",
+    "Mississippi",
+    "Missouri",
+    "Montana",
+    "Nebraska",
+    "Nevada",
+    "New Hampshire",
+    "New Jersey",
+    "New Mexico",
+    "New York",
+    "North Carolina",
+    "North Dakota",
+    "Ohio",
+    "Oklahoma",
+    "Oregon",
+    "Pennsylvania",
+    "Rhode Island",
+    "South Carolina",
+    "South Dakota",
+    "Tennessee",
+    "Texas",
+    "Utah",
+    "Vermont",
+    "Virginia",
+    "Washington",
+    "West Virginia",
+    "Wisconsin",
+    "Wyoming",
+  ];
   useEffect(() => {
     actions.getuserbio(
       store.user.id,
@@ -76,20 +128,31 @@ export const UserContactInfo = (props) => {
             onChange={(e) => setLastname(e.target.value)}
             required
           ></input>
-          <label>Location:</label>
+          <label>Address:</label>
+          <select>
+            <option value="" onClick={() => setLocation("")}>
+              Select a state
+            </option>
+            {states.map((state) => (
+              <option
+                key={state}
+                value={state}
+                onClick={() => setLocation(state)}
+              >
+                {state}
+              </option>
+            ))}
+          </select>
+          <label>Phone Number</label>
           <input
-            typeof="text"
-            value={valueLocation}
-            onChange={(e) => setLocation(e.target.value)}
-            required
-          ></input>
-          <label>Phone Number:</label>
-          <input
-            typeof="number"
+            type="tel"
+            id="phoneNumber"
+            maxlength="10"
+            name="phoneNumber"
             value={valuePhone}
             onChange={(e) => setPhone(e.target.value)}
-            required
-          ></input>
+          />
+          <br />
           <button
             onClick={() => {
               actions.adduserbio(
@@ -129,20 +192,31 @@ export const UserContactInfo = (props) => {
             onChange={(e) => setLastname(e.target.value)}
             required
           ></input>
-          <label>Location:</label>
+          <label>Address:</label>
+          <select value={valueLocation}>
+            <option value="" onClick={() => setLocation("")}>
+              Select a state
+            </option>
+            {states.map((state) => (
+              <option
+                key={state}
+                value={state}
+                onClick={() => setLocation(state)}
+              >
+                {state}
+              </option>
+            ))}
+          </select>
+          <label>Phone Number</label>
           <input
-            typeof="text"
-            value={valueLocation}
-            onChange={(e) => setLocation(e.target.value)}
-            required
-          ></input>
-          <label>Phone Number:</label>
-          <input
-            typeof="number"
+            type="tel"
+            id="phoneNumber"
+            maxlength="10"
+            name="phoneNumber"
             value={valuePhone}
             onChange={(e) => setPhone(e.target.value)}
-            required
-          ></input>
+          />
+          <br />
           <button
             onClick={() => {
               actions

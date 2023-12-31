@@ -4,7 +4,59 @@ import propTypes from "prop-types";
 
 export const UserExperience = (props) => {
   const { store, actions } = useContext(Context);
-
+  const states = [
+    "Alabama",
+    "Alaska",
+    "Arizona",
+    "Arkansas",
+    "California",
+    "Colorado",
+    "Connecticut",
+    "Delaware",
+    "Florida",
+    "Georgia",
+    "Hawaii",
+    "Idaho",
+    "Illinois",
+    "Indiana",
+    "Iowa",
+    "Kansas",
+    "Kentucky",
+    "Louisiana",
+    "Maine",
+    "Maryland",
+    "Massachusetts",
+    "Michigan",
+    "Minnesota",
+    "Mississippi",
+    "Missouri",
+    "Montana",
+    "Nebraska",
+    "Nevada",
+    "New Hampshire",
+    "New Jersey",
+    "New Mexico",
+    "New York",
+    "North Carolina",
+    "North Dakota",
+    "Ohio",
+    "Oklahoma",
+    "Oregon",
+    "Pennsylvania",
+    "Rhode Island",
+    "South Carolina",
+    "South Dakota",
+    "Tennessee",
+    "Texas",
+    "Utah",
+    "Vermont",
+    "Virginia",
+    "Washington",
+    "West Virginia",
+    "Wisconsin",
+    "Wyoming",
+  ];
+  const jobtype = ["Full Time", "Part Time", "Temporary", "Contract"];
   const [showexperiencedetails, setshowexperiencedetails] = useState(true);
   const [addexperience, setaddexperience] = useState(false);
   const [editexperienceform, seteditexperienceform] = useState(false);
@@ -111,39 +163,57 @@ export const UserExperience = (props) => {
             value={addvalueCompanyname}
             onChange={(e) => setaddcompanyname(e.target.value)}
           ></input>
-          <label>JOB TYPE:</label>
+          <label>Job Type:</label>
+          <select>
+            <option value="" onClick={() => setaddjobtype("")}>
+              Select a state
+            </option>
+            {jobtype.map((job) => (
+              <option key={job} value={job} onClick={() => setaddjobtype(job)}>
+                {job}
+              </option>
+            ))}
+          </select>
+          <label>START YEAR::</label>
           <input
-            typeof="text"
-            value={addvaluejobtype}
-            onChange={(e) => setaddjobtype(e.target.value)}
+            type="number"
+            min="0"
+            id="startyear"
+            name="startyear"
             required
-          ></input>
-          <label>START YEAR:</label>
-          <input
-            typeof="number"
             value={addvalueStartyear}
             onChange={(e) => setaddstartyear(e.target.value)}
-            required
-          ></input>
+          />
           <label>END YEAR::</label>
           <input
-            typeof="number"
+            type="number"
+            id="endyear"
+            name="endyear"
+            min={addvalueStartyear}
             value={addvalueEndyear}
             onChange={(e) => setaddendyear(e.target.value)}
-            required
-          ></input>
+          />
           <label>DESCRIPTION:</label>
           <input
             typeof="text"
             value={addvalueDescription}
             onChange={(e) => setadddescription(e.target.value)}
           ></input>
-          <label>LOCATION:</label>
-          <input
-            typeof="text"
-            value={addvalueLocation}
-            onChange={(e) => setaddLocation(e.target.value)}
-          ></input>
+          <label>Location::</label>
+          <select>
+            <option value="" onClick={() => setaddLocation("")}>
+              Select a state
+            </option>
+            {states.map((state) => (
+              <option
+                key={state}
+                value={state}
+                onClick={() => setaddLocation(state)}
+              >
+                {state}
+              </option>
+            ))}
+          </select>
           <button
             onClick={() => {
               actions.adduserexperience(
@@ -185,39 +255,57 @@ export const UserExperience = (props) => {
             value={valueCompanyname}
             onChange={(e) => setCompanyname(e.target.value)}
           ></input>
-          <label>JOB TYPE:</label>
+          <label>Job Type:</label>
+          <select value={valuejobtype}>
+            <option value="" onClick={() => setJobtype("")}>
+              Select a state
+            </option>
+            {jobtype.map((job) => (
+              <option key={job} value={job} onClick={() => setJobtype(job)}>
+                {job}
+              </option>
+            ))}
+          </select>
+          <label>START YEAR::</label>
           <input
-            typeof="text"
-            value={valuejobtype}
-            onChange={(e) => setJobtype(e.target.value)}
+            type="number"
+            min="0"
+            id="startyear"
+            name="startyear"
             required
-          ></input>
-          <label>START YEAR:</label>
-          <input
-            typeof="number"
             value={valueStartyear}
             onChange={(e) => setStartyear(e.target.value)}
-            required
-          ></input>
+          />
           <label>END YEAR::</label>
           <input
-            typeof="number"
+            type="number"
+            id="endyear"
+            name="endyear"
+            min={valueStartyear}
             value={valueEndyear}
             onChange={(e) => setEndyear(e.target.value)}
-            required
-          ></input>
+          />
           <label>DESCRIPTION:</label>
           <input
             typeof="text"
             value={valueDescription}
             onChange={(e) => setDescription(e.target.value)}
           ></input>
-          <label>LOCATION:</label>
-          <input
-            typeof="text"
-            value={valueLocation}
-            onChange={(e) => setLocation(e.target.value)}
-          ></input>
+          <label>Location::</label>
+          <select value={valueLocation}>
+            <option value="" onClick={() => setLocation("")}>
+              Select a state
+            </option>
+            {states.map((state) => (
+              <option
+                key={state}
+                value={state}
+                onClick={() => setLocation(state)}
+              >
+                {state}
+              </option>
+            ))}
+          </select>
           <button
             onClick={() => {
               actions

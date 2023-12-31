@@ -1,9 +1,68 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import propTypes from "prop-types";
+
 export const UserQualification = (props) => {
   const { store, actions } = useContext(Context);
-
+  const states = [
+    "Alabama",
+    "Alaska",
+    "Arizona",
+    "Arkansas",
+    "California",
+    "Colorado",
+    "Connecticut",
+    "Delaware",
+    "Florida",
+    "Georgia",
+    "Hawaii",
+    "Idaho",
+    "Illinois",
+    "Indiana",
+    "Iowa",
+    "Kansas",
+    "Kentucky",
+    "Louisiana",
+    "Maine",
+    "Maryland",
+    "Massachusetts",
+    "Michigan",
+    "Minnesota",
+    "Mississippi",
+    "Missouri",
+    "Montana",
+    "Nebraska",
+    "Nevada",
+    "New Hampshire",
+    "New Jersey",
+    "New Mexico",
+    "New York",
+    "North Carolina",
+    "North Dakota",
+    "Ohio",
+    "Oklahoma",
+    "Oregon",
+    "Pennsylvania",
+    "Rhode Island",
+    "South Carolina",
+    "South Dakota",
+    "Tennessee",
+    "Texas",
+    "Utah",
+    "Vermont",
+    "Virginia",
+    "Washington",
+    "West Virginia",
+    "Wisconsin",
+    "Wyoming",
+  ];
+  const degrees = [
+    "High School Degree",
+    "Associate Degree",
+    "Bachelor's Degree",
+    "Master's Degree",
+    "Doctoral Degree",
+  ];
   const [showeducationdetails, setshoweducationdetails] = useState(true);
   const [addeducationform, setaddeducationform] = useState(false);
   const [editeducationform, setediteducationform] = useState(false);
@@ -100,21 +159,27 @@ export const UserQualification = (props) => {
           ></input>
           <label>START YEAR::</label>
           <input
-            typeof="number"
+            type="number"
+            min="0"
+            id="startyear"
+            name="startyear"
+            required
             value={addvaluestartyear}
             onChange={(e) => setaddStartyear(e.target.value)}
-            required
-          ></input>
+          />
           <label>END YEAR::</label>
           <input
-            typeof="number"
+            type="number"
+            id="endyear"
+            name="endyear"
+            min={addvaluestartyear}
             value={addvalueEndyear}
             onChange={(e) => setaddEndyear(e.target.value)}
-            required
-          ></input>
+          />
           <label>GPA:</label>
           <input
             typeof="number"
+            step="any"
             value={addvaluegpa}
             onChange={(e) => setaddGpa(e.target.value)}
             required
@@ -125,18 +190,36 @@ export const UserQualification = (props) => {
             value={addvalueMajor}
             onChange={(e) => setaddMajor(e.target.value)}
           ></input>
-          <label>DEGREE:</label>
-          <input
-            typeof="text"
-            value={addvalueDegree}
-            onChange={(e) => setaddDegree(e.target.value)}
-          ></input>
-          <label>LOCATION:</label>
-          <input
-            typeof="text"
-            value={addvalueLocation}
-            onChange={(e) => setaddLocation(e.target.value)}
-          ></input>
+          <label>Degree::</label>
+          <select>
+            <option value="" onClick={() => setaddDegree("")}>
+              Select a state
+            </option>
+            {degrees.map((degree) => (
+              <option
+                key={degree}
+                value={degree}
+                onClick={() => setaddDegree(degree)}
+              >
+                {degree}
+              </option>
+            ))}
+          </select>
+          <label>Location::</label>
+          <select>
+            <option value="" onClick={() => setaddLocation("")}>
+              Select a state
+            </option>
+            {states.map((state) => (
+              <option
+                key={state}
+                value={state}
+                onClick={() => setaddLocation(state)}
+              >
+                {state}
+              </option>
+            ))}
+          </select>
           <button
             onClick={() => {
               actions.addusereducation(
@@ -174,21 +257,27 @@ export const UserQualification = (props) => {
           ></input>
           <label>START YEAR::</label>
           <input
-            typeof="number"
+            type="number"
+            min="0"
+            id="startyear"
+            name="startyear"
+            required
             value={valuestartyear}
             onChange={(e) => setStartyear(e.target.value)}
-            required
-          ></input>
+          />
           <label>END YEAR::</label>
           <input
-            typeof="number"
+            type="number"
+            id="endyear"
+            name="endyear"
+            min={valuestartyear}
             value={valueEndyear}
             onChange={(e) => setEndyear(e.target.value)}
-            required
-          ></input>
+          />
           <label>GPA:</label>
           <input
             typeof="number"
+            step="any"
             value={valuegpa}
             onChange={(e) => setGpa(e.target.value)}
             required
@@ -199,18 +288,36 @@ export const UserQualification = (props) => {
             value={valueMajor}
             onChange={(e) => setMajor(e.target.value)}
           ></input>
-          <label>DEGREE:</label>
-          <input
-            typeof="text"
-            value={valueDegree}
-            onChange={(e) => setDegree(e.target.value)}
-          ></input>
-          <label>LOCATION:</label>
-          <input
-            typeof="text"
-            value={valueLocation}
-            onChange={(e) => setLocation(e.target.value)}
-          ></input>
+          <label>Degree::</label>
+          <select value={valueDegree}>
+            <option value="" onClick={() => setDegree("")}>
+              Select a state
+            </option>
+            {degrees.map((degree) => (
+              <option
+                key={degree}
+                value={degree}
+                onClick={() => setDegree(degree)}
+              >
+                {degree}
+              </option>
+            ))}
+          </select>
+          <label>Location::</label>
+          <select value={valueLocation}>
+            <option value="" onClick={() => setLocation("")}>
+              Select a state
+            </option>
+            {states.map((state) => (
+              <option
+                key={state}
+                value={state}
+                onClick={() => setLocation(state)}
+              >
+                {state}
+              </option>
+            ))}
+          </select>
           <button
             onClick={() => {
               actions
