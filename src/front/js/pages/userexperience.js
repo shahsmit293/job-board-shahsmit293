@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import propTypes from "prop-types";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 export const UserExperience = (props) => {
   const { store, actions } = useContext(Context);
@@ -193,12 +195,11 @@ export const UserExperience = (props) => {
             value={addvalueEndyear}
             onChange={(e) => setaddendyear(e.target.value)}
           />
-          <label>DESCRIPTION:</label>
-          <input
-            typeof="text"
+          <ReactQuill
+            theme="snow"
             value={addvalueDescription}
-            onChange={(e) => setadddescription(e.target.value)}
-          ></input>
+            onChange={setadddescription}
+          />
           <label>Location::</label>
           <select>
             <option value="" onClick={() => setaddLocation("")}>
@@ -285,12 +286,11 @@ export const UserExperience = (props) => {
             value={valueEndyear}
             onChange={(e) => setEndyear(e.target.value)}
           />
-          <label>DESCRIPTION:</label>
-          <input
-            typeof="text"
+          <ReactQuill
+            theme="snow"
             value={valueDescription}
             onChange={(e) => setDescription(e.target.value)}
-          ></input>
+          />
           <label>Location::</label>
           <select value={valueLocation}>
             <option value="" onClick={() => setLocation("")}>

@@ -33,7 +33,7 @@ export const ReceivedApplicants = (props) => {
         <button
           onClick={() => {
             props.onViewClick();
-            actions.getviewapplicantprofile(props.userid);
+            actions.getprofile(props.userid);
           }}
         >
           view profile

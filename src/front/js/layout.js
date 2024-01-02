@@ -29,7 +29,7 @@ import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { Employerchat } from "./pages/employerchat";
 import { Employerinbox } from "./pages/employerinbox";
-
+import { EmployersearchUserprofile } from "./pages/employersearchuserprofile";
 //create your first component
 const Layout = () => {
   //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -77,6 +77,10 @@ const Layout = () => {
               path="/employerchat/:user_id/:job_id"
             />
             <Route element={<Employerinbox />} path="/employerinbox/:job_id" />
+            <Route
+              element={<EmployersearchUserprofile />}
+              path="/searchprofiles"
+            />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />

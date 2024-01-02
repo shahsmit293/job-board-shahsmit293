@@ -26,7 +26,20 @@ class User(db.Model):
             "user_education": [edu.serialize() for edu in self.user_education],
             "user_experience": [exp.serialize() for exp in self.user_experience]
             }
-    
+
+    def serialize_userbio(self):
+        return{
+            "user_bio": self.user_bio.serialize() if self.user_bio else None,
+        }
+    def serialize_education(self):
+        return{
+            "user_education": [edu.serialize() for edu in self.user_education],
+        }
+    def serialize_experience(self):
+        return{
+            "user_experience": [exp.serialize() for exp in self.user_experience]
+        }
+
 class UserBio(db.Model):
     __tablename__ = 'userbio'
     id = db.Column(db.Integer, primary_key=True)
@@ -42,7 +55,7 @@ class UserBio(db.Model):
         self.last_name=last_name
         self.location=location
         self.phone_number=phone_number
-    
+
     def serialize(self):
         return {
             "id": self.id,
@@ -52,6 +65,13 @@ class UserBio(db.Model):
             "location":self.location,
             "phone_number":self.phone_number,
             }
+    def other(self):
+        return{
+            "user":{
+                "usereducation":self.user.serialize_education(),
+                "userexperience":self.user.serialize_experience()
+            }
+        }
 
 class UserExtraDetail(db.Model):
     __tablename__ = 'userextradetail'
@@ -75,7 +95,7 @@ class Usereducation(db.Model):
     degree=db.Column(db.String(80),unique=False,nullable=True)
     location=db.Column(db.String(80),unique=False,nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
-    
+
     def __init__(self,collage_name,start_year,end_year,gpa,major,degree,location,user_id):
         self.collage_name=collage_name
         self.start_year=start_year
@@ -85,7 +105,7 @@ class Usereducation(db.Model):
         self.degree=degree
         self.location=location
         self.user_id=user_id
-    
+
     def serialize(self):
         return {
             "id": self.id,
@@ -98,6 +118,13 @@ class Usereducation(db.Model):
             "location":self.location,
             "user_id":self.user_id,
             }
+    def other(self):
+        return{
+            "user":{
+                "userbio":self.user.serialize_userbio(),
+                "userexperience":self.user.serialize_experience()
+            }
+        }
 
 class Userexperience(db.Model):
     __tablename__ = 'userexperience'
@@ -120,7 +147,7 @@ class Userexperience(db.Model):
         self.description=description
         self.location=location
         self.user_id=user_id
-    
+
     def serialize(self):
         return {
             "id": self.id,
@@ -133,6 +160,14 @@ class Userexperience(db.Model):
             "location":self.location,
             "user_id":self.user_id,
             }
+    
+    def other(self):
+        return{
+            "user":{
+                "userbio":self.user.serialize_userbio(),
+                "usereducation":self.user.serialize_education()
+            }
+        }
 
 class Userpreference(db.Model):
     __tablename__ = 'userpreference'
@@ -316,12 +351,12 @@ class Userskills(db.Model):
     skill_year=db.Column(db.Integer,unique=False,nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
     user = db.relationship(User, backref="user_skills")
-    
+
     def __init__(self,skill,skill_year,user_id):
         self.skill=skill
         self.skill_year=skill_year
         self.user_id=user_id
-    
+
     def serialize(self):
         return{
             "id":self.id,
@@ -341,7 +376,7 @@ class Usersavedjobs(db.Model):
     def __init__(self,user_id,job_id):
         self.user_id=user_id
         self.job_id=job_id
-    
+
     def serialize(self):
         return{
             "id":self.id,
@@ -362,7 +397,7 @@ class Userappliedjobs(db.Model):
         self.user_id=user_id
         self.job_id=job_id
         self.employer_id=employer_id
-    
+
     def serialize(self):
         return{
             "id":self.id,
@@ -455,7 +490,7 @@ class Postjobs(db.Model):
         self.description=description
         self.weekend_job=weekend_job
         self.language=language
-    
+
     def serialize(self):
         return {
             "id": self.id,
@@ -499,7 +534,7 @@ class Postjobs(db.Model):
 #     employer = db.relationship(Employer, backref="employer_beneifits")
 #     job = db.relationship(Postjobs, backref="postjobs_beneifits")
 
-class Applicants(db.Model): 
+class Applicants(db.Model):
     __tablename__ = 'applicants'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
@@ -643,4 +678,45 @@ class Employerchat(db.Model):
             "current_time": self.current_time.strftime('%H:%M') if self.current_time else None,
             "user": self.user.serialize(),
             "job": self.job.serialize()
+        }
+    
+
+class Saveduserprofile(db.Model):
+    __tablename__ = 'saveduserprofile'
+    id = db.Column(db.Integer, primary_key=True)
+    employer_id = db.Column(db.Integer, db.ForeignKey('employer.id'),nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
+    employer = db.relationship(Employer, backref="employer_saved_user_profile")
+    user = db.relationship(User, backref="user_saved_user_profile")
+
+    def __init__(self,employer_id,user_id):
+        self.employer_id=employer_id
+        self.user_id=user_id
+
+    def serialize(self):
+        return{
+            "id":self.id,
+            "employer_id":self.employer_id,
+            "user_id":self.user_id,
+            "user":self.user.serialize(),
+        }
+
+class Contacteduserprofile(db.Model):
+    __tablename__ = 'contacteduserprofile'
+    id = db.Column(db.Integer, primary_key=True)
+    employer_id = db.Column(db.Integer, db.ForeignKey('employer.id'),nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=True)
+    employer = db.relationship(Employer, backref="employer_contacted_user_profile")
+    user = db.relationship(User, backref="user_contacted_user_profile")
+
+    def __init__(self,employer_id,user_id):
+        self.employer_id=employer_id
+        self.user_id=user_id
+
+    def serialize(self):
+        return{
+            "id":self.id,
+            "employer_id":self.employer_id,
+            "user_id":self.user_id,
+            "user":self.user.serialize(),
         }

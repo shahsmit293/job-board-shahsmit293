@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs,Favoriteapplicant,Applicants,Applicantresume,Applicantchat,Employerchat
+from api.models import db, Employer,Postjobs,User,Userresume,UserBio,Usereducation,Userexperience,Userskills,Userpreference,Usersavedjobs,Favoriteapplicant,Applicants,Applicantresume,Applicantchat,Employerchat,Saveduserprofile, Contacteduserprofile
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -880,7 +880,7 @@ def get_viewapplicantprofile(userid):
     if viewapplicantprofile:  
         return jsonify(viewapplicantprofile.serialize()), 200
     else:
-        return jsonify({"message": "applicant not found"}), 404
+        return jsonify({"message": "profile not found"}), 404
     
 
 
@@ -1176,6 +1176,145 @@ def search_jobs():
     jobs = query.all()
     alljobs_dictionary = [job.serialize() for job in jobs]
     return jsonify(alljobs_dictionary), 200
+
+
+
+
+@api.route('/searchprofiles', methods=['GET'])
+def search_profile():
+    jobtitle = request.args.get('jobtitle', default=None, type=str)
+    location = request.args.get('location', default=None, type=str)
+    experience_level = request.args.get('experience_level', default=None, type=str)
+    education_degree = request.args.get('education_degree', default=None, type=str)
+
+    query = Userexperience.query
+    if jobtitle:
+        jobtitle = jobtitle.lower().split()
+        query = query.filter(or_(Userexperience.job_title.ilike('%' + title + '%') for title in jobtitle))
+
+    experiences = query.all()
+    user_ids = set([exp.user_id for exp in experiences])  # Convert list to set to remove duplicates
+
+    if experience_level:
+        current_year = datetime.now().year
+        if experience_level == "Less Than 1 Year":
+            user_ids = set([exp.user_id for exp in experiences if exp.end_year - exp.start_year < 1])
+        elif experience_level == "1-2 Years":
+            user_ids = set([exp.user_id for exp in experiences if 1 <= exp.end_year - exp.start_year <= 2])
+        elif experience_level == "3-5 Years":
+            user_ids = set([exp.user_id for exp in experiences if 3 <= exp.end_year - exp.start_year <= 5])
+        elif experience_level == "6-10 Years":
+            user_ids = set([exp.user_id for exp in experiences if 6 <= exp.end_year - exp.start_year <= 10])
+        elif experience_level == "More Than 10 Years":
+            user_ids = set([exp.user_id for exp in experiences if exp.end_year - exp.start_year > 10])
+
+    if education_degree:
+        education_query = Usereducation.query.filter(Usereducation.degree.ilike('%' + education_degree + '%'))
+        education_user_ids = set([edu.user_id for edu in education_query.all()])  # Convert list to set to remove duplicates
+        user_ids = user_ids & education_user_ids  # Intersection of two sets
+
+    if not jobtitle and not location and not experience_level and not education_degree:
+        user_ids = set([exp.user_id for exp in Userexperience.query.all()])  # Get all user IDs if no parameters are entered
+
+    users = User.query.filter(User.id.in_(user_ids)).all()  # Query the User table using the user_ids set
+    all_users_dictionary = [user.serialize() for user in users]  # Serialize the User objects
+    return jsonify(all_users_dictionary), 200
+
+@api.route('/addsaveduserprofiles',methods=['POST'])
+@jwt_required()
+def add_saveduserprofiles():
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    
+    body = request.json
+    saveduserprofiles=Saveduserprofile(
+        employer_id=body["employer_id"],
+        user_id=body["user_id"],
+        )
+    db.session.add(saveduserprofiles)
+    db.session.commit()
+    return jsonify(saveduserprofiles.serialize())
+
+@api.route('/getsaveduserprofiles/<int:employerid>',methods=['GET'])
+@jwt_required()
+def get_saveduserprofiles(employerid):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    
+    saveduserprofiles = Saveduserprofile.query.filter_by(employer_id=employerid).all()
+    if saveduserprofiles:  
+        results=[saved.serialize() for saved in saveduserprofiles]
+        return jsonify(results), 200
+    else:
+        return jsonify({"message": "profiles not found"}), 404
+
+@api.route('/deletesaveduserprofiles/<int:employerid>/<int:userid>', methods=["DELETE"])
+@jwt_required()
+def delete_saveduserprofiles(employerid,userid):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+
+    saveduserprofiles = Saveduserprofile.query.filter_by(employer_id=employerid,user_id=userid,).first()
+    if saveduserprofiles is None:
+        return jsonify("This saved user doesn't exist"), 400
+
+    db.session.delete(saveduserprofiles)
+    db.session.commit()
+    return jsonify("saved user deleted successfully"), 200
+
+@api.route('/addcontacteduserprofiles',methods=['POST'])
+@jwt_required()
+def add_contacteduserprofiles():
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    
+    body = request.json
+    contacteduserprofiles=Contacteduserprofile(
+        employer_id=body["employer_id"],
+        user_id=body["user_id"],
+        )
+    db.session.add(contacteduserprofiles)
+    db.session.commit()
+    return jsonify(contacteduserprofiles.serialize())
+
+@api.route('/getcontacteduserprofiles/<int:employerid>',methods=['GET'])
+@jwt_required()
+def get_contacteduserprofiles(employerid):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    
+    contacteduserprofiles = Contacteduserprofile.query.filter_by(employer_id=employerid).all()
+    if contacteduserprofiles:  
+        results=[contact.serialize() for contact in contacteduserprofiles]
+        return jsonify(results), 200
+    else:
+        return jsonify({"message": "contacted profiles not found"}), 404
+
+@api.route('/deletecontacteduserprofiles/<int:employerid>/<int:userid>', methods=["DELETE"])
+@jwt_required()
+def delete_contacteduserprofiles(employerid,userid):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+
+    contacteduserprofiles = Contacteduserprofile.query.filter_by(employer_id=employerid,user_id=userid,).first()
+    if contacteduserprofiles is None:
+        return jsonify("This saved user doesn't exist"), 400
+
+    db.session.delete(contacteduserprofiles)
+    db.session.commit()
+    return jsonify("saved user deleted successfully"), 200
 
 
 

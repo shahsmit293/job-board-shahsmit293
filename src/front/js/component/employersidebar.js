@@ -27,7 +27,7 @@ export const EmployerSidebar = () => {
         <li className="nav-item">
           <button
             className="nav-link"
-            onClick={() => navigate("/employerhome")}
+            onClick={() => navigate("/searchprofiles")}
           >
             Seach Profiles
           </button>

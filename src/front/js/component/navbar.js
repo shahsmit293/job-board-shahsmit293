@@ -61,21 +61,6 @@ export const Navbar = () => {
             {store.accessToken ? (
               <>
                 <li className="nav-item">
-                  <button className="nav-link" href="#">
-                    chat
-                  </button>
-                </li>
-                <li className="nav-item">
-                  <button className="nav-link" href="#">
-                    notification
-                  </button>
-                </li>
-                <li className="nav-item">
-                  <button className="nav-link" href="#">
-                    profile
-                  </button>
-                </li>
-                <li className="nav-item">
                   <button className="nav-link" onClick={actions.handleLogout}>
                     log out
                   </button>

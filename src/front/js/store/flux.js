@@ -48,6 +48,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       applicantchatsforemployer: [],
       contactedemployer: [],
       searchjobs: [],
+      searchprofiles: [],
+      viewuserprofile: [],
+      saveduserfiles: [],
+      contacteduserfiles: [],
     },
 
     actions: {
@@ -1335,7 +1339,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //get applicant viewprofile
-      getviewapplicantprofile: (userid) => {
+      getprofile: (userid) => {
         const store = getStore();
         fetch(`${backend}api/viewapplicantprofile/${userid}`, {
           method: "GET",
@@ -1347,7 +1351,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((resp) => resp.json())
           .then((data) => {
             console.log(data);
-            setStore({ viewapplicantprofile: data });
+            setStore({ viewapplicantprofile: data, viewuserprofile: data });
           });
       },
 
@@ -1710,6 +1714,167 @@ const getState = ({ getStore, getActions, setStore }) => {
             response.statusText
           );
         }
+      },
+
+      //for search jobs
+      searchprofile: async (
+        jobtitle,
+        location,
+        experience_level,
+        education_degree
+      ) => {
+        const response = await fetch(
+          backend +
+            "api/searchprofiles?jobtitle=" +
+            jobtitle +
+            "&location=" +
+            location +
+            "&experience_level=" +
+            experience_level +
+            "&education_degree=" +
+            education_degree
+        );
+        if (response.ok) {
+          console.log(response);
+          const data = await response.json();
+
+          setStore({
+            searchprofiles: data,
+          });
+        } else {
+          console.log(
+            "Fetch request failed:",
+            response.status,
+            response.statusText
+          );
+        }
+      },
+
+      //add user profiles
+      addsaveduserprofiles: async (employer_id, user_id) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/addsaveduserprofiles`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+          body: JSON.stringify({
+            employer_id: employer_id,
+            user_id: user_id,
+          }),
+        });
+        const data = await resp.json();
+        console.log(data);
+      },
+
+      //get saved users profile
+      getsaveduserprofiles: (employer_id) => {
+        const store = getStore();
+        fetch(`${backend}api/getsaveduserprofiles/${employer_id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ saveduserfiles: data });
+          });
+      },
+      //delete saved users profile
+      deletesaveduserprofiles: (employer_id, user_id) => {
+        const store = getStore();
+        return new Promise((resolve, reject) => {
+          fetch(
+            `${backend}api/deletesaveduserprofiles/${employer_id}/${user_id}`,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization: `Bearer ${store.accessToken}`,
+              },
+            }
+          )
+            .then((resp) => {
+              if (resp.ok) {
+                console.log(resp);
+                resolve(true); // Resolve the promise with true to indicate success
+              } else {
+                console.error("error deleting skill");
+                reject("error deleting skill"); // Reject the promise with the error message
+              }
+            })
+            .catch((error) => {
+              console.error("error deleting skill", error);
+              reject(error); // Reject the promise with the error object
+            });
+        });
+      },
+
+      //add contacted user profiles
+      addcontacteduserprofiles: async (employer_id, user_id) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/addcontacteduserprofiles`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+          body: JSON.stringify({
+            employer_id: employer_id,
+            user_id: user_id,
+          }),
+        });
+        const data = await resp.json();
+        console.log(data);
+      },
+
+      //get contacted users profile
+      getcontacteduserprofiles: (employer_id) => {
+        const store = getStore();
+        fetch(`${backend}api/getcontacteduserprofiles/${employer_id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ contacteduserfiles: data });
+          });
+      },
+
+      //delete contacted users profile
+      deletecontacteduserprofiles: (employer_id, user_id) => {
+        const store = getStore();
+        return new Promise((resolve, reject) => {
+          fetch(
+            `${backend}api/deletecontacteduserprofiles/${employer_id}/${user_id}`,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization: `Bearer ${store.accessToken}`,
+              },
+            }
+          )
+            .then((resp) => {
+              if (resp.ok) {
+                console.log(resp);
+                resolve(true); // Resolve the promise with true to indicate success
+              } else {
+                console.error("error deleting contacted profile");
+                reject("error deleting contacted profile"); // Reject the promise with the error message
+              }
+            })
+            .catch((error) => {
+              console.error("error deleting contacted profile", error);
+              reject(error); // Reject the promise with the error object
+            });
+        });
       },
     },
   };
