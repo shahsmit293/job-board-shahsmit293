@@ -232,6 +232,153 @@ def jobseekerLogin():
     token = create_access_token(identity=email)
     return jsonify(token=token, user=user.serialize()), 200
 
+@api.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    email = request.json.get('email')
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({'message': 'Email not found in the database.'}), 400
+
+    expiration_time = datetime.utcnow() + timedelta(hours=1)
+    payload = {
+        'email': email,
+        'exp': expiration_time
+    }
+    token = jwt.encode(payload, JWT_SECRET_KEY, algorithm='HS256')
+    FRONTEND_URL= os.getenv('FRONTEND_URL')
+    MAIL_USERNAME= os.getenv('MAIL_USERNAME')
+    MAIL_PASSWORD= os.getenv('MAIL_PASSWORD')
+    URL_TOKEN = f"{FRONTEND_URL}resetpasswordjobseeker?token={token}"
+
+    try:
+        msg = MIMEMultipart()
+        msg['From'] = MAIL_USERNAME
+        msg['To'] = email
+        msg['Subject'] = 'Password Reset'        
+        body = f'''
+        <html>
+        <body>
+        <p>Hello, you requested a password reset. If you did not request this, please ignore this email.</p>
+        <p>Click the link below to reset your password:</p>
+        <p><a href="{URL_TOKEN}">Reset Password</a></p>
+        <p>This token is valid for 1 hour. After expiration, you will need to request another password reset.</p>
+        <p>Sincerely,<br/>ShelfShare</p>
+        </body>
+        </html>
+        '''
+
+        msg.attach(MIMEText(body, 'html'))
+
+        server = smtplib.SMTP(os.getenv('MAIL_SERVER'), os.getenv('MAIL_PORT'))
+        server.starttls()
+        server.login(MAIL_USERNAME, MAIL_PASSWORD)
+        text = msg.as_string()
+        server.sendmail(MAIL_USERNAME, email, text)
+        server.quit()
+
+        return jsonify({'message': 'Password reset link sent to your email.'}), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+    
+
+@api.route('/reset-password', methods=['POST'])
+def reset_password():
+    data = request.get_json()
+    token = data.get('token')
+    new_password = data.get('new_password')
+
+    try:
+        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=['HS256'])
+        email = payload.get('email')
+        user = User.query.filter_by(email=email).first()
+        if user:
+            user.password = generate_password_hash(new_password)
+            db.session.commit()
+            return jsonify({'message': 'Password reset successful.'}), 200
+        else:
+            return jsonify({'error': 'User not found.'}), 404
+
+    except jwt.ExpiredSignatureError:
+        return jsonify({'error': 'Expired token.'}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({'error': 'Invalid token.'}), 401
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+@api.route('/forgot-password-employer', methods=['POST'])
+def forgot_password_employer():
+    email = request.json.get('email')
+    employer = Employer.query.filter_by(email=email).first()
+    if not employer:
+        return jsonify({'message': 'Email not found in the database.'}), 400
+
+    expiration_time = datetime.utcnow() + timedelta(hours=1)
+    payload = {
+        'email': email,
+        'exp': expiration_time
+    }
+    token = jwt.encode(payload, JWT_SECRET_KEY, algorithm='HS256')
+    FRONTEND_URL= os.getenv('FRONTEND_URL')
+    MAIL_USERNAME= os.getenv('MAIL_USERNAME')
+    MAIL_PASSWORD= os.getenv('MAIL_PASSWORD')
+    URL_TOKEN = f"{FRONTEND_URL}resetpasswordemployer?token={token}"
+
+    try:
+        msg = MIMEMultipart()
+        msg['From'] = MAIL_USERNAME
+        msg['To'] = email
+        msg['Subject'] = 'Password Reset'        
+        body = f'''
+        <html>
+        <body>
+        <p>Hello, you requested a password reset. If you did not request this, please ignore this email.</p>
+        <p>Click the link below to reset your password:</p>
+        <p><a href="{URL_TOKEN}">Reset Password</a></p>
+        <p>This token is valid for 1 hour. After expiration, you will need to request another password reset.</p>
+        <p>Sincerely,<br/>ShelfShare</p>
+        </body>
+        </html>
+        '''
+
+        msg.attach(MIMEText(body, 'html'))
+
+        server = smtplib.SMTP(os.getenv('MAIL_SERVER'), os.getenv('MAIL_PORT'))
+        server.starttls()
+        server.login(MAIL_USERNAME, MAIL_PASSWORD)
+        text = msg.as_string()
+        server.sendmail(MAIL_USERNAME, email, text)
+        server.quit()
+
+        return jsonify({'message': 'Password reset link sent to your email.'}), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+
+@api.route('/reset-password-employer', methods=['POST'])
+def reset_password_employer():
+    data = request.get_json()
+    token = data.get('token')
+    new_password = data.get('new_password')
+
+    try:
+        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=['HS256'])
+        email = payload.get('email')
+        employer = Employer.query.filter_by(email=email).first()
+        if employer:
+            employer.password = generate_password_hash(new_password)
+            db.session.commit()
+            return jsonify({'message': 'Password reset successful.'}), 200
+        else:
+            return jsonify({'error': 'Employer not found.'}), 404
+
+    except jwt.ExpiredSignatureError:
+        return jsonify({'error': 'Expired token.'}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({'error': 'Invalid token.'}), 401
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+
 @api.route('/viewsinglejob/<int:id>', methods=['GET'])
 # @jwt_required()
 def view_single_job_post(id):

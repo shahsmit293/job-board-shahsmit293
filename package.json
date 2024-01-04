@@ -75,6 +75,7 @@
 	},
 	"dependencies": {
 		"@react-google-maps/api": "^2.19.2",
+		"axios": "^1.6.4",
 		"file-saver": "^2.0.5",
 		"google-map-react": "^2.2.1",
 		"prop-types": "^15.6.1",

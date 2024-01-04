@@ -30,6 +30,8 @@ import { Footer } from "./component/footer";
 import { Employerchat } from "./pages/employerchat";
 import { Employerinbox } from "./pages/employerinbox";
 import { EmployersearchUserprofile } from "./pages/employersearchuserprofile";
+import { ResetPassword } from "./pages/resetPassword";
+import { ResetPasswordEmployer } from "./pages/resetPasswordemployer";
 //create your first component
 const Layout = () => {
   //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -47,9 +49,14 @@ const Layout = () => {
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<UserLoginSignup />} path="/jobseekerloginsignup" />
+            <Route element={<ResetPassword />} path="/resetpasswordjobseeker" />
             <Route
               element={<EmployerLoginSignup />}
               path="/employerloginsignup"
+            />
+            <Route
+              element={<ResetPasswordEmployer />}
+              path="/resetpasswordemployer"
             />
             <Route element={<ViewJob />} path="/viewjob" />
             <Route element={<ApplyJob />} path="/applyjob" />

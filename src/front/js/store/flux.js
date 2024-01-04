@@ -52,6 +52,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       viewuserprofile: [],
       saveduserfiles: [],
       contacteduserfiles: [],
+      errorMessagePassword: [],
+      errorMessagePasswordEmployer: [],
     },
 
     actions: {
@@ -223,6 +225,34 @@ const getState = ({ getStore, getActions, setStore }) => {
         });
         const respData = await resp.json();
         console.log(respData);
+      },
+
+      resetPassword: (token, newPassword) => {
+        const store = getStore();
+        return fetch(backend + "api/reset-password", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: token, new_password: newPassword }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setStore({ errorMessagePassword: data });
+            console.log("SMIT", data);
+          });
+      },
+
+      resetPasswordEmployer: (token, newPassword) => {
+        const store = getStore();
+        return fetch(backend + "api/reset-password-employer", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: token, new_password: newPassword }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setStore({ errorMessagePasswordEmployer: data });
+            console.log("SMIT", data);
+          });
       },
 
       /*to see each job post*/

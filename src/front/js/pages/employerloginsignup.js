@@ -2,12 +2,13 @@ import React, { useContext, useState } from "react";
 import "../../styles/home.css";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
-
+import ForgotPasswordEmployer from "./forgotPasswordemployer";
 export const EmployerLoginSignup = () => {
   const [loginEmailValue, setloginEmailValue] = useState("");
   const [loginPasswordValue, setloginPasswordValue] = useState("");
   const [signupEmailValue, setsignupEmailValue] = useState("");
   const [signupPasswordValue, setsignupPasswordValue] = useState("");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const { store, actions } = useContext(Context);
   const navigate = useNavigate("");
   return (
@@ -46,6 +47,12 @@ export const EmployerLoginSignup = () => {
             }}
           />
         </div>
+        <div onClick={() => setShowForgotPassword(true)}>Forgot Password?</div>
+        {showForgotPassword && (
+          <ForgotPasswordEmployer
+            onClose={() => setShowForgotPassword(false)}
+          />
+        )}
         <button
           type="submit"
           className="btn btn-primary"
