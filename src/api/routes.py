@@ -1463,5 +1463,49 @@ def delete_contacteduserprofiles(employerid,userid):
     db.session.commit()
     return jsonify("saved user deleted successfully"), 200
 
+@api.route('/sendemailforapply', methods=['POST'])
+@jwt_required()
+def send_email_apply():
+    email=get_jwt_identity()
+    user = User.query.filter_by(email=email).one_or_none()
+    if not user:
+        return jsonify({'message': 'Email not found in the database.'}), 400
+    
+    email = request.json.get('email')
+    company_name = request.json.get('company_name')
+    job_title = request.json.get('job_title')
+    location = request.json.get('location')
+    MAIL_USERNAME= os.getenv('MAIL_USERNAME')
+    MAIL_PASSWORD= os.getenv('MAIL_PASSWORD')
+
+    try:
+        msg = MIMEMultipart()
+        msg['From'] = MAIL_USERNAME
+        msg['To'] = email
+        msg['Subject'] = 'Application Confirmation'        
+        body = f'''
+        <html>
+        <body>
+        <p>Hello, you have successfully applied for the position at {company_name} , {job_title} located in {location}.</p>
+        <p>We will review your application and get back to you soon.</p>
+        <p>Sincerely,<br/>ShelfShare</p>
+        </body>
+        </html>
+        '''
+
+        msg.attach(MIMEText(body, 'html'))
+
+        server = smtplib.SMTP(os.getenv('MAIL_SERVER'), os.getenv('MAIL_PORT'))
+        server.starttls()
+        server.login(MAIL_USERNAME, MAIL_PASSWORD)
+        text = msg.as_string()
+        server.sendmail(MAIL_USERNAME, email, text)
+        server.quit()
+
+        return jsonify({'message': 'Application confirmation sent to your email.'}), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+
 
 

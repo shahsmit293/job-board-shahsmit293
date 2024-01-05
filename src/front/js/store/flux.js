@@ -1906,6 +1906,26 @@ const getState = ({ getStore, getActions, setStore }) => {
             });
         });
       },
+
+      // send email for applied job
+      sendemailforapply: async (email, company_name, job_title, location) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/sendemailforapply`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            email: email,
+            company_name: company_name,
+            job_title: job_title,
+            location: location,
+          }),
+        });
+        const data = await resp.json();
+        console.log(data);
+      },
     },
   };
 };
