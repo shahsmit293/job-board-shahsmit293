@@ -796,6 +796,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       //add userexperience
+      //add userexperience
       adduserexperience: async (
         job_title,
         company_name,
@@ -881,6 +882,88 @@ const getState = ({ getStore, getActions, setStore }) => {
               b.id === id ? data.education : b
             );
           });
+      },
+
+      //delete user experience
+      deleteexperience: (id) => {
+        const store = getStore();
+        fetch(`${backend}api/deleteuserexperience/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("error deleting experience");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting experience", error);
+          });
+      },
+
+      //add userskill
+      adduserskill: async (skill, skill_year, user_id) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/adduserskill`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            skill: skill,
+            skill_year: skill_year,
+            user_id: user_id,
+          }),
+        });
+        const data = await resp.json();
+        console.log(data);
+        window.location.reload();
+      },
+
+      //delete user experience
+      deleteexperience: (id) => {
+        const store = getStore();
+        fetch(`${backend}api/deleteuserexperience/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              window.location.reload();
+            } else {
+              console.error("error deleting experience");
+            }
+          })
+          .catch((error) => {
+            console.error("error deleting experience", error);
+          });
+      },
+
+      //add userskill
+      adduserskill: async (skill, skill_year, user_id) => {
+        const store = getStore();
+        const resp = await fetch(`${backend}api/adduserskill`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.useraccessToken}`,
+          },
+          body: JSON.stringify({
+            skill: skill,
+            skill_year: skill_year,
+            user_id: user_id,
+          }),
+        });
+        const data = await resp.json();
+        console.log(data);
+        window.location.reload();
       },
 
       //delete user experience

@@ -1329,6 +1329,8 @@ def search_jobs():
 
 @api.route('/searchprofiles', methods=['GET'])
 def search_profile():
+    from dateutil.relativedelta import relativedelta
+
     jobtitle = request.args.get('jobtitle', default=None, type=str)
     location = request.args.get('location', default=None, type=str)
     experience_level = request.args.get('experience_level', default=None, type=str)
@@ -1343,22 +1345,28 @@ def search_profile():
     user_ids = set([exp.user_id for exp in experiences])  # Convert list to set to remove duplicates
 
     if experience_level:
-        current_year = datetime.now().year
+        current_date = datetime.now()
         if experience_level == "Less Than 1 Year":
-            user_ids = set([exp.user_id for exp in experiences if exp.end_year - exp.start_year < 1])
+            user_ids = set([exp.user_id for exp in experiences if relativedelta(current_date, datetime.strptime(exp.start_year, "%Y-%m-%d")).years < 1])
         elif experience_level == "1-2 Years":
-            user_ids = set([exp.user_id for exp in experiences if 1 <= exp.end_year - exp.start_year <= 2])
+            user_ids = set([exp.user_id for exp in experiences if 1 <= relativedelta(current_date, datetime.strptime(exp.start_year, "%Y-%m-%d")).years <= 2])
         elif experience_level == "3-5 Years":
-            user_ids = set([exp.user_id for exp in experiences if 3 <= exp.end_year - exp.start_year <= 5])
+            user_ids = set([exp.user_id for exp in experiences if 3 <= relativedelta(current_date, datetime.strptime(exp.start_year, "%Y-%m-%d")).years <= 5])
         elif experience_level == "6-10 Years":
-            user_ids = set([exp.user_id for exp in experiences if 6 <= exp.end_year - exp.start_year <= 10])
+            user_ids = set([exp.user_id for exp in experiences if 6 <= relativedelta(current_date, datetime.strptime(exp.start_year, "%Y-%m-%d")).years <= 10])
         elif experience_level == "More Than 10 Years":
-            user_ids = set([exp.user_id for exp in experiences if exp.end_year - exp.start_year > 10])
+            user_ids = set([exp.user_id for exp in experiences if relativedelta(current_date, datetime.strptime(exp.start_year, "%Y-%m-%d")).years > 10])
 
     if education_degree:
         education_query = Usereducation.query.filter(Usereducation.degree.ilike('%' + education_degree + '%'))
         education_user_ids = set([edu.user_id for edu in education_query.all()])  # Convert list to set to remove duplicates
         user_ids = user_ids & education_user_ids  # Intersection of two sets
+
+    if location:
+        location = location.lower()
+        location_query = UserBio.query.filter(UserBio.location.ilike('%' + location + '%'))
+        location_user_ids = set([bio.user_id for bio in location_query.all()])  # Convert list to set to remove duplicates
+        user_ids = user_ids & location_user_ids  # Intersection of two sets
 
     if not jobtitle and not location and not experience_level and not education_degree:
         user_ids = set([exp.user_id for exp in Userexperience.query.all()])  # Get all user IDs if no parameters are entered
@@ -1366,6 +1374,8 @@ def search_profile():
     users = User.query.filter(User.id.in_(user_ids)).all()  # Query the User table using the user_ids set
     all_users_dictionary = [user.serialize() for user in users]  # Serialize the User objects
     return jsonify(all_users_dictionary), 200
+
+
 
 @api.route('/addsaveduserprofiles',methods=['POST'])
 @jwt_required()

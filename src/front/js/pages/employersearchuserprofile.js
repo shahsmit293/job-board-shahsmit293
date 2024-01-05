@@ -136,6 +136,14 @@ export const EmployersearchUserprofile = () => {
   const handleViewClick = () => {
     setShowPopup(true);
   };
+  useEffect(() => {
+    actions.searchprofile(
+      valueJobtitle,
+      location,
+      valueexperiencelevel,
+      valueeducation
+    );
+  }, [valueJobtitle, location, valueexperiencelevel, valueeducation]);
   return (
     <div>
       <div>
@@ -175,7 +183,10 @@ export const EmployersearchUserprofile = () => {
             onChange={(e) => setValueJobtitile(e.target.value)}
           ></input>
           <label>Address:</label>
-          <select>
+          <select
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          >
             <option value="" onClick={() => setLocation("")}>
               Select a state
             </option>
@@ -190,7 +201,12 @@ export const EmployersearchUserprofile = () => {
             ))}
           </select>
           <label>Experience Level</label>
-          <select id="experienceLevel" name="experienceLevel">
+          <select
+            id="experienceLevel"
+            name="experienceLevel"
+            value={valueexperiencelevel}
+            onChange={(e) => setexperiencelevel(e.target.value)}
+          >
             <option value="" onClick={() => setexperiencelevel("")}>
               Select...
             </option>
@@ -205,7 +221,12 @@ export const EmployersearchUserprofile = () => {
             ))}
           </select>
           <label>Education Degree</label>
-          <select id="educationdegree" name="educationdegree">
+          <select
+            id="educationdegree"
+            name="educationdegree"
+            value={valueeducation}
+            onChange={(e) => seteducationValue(e.target.value)}
+          >
             <option value="" onClick={() => seteducationValue("")}>
               Select...
             </option>
@@ -232,6 +253,16 @@ export const EmployersearchUserprofile = () => {
           >
             Search
           </button>
+          <button
+            onClick={() => {
+              setValueJobtitile(""),
+                setLocation(""),
+                setexperiencelevel(""),
+                seteducationValue("");
+            }}
+          >
+            Clear All
+          </button>
         </div>
       )}
       {showsearchProfiles &&
@@ -242,22 +273,25 @@ export const EmployersearchUserprofile = () => {
         ) : (
           <div className="list of applicants">
             {Array.isArray(store.searchprofiles) &&
+              store.searchprofiles.length > 0 &&
               store.searchprofiles.map((item, index) => {
-                return (
-                  <Usersearchprofilecard
-                    key={index}
-                    name={item.user_bio.first_name}
-                    experience={item.user_experience}
-                    education={item.user_education}
-                    onViewClick={handleViewClick}
-                    userid={item.id}
-                    employerid={store.employer.id}
-                    displaysave={displaysave(item.id)}
-                    displayunsave={displayunsave(item.id)}
-                    displaycontact={displaycontact(item.user_id)}
-                    displayuncontact={displayuncontact(item.user_id)}
-                  />
-                );
+                if (item.user_bio) {
+                  return (
+                    <Usersearchprofilecard
+                      key={index}
+                      name={item.user_bio.first_name}
+                      experience={item.user_experience}
+                      education={item.user_education}
+                      onViewClick={handleViewClick}
+                      userid={item.id}
+                      employerid={store.employer.id}
+                      displaysave={displaysave(item.id)}
+                      displayunsave={displayunsave(item.id)}
+                      displaycontact={displaycontact(item.user_id)}
+                      displayuncontact={displayuncontact(item.user_id)}
+                    />
+                  );
+                }
               })}
           </div>
         ))}
@@ -270,6 +304,7 @@ export const EmployersearchUserprofile = () => {
         ) : (
           <div className="list of applicants">
             {Array.isArray(store.saveduserfiles) &&
+              store.saveduserfiles.length > 0 &&
               store.saveduserfiles.map((item, index) => {
                 return (
                   <Usersearchprofilecard

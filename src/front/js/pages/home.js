@@ -167,37 +167,39 @@ export const Home = () => {
           onChange={(e) => setValueJobtitile(e.target.value)}
         ></input>
         <label>Address:</label>
-        <select>
+        <select value={location} onChange={(e) => setLocation(e.target.value)}>
           <option value="" onClick={() => setLocation("")}>
             Select a state
           </option>
           {states.map((state) => (
-            <option
-              key={state}
-              value={state}
-              onClick={() => setLocation(state)}
-            >
+            <option key={state} value={state}>
               {state}
             </option>
           ))}
         </select>
         <label>Work location Type:</label>
-        <select id="workLocationType" name="workLocationType">
+        <select
+          id="workLocationType"
+          name="workLocationType"
+          value={valueworklocation}
+          onChange={(e) => setworklocation(e.target.value)}
+        >
           <option value="" onClick={() => setworklocation("")}>
             Select...
           </option>
           {workLocationTypes.map((type) => (
-            <option
-              key={type}
-              value={type}
-              onClick={() => setworklocation(type)}
-            >
+            <option key={type} value={type}>
               {type}
             </option>
           ))}
         </select>
         <label>Job Type</label>
-        <select id="jobType" name="jobType">
+        <select
+          id="jobType"
+          name="jobType"
+          value={jobtype}
+          onChange={(e) => setjobtype(e.target.value)}
+        >
           <option value="" onClick={() => setjobtype("")}>
             Select...
           </option>
@@ -208,7 +210,12 @@ export const Home = () => {
           ))}
         </select>
         <label>Experience Level</label>
-        <select id="experienceLevel" name="experienceLevel">
+        <select
+          id="experienceLevel"
+          name="experienceLevel"
+          value={experiencelevel}
+          onChange={(e) => setexperiencelevel(e.target.value)}
+        >
           <option value="" onClick={() => setexperiencelevel("")}>
             Select...
           </option>
@@ -223,7 +230,12 @@ export const Home = () => {
           ))}
         </select>
         <label>Education Degree</label>
-        <select id="educationdegree" name="educationdegree">
+        <select
+          id="educationdegree"
+          name="educationdegree"
+          value={education}
+          onChange={(e) => seteducationValue(e.target.value)}
+        >
           <option value="" onClick={() => seteducationValue("")}>
             Select...
           </option>
@@ -238,7 +250,12 @@ export const Home = () => {
           ))}
         </select>
         <label>Working Times</label>
-        <select id="workingTimes" name="workingTimes">
+        <select
+          id="workingTimes"
+          name="workingTimes"
+          value={workingtimes}
+          onChange={(e) => setworkingtimes(e.target.value)}
+        >
           <option value="" onClick={() => setworkingtimes("")}>
             Select...
           </option>
@@ -253,7 +270,12 @@ export const Home = () => {
           ))}
         </select>
         <label>Posted Job</label>
-        <select id="posted" name="posted">
+        <select
+          id="posted"
+          name="posted"
+          value={postdays}
+          onChange={(e) => setpostdays(e.target.value)}
+        >
           <option value="" onClick={() => setpostdays("")}>
             Select...
           </option>
@@ -278,6 +300,20 @@ export const Home = () => {
           }
         >
           Search
+        </button>
+        <button
+          onClick={() => {
+            setValueJobtitile(""),
+              setLocation(""),
+              setworklocation(""),
+              setjobtype(""),
+              setexperiencelevel(""),
+              seteducationValue(""),
+              setworkingtimes(""),
+              setpostdays("");
+          }}
+        >
+          Clear All
         </button>
       </div>
       <div className="location"></div>

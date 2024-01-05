@@ -78,6 +78,9 @@ export const UserExperience = (props) => {
   const [valueEndyear, setEndyear] = useState(
     props.endyear ? props.endyear : ""
   );
+  const [valueisWorking, setvalueIsWorking] = useState(
+    props.endyear ? false : true
+  );
   const [valueDescription, setDescription] = useState(
     props.description ? props.description : ""
   );
@@ -90,6 +93,7 @@ export const UserExperience = (props) => {
   const [addvaluejobtype, setaddjobtype] = useState("");
   const [addvalueStartyear, setaddstartyear] = useState("");
   const [addvalueEndyear, setaddendyear] = useState("");
+  const [addisWorking, setaddIsWorking] = useState(false);
   const [addvalueDescription, setadddescription] = useState("");
   const [addvalueLocation, setaddLocation] = useState("");
   return (
@@ -178,23 +182,34 @@ export const UserExperience = (props) => {
           </select>
           <label>START YEAR::</label>
           <input
-            type="number"
-            min="0"
+            type="date"
             id="startyear"
             name="startyear"
             required
             value={addvalueStartyear}
             onChange={(e) => setaddstartyear(e.target.value)}
           />
-          <label>END YEAR::</label>
-          <input
-            type="number"
-            id="endyear"
-            name="endyear"
-            min={addvalueStartyear}
-            value={addvalueEndyear}
-            onChange={(e) => setaddendyear(e.target.value)}
-          />
+          {!addisWorking && (
+            <>
+              <label>END YEAR::</label>
+              <input
+                type="date"
+                id="endyear"
+                name="endyear"
+                min={addvalueStartyear}
+                value={addvalueEndyear}
+                onChange={(e) => setaddendyear(e.target.value)}
+              />
+            </>
+          )}
+          <label>
+            <input
+              type="checkbox"
+              checked={addisWorking}
+              onChange={(e) => setaddIsWorking(e.target.checked)}
+            />
+            Currently working here
+          </label>
           <ReactQuill
             theme="snow"
             value={addvalueDescription}
@@ -269,23 +284,34 @@ export const UserExperience = (props) => {
           </select>
           <label>START YEAR::</label>
           <input
-            type="number"
-            min="0"
+            type="date"
             id="startyear"
             name="startyear"
             required
             value={valueStartyear}
             onChange={(e) => setStartyear(e.target.value)}
           />
-          <label>END YEAR::</label>
-          <input
-            type="number"
-            id="endyear"
-            name="endyear"
-            min={valueStartyear}
-            value={valueEndyear}
-            onChange={(e) => setEndyear(e.target.value)}
-          />
+          {!addisWorking && (
+            <>
+              <label>END YEAR::</label>
+              <input
+                type="date"
+                id="endyear"
+                name="endyear"
+                min={valueStartyear}
+                value={valueEndyear}
+                onChange={(e) => setEndyear(e.target.value)}
+              />
+            </>
+          )}
+          <label>
+            <input
+              type="checkbox"
+              checked={valueisWorking}
+              onChange={(e) => setvalueIsWorking(e.target.checked)}
+            />
+            Currently working here
+          </label>
           <ReactQuill
             theme="snow"
             value={valueDescription}

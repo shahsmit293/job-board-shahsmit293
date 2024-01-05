@@ -8,7 +8,6 @@ import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import { ViewJob } from "./component/viewjob";
 import { ApplyJob } from "./pages/applyjob";
-import { SearchHistory } from "./pages/searchhistory";
 import { UserNotification } from "./pages/usernotification";
 import { UserSavedJobs } from "./pages/usersavedjobs";
 import { UserAppliedJobs } from "./pages/userappliedjobs";
@@ -20,7 +19,6 @@ import { EmployerLoginSignup } from "./pages/employerloginsignup";
 import { EmployerHome } from "./pages/employerhomepage";
 import { EmployerCreateJobPost } from "./pages/createjobpost";
 import { Applicants } from "./pages/applicants";
-import { MatchedProfiles } from "./pages/matchedprofiles";
 import { EditPostJob } from "./pages/editpostjob";
 import injectContext from "./store/appContext";
 import { Userchat } from "./pages/userchat";
@@ -60,7 +58,6 @@ const Layout = () => {
             />
             <Route element={<ViewJob />} path="/viewjob" />
             <Route element={<ApplyJob />} path="/applyjob" />
-            <Route element={<SearchHistory />} path="/searchhistory" />
             <Route element={<UserNotification />} path="/usernotification" />
             <Route element={<UserSavedJobs />} path="/usersavedjobs" />
             <Route element={<UserAppliedJobs />} path="/userappliedjobs" />
@@ -73,7 +70,6 @@ const Layout = () => {
               path="/employercreatejobpost"
             />
             <Route element={<Applicants />} path="/applicants/:jobid" />
-            <Route element={<MatchedProfiles />} path="/matchedprofiles" />
             <Route element={<Demo />} path="/demo" />
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<EditPostJob />} path="/editpost/:post_id" />
