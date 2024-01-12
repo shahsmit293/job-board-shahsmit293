@@ -16,6 +16,7 @@ jobs:
         run: |
           sudo su
           cd /home/ubuntu/hiring
+          pwd
 
 
 
