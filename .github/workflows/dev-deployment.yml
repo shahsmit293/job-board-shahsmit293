@@ -16,7 +16,8 @@ jobs:
 
     - run: npm install
     - run: sudo npm install -g pm2
-    - run: sudo pm2 start "npm run start" --name "hiring"
+    - run: cp env-develop .env 
+    - run: pm2 start "npm run start" --name "hiring"
 
 
 
