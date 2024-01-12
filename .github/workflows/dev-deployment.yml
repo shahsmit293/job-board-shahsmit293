@@ -12,12 +12,16 @@ jobs:
     runs-on: self-hosted
     steps:  
       
-      - name: Git Update
+      - name: Access Dir
         run: |
           sudo su
           cd /home/ubuntu/hiring
           pwd
 
+
+      - name: Git Update
+        run: |
+          git pull
 
 
 
