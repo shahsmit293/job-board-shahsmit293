@@ -12,11 +12,7 @@ jobs:
     runs-on: self-hosted
     steps:  
       
-      - name: Access Dir
-        run: |
-          sudo su
-          cd /home/ubuntu/hiring & git pull
-          pwd
+    - uses: actions/checkout@v3
 
 
 
