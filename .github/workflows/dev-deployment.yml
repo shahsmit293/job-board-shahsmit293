@@ -12,6 +12,10 @@ jobs:
     runs-on: self-hosted
     steps:  
       
-      - name: Run a one-line script
-        run: pwd
+      - name: Git Pull
+        run: cd /home/ubuntu/hiring/ & sudo git pull
+
+
+
+        
        
