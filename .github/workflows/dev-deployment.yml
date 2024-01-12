@@ -12,8 +12,11 @@ jobs:
     runs-on: self-hosted
     steps:  
       
-      - name: Git Pull
-        run: cd /home/ubuntu/hiring/ & sudo git pull
+      - name: Git Update
+        run: |
+          sudo su
+          cd /home/ubuntu/hiring
+          git pull
 
 
 
