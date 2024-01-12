@@ -21,7 +21,7 @@ export const Navbar = () => {
             }
           }}
         >
-          Logoooooo
+          Logo
         </button>
         <button
           className="navbar-toggler"
