@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/employerhomepage.css";
 import { EmployerSidebar } from "../component/employersidebar";
-import { ViewJobPost } from "./viewjobpost";
+import { ViewJobPost } from "./employer/viewjobpost";
 import { useNavigate } from "react-router-dom";
 
 export const EmployerHome = () => {

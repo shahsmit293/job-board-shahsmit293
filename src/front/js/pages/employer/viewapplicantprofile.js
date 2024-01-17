@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react";
-import "../../styles/home.css";
+import "../../../styles/home.css";
 import { useParams } from "react-router-dom";
-import { Context } from "../store/appContext";
+import { Context } from "../../store/appContext";
 import PropTypes from "prop-types";
 
 export const ViewApplicantProfile = () => {

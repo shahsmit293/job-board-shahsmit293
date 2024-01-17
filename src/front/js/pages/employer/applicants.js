@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import "../../styles/home.css";
-import { ReceivedApplicants } from "../component/receivedapplicants";
+import "../../../styles/home.css";
+import { ReceivedApplicants } from "../../component/receivedapplicants";
 import { useNavigate, useParams } from "react-router-dom";
-import { Context } from "../store/appContext";
+import { Context } from "../../store/appContext";
 import { ViewApplicantProfile } from "./viewapplicantprofile";
-import "../../styles/home.css";
 
 export const Applicants = () => {
   const { jobid } = useParams();

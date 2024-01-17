@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Context } from "../store/appContext";
+import { Context } from "../../store/appContext";
 import propTypes from "prop-types";
 export const Userskill = (props) => {
   const { store, actions } = useContext(Context);

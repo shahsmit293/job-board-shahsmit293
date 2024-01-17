@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
-import { Link, useParams } from "react-router-dom";
-import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
-import { JobCard } from "../component/jobcard";
-import { Sidebar } from "../component/sidebar";
+import { Context } from "../../store/appContext";
+import { JobCard } from "../../component/jobcard";
+import { Sidebar } from "../../component/sidebar";
 import { ViewJobPage } from "./viewjobpage";
 export const Userinbox = () => {
   const { store, actions } = useContext(Context);

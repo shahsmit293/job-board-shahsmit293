@@ -1,49 +1,47 @@
 import React, { useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
-import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
+import { Context } from "../../store/appContext";
 
-export const Userchat = (props) => {
+export const Employerchat = (props) => {
   const { store, actions } = useContext(Context);
-  const { job_id } = useParams();
+  const { user_id, job_id } = useParams();
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
     Promise.all([
       actions
-        .getapplicantchats(store.user.id, job_id)
-        .then(() =>
-          actions.getemployerchatsforapplicants(store.user.id, job_id)
-        ),
+        .getemployerchats(user_id, job_id)
+        .then(() => actions.getapplicantchatsforemployer(user_id, job_id)),
     ]).then(() => setLoading(false));
-  }, [store.user.id]);
+  }, [store.employer.id]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
   // Your arrays
-  let applicantchats = Array.isArray(store.applicantchats)
-    ? store.applicantchats
+  let employerchats = Array.isArray(store.employerchat)
+    ? store.employerchat
     : [];
-  let employerchatsforapplicant = Array.isArray(store.employerchatsforapplicant)
-    ? store.employerchatsforapplicant
+  let applicantchatsforemployers = Array.isArray(
+    store.applicantchatsforemployer
+  )
+    ? store.applicantchatsforemployer
     : [];
 
   // Add a property to identify the source array
-  applicantchats = applicantchats.map((item) => ({
+  employerchats = employerchats.map((item) => ({
     ...item,
-    source: "applicantchats",
+    source: "employerchats",
   }));
-  employerchatsforapplicant = employerchatsforapplicant.map((item) => ({
+  applicantchatsforemployers = applicantchatsforemployers.map((item) => ({
     ...item,
-    source: "employerchatsforapplicant",
+    source: "applicantchatsforemployers",
   }));
 
   // Merge and sort the arrays
-  let merged = [...applicantchats, ...employerchatsforapplicant].sort(
+  let merged = [...employerchats, ...applicantchatsforemployers].sort(
     (a, b) => {
       // Compare dates first
       let dateComparison = a.current_date.localeCompare(b.current_date);
@@ -53,7 +51,6 @@ export const Userchat = (props) => {
       return a.current_time.localeCompare(b.current_time);
     }
   );
-
   return (
     <div className="jumbotron">
       <input
@@ -63,12 +60,12 @@ export const Userchat = (props) => {
         value={message}
       ></input>
       <button
-        onClick={() => {
+        onClick={() =>
           actions
-            .addapplicantchats(store.user.id, +job_id, message)
-            .then(() => actions.getapplicantchats(store.user.id, job_id))
-            .then(() => setMessage(""));
-        }}
+            .addemployerchats(+user_id, job_id, message)
+            .then(() => actions.getemployerchats(+user_id, job_id, message))
+            .then(() => setMessage(""))
+        }
       >
         Send
       </button>
@@ -108,8 +105,7 @@ export const Userchat = (props) => {
           <p
             key={index}
             style={{
-              textAlign:
-                item.source === "employerchatsforapplicant" ? "left" : "right",
+              textAlign: item.source === "employerchats" ? "right" : "left",
             }}
           >
             {item.message} (Posted {displayDate})

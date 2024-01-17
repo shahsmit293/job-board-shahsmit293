@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-import "../../styles/loginsignup.css";
-import { Context } from "../store/appContext";
+import "../../../styles/loginsignup.css";
+import { Context } from "../../store/appContext";
 import { useNavigate } from "react-router-dom";
-import ForgotPassword from "./forgotPassword";
+import ForgotPassword from "../forgotPassword";
 export const UserLoginSignup = () => {
   const [loginEmailValue, setloginEmailValue] = useState("");
   const [loginPasswordValue, setloginPasswordValue] = useState("");

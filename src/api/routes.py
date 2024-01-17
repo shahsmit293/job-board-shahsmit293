@@ -25,6 +25,7 @@ from werkzeug.utils import secure_filename
 from sqlalchemy import union
 from sqlalchemy import or_
 
+
 api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 
@@ -70,8 +71,6 @@ def employerLogin():
     token = create_access_token(identity=email)
     return jsonify(token=token, employer=employer.serialize()), 200
 
-from flask import request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 @api.route('/addjob', methods=['POST'])
 @jwt_required()

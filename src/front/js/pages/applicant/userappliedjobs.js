@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Context } from "../store/appContext";
-import "../../styles/home.css";
-import { JobCard } from "../component/jobcard";
+import { Context } from "../../store/appContext";
+import "../../../styles/home.css";
+import { JobCard } from "../../component/jobcard";
 import { ViewJobPage } from "./viewjobpage";
-import "../../styles/home.css";
 
 export const UserAppliedJobs = () => {
   const { store, actions } = useContext(Context);

@@ -1,12 +1,11 @@
 import React, { useContext, useState } from "react";
-import "../../styles/createjobposts.css";
-import { EmployerSidebar } from "../component/employersidebar";
-import { Context } from "../store/appContext";
+import { Context } from "../../store/appContext";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { EmployerSidebar } from "../../component/employersidebar";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-
-export const EmployerCreateJobPost = () => {
+export const EditPostJob = () => {
   let states = [
     "Alabama",
     "Alaska",
@@ -59,11 +58,38 @@ export const EmployerCreateJobPost = () => {
     "Wisconsin",
     "Wyoming",
   ];
+  const { post_id } = useParams();
+  const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
 
   const [location, setLocation] = useState("");
-  const { store, actions } = useContext(Context);
-  const navigate = useNavigate("");
-
+  useEffect(() => {
+    // Fetch the book details when the component mounts
+    actions.geteditjobs(
+      +post_id,
+      setCompanyNameValue,
+      setFirstNameValue,
+      setLastNameValue,
+      setPhoneNumberValue,
+      setCompanyEmailValue,
+      setJobTitleValue,
+      setNumberHiringValue,
+      setWorkLocationTypeValue,
+      setJobTypeValue,
+      setLocation,
+      setWorkingHoursValue,
+      setExperienceLevelValue,
+      setEducationValue,
+      setMinExperienceValue,
+      setMaxExperienceValue,
+      setMinSalaryValue,
+      setMaxSalaryValue,
+      setWorkingTimesValue,
+      setWeekendRequiredValue,
+      setLanguageValue,
+      setDescriptionValue
+    );
+  }, [post_id]);
   const [companyNameValue, setCompanyNameValue] = useState("");
   const [firstNameValue, setFirstNameValue] = useState("");
   const [lastNameValue, setLastNameValue] = useState("");
@@ -84,6 +110,7 @@ export const EmployerCreateJobPost = () => {
   const [languageValue, setLanguageValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
   const [educationdegreeValue, setEducationValue] = useState("");
+
   const sorted = (e) => {
     if (e.target.value === "Remote") {
       setWorkLocationTypeValue("Remote");
@@ -144,12 +171,9 @@ export const EmployerCreateJobPost = () => {
           <div className="sidebar">
             <EmployerSidebar />
           </div>
-          <div className="title">
-            <h1>CREATE FORM</h1>
-          </div>
           <form>
             <div className="label">
-              <label>Company Name</label>
+              <label htmlFor="companyName">Company Name</label>
               <input
                 type="text"
                 id="companyName"
@@ -161,7 +185,7 @@ export const EmployerCreateJobPost = () => {
               <br />
             </div>
             <div className="label">
-              <label>First Name</label>
+              <label htmlFor="firstName">First Name</label>
               <input
                 type="text"
                 id="firstName"
@@ -173,7 +197,7 @@ export const EmployerCreateJobPost = () => {
               <br />
             </div>
             <div className="label">
-              <label>Last Name</label>
+              <label htmlFor="lastName">Last Name</label>
               <input
                 type="text"
                 id="lastName"
@@ -182,22 +206,21 @@ export const EmployerCreateJobPost = () => {
                 value={lastNameValue}
                 onChange={(e) => setLastNameValue(e.target.value)}
               />
+              <br />
             </div>
-            <br />
             <div className="label">
-              <label>Phone Number</label>
+              <label htmlFor="phoneNumber">Phone Number</label>
               <input
                 type="tel"
                 id="phoneNumber"
-                maxlength="10"
                 name="phoneNumber"
                 value={phoneNumberValue}
                 onChange={(e) => setPhoneNumberValue(e.target.value)}
               />
+              <br />
             </div>
-            <br />
             <div className="label">
-              <label>Company Email</label>
+              <label htmlFor="companyEmail">Company Email</label>
               <input
                 type="email"
                 id="companyEmail"
@@ -206,10 +229,10 @@ export const EmployerCreateJobPost = () => {
                 value={companyEmailValue}
                 onChange={(e) => setCompanyEmailValue(e.target.value)}
               />
+              <br />
             </div>
-            <br />
             <div className="label">
-              <label>Job Title</label>
+              <label htmlFor="jobTitle">Job Title</label>
               <input
                 type="text"
                 id="jobTitle"
@@ -221,24 +244,24 @@ export const EmployerCreateJobPost = () => {
               <br />
             </div>
             <div className="label">
-              <label>Number Hiring</label>
+              <label htmlFor="numberHiring">Number Hiring</label>
               <input
                 type="number"
-                min={1}
                 id="numberHiring"
                 name="numberHiring"
                 required
                 value={numberHiringValue}
                 onChange={(e) => setNumberHiringValue(e.target.value)}
               />
+              <br />
             </div>
-            <br />
             <div className="label">
-              <label>Work Location Type</label>
+              <label htmlFor="workLocationType">Work Location Type</label>
               <select
                 id="workLocationType"
                 name="workLocationType"
                 required
+                value={workLocationTypeValue}
                 onChange={sorted}
               >
                 <option value="">Select...</option>
@@ -246,11 +269,28 @@ export const EmployerCreateJobPost = () => {
                 <option value="Hybrid">Hybrid</option>
                 <option value="Onsite">Onsite</option>
               </select>
+              <br />
             </div>
-            <br />
+            <div className="label">
+              <label htmlFor="jobType">Job Type</label>
+              <select
+                id="jobType"
+                name="jobType"
+                required
+                onChange={sorted}
+                value={jobTypeValue}
+              >
+                <option value="">Select...</option>
+                <option value="Full Time">Full Time</option>
+                <option value="Part Time">Part Time</option>
+                <option value="Temporary">Temporary</option>
+                <option value="Contract">Contract</option>
+              </select>
+              <br />
+            </div>
             <div className="label">
               <label>Address:</label>
-              <select>
+              <select value={location}>
                 <option value="" onClick={() => setLocation("")}>
                   Select a state
                 </option>
@@ -264,24 +304,12 @@ export const EmployerCreateJobPost = () => {
                   </option>
                 ))}
               </select>
-            </div>
-            <br />
-            <div className="label">
-              <label>Job Type</label>
-              <select id="jobType" name="jobType" required onChange={sorted}>
-                <option value="">Select...</option>
-                <option value="Full Time">Full Time</option>
-                <option value="Part Time">Part Time</option>
-                <option value="Temporary">Temporary</option>
-                <option value="Contract">Contract</option>
-              </select>
               <br />
             </div>
             <div className="label">
-              <label>Minimum working Hours Per Week:</label>
+              <label htmlFor="workingHours">Working Hours:</label>
               <input
-                type="number"
-                min={0}
+                type="text"
                 id="workingHours"
                 name="workingHours"
                 value={workingHoursValue}
@@ -290,11 +318,12 @@ export const EmployerCreateJobPost = () => {
               <br />
             </div>
             <div className="label">
-              <label>Experience Level</label>
+              <label htmlFor="experienceLevel">Experience Level</label>
               <select
                 id="experienceLevel"
                 name="experienceLevel"
                 required
+                value={experienceLevelsValue}
                 onChange={sorted}
               >
                 <option value="">Select...</option>
@@ -313,6 +342,7 @@ export const EmployerCreateJobPost = () => {
                 id="educationdegree"
                 name="educationdegree"
                 required
+                value={educationdegreeValue}
                 onChange={sorted}
               >
                 <option value="">Select...</option>
@@ -325,10 +355,9 @@ export const EmployerCreateJobPost = () => {
               <br />
             </div>
             <div className="label">
-              <label>Minimum Year Experience:</label>
+              <label htmlFor="minExperience">Minimum Year Experience:</label>
               <input
                 type="number"
-                min="0"
                 id="minExperience"
                 name="minExperience"
                 required
@@ -338,44 +367,46 @@ export const EmployerCreateJobPost = () => {
               <br />
             </div>
             <div className="label">
-              <label>Maximum Year Experience:</label>
+              <label htmlFor="maxExperience">Maximum Year Experience:</label>
               <input
                 type="number"
                 id="maxExperience"
                 name="maxExperience"
-                min={minExperienceValue}
                 value={maxExperiencesValue}
                 onChange={(e) => setMaxExperienceValue(e.target.value)}
               />
+              <br />
             </div>
-            <br />
             <div className="label">
-              <label>Minimum Salary:</label>
+              <label htmlFor="minSalary">Minimum Salary:</label>
               <input
                 type="number"
-                min={0}
                 id="minSalary"
                 name="minSalary"
                 value={minSalaryValue}
                 onChange={(e) => setMinSalaryValue(e.target.value)}
               />
+              <br />
             </div>
-            <br />
             <div className="label">
-              <label>Maximum Salary:</label>
+              <label htmlFor="maxSalary">Maximum Salary:</label>
               <input
                 type="number"
-                min={minSalaryValue}
                 id="maxSalary"
                 name="maxSalary"
                 value={maxSalaryValue}
                 onChange={(e) => setMaxSalaryValue(e.target.value)}
               />
+              <br />
             </div>
-            <br />
             <div className="label">
-              <label>Working Times</label>
-              <select id="workingTimes" name="workingTimes" onChange={sorted}>
+              <label htmlFor="workingTimes">Working Times</label>
+              <select
+                id="workingTimes"
+                name="workingTimes"
+                onChange={sorted}
+                value={workingTimesValue}
+              >
                 <option value="">Select...</option>
                 <option value="Day Shift">Day Shift</option>
                 <option value="Night Shift">Night Shift</option>
@@ -384,11 +415,12 @@ export const EmployerCreateJobPost = () => {
               <br />
             </div>
             <div className="label">
-              <label>Weekend Required</label>
+              <label htmlFor="weekendRequired">Weekend Required</label>
               <select
                 id="weekendRequired"
                 name="weekendRequired"
                 onChange={sorted}
+                value={weekendRequiredValue}
               >
                 <option value="">Select...</option>
                 <option value="Yes">Yes</option>
@@ -398,7 +430,7 @@ export const EmployerCreateJobPost = () => {
               <br />
             </div>
             <div className="label">
-              <label>Language:</label>
+              <label htmlFor="language">Language:</label>
               <input
                 type="text"
                 id="language"
@@ -411,15 +443,15 @@ export const EmployerCreateJobPost = () => {
             <ReactQuill
               theme="snow"
               value={descriptionValue}
-              style={{ color: "whitesmoke" }}
               onChange={setDescriptionValue}
             />
+            <br />
             <button
               onClick={(e) => {
                 e.preventDefault();
                 actions
-                  .addjob(
-                    store.employer.id,
+                  .editjobs(
+                    post_id,
                     companyNameValue,
                     firstNameValue,
                     lastNameValue,

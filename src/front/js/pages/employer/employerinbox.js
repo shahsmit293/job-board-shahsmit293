@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-import { Context } from "../store/appContext";
-import { ReceivedApplicants } from "../component/receivedapplicants";
+import { Context } from "../../store/appContext";
+import { ReceivedApplicants } from "../../component/receivedapplicants";
 import { ViewApplicantProfile } from "./viewapplicantprofile";
 
 export const Employerinbox = () => {

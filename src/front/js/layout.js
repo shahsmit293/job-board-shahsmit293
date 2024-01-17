@@ -4,34 +4,30 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home";
-import { Demo } from "./pages/demo";
-import { Single } from "./pages/single";
 import { ViewJob } from "./component/viewjob";
-import { ApplyJob } from "./pages/applyjob";
-import { UserNotification } from "./pages/usernotification";
-import { UserSavedJobs } from "./pages/usersavedjobs";
-import { UserAppliedJobs } from "./pages/userappliedjobs";
-import { UserProfile } from "./pages/userprofile";
-import { UserCustomResume } from "./pages/customresumebuild";
-import { UserPreference } from "./pages/userpreference";
-import { UserLoginSignup } from "./pages/userloginsignup";
+import { UserNotification } from "./pages/applicant/usernotification";
+import { UserSavedJobs } from "./pages/applicant/usersavedjobs";
+import { UserAppliedJobs } from "./pages/applicant/userappliedjobs";
+import { UserProfile } from "./pages/applicant/userprofile";
+import { UserPreference } from "./pages/applicant/userpreference";
+import { UserLoginSignup } from "./pages/applicant/userloginsignup";
 import { EmployerLoginSignup } from "./pages/employerloginsignup";
 import { EmployerHome } from "./pages/employerhomepage";
-import { EmployerCreateJobPost } from "./pages/createjobpost";
-import { Applicants } from "./pages/applicants";
-import { EditPostJob } from "./pages/editpostjob";
+import { EmployerCreateJobPost } from "./pages/employer/createjobpost";
+import { Applicants } from "./pages/employer/applicants";
+import { EditPostJob } from "./pages/employer/editpostjob";
 import injectContext from "./store/appContext";
-import { Userchat } from "./pages/userchat";
-import { Userinbox } from "./pages/userinbox";
+import { Userchat } from "./pages/applicant/userchat";
+import { Userinbox } from "./pages/applicant/userinbox";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
-import { Employerchat } from "./pages/employerchat";
-import { Employerinbox } from "./pages/employerinbox";
-import { EmployersearchUserprofile } from "./pages/employersearchuserprofile";
+import { Employerchat } from "./pages/employer/employerchat";
+import { Employerinbox } from "./pages/employer/employerinbox";
+import { EmployersearchUserprofile } from "./pages/employer/employersearchuserprofile";
 import { ResetPassword } from "./pages/resetPassword";
 import { ResetPasswordEmployer } from "./pages/resetPasswordemployer";
-import { EmployerContactedProfiles } from "./pages/employercontactedprofiles";
-import { EmployerSavedProfiles } from "./pages/employersavedprofiles";
+import { EmployerContactedProfiles } from "./pages/employer/employercontactedprofiles";
+import { EmployerSavedProfiles } from "./pages/employer/employersavedprofiles";
 //create your first component
 const Layout = () => {
   //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -59,12 +55,10 @@ const Layout = () => {
               path="/resetpasswordemployer"
             />
             <Route element={<ViewJob />} path="/viewjob" />
-            <Route element={<ApplyJob />} path="/applyjob" />
             <Route element={<UserNotification />} path="/usernotification" />
             <Route element={<UserSavedJobs />} path="/usersavedjobs" />
             <Route element={<UserAppliedJobs />} path="/userappliedjobs" />
             <Route element={<UserProfile />} path="/userprofile" />
-            <Route element={<UserCustomResume />} path="/customresumebuild" />
             <Route element={<UserPreference />} path="/userpreference" />
             <Route element={<EmployerHome />} path="/employerhome" />
             <Route
@@ -72,8 +66,6 @@ const Layout = () => {
               path="/employercreatejobpost"
             />
             <Route element={<Applicants />} path="/applicants/:jobid" />
-            <Route element={<Demo />} path="/demo" />
-            <Route element={<Single />} path="/single/:theid" />
             <Route element={<EditPostJob />} path="/editpost/:post_id" />
             <Route element={<Userchat />} path="/userchat/:job_id" />
             <Route element={<Userinbox />} path="/userinbox" />

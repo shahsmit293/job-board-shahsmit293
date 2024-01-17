@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { JobCard } from "../component/jobcard";
-import { ViewJobPage } from "./viewjobpage";
+import { ViewJobPage } from "./applicant/viewjobpage";
 
 export const Home = () => {
   const states = [

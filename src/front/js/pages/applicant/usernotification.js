@@ -1,6 +1,6 @@
 import React from "react";
-import "../../styles/home.css";
-import { Sidebar } from "../component/sidebar";
+import "../../../styles/home.css";
+import { Sidebar } from "../../component/sidebar";
 
 export const UserNotification = () => {
   return (

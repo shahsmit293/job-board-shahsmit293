@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
-import "../../styles/userprofile.css";
-import { Context } from "../store/appContext"; // Import your Flux context
+import "../../../styles/userprofile.css";
+import { Context } from "../../store/appContext"; // Import your Flux context
 import { useNavigate } from "react-router-dom";
 import { UserContactInfo } from "./usercontactinfo";
 import { UserQualification } from "./userqualification";

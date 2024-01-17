@@ -1,8 +1,6 @@
 import React, { useEffect, useContext } from "react";
-import "../../styles/home.css";
-import { useParams } from "react-router-dom";
-import { Context } from "../store/appContext";
-import PropTypes from "prop-types";
+import "../../../styles/home.css";
+import { Context } from "../../store/appContext";
 
 export const Viewusersprofile = () => {
   const { store, actions } = useContext(Context);

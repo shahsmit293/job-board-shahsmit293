@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
-import "../../styles/home.css";
+import "../../../styles/home.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { Context } from "../store/appContext";
+import { Context } from "../../store/appContext";
 import PropTypes from "prop-types";
 import ReactHtmlParser from "react-html-parser";
 

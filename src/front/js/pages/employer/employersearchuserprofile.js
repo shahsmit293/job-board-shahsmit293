@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import "../../styles/employersearchuserprofile.css";
-import { Context } from "../store/appContext";
-import "../../styles/home.css";
-import { Usersearchprofilecard } from "../component/usersearchprofilecard";
+import "../../../styles/employersearchuserprofile.css";
+import { Context } from "../../store/appContext";
+import "../../../styles/home.css";
+import { Usersearchprofilecard } from "../../component/usersearchprofilecard";
 import { Viewusersprofile } from "./viewusersprofile";
-import { EmployerSidebar } from "../component/employersidebar";
+import { EmployerSidebar } from "../../component/employersidebar";
 
 export const EmployersearchUserprofile = () => {
   const states = [

@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
-import "../../styles/home.css";
-import { Context } from "../store/appContext";
+import "../../../styles/home.css";
+import { Context } from "../../store/appContext";
 import PropTypes from "prop-types";
 import ReactHtmlParser from "react-html-parser";
 export const ViewJobPost = (props) => {

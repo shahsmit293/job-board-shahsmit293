@@ -1,19 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import "../../styles/home.css";
-import { Context } from "../store/appContext";
-import "../../styles/home.css";
-import { Usersearchprofilecard } from "../component/usersearchprofilecard";
+import "../../../styles/home.css";
+import { Context } from "../../store/appContext";
+import { Usersearchprofilecard } from "../../component/usersearchprofilecard";
 import { Viewusersprofile } from "./viewusersprofile";
-import { EmployerSidebar } from "../component/employersidebar";
+import { EmployerSidebar } from "../../component/employersidebar";
 
-export const EmployerSavedProfiles = () => {
+export const EmployerContactedProfiles = () => {
   const { store, actions } = useContext(Context);
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchApplicants = async () => {
-      actions.getsaveduserprofiles(store.employer.id);
+      actions.getcontacteduserprofiles(store.employer.id);
       try {
         setLoading(false);
       } catch (error) {
@@ -24,6 +23,7 @@ export const EmployerSavedProfiles = () => {
 
     fetchApplicants();
   }, [store.employer]);
+
   const displaycontact = (userid) => {
     let contacteduserfiles = Array.isArray(store.contacteduserfiles)
       ? store.contacteduserfiles
@@ -41,15 +41,6 @@ export const EmployerSavedProfiles = () => {
       ? "inline"
       : "none";
   };
-
-  const displayunsave = (userid) => {
-    let saveduserfiles = Array.isArray(store.saveduserfiles)
-      ? store.saveduserfiles
-      : [];
-    return saveduserfiles.some((item) => item.user_id === userid)
-      ? "inline"
-      : "none";
-  };
   const handleViewClick = () => {
     setShowPopup(true);
   };
@@ -61,13 +52,12 @@ export const EmployerSavedProfiles = () => {
       <div>
         {loading ? (
           <p>Loading applicants...</p> // Display a loading message or a spinner
-        ) : store.saveduserfiles.length === 0 ? (
-          <p>No profile saved yet.</p>
+        ) : store.contacteduserfiles.length === 0 ? (
+          <p>No profile contacted yet.</p>
         ) : (
           <div className="list of applicants">
-            {Array.isArray(store.saveduserfiles) &&
-              store.saveduserfiles.length > 0 &&
-              store.saveduserfiles.map((item, index) => {
+            {Array.isArray(store.contacteduserfiles) &&
+              store.contacteduserfiles.map((item, index) => {
                 return (
                   <Usersearchprofilecard
                     key={index}
@@ -78,7 +68,7 @@ export const EmployerSavedProfiles = () => {
                     userid={item.user_id}
                     employerid={store.employer.id}
                     displaysave={"none"}
-                    displayunsave={displayunsave(item.user_id)}
+                    displayunsave={"none"}
                     displaycontact={displaycontact(item.user_id)}
                     displayuncontact={displayuncontact(item.user_id)}
                   />
