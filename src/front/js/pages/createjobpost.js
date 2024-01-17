@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import "../../styles/home.css";
+import "../../styles/createjobposts.css";
 import { EmployerSidebar } from "../component/employersidebar";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
@@ -144,232 +144,274 @@ export const EmployerCreateJobPost = () => {
           <div className="sidebar">
             <EmployerSidebar />
           </div>
+          <div className="title">
+            <h1>CREATE FORM</h1>
+          </div>
           <form>
-            <label>Company Name</label>
-            <input
-              type="text"
-              id="companyName"
-              name="companyName"
-              required
-              value={companyNameValue}
-              onChange={(e) => setCompanyNameValue(e.target.value)}
-            />
+            <div className="label">
+              <label>Company Name</label>
+              <input
+                type="text"
+                id="companyName"
+                name="companyName"
+                required
+                value={companyNameValue}
+                onChange={(e) => setCompanyNameValue(e.target.value)}
+              />
+              <br />
+            </div>
+            <div className="label">
+              <label>First Name</label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                required
+                value={firstNameValue}
+                onChange={(e) => setFirstNameValue(e.target.value)}
+              />
+              <br />
+            </div>
+            <div className="label">
+              <label>Last Name</label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                required
+                value={lastNameValue}
+                onChange={(e) => setLastNameValue(e.target.value)}
+              />
+            </div>
             <br />
-            <label>First Name</label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              required
-              value={firstNameValue}
-              onChange={(e) => setFirstNameValue(e.target.value)}
-            />
+            <div className="label">
+              <label>Phone Number</label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                maxlength="10"
+                name="phoneNumber"
+                value={phoneNumberValue}
+                onChange={(e) => setPhoneNumberValue(e.target.value)}
+              />
+            </div>
             <br />
-            <label>Last Name</label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              required
-              value={lastNameValue}
-              onChange={(e) => setLastNameValue(e.target.value)}
-            />
+            <div className="label">
+              <label>Company Email</label>
+              <input
+                type="email"
+                id="companyEmail"
+                name="companyEmail"
+                required
+                value={companyEmailValue}
+                onChange={(e) => setCompanyEmailValue(e.target.value)}
+              />
+            </div>
             <br />
-            <label>Phone Number</label>
-            <input
-              type="tel"
-              id="phoneNumber"
-              maxlength="10"
-              name="phoneNumber"
-              value={phoneNumberValue}
-              onChange={(e) => setPhoneNumberValue(e.target.value)}
-            />
+            <div className="label">
+              <label>Job Title</label>
+              <input
+                type="text"
+                id="jobTitle"
+                name="jobTitle"
+                required
+                value={jobTitleValue}
+                onChange={(e) => setJobTitleValue(e.target.value)}
+              />
+              <br />
+            </div>
+            <div className="label">
+              <label>Number Hiring</label>
+              <input
+                type="number"
+                min={1}
+                id="numberHiring"
+                name="numberHiring"
+                required
+                value={numberHiringValue}
+                onChange={(e) => setNumberHiringValue(e.target.value)}
+              />
+            </div>
             <br />
-            <label>Company Email</label>
-            <input
-              type="email"
-              id="companyEmail"
-              name="companyEmail"
-              required
-              value={companyEmailValue}
-              onChange={(e) => setCompanyEmailValue(e.target.value)}
-            />
+            <div className="label">
+              <label>Work Location Type</label>
+              <select
+                id="workLocationType"
+                name="workLocationType"
+                required
+                onChange={sorted}
+              >
+                <option value="">Select...</option>
+                <option value="Remote">Remote</option>
+                <option value="Hybrid">Hybrid</option>
+                <option value="Onsite">Onsite</option>
+              </select>
+            </div>
             <br />
-            <label>Job Title</label>
-            <input
-              type="text"
-              id="jobTitle"
-              name="jobTitle"
-              required
-              value={jobTitleValue}
-              onChange={(e) => setJobTitleValue(e.target.value)}
-            />
-            <br />
-            <label>Number Hiring</label>
-            <input
-              type="number"
-              min={1}
-              id="numberHiring"
-              name="numberHiring"
-              required
-              value={numberHiringValue}
-              onChange={(e) => setNumberHiringValue(e.target.value)}
-            />
-            <br />
-            <label>Work Location Type</label>
-            <select
-              id="workLocationType"
-              name="workLocationType"
-              required
-              onChange={sorted}
-            >
-              <option value="">Select...</option>
-              <option value="Remote">Remote</option>
-              <option value="Hybrid">Hybrid</option>
-              <option value="Onsite">Onsite</option>
-            </select>
-            <br />
-            <label>Address:</label>
-            <select>
-              <option value="" onClick={() => setLocation("")}>
-                Select a state
-              </option>
-              {states.map((state) => (
-                <option
-                  key={state}
-                  value={state}
-                  onClick={() => setLocation(state)}
-                >
-                  {state}
+            <div className="label">
+              <label>Address:</label>
+              <select>
+                <option value="" onClick={() => setLocation("")}>
+                  Select a state
                 </option>
-              ))}
-            </select>
+                {states.map((state) => (
+                  <option
+                    key={state}
+                    value={state}
+                    onClick={() => setLocation(state)}
+                  >
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </div>
             <br />
-            <label>Job Type</label>
-            <select id="jobType" name="jobType" required onChange={sorted}>
-              <option value="">Select...</option>
-              <option value="Full Time">Full Time</option>
-              <option value="Part Time">Part Time</option>
-              <option value="Temporary">Temporary</option>
-              <option value="Contract">Contract</option>
-            </select>
+            <div className="label">
+              <label>Job Type</label>
+              <select id="jobType" name="jobType" required onChange={sorted}>
+                <option value="">Select...</option>
+                <option value="Full Time">Full Time</option>
+                <option value="Part Time">Part Time</option>
+                <option value="Temporary">Temporary</option>
+                <option value="Contract">Contract</option>
+              </select>
+              <br />
+            </div>
+            <div className="label">
+              <label>Minimum working Hours Per Week:</label>
+              <input
+                type="number"
+                min={0}
+                id="workingHours"
+                name="workingHours"
+                value={workingHoursValue}
+                onChange={(e) => setWorkingHoursValue(e.target.value)}
+              />
+              <br />
+            </div>
+            <div className="label">
+              <label>Experience Level</label>
+              <select
+                id="experienceLevel"
+                name="experienceLevel"
+                required
+                onChange={sorted}
+              >
+                <option value="">Select...</option>
+                <option value="Internship">Internship</option>
+                <option value="Entry level">Entry level</option>
+                <option value="Associate">Associate</option>
+                <option value="Mid-Senior level">Mid-Senior level</option>
+                <option value="Director">Director</option>
+                <option value="Executive">Executive</option>
+              </select>
+              <br />
+            </div>
+            <div className="label">
+              <label>Education Degree</label>
+              <select
+                id="educationdegree"
+                name="educationdegree"
+                required
+                onChange={sorted}
+              >
+                <option value="">Select...</option>
+                <option value="High School Degree">High School Degree</option>
+                <option value="Associate Degree">Associate Degree</option>
+                <option value="Bachelor's Degree">Bachelor's Degree</option>
+                <option value="Master's Degree">Master's Degree</option>
+                <option value="Doctoral Degree">Doctoral Degree</option>
+              </select>
+              <br />
+            </div>
+            <div className="label">
+              <label>Minimum Year Experience:</label>
+              <input
+                type="number"
+                min="0"
+                id="minExperience"
+                name="minExperience"
+                required
+                value={minExperienceValue}
+                onChange={(e) => setMinExperienceValue(e.target.value)}
+              />
+              <br />
+            </div>
+            <div className="label">
+              <label>Maximum Year Experience:</label>
+              <input
+                type="number"
+                id="maxExperience"
+                name="maxExperience"
+                min={minExperienceValue}
+                value={maxExperiencesValue}
+                onChange={(e) => setMaxExperienceValue(e.target.value)}
+              />
+            </div>
             <br />
-
-            <label>Minimum working Hours Per Week:</label>
-            <input
-              type="number"
-              min={0}
-              id="workingHours"
-              name="workingHours"
-              value={workingHoursValue}
-              onChange={(e) => setWorkingHoursValue(e.target.value)}
-            />
+            <div className="label">
+              <label>Minimum Salary:</label>
+              <input
+                type="number"
+                min={0}
+                id="minSalary"
+                name="minSalary"
+                value={minSalaryValue}
+                onChange={(e) => setMinSalaryValue(e.target.value)}
+              />
+            </div>
             <br />
-            <label>Experience Level</label>
-            <select
-              id="experienceLevel"
-              name="experienceLevel"
-              required
-              onChange={sorted}
-            >
-              <option value="">Select...</option>
-              <option value="Internship">Internship</option>
-              <option value="Entry level">Entry level</option>
-              <option value="Associate">Associate</option>
-              <option value="Mid-Senior level">Mid-Senior level</option>
-              <option value="Director">Director</option>
-              <option value="Executive">Executive</option>
-            </select>
+            <div className="label">
+              <label>Maximum Salary:</label>
+              <input
+                type="number"
+                min={minSalaryValue}
+                id="maxSalary"
+                name="maxSalary"
+                value={maxSalaryValue}
+                onChange={(e) => setMaxSalaryValue(e.target.value)}
+              />
+            </div>
             <br />
-            <label>Education Degree</label>
-            <select
-              id="educationdegree"
-              name="educationdegree"
-              required
-              onChange={sorted}
-            >
-              <option value="">Select...</option>
-              <option value="High School Degree">High School Degree</option>
-              <option value="Associate Degree">Associate Degree</option>
-              <option value="Bachelor's Degree">Bachelor's Degree</option>
-              <option value="Master's Degree">Master's Degree</option>
-              <option value="Doctoral Degree">Doctoral Degree</option>
-            </select>
-            <br />
-            <label>Minimum Year Experience:</label>
-            <input
-              type="number"
-              min="0"
-              id="minExperience"
-              name="minExperience"
-              required
-              value={minExperienceValue}
-              onChange={(e) => setMinExperienceValue(e.target.value)}
-            />
-            <br />
-            <label>Maximum Year Experience:</label>
-            <input
-              type="number"
-              id="maxExperience"
-              name="maxExperience"
-              min={minExperienceValue}
-              value={maxExperiencesValue}
-              onChange={(e) => setMaxExperienceValue(e.target.value)}
-            />
-
-            <br />
-            <label>Minimum Salary:</label>
-            <input
-              type="number"
-              min={0}
-              id="minSalary"
-              name="minSalary"
-              value={minSalaryValue}
-              onChange={(e) => setMinSalaryValue(e.target.value)}
-            />
-            <br />
-            <label>Maximum Salary:</label>
-            <input
-              type="number"
-              min={minSalaryValue}
-              id="maxSalary"
-              name="maxSalary"
-              value={maxSalaryValue}
-              onChange={(e) => setMaxSalaryValue(e.target.value)}
-            />
-            <br />
-            <label>Working Times</label>
-            <select id="workingTimes" name="workingTimes" onChange={sorted}>
-              <option value="">Select...</option>
-              <option value="Day Shift">Day Shift</option>
-              <option value="Night Shift">Night Shift</option>
-              <option value="Afternoon Shift">Afternoon Shift</option>
-            </select>
-            <br />
-            <label>Weekend Required</label>
-            <select
-              id="weekendRequired"
-              name="weekendRequired"
-              onChange={sorted}
-            >
-              <option value="">Select...</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-              <option value="Occasionaly">Occasionaly</option>
-            </select>
-            <br />
-            <label>Language:</label>
-            <input
-              type="text"
-              id="language"
-              name="language"
-              value={languageValue}
-              onChange={(e) => setLanguageValue(e.target.value)}
-            />
-            <br />
+            <div className="label">
+              <label>Working Times</label>
+              <select id="workingTimes" name="workingTimes" onChange={sorted}>
+                <option value="">Select...</option>
+                <option value="Day Shift">Day Shift</option>
+                <option value="Night Shift">Night Shift</option>
+                <option value="Afternoon Shift">Afternoon Shift</option>
+              </select>
+              <br />
+            </div>
+            <div className="label">
+              <label>Weekend Required</label>
+              <select
+                id="weekendRequired"
+                name="weekendRequired"
+                onChange={sorted}
+              >
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="Occasionaly">Occasionaly</option>
+              </select>
+              <br />
+            </div>
+            <div className="label">
+              <label>Language:</label>
+              <input
+                type="text"
+                id="language"
+                name="language"
+                value={languageValue}
+                onChange={(e) => setLanguageValue(e.target.value)}
+              />
+              <br />
+            </div>
             <ReactQuill
               theme="snow"
               value={descriptionValue}
+              style={{ color: "whitesmoke" }}
               onChange={setDescriptionValue}
             />
             <button

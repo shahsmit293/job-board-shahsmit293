@@ -543,6 +543,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         const data = await resp.json();
         if (data) {
           console.log(data);
+          window.location.reload();
         } else {
           setStore({ error_message_resume: data });
         }
@@ -1265,7 +1266,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       //delete user preference
       deletepreference: (id) => {
         const store = getStore();
-        fetch(`${backend}api/deleteuserskill/${id}`, {
+        fetch(`${backend}api/deleteuserpreference/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${store.useraccessToken}`,
@@ -1792,7 +1793,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         experiencelevel,
         education,
         workingtimes,
-        daysposted
+        daysposted,
+        salary
       ) => {
         const response = await fetch(
           backend +
@@ -1811,7 +1813,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             "&workingtimes=" +
             workingtimes +
             "&daysposted=" +
-            daysposted
+            daysposted +
+            "&salary=" +
+            salary
         );
         if (response.ok) {
           console.log(response);

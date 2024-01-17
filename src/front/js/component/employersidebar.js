@@ -1,37 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import "../../styles/employersidebar.css";
 export const EmployerSidebar = () => {
-  const navigate = useNavigate("");
+  const navigate = useNavigate();
   return (
-    <div>
-      <ul className="nav flex-column">
-        <li className="nav-item">
-          <button
-            className="nav-link active"
-            onClick={() => {
-              navigate("/employercreatejobpost");
-            }}
-          >
-            Create a Job Post
-          </button>
+    <div className="sidebar">
+      <ul>
+        <li onClick={() => navigate("/employercreatejobpost")}>
+          <i class="fa-solid fa-plus"></i>
         </li>
-        <li className="nav-item">
-          <button
-            className="nav-link"
-            onClick={() => navigate("/employerhome")}
-          >
-            Managae All Jobs
-          </button>
+        <li onClick={() => navigate("/employerhome")}>Manage All Jobs</li>
+        <li onClick={() => navigate("/searchprofiles")}>Search Profiles</li>
+        <li onClick={() => navigate("/contactedprofiles")}>
+          Contacted Profiles
         </li>
-        <li className="nav-item">
-          <button
-            className="nav-link"
-            onClick={() => navigate("/searchprofiles")}
-          >
-            Seach Profiles
-          </button>
-        </li>
+        <li onClick={() => navigate("/savedprofiles")}>Saved Profiles</li>
       </ul>
     </div>
   );

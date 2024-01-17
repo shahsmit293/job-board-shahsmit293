@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { JobCard } from "../component/jobcard";
-import { Sidebar } from "../component/sidebar";
 import { ViewJobPage } from "./viewjobpage";
 
 export const Home = () => {
@@ -76,13 +75,16 @@ export const Home = () => {
     "Master's Degree",
     "Doctoral Degree",
   ];
-  const daysposted = [
-    "Last 24 Hours",
-    "Last 3 Days",
-    "Last 7 Days",
-    "More Than 7 Days",
+  const salaryPackage = [
+    "40000+",
+    "60000+",
+    "80000+",
+    "100000+",
+    "120000+",
+    "150000+",
+    "200000+",
   ];
-
+  const daysposted = ["Last 24 Hours", "Last Week", "Last Month"];
   const { store, actions } = useContext(Context);
   const [showPopup, setShowPopup] = useState(false);
   const [location, setLocation] = useState("");
@@ -93,6 +95,8 @@ export const Home = () => {
   const [education, seteducationValue] = useState("");
   const [workingtimes, setworkingtimes] = useState("");
   const [postdays, setpostdays] = useState("");
+  const [salary, setsalary] = useState("");
+
   useEffect(() => {
     actions.alljobsdata();
     actions.getresumedetail(store.user.id);
@@ -146,7 +150,8 @@ export const Home = () => {
       experiencelevel,
       education,
       workingtimes,
-      postdays
+      postdays,
+      salary
     );
   }, [
     valueJobtitle,
@@ -157,135 +162,204 @@ export const Home = () => {
     education,
     workingtimes,
     postdays,
+    salary,
   ]);
+
+  const timeAgo = (date, time) => {
+    const currentDate = new Date();
+    const givenDate = new Date(date + "T" + time);
+    const diffTime = Math.abs(currentDate - givenDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) {
+      return "today";
+    } else if (diffDays === 1) {
+      return "yesterday";
+    } else {
+      return diffDays + "days ago";
+    }
+  };
   return (
-    <div className="text-center mt-5">
-      <div className="search">
-        <input
-          placeholder="search here for job title,company name"
-          value={valueJobtitle}
-          onChange={(e) => setValueJobtitile(e.target.value)}
-        ></input>
-        <label>Address:</label>
-        <select value={location} onChange={(e) => setLocation(e.target.value)}>
-          <option value="" onClick={() => setLocation("")}>
-            Select a state
-          </option>
-          {states.map((state) => (
-            <option key={state} value={state}>
-              {state}
+    <div className="home">
+      <div className="select">
+        <div>
+          <input
+            className="form-control"
+            placeholder="Search here for job title, company name"
+            value={valueJobtitle}
+            onChange={(e) => setValueJobtitile(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Location</label>
+          <select
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          >
+            <option value="" onClick={() => setLocation("")}>
+              Select...
             </option>
-          ))}
-        </select>
-        <label>Work location Type:</label>
-        <select
-          id="workLocationType"
-          name="workLocationType"
-          value={valueworklocation}
-          onChange={(e) => setworklocation(e.target.value)}
-        >
-          <option value="" onClick={() => setworklocation("")}>
-            Select...
-          </option>
-          {workLocationTypes.map((type) => (
-            <option key={type} value={type}>
-              {type}
+            {states.map((state) => (
+              <option key={state} value={state}>
+                {state}
+              </option>
+            ))}
+          </select>
+          <i class="fas fa-trash-alt" onClick={() => setLocation("")}></i>
+        </div>
+        <div>
+          <label>Location Type</label>
+          <select
+            id="workLocationType"
+            name="workLocationType"
+            value={valueworklocation}
+            onChange={(e) => setworklocation(e.target.value)}
+          >
+            <option value="" onClick={() => setworklocation("")}>
+              Select...
             </option>
-          ))}
-        </select>
-        <label>Job Type</label>
-        <select
-          id="jobType"
-          name="jobType"
-          value={jobtype}
-          onChange={(e) => setjobtype(e.target.value)}
-        >
-          <option value="" onClick={() => setjobtype("")}>
-            Select...
-          </option>
-          {jobTypes.map((type) => (
-            <option key={type} value={type} onClick={() => setjobtype(type)}>
-              {type}
+            {workLocationTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+          <i class="fas fa-trash-alt" onClick={() => setworklocation("")}></i>
+        </div>
+        <div>
+          <label>Job Type</label>
+          <select
+            id="jobType"
+            name="jobType"
+            value={jobtype}
+            onChange={(e) => setjobtype(e.target.value)}
+          >
+            <option value="" onClick={() => setjobtype("")}>
+              Select...
             </option>
-          ))}
-        </select>
-        <label>Experience Level</label>
-        <select
-          id="experienceLevel"
-          name="experienceLevel"
-          value={experiencelevel}
-          onChange={(e) => setexperiencelevel(e.target.value)}
-        >
-          <option value="" onClick={() => setexperiencelevel("")}>
-            Select...
-          </option>
-          {experienceLevels.map((level) => (
-            <option
-              key={level}
-              value={level}
-              onClick={() => setexperiencelevel(level)}
-            >
-              {level}
+            {jobTypes.map((type) => (
+              <option key={type} value={type} onClick={() => setjobtype(type)}>
+                {type}
+              </option>
+            ))}
+          </select>
+          <i class="fas fa-trash-alt" onClick={() => setjobtype("")}></i>
+        </div>
+        <div>
+          <label>Experience Level</label>
+          <select
+            id="experienceLevel"
+            name="experienceLevel"
+            value={experiencelevel}
+            onChange={(e) => setexperiencelevel(e.target.value)}
+          >
+            <option value="" onClick={() => setexperiencelevel("")}>
+              Select...
             </option>
-          ))}
-        </select>
-        <label>Education Degree</label>
-        <select
-          id="educationdegree"
-          name="educationdegree"
-          value={education}
-          onChange={(e) => seteducationValue(e.target.value)}
-        >
-          <option value="" onClick={() => seteducationValue("")}>
-            Select...
-          </option>
-          {educationDegrees.map((degree) => (
-            <option
-              key={degree}
-              value={degree}
-              onClick={() => seteducationValue(degree)}
-            >
-              {degree}
+            {experienceLevels.map((level) => (
+              <option
+                key={level}
+                value={level}
+                onClick={() => setexperiencelevel(level)}
+              >
+                {level}
+              </option>
+            ))}
+          </select>
+          <i
+            class="fas fa-trash-alt"
+            onClick={() => setexperiencelevel("")}
+          ></i>
+        </div>
+        <div>
+          <label>Degree</label>
+          <select
+            id="educationdegree"
+            name="educationdegree"
+            value={education}
+            onChange={(e) => seteducationValue(e.target.value)}
+          >
+            <option value="" onClick={() => seteducationValue("")}>
+              Select...
             </option>
-          ))}
-        </select>
-        <label>Working Times</label>
-        <select
-          id="workingTimes"
-          name="workingTimes"
-          value={workingtimes}
-          onChange={(e) => setworkingtimes(e.target.value)}
-        >
-          <option value="" onClick={() => setworkingtimes("")}>
-            Select...
-          </option>
-          {workingTimes.map((time) => (
-            <option
-              key={time}
-              value={time}
-              onClick={() => setworkingtimes(time)}
-            >
-              {time}
+            {educationDegrees.map((degree) => (
+              <option
+                key={degree}
+                value={degree}
+                onClick={() => seteducationValue(degree)}
+              >
+                {degree}
+              </option>
+            ))}
+          </select>
+          <i class="fas fa-trash-alt" onClick={() => seteducationValue("")}></i>
+        </div>
+        <div>
+          <label>Shifts</label>
+          <select
+            id="workingTimes"
+            name="workingTimes"
+            value={workingtimes}
+            onChange={(e) => setworkingtimes(e.target.value)}
+          >
+            <option value="" onClick={() => setworkingtimes("")}>
+              Select...
             </option>
-          ))}
-        </select>
-        <label>Posted Job</label>
-        <select
-          id="posted"
-          name="posted"
-          value={postdays}
-          onChange={(e) => setpostdays(e.target.value)}
-        >
-          <option value="" onClick={() => setpostdays("")}>
-            Select...
-          </option>
-          {daysposted.map((day) => (
-            <option key={day} value={day} onClick={() => setpostdays(day)}>
-              {day}
+            {workingTimes.map((time) => (
+              <option
+                key={time}
+                value={time}
+                onClick={() => setworkingtimes(time)}
+              >
+                {time}
+              </option>
+            ))}
+          </select>
+          <i class="fas fa-trash-alt" onClick={() => setworkingtimes("")}></i>
+        </div>
+        <div>
+          <label>Posted Job</label>
+          <select
+            id="posted"
+            name="posted"
+            value={postdays}
+            onChange={(e) => setpostdays(e.target.value)}
+          >
+            <option value="" onClick={() => setpostdays("")}>
+              Select...
             </option>
-          ))}
-        </select>
+            {daysposted.map((day) => (
+              <option key={day} value={day} onClick={() => setpostdays(day)}>
+                {day}
+              </option>
+            ))}
+          </select>
+          <i class="fas fa-trash-alt" onClick={() => setpostdays("")}></i>
+        </div>
+        <div>
+          <label>Salary</label>
+          <select
+            id="salary"
+            name="salary"
+            value={salary}
+            onChange={(e) => setsalary(e.target.value)}
+          >
+            <option value="" onClick={() => setsalary("")}>
+              Select...
+            </option>
+            {salaryPackage.map((salary) => (
+              <option
+                key={salary}
+                value={salary}
+                onClick={() => setsalary(salary)}
+              >
+                {salary}
+              </option>
+            ))}
+          </select>
+          <i class="fas fa-trash-alt" onClick={() => setsalary("")}></i>
+        </div>
         <button
+          className="searchbutton"
           onClick={() =>
             actions.searchjobsdata(
               valueJobtitle,
@@ -302,6 +376,7 @@ export const Home = () => {
           Search
         </button>
         <button
+          className="searchbutton"
           onClick={() => {
             setValueJobtitile(""),
               setLocation(""),
@@ -313,42 +388,50 @@ export const Home = () => {
               setpostdays("");
           }}
         >
-          Clear All
+          Clear
         </button>
       </div>
-      <div className="location"></div>
-      <div className="row gy-3 mt-4">
+      <div className="row gy-3" style={{ margin: "5px", flexGrow: "1" }}>
         {store.searchjobs && store.searchjobs.length > 0 ? (
           store.searchjobs.map((element, index) => {
             return (
               <JobCard
-                key={element.id}
+                key={index}
                 jobtitlename={element.job_title}
                 Company={element.company_name}
                 Location={element.location}
                 Jobtype={element.job_type}
+                worktype={element.work_location_type}
+                experiencelevel={element.experience_level_type}
+                shift={element.working_times}
+                salary={{ min: element.min_salary, max: element.max_salary }}
                 viewid={element.id}
                 onViewClick={handleViewClick}
                 jobid={element.id}
                 display={displaysave(element.id)}
                 displayunsave={displayunsave(element.id)}
                 displayapplied={displayapplied(element.id)}
+                dateposted={timeAgo(element.current_date, element.current_time)}
               />
             );
           })
         ) : (
           <p>No jobs posted yet.</p>
         )}
-        {showPopup && (
-          <div className="popup">
-            <button onClick={() => setShowPopup(false)}>Close</button>
+      </div>
+      {showPopup && (
+        <div>
+          <p className="popup">
+            <button
+              className="styled-button"
+              onClick={() => setShowPopup(false)}
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
             <ViewJobPage />
-          </div>
-        )}
-      </div>
-      <div className="sidebar">
-        <Sidebar />
-      </div>
+          </p>
+        </div>
+      )}
     </div>
   );
 };

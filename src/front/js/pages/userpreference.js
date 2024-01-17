@@ -180,53 +180,39 @@ export const UserPreference = (props) => {
   );
 
   return (
-    <div className="contactinfo">
+    <div className="preferenceinfo">
       {showdetails && (
-        <div className="details">
-          <h4>Job Titles:{props.jobtitlepreference}</h4>
+        <div className="preferencedetails">
+          <h1>
+            <b>
+              <u>My Preference</u>
+            </b>
+          </h1>
           <h4>
-            Job Types:{props.fulltimeob}
-            {props.parttimejob}
-            {props.contractjob}
-            {props.temperoryjob}
-            {props.internship}
+            <b>Job Titles</b>:{props.jobtitlepreference}
           </h4>
           <h4>
-            Work Schedule:{props.mondaytofriday}
-            {props.weekendasneeded}
-            {props.weekendonly}
-            {props.noweekends}
-            {props.holidays}
-            {props.rotatingweekends}
-            {props.weekdays}
-            {props.everyweekend}
-            {props.fourhourshift}
-            {props.eighthourshift}
-            {props.tenhourshift}
-            {props.twelvehourshift}
-            {props.dayshift}
-            {props.nightshift}
-            {props.eveningshift}
-            {props.nonight}
-            {props.overnightshift}
-            {props.rotatingshift}
-            {props.splitshift}
-            {props.overtime}{" "}
+            <b>Job Types</b>:{props.fulltimeob}/{props.parttimejob}/
+            {props.contractjob}/{props.temperoryjob}/{props.internship}
           </h4>
           <h4>
-            Minimum Pay:{props.minsalary}
-            {props.salarytype}
+            <b>Work Schedule</b>:{props.mondaytofriday}/{props.weekendasneeded}/
+            {props.weekendonly}/{props.noweekends}/{props.holidays}/
+            {props.rotatingweekends}/{props.weekdays}/{props.everyweekend}/
+            {props.fourhourshift}/{props.eighthourshift}/{props.tenhourshift}/
+            {props.twelvehourshift}/{props.dayshift}/{props.nightshift}/
+            {props.eveningshift}/{props.nonight}/{props.overnightshift}/
+            {props.rotatingshift}/{props.splitshift}/{props.overtime}
           </h4>
           <h4>
-            Relocation:{props.relocation}
-            {props.relocationplace}{" "}
+            <b>Minimum Pay</b>:{props.minsalary}/{props.salarytype}
           </h4>
           <h4>
-            Remote:{props.remotejob}
-            {props.hybridjob}
-            {props.inperson}
-            {props.temperoryremotejob}
-            {props.temperoryjob}{" "}
+            <b>Relocation</b>:{props.relocation}/{props.relocationplace}
+          </h4>
+          <h4>
+            <b>Remote</b>:{props.remotejob}/{props.hybridjob}/{props.inperson}/
+            {props.temperoryremotejob}/{props.temperoryjob}
           </h4>
           {!props.jobtitlepreference &&
           !props.fulltimeob &&
@@ -271,337 +257,508 @@ export const UserPreference = (props) => {
               Add
             </button>
           ) : (
-            <button
-              onClick={() => {
-                setShowdetails(false);
-                setEditform(true);
-              }}
-            >
-              edit
-            </button>
+            <>
+              <button
+                onClick={() => {
+                  setShowdetails(false);
+                  setEditform(true);
+                }}
+              >
+                edit
+              </button>
+              <button
+                onClick={() => {
+                  actions.deletepreference(store.user.id);
+                }}
+              >
+                Delete
+              </button>
+            </>
           )}
         </div>
       )}
 
       {addForm && (
-        <div className="form">
-          <label>JOB PREFERENCE NAME:</label>
-          <input
-            typeof="text"
-            value={valueJobpreferenceName}
-            onChange={(e) => setJobpreferenceName(e.target.value)}
-            required
-          ></input>
-          <label>Full-time:</label>
-          <input
-            type="checkbox"
-            name="fulltime"
-            onChange={(e) =>
-              setValueFulltimeJob(e.target.checked ? "Fulltimejob" : "No")
-            }
-          />
-          <label>Part-time:</label>
-          <input
-            type="checkbox"
-            name="parttime"
-            onChange={(e) =>
-              setParttimeJob(e.target.checked ? "Parttime" : "No")
-            }
-          />
-          <label>Contract:</label>
-          <input
-            type="checkbox"
-            name="contract"
-            onChange={(e) =>
-              setValueContractJob(e.target.checked ? "Contractjob" : "No")
-            }
-          />
-          <label>Temporary:</label>
-          <input
-            type="checkbox"
-            name="temperory"
-            onChange={(e) =>
-              setValueTemperoryJob(e.target.checked ? "Temperoryjob" : "No")
-            }
-          />
-          <label>Internship:</label>
-          <input
-            type="checkbox"
-            name="internship"
-            onChange={(e) =>
-              setValueInternship(e.target.checked ? "Internship" : "No")
-            }
-          />
-          <label>Monday to Friday:</label>
-          <input
-            type="checkbox"
-            name="mondaytofriday"
-            onChange={(e) =>
-              setValueMontoFri(e.target.checked ? "Monday-to-Friday" : "No")
-            }
-          />
-          <label>Weekends as needed:</label>
-          <input
-            type="checkbox"
-            name="weekendasneeded"
-            onChange={(e) =>
-              setValueWeekendasneeded(
-                e.target.checked ? "Weekend as needed" : "No"
-              )
-            }
-          />
-          <label>Weekends only:</label>
-          <input
-            type="checkbox"
-            name="weekendsonly"
-            onChange={(e) =>
-              setValueWeekendonly(e.target.checked ? "Weekend Only" : "No")
-            }
-          />
-          <label>No weekends:</label>
-          <input
-            type="checkbox"
-            name="noweekends"
-            onChange={(e) =>
-              setValueNoweekend(e.target.checked ? "No weekend" : "No")
-            }
-          />
-          <label>Holidays:</label>
-          <input
-            type="checkbox"
-            name="holidays"
-            onChange={(e) =>
-              setValueHoliday(e.target.checked ? "Holiday" : "No")
-            }
-          />
-          <label>Rotating weekends:</label>
-          <input
-            type="checkbox"
-            name="rotatingweekends"
-            onChange={(e) =>
-              setValueRotatingweekend(
-                e.target.checked ? "Rotating Weekend" : "No"
-              )
-            }
-          />
-          <label>Weekdays:</label>
-          <input
-            type="checkbox"
-            name="weekdays"
-            onChange={(e) =>
-              setValueWeekdays(e.target.checked ? "Weekdays" : "No")
-            }
-          />
-          <label>Every weekend:</label>
-          <input
-            type="checkbox"
-            name="everyweekend"
-            onChange={(e) =>
-              setValueEveryweekends(e.target.checked ? "Every Weekends" : "No")
-            }
-          />
-          <label>4 hour shift:</label>
-          <input
-            type="checkbox"
-            name="fourhourshift"
-            onChange={(e) =>
-              setValueFourhourshift(e.target.checked ? "4-Hour shift" : "No")
-            }
-          />
-          <label>8 hour shift:</label>
-          <input
-            type="checkbox"
-            name="eighthourshift"
-            onChange={(e) =>
-              setValueEighthourshift(e.target.checked ? "8-hour shift" : "No")
-            }
-          />
-          <label>10 hour shift:</label>
-          <input
-            type="checkbox"
-            name="tenhourshift"
-            onChange={(e) =>
-              setValueTenhourshift(e.target.checked ? "10-hour shift" : "No")
-            }
-          />
-          <label>12 hour shift:</label>
-          <input
-            type="checkbox"
-            name="twelvehourshift"
-            onChange={(e) =>
-              setValueTwelvehourshift(e.target.checked ? "12-hour shift" : "No")
-            }
-          />
-          <label>Day shift:</label>
-          <input
-            type="checkbox"
-            name="dayshift"
-            onChange={(e) =>
-              setValueDayshift(e.target.checked ? "Day shift" : "No")
-            }
-          />
-          <label>Night shift:</label>
-          <input
-            type="checkbox"
-            name="nightshift"
-            onChange={(e) =>
-              setValueNightshift(e.target.checked ? "Night shift" : "No")
-            }
-          />
-          <label>Evening shift:</label>
-          <input
-            type="checkbox"
-            name="eveningshift"
-            onChange={(e) =>
-              setValueEveningshift(e.target.checked ? "Evening shift" : "No")
-            }
-          />
-          <label>No nights:</label>
-          <input
-            type="checkbox"
-            name="nonights"
-            onChange={(e) =>
-              setValueNonight(e.target.checked ? "No nights" : "No")
-            }
-          />
-          <label>Overnight shift:</label>
-          <input
-            type="checkbox"
-            name="overnightshift"
-            onChange={(e) =>
-              setValueOvernightshift(
-                e.target.checked ? "Overnight shift" : "No"
-              )
-            }
-          />
-
-          <label>Rotating shift:</label>
-          <input
-            type="checkbox"
-            name="rotatingshift"
-            onChange={(e) =>
-              setValueRotatingshift(e.target.checked ? "Rotating shift" : "No")
-            }
-          />
-          <label>Split shift:</label>
-          <input
-            type="checkbox"
-            name="splitshift"
-            onChange={(e) =>
-              setValueSplitshift(e.target.checked ? "Split shift" : "No")
-            }
-          />
-          <label>Overtime:</label>
-          <input
-            type="checkbox"
-            name="overtine"
-            onChange={(e) =>
-              setValueOvertime(e.target.checked ? "Overtime" : "No")
-            }
-          />
-          <label>MINIMUM SALARY:</label>
-          <input
-            typeof="number"
-            value={valueMinsalary}
-            onChange={(e) => setValueMinsalary(e.target.value)}
-            required
-          ></input>
-          <label htmlFor="salary">Choose a salary type:</label>
-          <select
-            name="salary"
-            id="salary"
-            value={valueSalarytype}
-            onChange={(e) => setValueSalarytype(e.target.value)}
-          >
-            <option value="per hour">per hour</option>
-            <option value="per week">per week</option>
-            <option value="per month">per month</option>
-            <option value="per year">per year</option>
-          </select>
-          <label>relocation:</label>
-          <input
-            type="checkbox"
-            name="relocation"
-            onChange={(e) => {
-              setValueRelocation(e.target.checked ? "Yes" : "No");
-              setValueRelocationplace("");
-            }}
-          />
-          {valueRelocation === "Yes" && (
-            <>
-              <label htmlFor="anywhere">Anywhere</label>
-              <input
-                type="radio"
-                id="anywhere"
-                name="relocationOption"
-                value="anywhere"
-                onChange={(e) => setValueRelocationplace(e.target.value)}
-              />
-              <br />
-              <label htmlFor="chhoselocation">choose location</label>
-              <input
-                type="radio"
-                id="chooselocation"
-                name="relocationOption"
-                value="chooselocation"
-                onChange={(e) => setValueRelocationplace(e.target.value)}
-              />
-              <br />
-              {valueRelocationplace !== "anywhere" &&
-                valueRelocationplace !== "" && (
-                  <>
-                    <label>Choose location</label>
-                    {states.map((location) => (
-                      <div key={location}>
-                        <input
-                          type="checkbox"
-                          id={location}
-                          name="location"
-                          value={location}
-                          onChange={handleLocationChange}
-                        />
-                        <label htmlFor={location}>{location}</label>
+        <div className="addform">
+          <h1>
+            <b>
+              <u>Add Preference</u>
+            </b>
+          </h1>
+          <div className="form-group">
+            <h4>
+              <b>Job Preference Name</b>:
+            </h4>
+            <input
+              typeof="text"
+              value={valueJobpreferenceName}
+              onChange={(e) => setJobpreferenceName(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Full Time</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="fulltime"
+              onChange={(e) =>
+                setValueFulltimeJob(e.target.checked ? "Fulltimejob" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Part Time</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="parttime"
+              onChange={(e) =>
+                setParttimeJob(e.target.checked ? "Parttime" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Contract</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="contract"
+              onChange={(e) =>
+                setValueContractJob(e.target.checked ? "Contractjob" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Temporary</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="temperory"
+              onChange={(e) =>
+                setValueTemperoryJob(e.target.checked ? "Temperoryjob" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Internship</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="internship"
+              onChange={(e) =>
+                setValueInternship(e.target.checked ? "Internship" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Monday to Friday</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="mondaytofriday"
+              onChange={(e) =>
+                setValueMontoFri(e.target.checked ? "Monday-to-Friday" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Weekends As Needed</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="weekendasneeded"
+              onChange={(e) =>
+                setValueWeekendasneeded(
+                  e.target.checked ? "Weekend as needed" : "No"
+                )
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Weekends Only</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="weekendsonly"
+              onChange={(e) =>
+                setValueWeekendonly(e.target.checked ? "Weekend Only" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>No Weekends</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="noweekends"
+              onChange={(e) =>
+                setValueNoweekend(e.target.checked ? "No weekend" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Holidays</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="holidays"
+              onChange={(e) =>
+                setValueHoliday(e.target.checked ? "Holiday" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Rotating Weekends</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="rotatingweekends"
+              onChange={(e) =>
+                setValueRotatingweekend(
+                  e.target.checked ? "Rotating Weekend" : "No"
+                )
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Weekdays</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="weekdays"
+              onChange={(e) =>
+                setValueWeekdays(e.target.checked ? "Weekdays" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Every Weekend</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="everyweekend"
+              onChange={(e) =>
+                setValueEveryweekends(
+                  e.target.checked ? "Every Weekends" : "No"
+                )
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>4 Hour Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="fourhourshift"
+              onChange={(e) =>
+                setValueFourhourshift(e.target.checked ? "4-Hour shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>8 Hour Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="eighthourshift"
+              onChange={(e) =>
+                setValueEighthourshift(e.target.checked ? "8-hour shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>10 Hour Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="tenhourshift"
+              onChange={(e) =>
+                setValueTenhourshift(e.target.checked ? "10-hour shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>12 Hour Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="twelvehourshift"
+              onChange={(e) =>
+                setValueTwelvehourshift(
+                  e.target.checked ? "12-hour shift" : "No"
+                )
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Day Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="dayshift"
+              onChange={(e) =>
+                setValueDayshift(e.target.checked ? "Day shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Night Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="nightshift"
+              onChange={(e) =>
+                setValueNightshift(e.target.checked ? "Night shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Evening Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="eveningshift"
+              onChange={(e) =>
+                setValueEveningshift(e.target.checked ? "Evening shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>No Night Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="nonights"
+              onChange={(e) =>
+                setValueNonight(e.target.checked ? "No nights" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Overnight Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="overnightshift"
+              onChange={(e) =>
+                setValueOvernightshift(
+                  e.target.checked ? "Overnight shift" : "No"
+                )
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Rotating Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="rotatingshift"
+              onChange={(e) =>
+                setValueRotatingshift(
+                  e.target.checked ? "Rotating shift" : "No"
+                )
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Split Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="splitshift"
+              onChange={(e) =>
+                setValueSplitshift(e.target.checked ? "Split shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Overtime</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="overtine"
+              onChange={(e) =>
+                setValueOvertime(e.target.checked ? "Overtime" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Minimum Salary</b>
+            </h4>
+            <input
+              typeof="number"
+              value={valueMinsalary}
+              onChange={(e) => setValueMinsalary(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4 htmlFor="salary">
+              <b>Choose Salary Type</b>
+            </h4>
+            <select
+              name="salary"
+              id="salary"
+              value={valueSalarytype}
+              onChange={(e) => setValueSalarytype(e.target.value)}
+            >
+              <option value="per hour">per hour</option>
+              <option value="per week">per week</option>
+              <option value="per month">per month</option>
+              <option value="per year">per year</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Relocation</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="relocation"
+              onChange={(e) => {
+                setValueRelocation(e.target.checked ? "Yes" : "No");
+                setValueRelocationplace("");
+              }}
+            />
+          </div>
+          <div className="form-group">
+            {valueRelocation === "Yes" && (
+              <>
+                <h5>
+                  <b>Anywhere</b>
+                </h5>
+                <input
+                  type="radio"
+                  id="anywhere"
+                  name="relocationOption"
+                  value="anywhere"
+                  onChange={(e) => setValueRelocationplace(e.target.value)}
+                />
+                <br />
+                <h5>
+                  <b>Choose Location</b>
+                </h5>
+                <input
+                  type="radio"
+                  id="chooselocation"
+                  name="relocationOption"
+                  value="chooselocation"
+                  onChange={(e) => setValueRelocationplace(e.target.value)}
+                />
+                <br />
+                {valueRelocationplace !== "anywhere" &&
+                  valueRelocationplace !== "" && (
+                    <>
+                      <div className="btn-group">
+                        <button
+                          type="button"
+                          className="btn btn-light dropdown-toggle"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Choose Location
+                        </button>
+                        <ul className="dropdown-menu">
+                          <li>
+                            {states.map((location) => (
+                              <div key={location} className="checklocation">
+                                <h6>
+                                  <b>{location}</b>
+                                </h6>
+                                <input
+                                  type="checkbox"
+                                  id={location}
+                                  name="location"
+                                  value={location}
+                                  onChange={handleLocationChange}
+                                />
+                              </div>
+                            ))}
+                          </li>
+                        </ul>
                       </div>
-                    ))}
-                  </>
-                )}
-            </>
-          )}
-          <br />
-          <label>remote job:</label>
-          <input
-            type="checkbox"
-            name="remotejob"
-            onChange={(e) =>
-              setValueRemotejob(e.target.checked ? "Remote job" : "No")
-            }
-          />
-          <label>hybrid job:</label>
-          <input
-            type="checkbox"
-            name="hybridjob"
-            onChange={(e) =>
-              setValueHybridjob(e.target.checked ? "Hybrid job" : "No")
-            }
-          />
-          <label>In person job::</label>
-          <input
-            type="checkbox"
-            name="inpersonjob"
-            onChange={(e) =>
-              setValueInperson(e.target.checked ? "In person job" : "No")
-            }
-          />
-          <label>Temperory remote job:</label>
-          <input
-            type="checkbox"
-            name="temperoryremotejob"
-            onChange={(e) =>
-              setValueTemperoryremotejob(
-                e.target.checked ? "Temperory remote job" : "No"
-              )
-            }
-          />
+                    </>
+                  )}
+              </>
+            )}
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Remote Job</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="remotejob"
+              onChange={(e) =>
+                setValueRemotejob(e.target.checked ? "Remote job" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Hybrid Job</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="hybridjob"
+              onChange={(e) =>
+                setValueHybridjob(e.target.checked ? "Hybrid job" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>In Person Job</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="inpersonjob"
+              onChange={(e) =>
+                setValueInperson(e.target.checked ? "In person job" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Temperory Remote Job</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="temperoryremotejob"
+              onChange={(e) =>
+                setValueTemperoryremotejob(
+                  e.target.checked ? "Temperory remote job" : "No"
+                )
+              }
+            />
+          </div>
           <button
             onClick={() => {
               actions.adduserpreference(
@@ -656,362 +813,525 @@ export const UserPreference = (props) => {
         </div>
       )}
       {editForm && (
-        <div className="form">
-          <label>JOB PREFERENCE NAME:</label>
-          <input
-            typeof="text"
-            value={valueJobpreferenceName}
-            onChange={(e) => setJobpreferenceName(e.target.value)}
-            required
-          ></input>
-          <label>Full-time:</label>
-          <input
-            type="checkbox"
-            name="fulltime"
-            checked={valueFulltimeJob === "Fulltimejob"}
-            onChange={(e) =>
-              setValueFulltimeJob(e.target.checked ? "Fulltimejob" : "No")
-            }
-          />
-          <label>Part-time:</label>
-          <input
-            type="checkbox"
-            name="parttime"
-            checked={valueParttimeJob === "Parttime"}
-            onChange={(e) =>
-              setParttimeJob(e.target.checked ? "Parttime" : "No")
-            }
-          />
-          <label>Contract:</label>
-          <input
-            type="checkbox"
-            name="contract"
-            checked={valueContractJob === "Contractjob"}
-            onChange={(e) =>
-              setValueContractJob(e.target.checked ? "Contractjob" : "No")
-            }
-          />
-          <label>Temporary:</label>
-          <input
-            type="checkbox"
-            name="temperory"
-            checked={valueTemperoryJob === "Temperoryjob"}
-            onChange={(e) =>
-              setValueTemperoryJob(e.target.checked ? "Temperoryjob" : "No")
-            }
-          />
-          <label>Internship:</label>
-          <input
-            type="checkbox"
-            name="internship"
-            checked={valueInternship === "Internship"}
-            onChange={(e) =>
-              setValueInternship(e.target.checked ? "Internship" : "No")
-            }
-          />
-          <label>Monday to Friday:</label>
-          <input
-            type="checkbox"
-            name="mondaytofriday"
-            checked={valueMontoFri === "Monday-to-Friday"}
-            onChange={(e) =>
-              setValueMontoFri(e.target.checked ? "Monday-to-Friday" : "No")
-            }
-          />
-          <label>Weekends as needed:</label>
-          <input
-            type="checkbox"
-            name="weekendasneeded"
-            checked={valueWeekendasneeded === "Weekend as needed"}
-            onChange={(e) =>
-              setValueWeekendasneeded(
-                e.target.checked ? "Weekend as needed" : "No"
-              )
-            }
-          />
-          <label>Weekends only:</label>
-          <input
-            type="checkbox"
-            name="weekendsonly"
-            checked={valueWeekendonly === "Weekend Only"}
-            onChange={(e) =>
-              setValueWeekendonly(e.target.checked ? "Weekend Only" : "No")
-            }
-          />
-          <label>No weekends:</label>
-          <input
-            type="checkbox"
-            name="noweekends"
-            checked={valueNoweekend === "No weekend"}
-            onChange={(e) =>
-              setValueNoweekend(e.target.checked ? "No weekend" : "No")
-            }
-          />
-          <label>Holidays:</label>
-          <input
-            type="checkbox"
-            name="holidays"
-            checked={valueHoliday === "Holiday"}
-            onChange={(e) =>
-              setValueHoliday(e.target.checked ? "Holiday" : "No")
-            }
-          />
-          <label>Rotating weekends:</label>
-          <input
-            type="checkbox"
-            name="rotatingweekends"
-            checked={valueRotatingweekend === "Rotating Weekend"}
-            onChange={(e) =>
-              setValueRotatingweekend(
-                e.target.checked ? "Rotating Weekend" : "No"
-              )
-            }
-          />
-          <label>Weekdays:</label>
-          <input
-            type="checkbox"
-            name="weekdays"
-            checked={valueWeekdays === "Weekdays"}
-            onChange={(e) =>
-              setValueWeekdays(e.target.checked ? "Weekdays" : "No")
-            }
-          />
-          <label>Every weekend:</label>
-          <input
-            type="checkbox"
-            name="everyweekend"
-            checked={valueEveryweekends === "Every Weekends"}
-            onChange={(e) =>
-              setValueEveryweekends(e.target.checked ? "Every Weekends" : "No")
-            }
-          />
-          <label>4 hour shift:</label>
-          <input
-            type="checkbox"
-            name="fourhourshift"
-            checked={valueFourhourshift === "4-Hour shift"}
-            onChange={(e) =>
-              setValueFourhourshift(e.target.checked ? "4-Hour shift" : "No")
-            }
-          />
-          <label>8 hour shift:</label>
-          <input
-            type="checkbox"
-            name="eighthourshift"
-            checked={valueEighthourshift === "8-hour shift"}
-            onChange={(e) =>
-              setValueEighthourshift(e.target.checked ? "8-hour shift" : "No")
-            }
-          />
-          <label>10 hour shift:</label>
-          <input
-            type="checkbox"
-            name="tenhourshift"
-            checked={valueTenhourshift === "10-hour shift"}
-            onChange={(e) =>
-              setValueTenhourshift(e.target.checked ? "10-hour shift" : "No")
-            }
-          />
-          <label>12 hour shift:</label>
-          <input
-            type="checkbox"
-            name="twelvehourshift"
-            checked={valueTwelvehourshift === "12-hour shift"}
-            onChange={(e) =>
-              setValueTwelvehourshift(e.target.checked ? "12-hour shift" : "No")
-            }
-          />
-          <label>Day shift:</label>
-          <input
-            type="checkbox"
-            name="dayshift"
-            checked={valueDayshift === "Day shift"}
-            onChange={(e) =>
-              setValueDayshift(e.target.checked ? "Day shift" : "No")
-            }
-          />
-          <label>Night shift:</label>
-          <input
-            type="checkbox"
-            name="nightshift"
-            checked={valueNightshift === "Night shift"}
-            onChange={(e) =>
-              setValueNightshift(e.target.checked ? "Night shift" : "No")
-            }
-          />
-          <label>Evening shift:</label>
-          <input
-            type="checkbox"
-            name="eveningshift"
-            checked={valueEveningshift === "Evening shift"}
-            onChange={(e) =>
-              setValueEveningshift(e.target.checked ? "Evening shift" : "No")
-            }
-          />
-          <label>No nights:</label>
-          <input
-            type="checkbox"
-            name="nonights"
-            checked={valueNonight === "No nights"}
-            onChange={(e) =>
-              setValueNonight(e.target.checked ? "No nights" : "No")
-            }
-          />
-          <label>Overnight shift:</label>
-          <input
-            type="checkbox"
-            name="overnightshift"
-            checked={valueOvernightshift === "overnight shift"}
-            onChange={(e) =>
-              setValueOvernightshift(
-                e.target.checked ? "Overnight shift" : "No"
-              )
-            }
-          />
-
-          <label>Rotating shift:</label>
-          <input
-            type="checkbox"
-            name="rotatingshift"
-            checked={valueRotatingshift === "Rotating shift"}
-            onChange={(e) =>
-              setValueRotatingshift(e.target.checked ? "Rotating shift" : "No")
-            }
-          />
-          <label>Split shift:</label>
-          <input
-            type="checkbox"
-            name="splitshift"
-            checked={valueSplitshift === "Split shift"}
-            onChange={(e) =>
-              setValueSplitshift(e.target.checked ? "Split shift" : "No")
-            }
-          />
-          <label>Overtime:</label>
-          <input
-            type="checkbox"
-            name="overtine"
-            checked={valueOvernightshift === "Overtime"}
-            onChange={(e) =>
-              setValueOvertime(e.target.checked ? "Overtime" : "No")
-            }
-          />
-          <label>MINIMUM SALARY:</label>
-          <input
-            typeof="number"
-            value={valueMinsalary}
-            onChange={(e) => setValueMinsalary(e.target.value)}
-            required
-          ></input>
-          <label htmlFor="salary">Choose a salary type:</label>
-          <select
-            name="salary"
-            id="salary"
-            value={valueSalarytype}
-            onChange={(e) => setValueSalarytype(e.target.value)}
-          >
-            <option value="per hour">per hour</option>
-            <option value="per week">per week</option>
-            <option value="per month">per month</option>
-            <option value="per year">per year</option>
-          </select>
-          <label>relocation:</label>
-          <input
-            type="checkbox"
-            name="relocation"
-            checked={valueRelocation == "Yes"}
-            onChange={(e) => {
-              setValueRelocation(e.target.checked ? "Yes" : "No");
-              setValueRelocationplace("");
-            }}
-          />
-          {valueRelocation === "Yes" && (
-            <>
-              <label htmlFor="anywhere">Anywhere</label>
-              <input
-                type="radio"
-                id="anywhere"
-                name="relocationOption"
-                value="anywhere"
-                checked={valueRelocationplace === "anywhere"}
-                onChange={(e) => setValueRelocationplace(e.target.value)}
-              />
-              <br />
-              <label htmlFor="chhoselocation">choose location</label>
-              <input
-                type="radio"
-                id="chooselocation"
-                name="relocationOption"
-                checked={
-                  valueRelocationplace !== "anywhere" &&
-                  valueRelocationplace !== ""
-                }
-                value="chooselocation"
-                onChange={(e) => setValueRelocationplace(e.target.value)}
-              />
-              <br />
-              {valueRelocationplace !== "anywhere" &&
-                valueRelocationplace !== "" && (
-                  <>
-                    <label>Choose location</label>
-                    {states.map((location) => (
-                      <div key={location}>
-                        <input
-                          type="checkbox"
-                          id={location}
-                          name="location"
-                          value={location}
-                          onChange={handleLocationChange}
-                          checked={valueRelocationplace
-                            .split(", ")
-                            .includes(location)}
-                        />
-                        <label htmlFor={location}>{location}</label>
+        <div className="editform">
+          <h1>
+            <b>
+              <u>Edit Preference</u>
+            </b>
+          </h1>
+          <div className="form-group">
+            <h4>
+              <b>Job Preference Name</b>:
+            </h4>
+            <input
+              typeof="text"
+              value={valueJobpreferenceName}
+              onChange={(e) => setJobpreferenceName(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Full Time</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="fulltime"
+              checked={valueFulltimeJob === "Fulltimejob"}
+              onChange={(e) =>
+                setValueFulltimeJob(e.target.checked ? "Fulltimejob" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Part Time</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="parttime"
+              checked={valueParttimeJob === "Parttime"}
+              onChange={(e) =>
+                setParttimeJob(e.target.checked ? "Parttime" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Contract</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="contract"
+              checked={valueContractJob === "Contractjob"}
+              onChange={(e) =>
+                setValueContractJob(e.target.checked ? "Contractjob" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Temporary</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="temperory"
+              checked={valueTemperoryJob === "Temperoryjob"}
+              onChange={(e) =>
+                setValueTemperoryJob(e.target.checked ? "Temperoryjob" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Internship</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="internship"
+              checked={valueInternship === "Internship"}
+              onChange={(e) =>
+                setValueInternship(e.target.checked ? "Internship" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Monday to Friday</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="mondaytofriday"
+              checked={valueMontoFri === "Monday-to-Friday"}
+              onChange={(e) =>
+                setValueMontoFri(e.target.checked ? "Monday-to-Friday" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Weekends As Needed</b>:
+            </h4>
+            <input
+              type="checkbox"
+              name="weekendasneeded"
+              checked={valueWeekendasneeded === "Weekend as needed"}
+              onChange={(e) =>
+                setValueWeekendasneeded(
+                  e.target.checked ? "Weekend as needed" : "No"
+                )
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Weekends Only</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="weekendsonly"
+              checked={valueWeekendonly === "Weekend Only"}
+              onChange={(e) =>
+                setValueWeekendonly(e.target.checked ? "Weekend Only" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>No Weekends</b>:
+            </h4>
+            <input
+              type="checkbox"
+              name="noweekends"
+              checked={valueNoweekend === "No weekend"}
+              onChange={(e) =>
+                setValueNoweekend(e.target.checked ? "No weekend" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Holidays</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="holidays"
+              checked={valueHoliday === "Holiday"}
+              onChange={(e) =>
+                setValueHoliday(e.target.checked ? "Holiday" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Rotating Weekends</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="rotatingweekends"
+              checked={valueRotatingweekend === "Rotating Weekend"}
+              onChange={(e) =>
+                setValueRotatingweekend(
+                  e.target.checked ? "Rotating Weekend" : "No"
+                )
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Weekdays</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="weekdays"
+              checked={valueWeekdays === "Weekdays"}
+              onChange={(e) =>
+                setValueWeekdays(e.target.checked ? "Weekdays" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Every Weekends</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="everyweekend"
+              checked={valueEveryweekends === "Every Weekends"}
+              onChange={(e) =>
+                setValueEveryweekends(
+                  e.target.checked ? "Every Weekends" : "No"
+                )
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>4 Hour Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="fourhourshift"
+              checked={valueFourhourshift === "4-Hour shift"}
+              onChange={(e) =>
+                setValueFourhourshift(e.target.checked ? "4-Hour shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>8 Hour Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="eighthourshift"
+              checked={valueEighthourshift === "8-hour shift"}
+              onChange={(e) =>
+                setValueEighthourshift(e.target.checked ? "8-hour shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>10 Hour Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="tenhourshift"
+              checked={valueTenhourshift === "10-hour shift"}
+              onChange={(e) =>
+                setValueTenhourshift(e.target.checked ? "10-hour shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>12 Hour Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="twelvehourshift"
+              checked={valueTwelvehourshift === "12-hour shift"}
+              onChange={(e) =>
+                setValueTwelvehourshift(
+                  e.target.checked ? "12-hour shift" : "No"
+                )
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Day Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="dayshift"
+              checked={valueDayshift === "Day shift"}
+              onChange={(e) =>
+                setValueDayshift(e.target.checked ? "Day shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Night Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="nightshift"
+              checked={valueNightshift === "Night shift"}
+              onChange={(e) =>
+                setValueNightshift(e.target.checked ? "Night shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Evening Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="eveningshift"
+              checked={valueEveningshift === "Evening shift"}
+              onChange={(e) =>
+                setValueEveningshift(e.target.checked ? "Evening shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>No Nights</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="nonights"
+              checked={valueNonight === "No nights"}
+              onChange={(e) =>
+                setValueNonight(e.target.checked ? "No nights" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Overnight Shift</b>:
+            </h4>
+            <input
+              type="checkbox"
+              name="overnightshift"
+              checked={valueOvernightshift === "overnight shift"}
+              onChange={(e) =>
+                setValueOvernightshift(
+                  e.target.checked ? "Overnight shift" : "No"
+                )
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Rotating Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="rotatingshift"
+              checked={valueRotatingshift === "Rotating shift"}
+              onChange={(e) =>
+                setValueRotatingshift(
+                  e.target.checked ? "Rotating shift" : "No"
+                )
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Split Shift</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="splitshift"
+              checked={valueSplitshift === "Split shift"}
+              onChange={(e) =>
+                setValueSplitshift(e.target.checked ? "Split shift" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Overtime</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="overtine"
+              checked={valueOvernightshift === "Overtime"}
+              onChange={(e) =>
+                setValueOvertime(e.target.checked ? "Overtime" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Minimum Salary</b>
+            </h4>
+            <input
+              typeof="number"
+              value={valueMinsalary}
+              onChange={(e) => setValueMinsalary(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4 htmlFor="salary">
+              <b>Choose a Salary Type</b>
+            </h4>
+            <select
+              name="salary"
+              id="salary"
+              value={valueSalarytype}
+              onChange={(e) => setValueSalarytype(e.target.value)}
+            >
+              <option value="per hour">per hour</option>
+              <option value="per week">per week</option>
+              <option value="per month">per month</option>
+              <option value="per year">per year</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Relocation</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="relocation"
+              checked={valueRelocation == "Yes"}
+              onChange={(e) => {
+                setValueRelocation(e.target.checked ? "Yes" : "No");
+                setValueRelocationplace("");
+              }}
+            />
+          </div>
+          <div className="btn-group">
+            {valueRelocation === "Yes" && (
+              <>
+                <h4>
+                  <b>Anywhere</b>
+                </h4>
+                <input
+                  type="radio"
+                  id="anywhere"
+                  name="relocationOption"
+                  value="anywhere"
+                  checked={valueRelocationplace === "anywhere"}
+                  onChange={(e) => setValueRelocationplace(e.target.value)}
+                />
+                <br />
+                <h4>
+                  <b>Choose Location</b>
+                </h4>
+                <input
+                  type="radio"
+                  id="chooselocation"
+                  name="relocationOption"
+                  checked={
+                    valueRelocationplace !== "anywhere" &&
+                    valueRelocationplace !== ""
+                  }
+                  value="chooselocation"
+                  onChange={(e) => setValueRelocationplace(e.target.value)}
+                />
+                <br />
+                {valueRelocationplace !== "anywhere" &&
+                  valueRelocationplace !== "" && (
+                    <>
+                      <div className="btn-group">
+                        <button
+                          type="button"
+                          className="btn btn-light dropdown-toggle"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Choose Location
+                        </button>
+                        <ul className="dropdown-menu">
+                          <li>
+                            {states.map((location) => (
+                              <div key={location} className="checklocation">
+                                <h6>
+                                  <b>{location}</b>
+                                </h6>
+                                <input
+                                  type="checkbox"
+                                  id={location}
+                                  name="location"
+                                  value={location}
+                                  onChange={handleLocationChange}
+                                  checked={valueRelocationplace
+                                    .split(", ")
+                                    .includes(location)}
+                                />
+                              </div>
+                            ))}
+                          </li>
+                        </ul>
                       </div>
-                    ))}
-                  </>
-                )}
-            </>
-          )}
+                    </>
+                  )}
+              </>
+            )}
+          </div>
           <br />
-          <label>remote job:</label>
-          <input
-            type="checkbox"
-            name="remotejob"
-            checked={valueRemotejob === "Remote job"}
-            onChange={(e) =>
-              setValueRemotejob(e.target.checked ? "Remote job" : "No")
-            }
-          />
-          <label>hybrid job:</label>
-          <input
-            type="checkbox"
-            name="hybridjob"
-            checked={valueHybridjob === "Hybrid job"}
-            onChange={(e) =>
-              setValueHybridjob(e.target.checked ? "Hybrid job" : "No")
-            }
-          />
-          <label>In person job::</label>
-          <input
-            type="checkbox"
-            name="inpersonjob"
-            checked={valueInperson === "In person job"}
-            onChange={(e) =>
-              setValueInperson(e.target.checked ? "In person job" : "No")
-            }
-          />
-          <label>Temperory remote job:</label>
-          <input
-            type="checkbox"
-            name="temperoryremotejob"
-            checked={valueInperson === "Temperory remote job"}
-            onChange={(e) =>
-              setValueTemperoryremotejob(
-                e.target.checked ? "Temperory remote job" : "No"
-              )
-            }
-          />
+          <div className="form-group">
+            <h4>
+              <b>Remote Job</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="remotejob"
+              checked={valueRemotejob === "Remote job"}
+              onChange={(e) =>
+                setValueRemotejob(e.target.checked ? "Remote job" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Hybrid Job</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="hybridjob"
+              checked={valueHybridjob === "Hybrid job"}
+              onChange={(e) =>
+                setValueHybridjob(e.target.checked ? "Hybrid job" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>In Person Job</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="inpersonjob"
+              checked={valueInperson === "In person job"}
+              onChange={(e) =>
+                setValueInperson(e.target.checked ? "In person job" : "No")
+              }
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Temperory Remote Job</b>
+            </h4>
+            <input
+              type="checkbox"
+              name="temperoryremotejob"
+              checked={valueInperson === "Temperory remote job"}
+              onChange={(e) =>
+                setValueTemperoryremotejob(
+                  e.target.checked ? "Temperory remote job" : "No"
+                )
+              }
+            />
+          </div>
           <button
             onClick={() => {
               actions

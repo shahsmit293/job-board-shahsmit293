@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import "../../styles/jobcard.css";
 
 export const JobCard = (props) => {
   const { store, actions } = useContext(Context);
@@ -22,15 +23,23 @@ export const JobCard = (props) => {
   return (
     <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
       <div className="card">
-        <div className="container">
+        <div className="card-body">
           <h5 className="card-title">
             <b>{props.jobtitlename}</b>
           </h5>
-          <p className="card-text">{props.Company}</p>
-          <p className="card-text">{props.Location}</p>
-          <p className="card-text">{props.Jobtype}</p>
+          <p className="card-text">
+            {props.Company}, {props.Location}
+          </p>
+          <p className="card-text">
+            {props.Jobtype},{props.worktype},{props.shift}
+          </p>
+          <p className="card-text">{props.experiencelevel}</p>
+          <p className="card-text">
+            ${props.salary.min}-{props.salary.max} per Year
+          </p>
+          <p className="card-text">Posted {props.dateposted}</p>
         </div>
-        <div className="buttons">
+        <div className="jobbuttons">
           <button
             onClick={() => {
               actions.viewjob(props.viewid).then(() => props.onViewClick());
@@ -40,7 +49,6 @@ export const JobCard = (props) => {
           </button>
           <button
             style={{
-              backgroundColor: "green",
               display: props.displayapplied,
             }}
             onClick={() => navigate(`/userchat/${props.jobid}`)}
@@ -64,12 +72,13 @@ export const JobCard = (props) => {
                 Unsave
               </button>
               <p
+                className="correctsign"
                 style={{
-                  backgroundColor: "green",
+                  backgroundColor: "#009879",
                   display: props.displayapplied,
                 }}
               >
-                Applied <i class="far fa-check-circle"></i>
+                <i class="far fa-check-circle"></i>
               </p>
             </div>
           ) : null}
@@ -90,4 +99,9 @@ JobCard.PropTypes = {
   display: PropTypes.string,
   displayunsave: PropTypes.string,
   displayapplied: PropTypes.string,
+  dateposted: PropTypes.func,
+  worktype: PropTypes.string,
+  experiencelevel: PropTypes.string,
+  shift: PropTypes.string,
+  salary: PropTypes.object,
 };

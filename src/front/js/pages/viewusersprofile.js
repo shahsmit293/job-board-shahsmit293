@@ -13,37 +13,37 @@ export const Viewusersprofile = () => {
   return (
     <div className="main">
       <div className="container">
-        <h5 className="card-title">
+        <h1 className="name">
           <b>
-            first name:
-            {store.viewuserprofile && store.viewuserprofile.user_bio.first_name}
+            <u>
+              {store.viewuserprofile &&
+                store.viewuserprofile.user_bio.first_name}{" "}
+              {store.viewuserprofile.user_bio.last_name}
+            </u>
           </b>
-        </h5>
+        </h1>
         <p className="card-text">
-          Last NAME:{store.viewuserprofile.user_bio.last_name}
+          {store.viewuserprofile.email} , Tel.:
+          {store.viewuserprofile.user_bio.phone_number}{" "}
         </p>
-        <p className="card-text">
-          Phone number:{store.viewuserprofile.user_bio.phone_number}
-        </p>
-        <p className="card-text">Email:{store.viewuserprofile.email}</p>
-        <p className="card-text">Education:</p>
+        <h4 className="card-text">Education:</h4>
         {store.viewuserprofile.user_education.map((item, index) => {
           return (
             <div className="education" key={index}>
               <p>
-                <b>{item.collage_name}</b> {item.degree} {item.location} (
-                {item.start_year} - {item.end_year})
+                <h4>{item.collage_name}</h4> {item.major}, {item.degree},
+                {item.location}, ({item.start_year} - {item.end_year})
               </p>
             </div>
           );
         })}
-        <p className="card-text">Experience:</p>
+        <h4 className="card-text">Experience:</h4>
         {store.viewuserprofile.user_experience.map((item, index) => {
           return (
             <div className="experience" key={index}>
               <p>
-                <b>{item.company_name}</b> {item.job_title} {item.location} (
-                {item.start_year} - {item.end_year})
+                <h4>{item.company_name}</h4> {item.job_title}, {item.location},
+                ({item.start_year} - {item.end_year})
               </p>
             </div>
           );

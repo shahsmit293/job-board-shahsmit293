@@ -1,16 +1,17 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import "../../styles/navbar.css";
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
         <button
-          className="navbar-brand"
+          className="navbar-brand btn btn-dark"
           onClick={() => {
             if (store.activeuser) {
               navigate("/employerhome");
@@ -35,24 +36,24 @@ export const Navbar = () => {
           <span className="navbar-toggler-icon" />
         </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul className="navbar-nav">
+          <ul className="navbar-nav ml-auto">
             {!store.accessToken && !store.useraccessToken ? (
               <>
                 <li className="nav-item">
                   <button
-                    className="nav-link active"
+                    className="nav-link active btn btn-dark"
                     aria-current="page"
                     onClick={() => navigate("/jobseekerloginsignup")}
                   >
-                    job seeker
+                    Job Seeker
                   </button>
                 </li>
                 <li className="nav-item">
                   <button
-                    className="nav-link"
+                    className="nav-link btn btn-dark"
                     onClick={() => navigate("/employerloginsignup")}
                   >
-                    employer
+                    Employer
                   </button>
                 </li>
               </>
@@ -61,39 +62,27 @@ export const Navbar = () => {
             {store.accessToken ? (
               <>
                 <li className="nav-item">
-                  <button className="nav-link" onClick={actions.handleLogout}>
-                    log out
+                  <button
+                    className="nav-link btn btn-dark"
+                    onClick={actions.handleLogout}
+                  >
+                    Log Out
                   </button>
                 </li>
               </>
             ) : store.useraccessToken ? (
               <>
-                <li className="nav-item">
-                  <button
-                    className="nav-link"
-                    onClick={() => navigate("/userinbox")}
-                  >
-                    Inbox
-                  </button>
-                </li>
-                <li className="nav-item">
-                  <button className="nav-link" href="#">
-                    notification
-                  </button>
-                </li>
-                <li className="nav-item">
-                  <button
-                    className="nav-link"
-                    onClick={() => navigate("/userprofile")}
-                  >
-                    profile
-                  </button>
-                </li>
-                <li className="nav-item">
-                  <button className="nav-link" onClick={actions.handleLogout}>
-                    log out
-                  </button>
-                </li>
+                <button onClick={() => navigate("/userinbox")}>Inbox</button>
+                <button onClick={() => navigate("/userappliedjobs")}>
+                  Applied Jobs
+                </button>
+                <button onClick={() => navigate("/usersavedjobs")}>
+                  Saved Jobs
+                </button>
+                <button onClick={() => navigate("/userprofile")}>
+                  Profile
+                </button>
+                <button onClick={actions.handleLogout}>Log Out</button>
               </>
             ) : null}
           </ul>

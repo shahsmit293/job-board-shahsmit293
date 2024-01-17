@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import "../../styles/home.css";
+import "../../styles/employersearchuserprofile.css";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Usersearchprofilecard } from "../component/usersearchprofilecard";
 import { Viewusersprofile } from "./viewusersprofile";
+import { EmployerSidebar } from "../component/employersidebar";
 
 export const EmployersearchUserprofile = () => {
   const states = [
@@ -75,9 +76,6 @@ export const EmployersearchUserprofile = () => {
   const { store, actions } = useContext(Context);
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [showallcontactedprofile, setallcontactedprofile] = useState(true);
-  const [showsavedprofiles, setsavedprofiles] = useState(false);
-  const [showsearchProfiles, setsearchprofiles] = useState(true);
   const [valueJobtitle, setValueJobtitile] = useState("");
   const [location, setLocation] = useState("");
   const [valueexperiencelevel, setexperiencelevel] = useState("");
@@ -145,128 +143,111 @@ export const EmployersearchUserprofile = () => {
     );
   }, [valueJobtitle, location, valueexperiencelevel, valueeducation]);
   return (
-    <div>
-      <div>
-        <button
-          onClick={() => {
-            setsearchprofiles(true);
-            setallcontactedprofile(false);
-            setsavedprofiles(false);
-          }}
-        >
-          Search Profiles
-        </button>
-        <button
-          onClick={() => {
-            setallcontactedprofile(true);
-            setsavedprofiles(false);
-            setsearchprofiles(false);
-          }}
-        >
-          Contacted Profiles
-        </button>
-        <button
-          onClick={() => {
-            setsavedprofiles(true);
-            setallcontactedprofile(false);
-            setsearchprofiles(false);
-          }}
-        >
-          Saved Profiles
-        </button>
+    <div className="page">
+      <div className="sidebar">
+        <EmployerSidebar />
       </div>
-      {showsearchProfiles && (
-        <div className="search">
-          <input
-            placeholder="type here job title....."
-            value={valueJobtitle}
-            onChange={(e) => setValueJobtitile(e.target.value)}
-          ></input>
-          <label>Address:</label>
-          <select
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          >
-            <option value="" onClick={() => setLocation("")}>
-              Select a state
-            </option>
-            {states.map((state) => (
-              <option
-                key={state}
-                value={state}
-                onClick={() => setLocation(state)}
+      <div className="search">
+        {
+          <div className="search">
+            <div className="tag">
+              <input
+                placeholder="type here job title....."
+                value={valueJobtitle}
+                onChange={(e) => setValueJobtitile(e.target.value)}
+              ></input>
+            </div>
+            <div className="tag">
+              <label>Location </label>
+              <select
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
               >
-                {state}
-              </option>
-            ))}
-          </select>
-          <label>Experience Level</label>
-          <select
-            id="experienceLevel"
-            name="experienceLevel"
-            value={valueexperiencelevel}
-            onChange={(e) => setexperiencelevel(e.target.value)}
-          >
-            <option value="" onClick={() => setexperiencelevel("")}>
-              Select...
-            </option>
-            {experienceLevels.map((level) => (
-              <option
-                key={level}
-                value={level}
-                onClick={() => setexperiencelevel(level)}
+                <option value="" onClick={() => setLocation("")}>
+                  Select a state
+                </option>
+                {states.map((state) => (
+                  <option
+                    key={state}
+                    value={state}
+                    onClick={() => setLocation(state)}
+                  >
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="tag">
+              <label>Experience Level</label>
+              <select
+                id="experienceLevel"
+                name="experienceLevel"
+                value={valueexperiencelevel}
+                onChange={(e) => setexperiencelevel(e.target.value)}
               >
-                {level}
-              </option>
-            ))}
-          </select>
-          <label>Education Degree</label>
-          <select
-            id="educationdegree"
-            name="educationdegree"
-            value={valueeducation}
-            onChange={(e) => seteducationValue(e.target.value)}
-          >
-            <option value="" onClick={() => seteducationValue("")}>
-              Select...
-            </option>
-            {educationDegrees.map((degree) => (
-              <option
-                key={degree}
-                value={degree}
-                onClick={() => seteducationValue(degree)}
+                <option value="" onClick={() => setexperiencelevel("")}>
+                  Select...
+                </option>
+                {experienceLevels.map((level) => (
+                  <option
+                    key={level}
+                    value={level}
+                    onClick={() => setexperiencelevel(level)}
+                  >
+                    {level}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="tag">
+              <label>Education Degree</label>
+              <select
+                id="educationdegree"
+                name="educationdegree"
+                value={valueeducation}
+                onChange={(e) => seteducationValue(e.target.value)}
               >
-                {degree}
-              </option>
-            ))}
-          </select>
-
-          <button
-            onClick={() =>
-              actions.searchprofile(
-                valueJobtitle,
-                location,
-                valueexperiencelevel,
-                valueeducation
-              )
-            }
-          >
-            Search
-          </button>
-          <button
-            onClick={() => {
-              setValueJobtitile(""),
-                setLocation(""),
-                setexperiencelevel(""),
-                seteducationValue("");
-            }}
-          >
-            Clear All
-          </button>
-        </div>
-      )}
-      {showsearchProfiles &&
-        (loading ? (
+                <option value="" onClick={() => seteducationValue("")}>
+                  Select...
+                </option>
+                {educationDegrees.map((degree) => (
+                  <option
+                    key={degree}
+                    value={degree}
+                    onClick={() => seteducationValue(degree)}
+                  >
+                    {degree}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button
+              onClick={() =>
+                actions.searchprofile(
+                  valueJobtitle,
+                  location,
+                  valueexperiencelevel,
+                  valueeducation
+                )
+              }
+            >
+              Search
+            </button>
+            <button
+              onClick={() => {
+                setValueJobtitile(""),
+                  setLocation(""),
+                  setexperiencelevel(""),
+                  seteducationValue("");
+              }}
+            >
+              Clear All
+            </button>
+          </div>
+        }
+      </div>
+      <div className="details">
+        {loading ? (
           <p>Loading applicants...</p> // Display a loading message or a spinner
         ) : store.searchprofiles.length === 0 ? (
           <p>No profile avilable yet.</p>
@@ -287,72 +268,15 @@ export const EmployersearchUserprofile = () => {
                       employerid={store.employer.id}
                       displaysave={displaysave(item.id)}
                       displayunsave={displayunsave(item.id)}
-                      displaycontact={displaycontact(item.user_id)}
-                      displayuncontact={displayuncontact(item.user_id)}
+                      displaycontact={displaycontact(item.user_bio.user_id)}
+                      displayuncontact={displayuncontact(item.user_bio.user_id)}
                     />
                   );
                 }
               })}
           </div>
-        ))}
-
-      {showsavedprofiles &&
-        (loading ? (
-          <p>Loading applicants...</p> // Display a loading message or a spinner
-        ) : store.saveduserfiles.length === 0 ? (
-          <p>No profile saved yet.</p>
-        ) : (
-          <div className="list of applicants">
-            {Array.isArray(store.saveduserfiles) &&
-              store.saveduserfiles.length > 0 &&
-              store.saveduserfiles.map((item, index) => {
-                return (
-                  <Usersearchprofilecard
-                    key={index}
-                    name={item.user.user_bio.first_name}
-                    experience={item.user.user_experience}
-                    education={item.user.user_education}
-                    onViewClick={handleViewClick}
-                    userid={item.user_id}
-                    employerid={store.employer.id}
-                    displaysave={"none"}
-                    displayunsave={displayunsave(item.user_id)}
-                    displaycontact={displaycontact(item.user_id)}
-                    displayuncontact={displayuncontact(item.user_id)}
-                  />
-                );
-              })}
-          </div>
-        ))}
-
-      {showallcontactedprofile &&
-        (loading ? (
-          <p>Loading applicants...</p> // Display a loading message or a spinner
-        ) : store.contacteduserfiles.length === 0 ? (
-          <p>No profile contacted yet.</p>
-        ) : (
-          <div className="list of applicants">
-            {Array.isArray(store.contacteduserfiles) &&
-              store.contacteduserfiles.map((item, index) => {
-                return (
-                  <Usersearchprofilecard
-                    key={index}
-                    name={item.user.user_bio.first_name}
-                    experience={item.user.user_experience}
-                    education={item.user.user_education}
-                    onViewClick={handleViewClick}
-                    userid={item.user_id}
-                    employerid={store.employer.id}
-                    displaysave={"none"}
-                    displayunsave={"none"}
-                    displaycontact={displaycontact(item.user_id)}
-                    displayuncontact={displayuncontact(item.user_id)}
-                  />
-                );
-              })}
-          </div>
-        ))}
-
+        )}
+      </div>
       {showPopup && (
         <div className="popup">
           <button onClick={() => setShowPopup(false)}>Close</button>

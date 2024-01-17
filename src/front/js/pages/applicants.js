@@ -52,26 +52,26 @@ export const Applicants = () => {
   };
   return (
     <div>
-      <div>
-        <button
-          onClick={() => {
-            setallapplicants(true);
-            setsavedapplicants(false);
-          }}
-        >
-          All Applicants
-        </button>
-        <button
-          onClick={() => {
-            setsavedapplicants(true);
-            setallapplicants(false);
-          }}
-        >
-          Saved Applicants
-        </button>
-        <button onClick={() => navigate(`/employerinbox/${job_id}`)}>
-          Inbox
-        </button>
+      <div className="sidebar">
+        <ul>
+          <li
+            onClick={() => {
+              setallapplicants(true);
+              setsavedapplicants(false);
+            }}
+          >
+            All Applicants
+          </li>
+          <li
+            onClick={() => {
+              setsavedapplicants(true);
+              setallapplicants(false);
+            }}
+          >
+            Saved Applicants
+          </li>
+          <li onClick={() => navigate(`/employerinbox/${job_id}`)}>Inbox</li>
+        </ul>
       </div>
       {showallapplicants &&
         (loading ? (
@@ -85,9 +85,9 @@ export const Applicants = () => {
                 return (
                   <ReceivedApplicants
                     key={index}
-                    applicantname={item.user.user_bio.first_name}
-                    applicantemail={item.user.email}
-                    applicantphonenumber={item.user.user_bio.phone_number}
+                    applicantname={item.first_name}
+                    applicantemail={item.email}
+                    applicantphonenumber={item.phone_number}
                     userid={item.user_id}
                     jobid={item.job.id}
                     employerid={item.job.employer_id}
@@ -112,9 +112,9 @@ export const Applicants = () => {
                 return (
                   <ReceivedApplicants
                     key={index}
-                    applicantname={item.userbio.first_name}
-                    applicantemail={item.user.email}
-                    applicantphonenumber={item.userbio.phone_number}
+                    applicantname={item.first_name}
+                    applicantemail={item.email}
+                    applicantphonenumber={item.phone_number}
                     userid={item.user_id}
                     jobid={item.job_id}
                     employerid={item.employer_id}

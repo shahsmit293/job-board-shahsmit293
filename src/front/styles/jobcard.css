@@ -1,10 +1,13 @@
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border: 1px solid black;
-  z-index: 1000;
+.card {
+  background-color: darkgoldenrod;
+  width: 18rem;
+  overflow: auto;
+  height: 350px;
+}
+.jobbuttons {
+  display: flex;
+  justify-content: space-around;
+}
+.jobbuttons button {
+  width: 75px;
 }

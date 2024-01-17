@@ -19,9 +19,15 @@ export const Userskill = (props) => {
   const [addvalueskillyear, setaddSkillyear] = useState("");
 
   return (
-    <div className="educationinfo">
+    <div className="skillinfo">
       {showskilldetails && (
-        <div className="details">
+        <div className="skilldetails">
+          <h4>
+            <b>Skill</b>:{props.skillname}
+          </h4>
+          <h4>
+            <b>Year Of Experience</b>:{props.skillyear}
+          </h4>
           {props.track == 0 ? (
             <button
               onClick={() => {
@@ -32,8 +38,6 @@ export const Userskill = (props) => {
               Add
             </button>
           ) : null}
-          <h4>SKILL:{props.skillname}</h4>
-          <h4>TOTAL YEAR EXPERIENCE:{props.skillyear}</h4>
           {!props.skillname && !props.skillyear ? (
             <button
               onClick={() => {
@@ -60,28 +64,36 @@ export const Userskill = (props) => {
               >
                 Delete
               </button>
+              <hr />
             </>
           )}
         </div>
       )}
 
       {addskillform && (
-        <div className="form">
-          <label>SKILL:</label>
-          <input
-            typeof="text"
-            value={addvalueSkillname}
-            onChange={(e) => setaddSkillname(e.target.value)}
-            required
-          ></input>
-          <label>TOTAL YEAR EXPERIENCE:</label>
-          <input
-            typeof="number"
-            value={addvalueskillyear}
-            onChange={(e) => setaddSkillyear(e.target.value)}
-            required
-          ></input>
-
+        <div className="addform">
+          <div className="form-group">
+            <h4>
+              <b>Skill</b>
+            </h4>
+            <input
+              typeof="text"
+              value={addvalueSkillname}
+              onChange={(e) => setaddSkillname(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Year Of Experience</b>
+            </h4>
+            <input
+              typeof="number"
+              value={addvalueskillyear}
+              onChange={(e) => setaddSkillyear(e.target.value)}
+              required
+            ></input>
+          </div>
           <button
             onClick={() => {
               actions.adduserskill(
@@ -104,22 +116,29 @@ export const Userskill = (props) => {
         </div>
       )}
       {editskillinfo && (
-        <div className="form">
-          <label>SKILL:</label>
-          <input
-            typeof="text"
-            value={valueSkillname}
-            onChange={(e) => setSkillname(e.target.value)}
-            required
-          ></input>
-          <label>TOTAL YEAR EXPERIENCE:</label>
-          <input
-            typeof="number"
-            value={valueskillyear}
-            onChange={(e) => setSkillyear(e.target.value)}
-            required
-          ></input>
-
+        <div className="editform">
+          <div className="form-group">
+            <h4>
+              <b>Skill</b>
+            </h4>
+            <input
+              typeof="text"
+              value={valueSkillname}
+              onChange={(e) => setSkillname(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Year Of Experience</b>
+            </h4>
+            <input
+              typeof="number"
+              value={valueskillyear}
+              onChange={(e) => setSkillyear(e.target.value)}
+              required
+            ></input>
+          </div>
           <button
             onClick={() => {
               actions

@@ -6,25 +6,12 @@ export const Sidebar = (props) => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate("");
   return (
-    <div>
+    <div className="sidebar">
       {store.useraccessToken && (
         <ul className="nav flex-column">
-          <li className="nav-item">
-            <button
-              className="nav-link active"
-              onClick={() => navigate("/userappliedjobs")}
-            >
-              Applied Jobs
-            </button>
-          </li>
-          <li className="nav-item">
-            <button
-              className="nav-link"
-              onClick={() => navigate("/usersavedjobs")}
-            >
-              Saved Jobs
-            </button>
-          </li>
+          <li onClick={() => navigate("/userappliedjobs")}>Applied Jobs</li>
+          <li onClick={() => navigate("/usersavedjobs")}>Saved Jobs</li>
+          <li onClick={() => navigate("/userprofile")}>Profile</li>
         </ul>
       )}
     </div>

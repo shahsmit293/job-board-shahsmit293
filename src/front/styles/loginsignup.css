@@ -1,0 +1,43 @@
+.register-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgb(9, 9, 40);
+}
+
+.login,
+.signup {
+  flex: 1;
+  margin: 0 20px;
+  padding: 20px;
+  background-color: rgb(9, 9, 40);
+  border-radius: 4px;
+  box-shadow: 0px 0px 10px 2px rgba(255, 255, 255, 0.577); /* white shadow for contrast */
+  width: 200px; /* smaller width */
+  height: 350px; /* smaller height */
+  transition: 0.3s;
+  color: whitesmoke; /* white text for contrast */
+}
+
+.login:hover,
+.signup:hover {
+  box-shadow: 0px 0px 20px 10px rgba(255, 255, 255, 0.2); /* glowing effect */
+}
+
+.btn.btn-primary {
+  background-color: #ff9900; /* Amazon's button color */
+  border: none;
+  color: whitesmoke;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.btn.btn-primary:hover {
+  background-color: white;
+  color: #ff9900;
+}

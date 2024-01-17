@@ -1,0 +1,47 @@
+.details {
+  margin-left: 20%;
+  margin-top: 25px;
+}
+.resume {
+  flex-direction: column;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 20px 20px 20px 0;
+}
+.addform {
+  width: 500px;
+}
+
+.editform,
+.resume {
+  width: 500px;
+}
+.checklocation {
+  display: flex;
+  flex-direction: row;
+}
+
+.checklocation h6 {
+  margin: 5px;
+}
+
+.profile {
+  display: flex;
+  flex-direction: row;
+}
+
+.profilemenu button {
+  background-color: chocolate;
+}
+.profilemenu ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.profilemenu {
+  margin-top: 25px;
+}

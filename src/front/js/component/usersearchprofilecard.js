@@ -35,60 +35,75 @@ export const Usersearchprofilecard = (props) => {
     setcontact("inline");
   };
   return (
-    <div>
-      <div className="applicants">
-        <div className="jobtitle">
-          <p>{props.name}</p>
-        </div>
-        <div className="experience">
-          {props.experience &&
-            props.experience.map((item, index) => {
-              return <p key={index}>{item.company_name}</p>;
-            })}
-        </div>
-        <div className="education">
-          {props.education &&
-            props.education.map((item, index) => {
-              return <p key={index}>{item.collage_name}</p>;
-            })}
-        </div>
-        <button
-          onClick={() => {
-            props.onViewClick();
-            actions.getprofile(props.userid);
-          }}
-        >
-          view profile
-        </button>
-        <button
-          style={{ display: viewsave || props.displaysave }}
-          onClick={handleSave}
-        >
-          Save
-        </button>
-        <button
-          style={{ display: viewunsave || props.displayunsave }}
-          onClick={handleUnsave}
-        >
-          Unsave
-        </button>
-        <button
-          style={{ display: viewcontact || props.displaycontact }}
-          onClick={handlecontacted}
-        >
-          Mark As Contacted
-        </button>
-        <button
-          style={{
-            backgroundColor: "green",
-            display: viewuncontact || props.displayuncontact,
-          }}
-          onClick={handleuncontacted}
-        >
-          Marks As Uncontact
-        </button>
-        <hr />
-      </div>
+    <div className="row gy-3 mt-4">
+      <table className="styled-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Experience</th>
+            <th>Education</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.name && props.experience && props.education ? (
+            <tr>
+              <td>{props.name}</td>
+              <td>
+                {props.experience.map((item, index) => (
+                  <p key={index}>{item.company_name}</p>
+                ))}
+              </td>
+              <td>
+                {props.education.map((item, index) => (
+                  <p key={index}>{item.collage_name}</p>
+                ))}
+              </td>
+              <td>
+                <button
+                  onClick={() => {
+                    props.onViewClick();
+                    actions.getprofile(props.userid);
+                  }}
+                >
+                  View Profile
+                </button>
+                <button
+                  style={{ display: viewsave || props.displaysave }}
+                  onClick={handleSave}
+                >
+                  Save
+                </button>
+                <button
+                  style={{ display: viewunsave || props.displayunsave }}
+                  onClick={handleUnsave}
+                >
+                  Unsave
+                </button>
+                <button
+                  style={{ display: viewcontact || props.displaycontact }}
+                  onClick={handlecontacted}
+                >
+                  Mark As Contacted
+                </button>
+                <button
+                  style={{
+                    backgroundColor: "green",
+                    display: viewuncontact || props.displayuncontact,
+                  }}
+                  onClick={handleuncontacted}
+                >
+                  Marks As Uncontact
+                </button>
+              </td>
+            </tr>
+          ) : (
+            <tr>
+              <td colSpan="4">No applicant information available.</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };

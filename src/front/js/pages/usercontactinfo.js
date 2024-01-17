@@ -80,13 +80,21 @@ export const UserContactInfo = (props) => {
     props.phonenumber ? props.phonenumber : ""
   );
   return (
-    <div className="contactinfo">
+    <div className="contacts">
       {showdetails && (
-        <div className="details">
-          <h4>FIRST NAME:{props.firstname}</h4>
-          <h4>LAST NAME:{props.lastname}</h4>
-          <h4>LOCATION:{props.location} </h4>
-          <h4>PHONEN NUMBER:{props.phonenumber} </h4>
+        <div className="showdetails">
+          <h4>
+            <b>First Name</b>: {props.firstname}
+          </h4>
+          <h4>
+            <b>Last Name</b>: {props.lastname}
+          </h4>
+          <h4>
+            <b>Location</b>: {props.location}{" "}
+          </h4>
+          <h4>
+            <b>Contact Number</b>: {props.phonenumber}{" "}
+          </h4>
           {!props.firstname &&
           !props.lastname &&
           !props.location &&
@@ -113,46 +121,61 @@ export const UserContactInfo = (props) => {
       )}
 
       {addForm && (
-        <div className="form">
-          <label>FIRST NAME:</label>
-          <input
-            typeof="text"
-            value={valueFirstname}
-            onChange={(e) => setFirstname(e.target.value)}
-            required
-          ></input>
-          <label>LAST NAME:</label>
-          <input
-            typeof="text"
-            value={valueLastname}
-            onChange={(e) => setLastname(e.target.value)}
-            required
-          ></input>
-          <label>Address:</label>
-          <select>
-            <option value="" onClick={() => setLocation("")}>
-              Select a state
-            </option>
-            {states.map((state) => (
-              <option
-                key={state}
-                value={state}
-                onClick={() => setLocation(state)}
-              >
-                {state}
+        <div className="addform">
+          <div className="form-group">
+            <h4>
+              <b>First Name</b>
+            </h4>
+            <input
+              typeof="text"
+              value={valueFirstname}
+              onChange={(e) => setFirstname(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Last Name</b>
+            </h4>
+            <input
+              typeof="text"
+              value={valueLastname}
+              onChange={(e) => setLastname(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              Location<b></b>
+            </h4>
+            <select>
+              <option value="" onClick={() => setLocation("")}>
+                Select a state
               </option>
-            ))}
-          </select>
-          <label>Phone Number</label>
-          <input
-            type="tel"
-            id="phoneNumber"
-            maxlength="10"
-            name="phoneNumber"
-            value={valuePhone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          <br />
+              {states.map((state) => (
+                <option
+                  key={state}
+                  value={state}
+                  onClick={() => setLocation(state)}
+                >
+                  {state}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Contact Number</b>
+            </h4>
+            <input
+              type="tel"
+              id="phoneNumber"
+              maxlength="10"
+              name="phoneNumber"
+              value={valuePhone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
           <button
             onClick={() => {
               actions.adduserbio(
@@ -177,45 +200,61 @@ export const UserContactInfo = (props) => {
         </div>
       )}
       {editForm && (
-        <div className="form">
-          <label>FIRST NAME:</label>
-          <input
-            typeof="text"
-            value={valueFirstname}
-            onChange={(e) => setFirstname(e.target.value)}
-            required
-          ></input>
-          <label>LAST NAME:</label>
-          <input
-            typeof="text"
-            value={valueLastname}
-            onChange={(e) => setLastname(e.target.value)}
-            required
-          ></input>
-          <label>Address:</label>
-          <select value={valueLocation}>
-            <option value="" onClick={() => setLocation("")}>
-              Select a state
-            </option>
-            {states.map((state) => (
-              <option
-                key={state}
-                value={state}
-                onClick={() => setLocation(state)}
-              >
-                {state}
+        <div className="editform">
+          <div className="form-group">
+            <h4>
+              <b>First Name</b>
+            </h4>
+            <input
+              typeof="text"
+              value={valueFirstname}
+              onChange={(e) => setFirstname(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Last Name</b>
+            </h4>
+            <input
+              typeof="text"
+              value={valueLastname}
+              onChange={(e) => setLastname(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Location</b>
+            </h4>
+            <select value={valueLocation}>
+              <option value="" onClick={() => setLocation("")}>
+                Select a state
               </option>
-            ))}
-          </select>
-          <label>Phone Number</label>
-          <input
-            type="tel"
-            id="phoneNumber"
-            maxlength="10"
-            name="phoneNumber"
-            value={valuePhone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
+              {states.map((state) => (
+                <option
+                  key={state}
+                  value={state}
+                  onClick={() => setLocation(state)}
+                >
+                  {state}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Contact Number</b>
+            </h4>
+            <input
+              type="tel"
+              id="phoneNumber"
+              maxlength="10"
+              name="phoneNumber"
+              value={valuePhone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
           <br />
           <button
             onClick={() => {

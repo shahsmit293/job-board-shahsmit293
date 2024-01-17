@@ -1,0 +1,37 @@
+form {
+  display: flex;
+  flex-direction: column;
+  width: 650px;
+  margin: 0 auto;
+}
+
+Button {
+  background-color: rgb(9, 9, 40);
+  color: whitesmoke;
+}
+
+.label {
+  flex-direction: row;
+  padding: 10px;
+}
+
+.label {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.label label {
+  flex: 3;
+  text-align: left;
+}
+
+.label input,
+.label select {
+  width: 50%;
+}
+.title {
+  margin-top: 0;
+  padding: 15px;
+}

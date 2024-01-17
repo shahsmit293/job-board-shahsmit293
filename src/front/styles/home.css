@@ -1,16 +1,96 @@
-.popup {
-  position: fixed;
-  top: 0;
+p.popup {
+  position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgb(205, 114, 114);
-  padding: 20px;
+  top: 0;
+  background: rgb(41, 41, 98);
+  color: whitesmoke;
   border: 1px solid black;
   z-index: 10;
-  margin: 15px;
+  margin-top: 0px;
   overflow: auto;
-  display: flex;
   justify-content: center;
   align-items: center;
+  height: auto;
+  max-height: 100vh; /* Adjust this value as needed */
+}
+
+div.popup {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: whitesmoke;
+  color: black;
+  overflow: auto;
+  justify-content: center;
+  align-items: center;
+  width: 450px;
+  height: 400px;
+  justify-content: space-around;
+}
+body {
+  background-color: rgb(9, 9, 40);
+  color: whitesmoke;
+}
+
+/* body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(red, blue);
+  mix-blend-mode: multiply;
+} */
+.home {
+  display: flex;
+  flex-direction: row;
+  justify-self: left;
+}
+.select {
+  display: flex;
+  flex-direction: column;
+  width: 28%;
+  margin-top: 25px;
+}
+.select div {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+  justify-self: center;
+}
+.select select,
+button {
+  margin-bottom: 5px;
+  width: 100px;
+}
+.select label {
+  width: 150px;
+}
+.contactinformation {
+  display: flex;
+  flex-direction: column;
+}
+.applybutton {
+  margin-left: 50%;
+}
+
+.application {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.contactinformation div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px; /* Adjust this value to increase or decrease the distance */
+}
+
+.contactinformation label,
+.contactinformation input {
+  margin: 0;
 }

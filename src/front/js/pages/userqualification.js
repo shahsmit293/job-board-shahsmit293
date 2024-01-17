@@ -93,7 +93,28 @@ export const UserQualification = (props) => {
   return (
     <div className="educationinfo">
       {showeducationdetails && (
-        <div className="details">
+        <div className="educatondetails">
+          <h4>
+            <b>Collage Name</b>: {props.collagename}
+          </h4>
+          <h4>
+            <b>Start Year</b>: {props.startyear}
+          </h4>
+          <h4>
+            <b>End Year</b>: {props.endyear}{" "}
+          </h4>
+          <h4>
+            <b>GPA</b>: {props.gpa}{" "}
+          </h4>
+          <h4>
+            <b>Major</b>: {props.major}{" "}
+          </h4>
+          <h4>
+            <b>Degree</b>: {props.degree}{" "}
+          </h4>
+          <h4>
+            <b>Location</b>: {props.location}{" "}
+          </h4>
           {props.track == 0 ? (
             <button
               onClick={() => {
@@ -104,13 +125,6 @@ export const UserQualification = (props) => {
               Add
             </button>
           ) : null}
-          <h4>COLLAGE NAME{props.collagename}</h4>
-          <h4>START YEAR:{props.startyear}</h4>
-          <h4>END YEAR:{props.endyear} </h4>
-          <h4>GPA:{props.gpa} </h4>
-          <h4>MAJOR:{props.major} </h4>
-          <h4>DEGREE:{props.degree} </h4>
-          <h4>LOCATION:{props.location} </h4>
           {!props.collagename &&
           !props.startyear &&
           !props.endyear &&
@@ -143,83 +157,112 @@ export const UserQualification = (props) => {
               >
                 Delete
               </button>
+              <hr />
             </>
           )}
         </div>
       )}
 
       {addeducationform && (
-        <div className="form">
-          <label>COLLAGE NAME:</label>
-          <input
-            typeof="text"
-            value={addvalueCollagename}
-            onChange={(e) => setaddCollagename(e.target.value)}
-            required
-          ></input>
-          <label>START YEAR::</label>
-          <input
-            type="number"
-            min="0"
-            id="startyear"
-            name="startyear"
-            required
-            value={addvaluestartyear}
-            onChange={(e) => setaddStartyear(e.target.value)}
-          />
-          <label>END YEAR::</label>
-          <input
-            type="number"
-            id="endyear"
-            name="endyear"
-            min={addvaluestartyear}
-            value={addvalueEndyear}
-            onChange={(e) => setaddEndyear(e.target.value)}
-          />
-          <label>GPA:</label>
-          <input
-            typeof="number"
-            step="any"
-            value={addvaluegpa}
-            onChange={(e) => setaddGpa(e.target.value)}
-            required
-          ></input>
-          <label>MAJOR:</label>
-          <input
-            typeof="text"
-            value={addvalueMajor}
-            onChange={(e) => setaddMajor(e.target.value)}
-          ></input>
-          <label>Degree::</label>
-          <select>
-            <option value="" onClick={() => setaddDegree("")}>
-              Select a state
-            </option>
-            {degrees.map((degree) => (
-              <option
-                key={degree}
-                value={degree}
-                onClick={() => setaddDegree(degree)}
-              >
-                {degree}
+        <div className="addform">
+          <div className="form-group">
+            <h4>
+              <b>Collage Name</b>
+            </h4>
+            <input
+              typeof="text"
+              value={addvalueCollagename}
+              onChange={(e) => setaddCollagename(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Start Year</b>
+            </h4>
+            <input
+              type="number"
+              min="0"
+              id="startyear"
+              name="startyear"
+              required
+              value={addvaluestartyear}
+              onChange={(e) => setaddStartyear(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>End Year</b>
+            </h4>
+            <input
+              type="number"
+              id="endyear"
+              name="endyear"
+              min={addvaluestartyear}
+              value={addvalueEndyear}
+              onChange={(e) => setaddEndyear(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>GPA</b>
+            </h4>
+            <input
+              typeof="number"
+              step="any"
+              value={addvaluegpa}
+              onChange={(e) => setaddGpa(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Major</b>
+            </h4>
+            <input
+              typeof="text"
+              value={addvalueMajor}
+              onChange={(e) => setaddMajor(e.target.value)}
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Degree</b>
+            </h4>
+            <select>
+              <option value="" onClick={() => setaddDegree("")}>
+                Select a state
               </option>
-            ))}
-          </select>
-          <label>Location::</label>
-          <select>
-            <option value="" onClick={() => setaddLocation("")}>
-              Select a state
-            </option>
-            {states.map((state) => (
-              <option
-                key={state}
-                value={state}
-                onClick={() => setaddLocation(state)}
-              >
-                {state}
+              {degrees.map((degree) => (
+                <option
+                  key={degree}
+                  value={degree}
+                  onClick={() => setaddDegree(degree)}
+                >
+                  {degree}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Location</b>
+            </h4>
+            <select>
+              <option value="" onClick={() => setaddLocation("")}>
+                Select a state
               </option>
-            ))}
-          </select>
+              {states.map((state) => (
+                <option
+                  key={state}
+                  value={state}
+                  onClick={() => setaddLocation(state)}
+                >
+                  {state}
+                </option>
+              ))}
+            </select>
+          </div>
           <button
             onClick={() => {
               actions.addusereducation(
@@ -247,77 +290,105 @@ export const UserQualification = (props) => {
         </div>
       )}
       {editeducationform && (
-        <div className="form">
-          <label>COLLAGE NAME:</label>
-          <input
-            typeof="text"
-            value={valueCollagename}
-            onChange={(e) => setCollagename(e.target.value)}
-            required
-          ></input>
-          <label>START YEAR::</label>
-          <input
-            type="number"
-            min="0"
-            id="startyear"
-            name="startyear"
-            required
-            value={valuestartyear}
-            onChange={(e) => setStartyear(e.target.value)}
-          />
-          <label>END YEAR::</label>
-          <input
-            type="number"
-            id="endyear"
-            name="endyear"
-            min={valuestartyear}
-            value={valueEndyear}
-            onChange={(e) => setEndyear(e.target.value)}
-          />
-          <label>GPA:</label>
-          <input
-            typeof="number"
-            step="any"
-            value={valuegpa}
-            onChange={(e) => setGpa(e.target.value)}
-            required
-          ></input>
-          <label>MAJOR:</label>
-          <input
-            typeof="text"
-            value={valueMajor}
-            onChange={(e) => setMajor(e.target.value)}
-          ></input>
-          <label>Degree::</label>
-          <select value={valueDegree}>
-            <option value="" onClick={() => setDegree("")}>
-              Select a state
-            </option>
-            {degrees.map((degree) => (
-              <option
-                key={degree}
-                value={degree}
-                onClick={() => setDegree(degree)}
-              >
-                {degree}
+        <div className="editform">
+          <div className="form-group">
+            <h4>
+              <b>Collage Name</b>
+            </h4>
+            <input
+              typeof="text"
+              value={valueCollagename}
+              onChange={(e) => setCollagename(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Start Year</b>
+            </h4>
+            <input
+              type="number"
+              min="0"
+              id="startyear"
+              name="startyear"
+              required
+              value={valuestartyear}
+              onChange={(e) => setStartyear(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>End Year</b>
+            </h4>
+            <input
+              type="number"
+              id="endyear"
+              name="endyear"
+              min={valuestartyear}
+              value={valueEndyear}
+              onChange={(e) => setEndyear(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>GPA</b>
+            </h4>
+            <input
+              typeof="number"
+              step="any"
+              value={valuegpa}
+              onChange={(e) => setGpa(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Major</b>
+            </h4>
+            <input
+              typeof="text"
+              value={valueMajor}
+              onChange={(e) => setMajor(e.target.value)}
+            ></input>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Degree</b>
+            </h4>
+            <select value={valueDegree}>
+              <option value="" onClick={() => setDegree("")}>
+                Select a state
               </option>
-            ))}
-          </select>
-          <label>Location::</label>
-          <select value={valueLocation}>
-            <option value="" onClick={() => setLocation("")}>
-              Select a state
-            </option>
-            {states.map((state) => (
-              <option
-                key={state}
-                value={state}
-                onClick={() => setLocation(state)}
-              >
-                {state}
+              {degrees.map((degree) => (
+                <option
+                  key={degree}
+                  value={degree}
+                  onClick={() => setDegree(degree)}
+                >
+                  {degree}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <h4>
+              <b>Location</b>
+            </h4>
+            <select value={valueLocation}>
+              <option value="" onClick={() => setLocation("")}>
+                Select a state
               </option>
-            ))}
-          </select>
+              {states.map((state) => (
+                <option
+                  key={state}
+                  value={state}
+                  onClick={() => setLocation(state)}
+                >
+                  {state}
+                </option>
+              ))}
+            </select>
+          </div>
           <button
             onClick={() => {
               actions

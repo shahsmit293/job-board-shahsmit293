@@ -866,7 +866,7 @@ def delete_userpreference(id):
     if user is None:
         return jsonify("user doesn't exist"), 400
 
-    preference = Userpreference.query.get(id)
+    preference = Userpreference.query.filter_by(user_id=id).one_or_none()
     if preference is None:
         return jsonify("This preference doesn't exist"), 400
 
@@ -1281,7 +1281,6 @@ def employer_inbox(jobid):
 
     return jsonify(serialized_chats), 200
 
-from datetime import datetime, timedelta
 
 @api.route('/searchjobs', methods=['GET'])
 def search_jobs():
@@ -1293,7 +1292,7 @@ def search_jobs():
     education = request.args.get('education', default=None, type=str)
     workingtimes = request.args.get('workingtimes', default=None, type=str)
     daysposted = request.args.get('daysposted', default=None, type=str)
-
+    salary = request.args.get('salary', default=None, type=str)
     query = Postjobs.query
     if jobtitle:
         jobtitle = jobtitle.lower().split()
@@ -1313,12 +1312,13 @@ def search_jobs():
     if daysposted:
         if daysposted == "Last 24 Hours":
             query = query.filter(Postjobs.current_date >= datetime.now() - timedelta(days=1))
-        elif daysposted == "Last 3 Days":
-            query = query.filter(Postjobs.current_date >= datetime.now() - timedelta(days=3))
-        elif daysposted == "Last 7 Days":
+        elif daysposted == "Last Week":
             query = query.filter(Postjobs.current_date >= datetime.now() - timedelta(days=7))
-        elif daysposted == "More Than 7 Days":
-            query = query.filter(Postjobs.current_date < datetime.now() - timedelta(days=7))
+        elif daysposted == "Last Month":
+            query = query.filter(Postjobs.current_date >= datetime.now() - timedelta(days=30))
+    if salary:
+        salary = int(salary.replace('+', ''))
+        query = query.filter(Postjobs.min_salary >= salary)
 
     jobs = query.all()
     alljobs_dictionary = [job.serialize() for job in jobs]

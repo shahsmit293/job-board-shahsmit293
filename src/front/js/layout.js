@@ -30,6 +30,8 @@ import { Employerinbox } from "./pages/employerinbox";
 import { EmployersearchUserprofile } from "./pages/employersearchuserprofile";
 import { ResetPassword } from "./pages/resetPassword";
 import { ResetPasswordEmployer } from "./pages/resetPasswordemployer";
+import { EmployerContactedProfiles } from "./pages/employercontactedprofiles";
+import { EmployerSavedProfiles } from "./pages/employersavedprofiles";
 //create your first component
 const Layout = () => {
   //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -80,6 +82,11 @@ const Layout = () => {
               path="/employerchat/:user_id/:job_id"
             />
             <Route element={<Employerinbox />} path="/employerinbox/:job_id" />
+            <Route
+              element={<EmployerContactedProfiles />}
+              path="/contactedprofiles"
+            />
+            <Route element={<EmployerSavedProfiles />} path="/savedprofiles" />
             <Route
               element={<EmployersearchUserprofile />}
               path="/searchprofiles"
