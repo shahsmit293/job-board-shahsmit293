@@ -13,18 +13,18 @@ export const Viewusersprofile = () => {
       <div className="container">
         <h1 className="name">
           <b>
-            <u>
-              {store.viewuserprofile &&
-                store.viewuserprofile.user_bio.first_name}{" "}
-              {store.viewuserprofile.user_bio.last_name}
-            </u>
+            {store.viewuserprofile && store.viewuserprofile.user_bio.first_name}{" "}
+            {store.viewuserprofile.user_bio.last_name}
           </b>
         </h1>
         <p className="card-text">
           {store.viewuserprofile.email} , Tel.:
-          {store.viewuserprofile.user_bio.phone_number}{" "}
+          {store.viewuserprofile.user_bio.phone_number},
+          {store.viewuserprofile.user_bio.location}
         </p>
-        <h4 className="card-text">Education:</h4>
+        <h4 className="card-text">
+          <b>Education</b>:
+        </h4>
         {store.viewuserprofile.user_education.map((item, index) => {
           return (
             <div className="education" key={index}>
@@ -35,7 +35,9 @@ export const Viewusersprofile = () => {
             </div>
           );
         })}
-        <h4 className="card-text">Experience:</h4>
+        <h4 className="card-text">
+          <b>Experience</b>:
+        </h4>
         {store.viewuserprofile.user_experience.map((item, index) => {
           return (
             <div className="experience" key={index}>

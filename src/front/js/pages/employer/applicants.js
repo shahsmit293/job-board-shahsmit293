@@ -50,26 +50,28 @@ export const Applicants = () => {
     setShowPopup(true);
   };
   return (
-    <div>
+    <div className="page">
       <div className="sidebar">
         <ul>
-          <li
+          <button
             onClick={() => {
               setallapplicants(true);
               setsavedapplicants(false);
             }}
           >
             All Applicants
-          </li>
-          <li
+          </button>
+          <button
             onClick={() => {
               setsavedapplicants(true);
               setallapplicants(false);
             }}
           >
             Saved Applicants
-          </li>
-          <li onClick={() => navigate(`/employerinbox/${job_id}`)}>Inbox</li>
+          </button>
+          <button onClick={() => navigate(`/employerinbox/${job_id}`)}>
+            Inbox
+          </button>
         </ul>
       </div>
       {showallapplicants &&
@@ -78,24 +80,36 @@ export const Applicants = () => {
         ) : store.allapplicants.length === 0 ? (
           <p>No applicant yet</p>
         ) : (
-          <div className="list of allapplicants">
-            {Array.isArray(store.allapplicants) &&
-              store.allapplicants.map((item, index) => {
-                return (
-                  <ReceivedApplicants
-                    key={index}
-                    applicantname={item.first_name}
-                    applicantemail={item.email}
-                    applicantphonenumber={item.phone_number}
-                    userid={item.user_id}
-                    jobid={item.job.id}
-                    employerid={item.job.employer_id}
-                    displaysave={displaysave(item.job.id, item.user_id)}
-                    displayunsave={displayunsave(item.job.id, item.user_id)}
-                    onViewClick={handleViewClick}
-                  />
-                );
-              })}
+          <div className="text-center mt-5">
+            <table className="styled-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone Number</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(store.allapplicants) &&
+                  store.allapplicants.map((item, index) => {
+                    return (
+                      <ReceivedApplicants
+                        key={index}
+                        applicantname={item.first_name}
+                        applicantemail={item.email}
+                        applicantphonenumber={item.phone_number}
+                        userid={item.user_id}
+                        jobid={item.job.id}
+                        employerid={item.job.employer_id}
+                        displaysave={displaysave(item.job.id, item.user_id)}
+                        displayunsave={displayunsave(item.job.id, item.user_id)}
+                        onViewClick={handleViewClick}
+                      />
+                    );
+                  })}
+              </tbody>
+            </table>
           </div>
         ))}
 
@@ -106,29 +120,52 @@ export const Applicants = () => {
           <p>No profile saved yet.</p>
         ) : (
           <div className="list of applicants">
-            {Array.isArray(store.employersavedusers) &&
-              store.employersavedusers.map((item, index) => {
-                return (
-                  <ReceivedApplicants
-                    key={index}
-                    applicantname={item.first_name}
-                    applicantemail={item.email}
-                    applicantphonenumber={item.phone_number}
-                    userid={item.user_id}
-                    jobid={item.job_id}
-                    employerid={item.employer_id}
-                    displaysave={displaysave(item.job_id, item.user_id)}
-                    displayunsave={displayunsave(item.job_id, item.user_id)}
-                    onViewClick={handleViewClick}
-                  />
-                );
-              })}
+            <table className="styled-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone Number</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(store.employersavedusers) &&
+                  store.allapplicants
+                    .filter((item) =>
+                      store.employersavedusers.map(
+                        (itemnew) => item.user_id == itemnew.user_id
+                      )
+                    )
+                    .map((item, index) => {
+                      return (
+                        <ReceivedApplicants
+                          key={index}
+                          applicantname={item.first_name}
+                          applicantemail={item.email}
+                          applicantphonenumber={item.phone_number}
+                          userid={item.user_id}
+                          jobid={item.job_id}
+                          employerid={item.employer_id}
+                          displaysave={displaysave(item.job_id, item.user_id)}
+                          displayunsave={displayunsave(
+                            item.job_id,
+                            item.user_id
+                          )}
+                          onViewClick={handleViewClick}
+                        />
+                      );
+                    })}
+              </tbody>
+            </table>
           </div>
         ))}
       {showPopup && (
-        <div className="popup">
-          <button onClick={() => setShowPopup(false)}>Close</button>
-          <ViewApplicantProfile />
+        <div>
+          <p className="popup">
+            <button onClick={() => setShowPopup(false)}>Close</button>
+            <ViewApplicantProfile />
+          </p>
         </div>
       )}
     </div>

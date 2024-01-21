@@ -63,6 +63,7 @@ export const UserExperience = (props) => {
   const [showexperiencedetails, setshowexperiencedetails] = useState(true);
   const [addexperience, setaddexperience] = useState(false);
   const [editexperienceform, seteditexperienceform] = useState(false);
+  const [error, setError] = useState("");
 
   const [valueJobtitle, setJobtitle] = useState(
     props.jobtitle ? props.jobtitle : ""
@@ -180,6 +181,7 @@ export const UserExperience = (props) => {
               typeof="text"
               value={addvalueJobtitle}
               onChange={(e) => setaddjobtitle(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
           </div>
@@ -191,6 +193,7 @@ export const UserExperience = (props) => {
               typeof="text"
               value={addvalueCompanyname}
               onChange={(e) => setaddcompanyname(e.target.value)}
+              onFocus={() => setError("")}
             ></input>
           </div>
           <div className="form-group">
@@ -198,7 +201,11 @@ export const UserExperience = (props) => {
               <b>Job Type</b>
             </h5>
             <select>
-              <option value="" onClick={() => setaddjobtype("")}>
+              <option
+                value=""
+                onClick={() => setaddjobtype("")}
+                onFocus={() => setError("")}
+              >
                 Select a state
               </option>
               {jobtype.map((job) => (
@@ -223,6 +230,7 @@ export const UserExperience = (props) => {
               required
               value={addvalueStartyear}
               onChange={(e) => setaddstartyear(e.target.value)}
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -238,6 +246,7 @@ export const UserExperience = (props) => {
                   min={addvalueStartyear}
                   value={addvalueEndyear}
                   onChange={(e) => setaddendyear(e.target.value)}
+                  onFocus={() => setError("")}
                 />
               </>
             )}
@@ -250,6 +259,7 @@ export const UserExperience = (props) => {
               type="checkbox"
               checked={addisWorking}
               onChange={(e) => setaddIsWorking(e.target.checked)}
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -257,7 +267,11 @@ export const UserExperience = (props) => {
               <b>Location</b>
             </h5>
             <select>
-              <option value="" onClick={() => setaddLocation("")}>
+              <option
+                value=""
+                onClick={() => setaddLocation("")}
+                onFocus={() => setError("")}
+              >
                 Select a state
               </option>
               {states.map((state) => (
@@ -271,27 +285,49 @@ export const UserExperience = (props) => {
               ))}
             </select>
           </div>
+          <div>
+            <h5>
+              <b>Description</b>
+            </h5>
+          </div>
           <ReactQuill
             theme="snow"
             value={addvalueDescription}
-            onChange={setadddescription}
+            onChange={(e) => setadddescription(e.target.value)}
+            onFocus={() => setError("")}
           />
+
+          <div style={{ color: "red" }}>{error}</div>
           <button
             onClick={() => {
-              actions.adduserexperience(
-                addvalueJobtitle,
-                addvalueCompanyname,
-                addvaluejobtype,
-                addvalueStartyear,
-                addvalueEndyear,
-                addvalueDescription,
-                addvalueLocation,
-                store.user.id
-              );
+              if (
+                !addvalueJobtitle ||
+                !addvalueCompanyname ||
+                !addvaluejobtype ||
+                !addvalueStartyear ||
+                (!addvalueEndyear && !addisWorking) ||
+                !addvalueDescription ||
+                !addvalueLocation
+              ) {
+                setError("All fields are required");
+              } else {
+                actions.adduserexperience(
+                  addvalueJobtitle,
+                  addvalueCompanyname,
+                  addvaluejobtype,
+                  addvalueStartyear,
+                  addvalueEndyear,
+                  addvalueDescription,
+                  addvalueLocation,
+                  store.user.id
+                );
+                setError("");
+              }
             }}
           >
             Add
           </button>
+
           <button
             onClick={() => {
               setshowexperiencedetails(true);
@@ -312,7 +348,7 @@ export const UserExperience = (props) => {
               typeof="text"
               value={valueJobtitle}
               onChange={(e) => setJobtitle(e.target.value)}
-              required
+              onFocus={() => setError("")}
             ></input>
           </div>
           <div className="form-group">
@@ -323,6 +359,7 @@ export const UserExperience = (props) => {
               typeof="text"
               value={valueCompanyname}
               onChange={(e) => setCompanyname(e.target.value)}
+              onFocus={() => setError("")}
             ></input>
           </div>
           <div className="form-group">
@@ -330,7 +367,11 @@ export const UserExperience = (props) => {
               <b>Job Type</b>
             </h5>
             <select value={valuejobtype}>
-              <option value="" onClick={() => setJobtype("")}>
+              <option
+                value=""
+                onClick={() => setJobtype("")}
+                onFocus={() => setError("")}
+              >
                 Select a state
               </option>
               {jobtype.map((job) => (
@@ -351,6 +392,7 @@ export const UserExperience = (props) => {
               required
               value={valueStartyear}
               onChange={(e) => setStartyear(e.target.value)}
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -366,6 +408,7 @@ export const UserExperience = (props) => {
                   min={valueStartyear}
                   value={valueEndyear}
                   onChange={(e) => setEndyear(e.target.value)}
+                  onFocus={() => setError("")}
                 />
               </>
             )}
@@ -376,8 +419,9 @@ export const UserExperience = (props) => {
             </h5>
             <input
               type="checkbox"
-              checked={addisWorking}
-              onChange={(e) => setaddIsWorking(e.target.checked)}
+              checked={valueisWorking}
+              onChange={(e) => setvalueIsWorking(e.target.checked)}
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -385,7 +429,11 @@ export const UserExperience = (props) => {
               <b>Location</b>
             </h5>
             <select value={valueLocation}>
-              <option value="" onClick={() => setLocation("")}>
+              <option
+                value=""
+                onClick={() => setLocation("")}
+                onFocus={() => setError("")}
+              >
                 Select a state
               </option>
               {states.map((state) => (
@@ -393,6 +441,7 @@ export const UserExperience = (props) => {
                   key={state}
                   value={state}
                   onClick={() => setLocation(state)}
+                  onFocus={() => setError("")}
                 >
                   {state}
                 </option>
@@ -403,25 +452,42 @@ export const UserExperience = (props) => {
             theme="snow"
             value={valueDescription}
             onChange={(e) => setDescription(e.target.value)}
+            onFocus={() => setError("")}
           />
+          <div style={{ color: "red" }}>{error}</div>
+
           <button
             onClick={() => {
-              actions
-                .editexperience(
-                  props.id,
-                  valueJobtitle,
-                  valueCompanyname,
-                  valuejobtype,
-                  valueStartyear,
-                  valueEndyear,
-                  valueDescription,
-                  valueLocation
-                )
-                .then(() => window.location.reload());
+              if (
+                !valueJobtitle ||
+                !valueCompanyname ||
+                !valuejobtype ||
+                !valueStartyear ||
+                (!valueEndyear && !valueisWorking) ||
+                !valueDescription ||
+                !valueLocation
+              ) {
+                setError("All fields are required");
+              } else {
+                actions
+                  .editexperience(
+                    props.id,
+                    valueJobtitle,
+                    valueCompanyname,
+                    valuejobtype,
+                    valueStartyear,
+                    valueEndyear,
+                    valueDescription,
+                    valueLocation
+                  )
+                  .then(() => window.location.reload());
+                setError("");
+              }
             }}
           >
             Update
           </button>
+
           <button
             onClick={() => {
               setshowexperiencedetails(true);

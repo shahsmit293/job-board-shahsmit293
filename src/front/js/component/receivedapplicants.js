@@ -8,6 +8,7 @@ export const ReceivedApplicants = (props) => {
   const [viewsave, setsave] = useState("");
   const [viewunsave, setunsave] = useState("");
   const navigate = useNavigate("");
+
   const handleSave = async () => {
     await actions.addemployersaveduser(
       props.employerid,
@@ -24,78 +25,55 @@ export const ReceivedApplicants = (props) => {
     setunsave("none");
     setsave("inline");
   };
+
   return (
-    <div className="row gy-3 mt-4">
-      <table className="styled-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.applicantname &&
-          props.applicantemail &&
-          props.applicantphonenumber ? (
-            <tr>
-              <td>{props.applicantname}</td>
-              <td>{props.applicantemail}</td>
-              <td>{props.applicantphonenumber}</td>
-              <td>
-                <button
-                  onClick={() => {
-                    props.onViewClick();
-                    actions.getprofile(props.userid);
-                  }}
-                >
-                  View Profile
-                </button>
-                <button
-                  onClick={() => {
-                    actions
-                      .downloadsentResumeForEmployer(props.userid, props.jobid)
-                      .catch((error) => {
-                        if (error.message === "HTTP error! status: 400") {
-                          actions.downloaddefaultResumeForEmployer(
-                            props.userid
-                          );
-                        }
-                      });
-                  }}
-                >
-                  Download Resume
-                </button>
-                <button
-                  style={{ display: viewsave || props.displaysave }}
-                  onClick={handleSave}
-                >
-                  Save
-                </button>
-                <button
-                  style={{ display: viewunsave || props.displayunsave }}
-                  onClick={handleUnsave}
-                >
-                  Unsave
-                </button>
-                <button
-                  onClick={() =>
-                    navigate(`/employerchat/${props.userid}/${props.jobid}`)
-                  }
-                >
-                  Chat
-                </button>
-              </td>
-            </tr>
-          ) : (
-            <tr>
-              <td colSpan="4">No applicant information available.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+    <tr>
+      <td>{props.applicantname}</td>
+      <td>{props.applicantemail}</td>
+      <td>{props.applicantphonenumber}</td>
+      <td>
+        <button
+          onClick={() => {
+            props.onViewClick();
+            actions.getprofile(props.userid);
+          }}
+        >
+          View Profile
+        </button>
+        <button
+          onClick={() => {
+            actions
+              .downloadsentResumeForEmployer(props.userid, props.jobid)
+              .catch((error) => {
+                if (error.message === "HTTP error! status: 400") {
+                  actions.downloaddefaultResumeForEmployer(props.userid);
+                }
+              });
+          }}
+        >
+          Download Resume
+        </button>
+        <button
+          style={{ display: viewsave || props.displaysave }}
+          onClick={handleSave}
+        >
+          Save
+        </button>
+        <button
+          style={{ display: viewunsave || props.displayunsave }}
+          onClick={handleUnsave}
+        >
+          Unsave
+        </button>
+        <button
+          onClick={() =>
+            navigate(`/employerchat/${props.userid}/${props.jobid}`)
+          }
+        >
+          Chat
+        </button>
+      </td>
+    </tr>
   );
 };
 

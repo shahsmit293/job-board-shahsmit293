@@ -1,12 +1,10 @@
 .sidebar {
-  width: 200px;
+  width: 10%;
   height: 100vh;
   position: fixed;
   left: 0;
   top: 1;
-  background-color: black;
-
-  box-sizing: border-box;
+  background-color: rgb(9, 9, 40);
 }
 
 .sidebar ul {

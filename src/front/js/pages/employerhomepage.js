@@ -48,7 +48,7 @@ export const EmployerHome = () => {
                         className="styled-button"
                         onClick={() => handleViewClick(element.id)}
                       >
-                        View
+                        PreView
                       </button>
                       <button
                         className="styled-button"
@@ -62,7 +62,6 @@ export const EmployerHome = () => {
                       >
                         Delete
                       </button>
-                      <button className="styled-button">Pause</button>
                       <button
                         className="styled-button"
                         onClick={() => {
@@ -86,14 +85,16 @@ export const EmployerHome = () => {
           </tbody>
         </table>
         {showPopup && (
-          <div className="popup">
-            <button
-              className="styled-button"
-              onClick={() => setShowPopup(false)}
-            >
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-            <ViewJobPost viewid={selectedJob} />
+          <div>
+            <p className="popup">
+              <button
+                className="styled-button"
+                onClick={() => setShowPopup(false)}
+              >
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+              <ViewJobPost viewid={selectedJob} />
+            </p>
           </div>
         )}
       </div>

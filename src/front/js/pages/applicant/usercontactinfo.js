@@ -3,6 +3,7 @@ import { Context } from "../../store/appContext";
 import propTypes from "prop-types";
 export const UserContactInfo = (props) => {
   const { store, actions } = useContext(Context);
+  const [error, setError] = useState("");
   const states = [
     "Alabama",
     "Alaska",
@@ -130,6 +131,7 @@ export const UserContactInfo = (props) => {
               typeof="text"
               value={valueFirstname}
               onChange={(e) => setFirstname(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
           </div>
@@ -141,15 +143,20 @@ export const UserContactInfo = (props) => {
               typeof="text"
               value={valueLastname}
               onChange={(e) => setLastname(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
           </div>
           <div className="form-group">
             <h4>
-              Location<b></b>
+              <b>Location</b>
             </h4>
             <select>
-              <option value="" onClick={() => setLocation("")}>
+              <option
+                value=""
+                onClick={() => setLocation("")}
+                onFocus={() => setError("")}
+              >
                 Select a state
               </option>
               {states.map((state) => (
@@ -157,6 +164,7 @@ export const UserContactInfo = (props) => {
                   key={state}
                   value={state}
                   onClick={() => setLocation(state)}
+                  onFocus={() => setError("")}
                 >
                   {state}
                 </option>
@@ -170,32 +178,39 @@ export const UserContactInfo = (props) => {
             <input
               type="tel"
               id="phoneNumber"
-              maxlength="10"
+              maxlength="20"
               name="phoneNumber"
               value={valuePhone}
               onChange={(e) => setPhone(e.target.value)}
+              onFocus={() => setError("")}
             />
           </div>
+          <div style={{ color: "red" }}>{error}</div>
           <button
             onClick={() => {
-              actions.adduserbio(
-                store.user.id,
-                valueFirstname,
-                valueLastname,
-                valueLocation,
-                valuePhone
-              );
+              const isNum = /^\d+$/.test(valuePhone);
+              if (
+                !valueFirstname ||
+                !valueLastname ||
+                !valueLocation ||
+                !valuePhone
+              ) {
+                setError("All fields are required");
+              } else if (!isNum) {
+                setError("Contact number must be a positive number");
+              } else {
+                actions.adduserbio(
+                  store.user.id,
+                  valueFirstname,
+                  valueLastname,
+                  valueLocation,
+                  valuePhone
+                );
+                setError("");
+              }
             }}
           >
             Add
-          </button>
-          <button
-            onClick={() => {
-              setShowdetails(true);
-              setaddform(false);
-            }}
-          >
-            Close
           </button>
         </div>
       )}
@@ -209,6 +224,7 @@ export const UserContactInfo = (props) => {
               typeof="text"
               value={valueFirstname}
               onChange={(e) => setFirstname(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
           </div>
@@ -220,6 +236,7 @@ export const UserContactInfo = (props) => {
               typeof="text"
               value={valueLastname}
               onChange={(e) => setLastname(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
           </div>
@@ -228,7 +245,11 @@ export const UserContactInfo = (props) => {
               <b>Location</b>
             </h4>
             <select value={valueLocation}>
-              <option value="" onClick={() => setLocation("")}>
+              <option
+                value=""
+                onClick={() => setLocation("")}
+                onFocus={() => setError("")}
+              >
                 Select a state
               </option>
               {states.map((state) => (
@@ -236,6 +257,7 @@ export const UserContactInfo = (props) => {
                   key={state}
                   value={state}
                   onClick={() => setLocation(state)}
+                  onFocus={() => setError("")}
                 >
                   {state}
                 </option>
@@ -249,28 +271,43 @@ export const UserContactInfo = (props) => {
             <input
               type="tel"
               id="phoneNumber"
-              maxlength="10"
+              maxlength="20"
               name="phoneNumber"
               value={valuePhone}
               onChange={(e) => setPhone(e.target.value)}
+              onFocus={() => setError("")}
             />
           </div>
-          <br />
+          <div style={{ color: "red" }}>{error}</div>
           <button
             onClick={() => {
-              actions
-                .editbio(
-                  store.user.id,
-                  valueFirstname,
-                  valueLastname,
-                  valueLocation,
-                  valuePhone
-                )
-                .then(() => window.location.reload());
+              const isNum = /^\d+$/.test(valuePhone);
+              if (
+                !valueFirstname ||
+                !valueLastname ||
+                !valueLocation ||
+                !valuePhone
+              ) {
+                setError("All fields are required");
+              } else if (!isNum) {
+                setError("Contact number must be a number");
+              } else {
+                actions
+                  .editbio(
+                    store.user.id,
+                    valueFirstname,
+                    valueLastname,
+                    valueLocation,
+                    valuePhone
+                  )
+                  .then(() => window.location.reload());
+                setError("");
+              }
             }}
           >
             Update
           </button>
+
           <button
             onClick={() => {
               setShowdetails(true);

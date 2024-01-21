@@ -48,7 +48,7 @@ def employerSignup():
     body = request.json
     employer = Employer.query.filter_by(email=body['email']).first()
     if employer:
-        return jsonify({"error": "Email already exists. Please use a different email."}), 409
+        return jsonify("Email already exists. Please use a different email."), 409
 
     employer = Employer(
         email=body["email"],
@@ -65,9 +65,9 @@ def employerLogin():
     email = request.json.get("email", None)
     employer = Employer.query.filter_by(email=email).first()
     if not employer:
-        return jsonify("Email or password are incorrect!"), 401
+        return jsonify("Email is not correct!"),401
     if not check_password_hash(employer.password, password):
-        return jsonify("Email or password are incorrect!"), 401
+        return jsonify("Password is not correct!"), 401
     token = create_access_token(identity=email)
     return jsonify(token=token, employer=employer.serialize()), 200
 
@@ -208,7 +208,7 @@ def jobseekerloginsignup():
     body = request.json
     user = User.query.filter_by(email=body['email']).first()
     if user:
-        return jsonify({"error": "Email already exists. Please use a different email."}), 409
+        return jsonify("Email already exists. Please use a different email."), 409
 
     user = User(
         email=body["email"],
@@ -225,9 +225,9 @@ def jobseekerLogin():
     email = request.json.get("email", None)
     user = User.query.filter_by(email=email).first()
     if not user:
-        return jsonify("Email or password are incorrect!"), 401
+        return jsonify("Email is not correct!"), 401
     if not check_password_hash(user.password, password):
-        return jsonify("Email or password are incorrect!"), 401
+        return jsonify("Password is not correct!"), 401
     token = create_access_token(identity=email)
     return jsonify(token=token, user=user.serialize()), 200
 
@@ -1022,13 +1022,25 @@ def get_viewapplicantprofile(userid):
     if employer is None:
         return jsonify("No employer found with the provided email"), 400
     
-    viewapplicantprofile = User.query.get(userid)
+    viewapplicantprofile = Applicants.query.filter_by(user_id=userid).first()
     if viewapplicantprofile:  
         return jsonify(viewapplicantprofile.serialize()), 200
     else:
-        return jsonify({"message": "profile not found"}), 404
+        return jsonify({"message": "applicant profile not found"}), 404
     
-
+@api.route('/viewuserprofile/<int:userid>',methods=['GET'])
+@jwt_required()
+def get_viewuserprofile(userid):
+    email=get_jwt_identity()
+    employer= Employer.query.filter_by(email=email).one_or_none()
+    if employer is None:
+        return jsonify("No employer found with the provided email"), 400
+    
+    viewuserprofile = User.query.get(userid)
+    if viewuserprofile:  
+        return jsonify(viewuserprofile.serialize()), 200
+    else:
+        return jsonify({"message": "profile not found"}), 404
 
 @api.route('/addapplicant',methods=['POST'])
 @jwt_required()

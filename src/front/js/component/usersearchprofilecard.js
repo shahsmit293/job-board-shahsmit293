@@ -35,81 +35,73 @@ export const Usersearchprofilecard = (props) => {
     setcontact("inline");
   };
   return (
-    <div className="row gy-3 mt-4">
-      <table className="styled-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Experience</th>
-            <th>Education</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.name && props.experience && props.education ? (
-            <tr>
-              <td>{props.name}</td>
-              <td>
-                {props.experience.map((item, index) => (
-                  <p key={index}>{item.company_name}</p>
-                ))}
-              </td>
-              <td>
-                {props.education.map((item, index) => (
-                  <p key={index}>{item.collage_name}</p>
-                ))}
-              </td>
-              <td>
-                <button
-                  onClick={() => {
-                    props.onViewClick();
-                    actions.getprofile(props.userid);
-                  }}
-                >
-                  View Profile
-                </button>
-                <button
-                  style={{ display: viewsave || props.displaysave }}
-                  onClick={handleSave}
-                >
-                  Save
-                </button>
-                <button
-                  style={{ display: viewunsave || props.displayunsave }}
-                  onClick={handleUnsave}
-                >
-                  Unsave
-                </button>
-                <button
-                  style={{ display: viewcontact || props.displaycontact }}
-                  onClick={handlecontacted}
-                >
-                  Mark As Contacted
-                </button>
-                <button
-                  style={{
-                    backgroundColor: "green",
-                    display: viewuncontact || props.displayuncontact,
-                  }}
-                  onClick={handleuncontacted}
-                >
-                  Marks As Uncontact
-                </button>
-              </td>
-            </tr>
-          ) : (
-            <tr>
-              <td colSpan="4">No applicant information available.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+    <>
+      {props.name && props.experience && props.education ? (
+        <tr>
+          <td>{props.name}</td>
+          <td>
+            {props.experience.map((item, index) => (
+              <p key={index}>{item.job_title}</p>
+            ))}
+          </td>
+          <td>
+            {props.education.map((item, index) => (
+              <p key={index}>{item.degree}</p>
+            ))}
+          </td>
+          <td>
+            <p>{props.location}</p>
+          </td>
+          <td>
+            <button
+              onClick={() => {
+                props.onViewClick();
+                actions.getuserprofile(props.userid);
+              }}
+            >
+              View Profile
+            </button>
+            <button
+              style={{ display: viewsave || props.displaysave }}
+              onClick={handleSave}
+            >
+              Save
+            </button>
+            <button
+              style={{ display: viewunsave || props.displayunsave }}
+              onClick={handleUnsave}
+            >
+              Unsave
+            </button>
+            <button
+              style={{ display: viewcontact || props.displaycontact }}
+              onClick={handlecontacted}
+            >
+              Mark As Contacted
+            </button>
+            <button
+              style={{
+                backgroundColor: "green",
+                display: viewuncontact || props.displayuncontact,
+              }}
+              onClick={handleuncontacted}
+            >
+              Marks As Uncontact
+            </button>
+          </td>
+        </tr>
+      ) : (
+        <tr>
+          <td colSpan="4">No applicant information available.</td>
+        </tr>
+      )}
+    </>
   );
 };
 
 Usersearchprofilecard.PropTypes = {
   name: PropTypes.string,
+  location: PropTypes.string,
   education: PropTypes.array,
   experience: PropTypes.array,
   userid: PropTypes.number,

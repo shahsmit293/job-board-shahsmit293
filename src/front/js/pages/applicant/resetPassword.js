@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Context } from "../store/appContext";
+import { Context } from "../../store/appContext";
 import { useNavigate } from "react-router-dom";
 
-export const ResetPasswordEmployer = () => {
+export const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [token, setToken] = useState("");
@@ -28,17 +28,16 @@ export const ResetPasswordEmployer = () => {
       setError("Passwords do not match...");
       return;
     }
-    actions.resetPasswordEmployer(token, password).then((response) => {
+    actions.resetPassword(token, password).then((response) => {
       if (
-        store.errorMessagePasswordEmployer &&
-        store.errorMessagePasswordEmployer.message ===
-          "Password reset successful."
+        store.errorMessagePassword &&
+        store.errorMessagePassword.message === "Password reset successful."
       ) {
         setPassword("");
         setConfirmPassword("");
         setToken("");
         setError("");
-        navigate("/employerloginsignup");
+        navigate("/jobseekerloginsignup");
       }
     });
   };
@@ -78,9 +77,9 @@ export const ResetPasswordEmployer = () => {
         </div>
         <div>
           {error && <div className="error-message">{error}</div>}
-          {store.errorMessagePasswordEmployer?.error && (
+          {store.errorMessagePassword?.error && (
             <div className="error-message">
-              {store.errorMessagePasswordEmployer.error}
+              {store.errorMessagePassword.error}
             </div>
           )}
         </div>

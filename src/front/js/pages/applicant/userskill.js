@@ -7,6 +7,7 @@ export const Userskill = (props) => {
   const [showskilldetails, setshowskilldetails] = useState(true);
   const [addskillform, setaddskillform] = useState(false);
   const [editskillinfo, seteditskillinfo] = useState(false);
+  const [error, setError] = useState("");
 
   const [valueSkillname, setSkillname] = useState(
     props.skillname ? props.skillname : ""
@@ -80,6 +81,7 @@ export const Userskill = (props) => {
               typeof="text"
               value={addvalueSkillname}
               onChange={(e) => setaddSkillname(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
           </div>
@@ -88,19 +90,27 @@ export const Userskill = (props) => {
               <b>Year Of Experience</b>
             </h4>
             <input
-              typeof="number"
               value={addvalueskillyear}
               onChange={(e) => setaddSkillyear(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
-          </div>
+          </div>{" "}
+          <div style={{ color: "red" }}>{error}</div>
           <button
             onClick={() => {
-              actions.adduserskill(
-                addvalueSkillname,
-                addvalueskillyear,
-                store.user.id
-              );
+              if (!addvalueSkillname || !addvalueskillyear) {
+                setError("All fields are required");
+              } else if (isNaN(addvalueskillyear) || addvalueskillyear < 0) {
+                setError("Skill year must be a positive number");
+              } else {
+                actions.adduserskill(
+                  addvalueSkillname,
+                  addvalueskillyear,
+                  store.user.id
+                );
+                setError("");
+              }
             }}
           >
             Add
@@ -125,7 +135,7 @@ export const Userskill = (props) => {
               typeof="text"
               value={valueSkillname}
               onChange={(e) => setSkillname(e.target.value)}
-              required
+              onFocus={() => setError("")}
             ></input>
           </div>
           <div className="form-group">
@@ -136,18 +146,27 @@ export const Userskill = (props) => {
               typeof="number"
               value={valueskillyear}
               onChange={(e) => setSkillyear(e.target.value)}
-              required
+              onFocus={() => setError("")}
             ></input>
           </div>
+          <div style={{ color: "red" }}>{error}</div>
           <button
             onClick={() => {
-              actions
-                .editskill(props.id, valueSkillname, valueskillyear)
-                .then(() => window.location.reload());
+              if (!valueSkillname || !valueskillyear) {
+                setError("All fields are required");
+              } else if (isNaN(valueskillyear) || valueskillyear < 0) {
+                setError("Skill year must be a positive number");
+              } else {
+                actions
+                  .editskill(props.id, valueSkillname, valueskillyear)
+                  .then(() => window.location.reload());
+                setError("");
+              }
             }}
           >
             Update
           </button>
+
           <button
             onClick={() => {
               setshowskilldetails(true);

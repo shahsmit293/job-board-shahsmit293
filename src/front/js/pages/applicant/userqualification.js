@@ -66,7 +66,7 @@ export const UserQualification = (props) => {
   const [showeducationdetails, setshoweducationdetails] = useState(true);
   const [addeducationform, setaddeducationform] = useState(false);
   const [editeducationform, setediteducationform] = useState(false);
-
+  const [error, setError] = useState("");
   const [valueCollagename, setCollagename] = useState(
     props.collagename ? props.collagename : ""
   );
@@ -173,6 +173,7 @@ export const UserQualification = (props) => {
               typeof="text"
               value={addvalueCollagename}
               onChange={(e) => setaddCollagename(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
           </div>
@@ -181,13 +182,11 @@ export const UserQualification = (props) => {
               <b>Start Year</b>
             </h4>
             <input
-              type="number"
-              min="0"
               id="startyear"
               name="startyear"
-              required
               value={addvaluestartyear}
               onChange={(e) => setaddStartyear(e.target.value)}
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -195,12 +194,12 @@ export const UserQualification = (props) => {
               <b>End Year</b>
             </h4>
             <input
-              type="number"
               id="endyear"
               name="endyear"
               min={addvaluestartyear}
               value={addvalueEndyear}
               onChange={(e) => setaddEndyear(e.target.value)}
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -212,6 +211,7 @@ export const UserQualification = (props) => {
               step="any"
               value={addvaluegpa}
               onChange={(e) => setaddGpa(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
           </div>
@@ -223,6 +223,7 @@ export const UserQualification = (props) => {
               typeof="text"
               value={addvalueMajor}
               onChange={(e) => setaddMajor(e.target.value)}
+              onFocus={() => setError("")}
             ></input>
           </div>
           <div className="form-group">
@@ -230,7 +231,11 @@ export const UserQualification = (props) => {
               <b>Degree</b>
             </h4>
             <select>
-              <option value="" onClick={() => setaddDegree("")}>
+              <option
+                value=""
+                onClick={() => setaddDegree("")}
+                onFocus={() => setError("")}
+              >
                 Select a state
               </option>
               {degrees.map((degree) => (
@@ -249,7 +254,11 @@ export const UserQualification = (props) => {
               <b>Location</b>
             </h4>
             <select>
-              <option value="" onClick={() => setaddLocation("")}>
+              <option
+                value=""
+                onClick={() => setaddLocation("")}
+                onFocus={() => setError("")}
+              >
                 Select a state
               </option>
               {states.map((state) => (
@@ -263,22 +272,48 @@ export const UserQualification = (props) => {
               ))}
             </select>
           </div>
+          <div style={{ color: "red" }}>{error}</div>
           <button
             onClick={() => {
-              actions.addusereducation(
-                addvalueCollagename,
-                addvaluestartyear,
-                addvalueEndyear,
-                addvaluegpa,
-                addvalueMajor,
-                addvalueDegree,
-                addvalueLocation,
-                store.user.id
-              );
+              const isStartYearNum = /^\d+$/.test(addvaluestartyear);
+              const isEndYearNum = /^\d+$/.test(addvalueEndyear);
+              const isGpaNum = /^\d+(\.\d{1,2})?$/.test(addvaluegpa);
+              if (!isStartYearNum || !isEndYearNum) {
+                setError("Start year and end year must be positive numbers");
+              } else if (
+                parseInt(addvalueEndyear) < parseInt(addvaluestartyear)
+              ) {
+                setError("End year cannot be less than start year");
+              } else if (!isGpaNum || addvaluegpa < 0 || addvaluegpa > 4) {
+                setError("GPA must be a number between 0 and 4");
+              } else if (
+                !addvalueCollagename ||
+                !addvaluestartyear ||
+                !addvalueEndyear ||
+                !addvaluegpa ||
+                !addvalueMajor ||
+                !addvalueDegree ||
+                !addvalueLocation
+              ) {
+                setError("All fields are required");
+              } else {
+                actions.addusereducation(
+                  addvalueCollagename,
+                  addvaluestartyear,
+                  addvalueEndyear,
+                  addvaluegpa,
+                  addvalueMajor,
+                  addvalueDegree,
+                  addvalueLocation,
+                  store.user.id
+                );
+                setError("");
+              }
             }}
           >
             Add
           </button>
+
           <button
             onClick={() => {
               setshoweducationdetails(true);
@@ -299,6 +334,7 @@ export const UserQualification = (props) => {
               typeof="text"
               value={valueCollagename}
               onChange={(e) => setCollagename(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
           </div>
@@ -307,13 +343,11 @@ export const UserQualification = (props) => {
               <b>Start Year</b>
             </h4>
             <input
-              type="number"
-              min="0"
               id="startyear"
               name="startyear"
-              required
               value={valuestartyear}
               onChange={(e) => setStartyear(e.target.value)}
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -321,12 +355,12 @@ export const UserQualification = (props) => {
               <b>End Year</b>
             </h4>
             <input
-              type="number"
               id="endyear"
               name="endyear"
               min={valuestartyear}
               value={valueEndyear}
               onChange={(e) => setEndyear(e.target.value)}
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -338,6 +372,7 @@ export const UserQualification = (props) => {
               step="any"
               value={valuegpa}
               onChange={(e) => setGpa(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
           </div>
@@ -349,6 +384,7 @@ export const UserQualification = (props) => {
               typeof="text"
               value={valueMajor}
               onChange={(e) => setMajor(e.target.value)}
+              onFocus={() => setError("")}
             ></input>
           </div>
           <div className="form-group">
@@ -356,7 +392,11 @@ export const UserQualification = (props) => {
               <b>Degree</b>
             </h4>
             <select value={valueDegree}>
-              <option value="" onClick={() => setDegree("")}>
+              <option
+                value=""
+                onClick={() => setDegree("")}
+                onFocus={() => setError("")}
+              >
                 Select a state
               </option>
               {degrees.map((degree) => (
@@ -375,7 +415,11 @@ export const UserQualification = (props) => {
               <b>Location</b>
             </h4>
             <select value={valueLocation}>
-              <option value="" onClick={() => setLocation("")}>
+              <option
+                value=""
+                onClick={() => setLocation("")}
+                onFocus={() => setError("")}
+              >
                 Select a state
               </option>
               {states.map((state) => (
@@ -389,24 +433,48 @@ export const UserQualification = (props) => {
               ))}
             </select>
           </div>
+          <div style={{ color: "red" }}>{error}</div>
           <button
             onClick={() => {
-              actions
-                .editusereducation(
-                  props.id,
-                  valueCollagename,
-                  valuestartyear,
-                  valueEndyear,
-                  valuegpa,
-                  valueMajor,
-                  valueDegree,
-                  valueLocation
-                )
-                .then(() => window.location.reload());
+              const isStartYearNum = /^\d+$/.test(valuestartyear);
+              const isEndYearNum = /^\d+$/.test(valueEndyear);
+              const isGpaNum = /^\d+(\.\d{1,2})?$/.test(valuegpa);
+              if (!isStartYearNum || !isEndYearNum) {
+                setError("Start year and end year must be a positive numbers");
+              } else if (parseInt(valueEndyear) < parseInt(valuestartyear)) {
+                setError("End year cannot be less than start year");
+              } else if (!isGpaNum || valuegpa < 0 || valuegpa > 4) {
+                setError("GPA must be a number between 0 and 4");
+              } else if (
+                !valueCollagename ||
+                !valuestartyear ||
+                !valueEndyear ||
+                !valuegpa ||
+                !valueMajor ||
+                !valueDegree ||
+                !valueLocation
+              ) {
+                setError("All fields are required");
+              } else {
+                actions
+                  .editusereducation(
+                    props.id,
+                    valueCollagename,
+                    valuestartyear,
+                    valueEndyear,
+                    valuegpa,
+                    valueMajor,
+                    valueDegree,
+                    valueLocation
+                  )
+                  .then(() => window.location.reload());
+                setError("");
+              }
             }}
           >
             Update
           </button>
+
           <button
             onClick={() => {
               setshoweducationdetails(true);

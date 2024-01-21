@@ -13,22 +13,19 @@ export const ViewApplicantProfile = () => {
   return (
     <div className="main">
       <div className="container">
-        {store.viewapplicantprofile.user_bio ? (
-          <>
-            <h5 className="card-title">
-              <b>
-                First name: {store.viewapplicantprofile.user_bio.first_name}
-              </b>
-            </h5>
-            <p className="card-text">
-              Last name: {store.viewapplicantprofile.user_bio.last_name}
-            </p>
-          </>
-        ) : (
-          <p>No user bio available.</p>
-        )}
-
-        <p className="card-text">Education:</p>
+        <h1 className="card-title">
+          <b>
+            {store.viewapplicantprofile.first_name}{" "}
+            {store.viewapplicantprofile.last_name}
+          </b>
+        </h1>
+        <p>
+          {store.viewapplicantprofile.email},Tel:
+          {store.viewapplicantprofile.phone_number},
+        </p>
+        <h4 className="card-text">
+          <b>Education</b>:
+        </h4>
         {store.viewapplicantprofile.user_education ? (
           store.viewapplicantprofile.user_education.map((item, index) => {
             return (
@@ -44,7 +41,9 @@ export const ViewApplicantProfile = () => {
           <p>No education information available.</p>
         )}
 
-        <p className="card-text">Experience:</p>
+        <h4 className="card-text">
+          <b>Experience</b>:
+        </h4>
         {store.viewapplicantprofile.user_experience ? (
           store.viewapplicantprofile.user_experience.map((item, index) => {
             return (

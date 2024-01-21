@@ -75,6 +75,7 @@ export const UserPreference = (props) => {
   const [showdetails, setShowdetails] = useState(true);
   const [addForm, setaddform] = useState(false);
   const [editForm, setEditform] = useState(false);
+  const [error, setError] = useState("");
 
   const [valueJobpreferenceName, setJobpreferenceName] = useState(
     props.jobtitlepreference ? props.jobtitlepreference : ""
@@ -192,27 +193,51 @@ export const UserPreference = (props) => {
             <b>Job Titles</b>:{props.jobtitlepreference}
           </h4>
           <h4>
-            <b>Job Types</b>:{props.fulltimeob}/{props.parttimejob}/
-            {props.contractjob}/{props.temperoryjob}/{props.internship}
+            <b>Job Types</b>:{" "}
+            <span style={{ color: "lightgrey" }}>{props.fulltimeob}</span>{" "}
+            <span style={{ color: "grey" }}>{props.parttimejob}</span>{" "}
+            <span style={{ color: "lightgrey" }}>{props.contractjob}</span>{" "}
+            <span style={{ color: "grey" }}>{props.temperoryjob}</span>{" "}
+            <span style={{ color: "lightgrey" }}>{props.internship}</span>{" "}
+          </h4>
+
+          <h4>
+            <b>Work Schedule</b>:{" "}
+            <span style={{ color: "lightgrey" }}>{props.mondaytofriday}</span>{" "}
+            <span style={{ color: "grey" }}>{props.weekendasneeded}</span>{" "}
+            <span style={{ color: "lightgrey" }}>{props.weekendonly}</span>{" "}
+            <span style={{ color: "grey" }}>{props.noweekends}</span>{" "}
+            <span style={{ color: "lightgrey" }}>{props.holidays}</span>{" "}
+            <span style={{ color: "grey" }}>{props.rotatingweekends}</span>{" "}
+            <span style={{ color: "lightgrey" }}>{props.weekdays}</span>{" "}
+            <span style={{ color: "grey" }}>{props.everyweekend}</span>{" "}
+            <span style={{ color: "lightgrey" }}>{props.fourhourshift}</span>{" "}
+            <span style={{ color: "grey" }}>{props.eighthourshift}</span>{" "}
+            <span style={{ color: "lightgrey" }}>{props.tenhourshift}</span>{" "}
+            <span style={{ color: "grey" }}>{props.twelvehourshift}</span>{" "}
+            <span style={{ color: "lightgrey" }}>{props.dayshift}</span>{" "}
+            <span style={{ color: "grey" }}>{props.nightshift}</span>{" "}
+            <span style={{ color: "lightgrey" }}>{props.eveningshift}</span>{" "}
+            <span style={{ color: "grey" }}>{props.nonight}</span>{" "}
+            <span style={{ color: "lightgrey" }}>{props.overnightshift}</span>{" "}
+            <span style={{ color: "grey" }}>{props.rotatingshift}</span>{" "}
+            <span style={{ color: "lightgrey" }}>{props.splitshift}</span>{" "}
+            <span style={{ color: "grey" }}>{props.overtime}</span>{" "}
+          </h4>
+
+          <h4>
+            <b>Minimum Pay</b>:{props.minsalary} {props.salarytype}
           </h4>
           <h4>
-            <b>Work Schedule</b>:{props.mondaytofriday}/{props.weekendasneeded}/
-            {props.weekendonly}/{props.noweekends}/{props.holidays}/
-            {props.rotatingweekends}/{props.weekdays}/{props.everyweekend}/
-            {props.fourhourshift}/{props.eighthourshift}/{props.tenhourshift}/
-            {props.twelvehourshift}/{props.dayshift}/{props.nightshift}/
-            {props.eveningshift}/{props.nonight}/{props.overnightshift}/
-            {props.rotatingshift}/{props.splitshift}/{props.overtime}
+            <b>Relocation</b>:{props.relocation} {props.relocationplace}
           </h4>
           <h4>
-            <b>Minimum Pay</b>:{props.minsalary}/{props.salarytype}
-          </h4>
-          <h4>
-            <b>Relocation</b>:{props.relocation}/{props.relocationplace}
-          </h4>
-          <h4>
-            <b>Remote</b>:{props.remotejob}/{props.hybridjob}/{props.inperson}/
-            {props.temperoryremotejob}/{props.temperoryjob}
+            <b>Remote</b>:
+            <span style={{ color: "lightgrey" }}>{props.remotejob}</span>{" "}
+            <span style={{ color: "grey" }}>{props.hybridjob}</span>{" "}
+            <span style={{ color: "lightgrey" }}>{props.inperson}</span>{" "}
+            <span style={{ color: "grey" }}>{props.temperoryremotejob}</span>{" "}
+            <span style={{ color: "lightgrey" }}>{props.temperoryjob}</span>{" "}
           </h4>
           {!props.jobtitlepreference &&
           !props.fulltimeob &&
@@ -293,6 +318,7 @@ export const UserPreference = (props) => {
               typeof="text"
               value={valueJobpreferenceName}
               onChange={(e) => setJobpreferenceName(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
           </div>
@@ -304,8 +330,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="fulltime"
               onChange={(e) =>
-                setValueFulltimeJob(e.target.checked ? "Fulltimejob" : "No")
+                setValueFulltimeJob(e.target.checked ? "Fulltimejob" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -316,8 +343,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="parttime"
               onChange={(e) =>
-                setParttimeJob(e.target.checked ? "Parttime" : "No")
+                setParttimeJob(e.target.checked ? "Parttime" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -328,8 +356,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="contract"
               onChange={(e) =>
-                setValueContractJob(e.target.checked ? "Contractjob" : "No")
+                setValueContractJob(e.target.checked ? "Contractjob" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -340,8 +369,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="temperory"
               onChange={(e) =>
-                setValueTemperoryJob(e.target.checked ? "Temperoryjob" : "No")
+                setValueTemperoryJob(e.target.checked ? "Temperoryjob" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -352,8 +382,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="internship"
               onChange={(e) =>
-                setValueInternship(e.target.checked ? "Internship" : "No")
+                setValueInternship(e.target.checked ? "Internship" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -364,8 +395,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="mondaytofriday"
               onChange={(e) =>
-                setValueMontoFri(e.target.checked ? "Monday-to-Friday" : "No")
+                setValueMontoFri(e.target.checked ? "Monday-to-Friday" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -377,9 +409,10 @@ export const UserPreference = (props) => {
               name="weekendasneeded"
               onChange={(e) =>
                 setValueWeekendasneeded(
-                  e.target.checked ? "Weekend as needed" : "No"
+                  e.target.checked ? "Weekend as needed" : ""
                 )
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -390,8 +423,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="weekendsonly"
               onChange={(e) =>
-                setValueWeekendonly(e.target.checked ? "Weekend Only" : "No")
+                setValueWeekendonly(e.target.checked ? "Weekend Only" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -402,8 +436,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="noweekends"
               onChange={(e) =>
-                setValueNoweekend(e.target.checked ? "No weekend" : "No")
+                setValueNoweekend(e.target.checked ? "No weekend" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -414,8 +449,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="holidays"
               onChange={(e) =>
-                setValueHoliday(e.target.checked ? "Holiday" : "No")
+                setValueHoliday(e.target.checked ? "Holiday" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -427,9 +463,10 @@ export const UserPreference = (props) => {
               name="rotatingweekends"
               onChange={(e) =>
                 setValueRotatingweekend(
-                  e.target.checked ? "Rotating Weekend" : "No"
+                  e.target.checked ? "Rotating Weekend" : ""
                 )
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -440,8 +477,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="weekdays"
               onChange={(e) =>
-                setValueWeekdays(e.target.checked ? "Weekdays" : "No")
+                setValueWeekdays(e.target.checked ? "Weekdays" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -452,10 +490,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="everyweekend"
               onChange={(e) =>
-                setValueEveryweekends(
-                  e.target.checked ? "Every Weekends" : "No"
-                )
+                setValueEveryweekends(e.target.checked ? "Every Weekends" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -466,8 +503,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="fourhourshift"
               onChange={(e) =>
-                setValueFourhourshift(e.target.checked ? "4-Hour shift" : "No")
+                setValueFourhourshift(e.target.checked ? "4-Hour shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -478,8 +516,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="eighthourshift"
               onChange={(e) =>
-                setValueEighthourshift(e.target.checked ? "8-hour shift" : "No")
+                setValueEighthourshift(e.target.checked ? "8-hour shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -490,8 +529,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="tenhourshift"
               onChange={(e) =>
-                setValueTenhourshift(e.target.checked ? "10-hour shift" : "No")
+                setValueTenhourshift(e.target.checked ? "10-hour shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -502,10 +542,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="twelvehourshift"
               onChange={(e) =>
-                setValueTwelvehourshift(
-                  e.target.checked ? "12-hour shift" : "No"
-                )
+                setValueTwelvehourshift(e.target.checked ? "12-hour shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -516,8 +555,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="dayshift"
               onChange={(e) =>
-                setValueDayshift(e.target.checked ? "Day shift" : "No")
+                setValueDayshift(e.target.checked ? "Day shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -528,8 +568,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="nightshift"
               onChange={(e) =>
-                setValueNightshift(e.target.checked ? "Night shift" : "No")
+                setValueNightshift(e.target.checked ? "Night shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -540,8 +581,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="eveningshift"
               onChange={(e) =>
-                setValueEveningshift(e.target.checked ? "Evening shift" : "No")
+                setValueEveningshift(e.target.checked ? "Evening shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -552,8 +594,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="nonights"
               onChange={(e) =>
-                setValueNonight(e.target.checked ? "No nights" : "No")
+                setValueNonight(e.target.checked ? "No nights" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -565,9 +608,10 @@ export const UserPreference = (props) => {
               name="overnightshift"
               onChange={(e) =>
                 setValueOvernightshift(
-                  e.target.checked ? "Overnight shift" : "No"
+                  e.target.checked ? "Overnight shift" : ""
                 )
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -578,10 +622,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="rotatingshift"
               onChange={(e) =>
-                setValueRotatingshift(
-                  e.target.checked ? "Rotating shift" : "No"
-                )
+                setValueRotatingshift(e.target.checked ? "Rotating shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -592,8 +635,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="splitshift"
               onChange={(e) =>
-                setValueSplitshift(e.target.checked ? "Split shift" : "No")
+                setValueSplitshift(e.target.checked ? "Split shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -602,10 +646,11 @@ export const UserPreference = (props) => {
             </h4>
             <input
               type="checkbox"
-              name="overtine"
+              name="overtime"
               onChange={(e) =>
-                setValueOvertime(e.target.checked ? "Overtime" : "No")
+                setValueOvertime(e.target.checked ? "Overtime" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -616,7 +661,7 @@ export const UserPreference = (props) => {
               typeof="number"
               value={valueMinsalary}
               onChange={(e) => setValueMinsalary(e.target.value)}
-              required
+              onFocus={() => setError("")}
             ></input>
           </div>
           <div className="form-group">
@@ -628,7 +673,15 @@ export const UserPreference = (props) => {
               id="salary"
               value={valueSalarytype}
               onChange={(e) => setValueSalarytype(e.target.value)}
+              onFocus={() => setError("")}
             >
+              <option
+                value=""
+                onClick={() => setValueSalarytype("")}
+                onFocus={() => setError("")}
+              >
+                Select Salary Type
+              </option>
               <option value="per hour">per hour</option>
               <option value="per week">per week</option>
               <option value="per month">per month</option>
@@ -643,9 +696,10 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="relocation"
               onChange={(e) => {
-                setValueRelocation(e.target.checked ? "Yes" : "No");
+                setValueRelocation(e.target.checked ? "Yes" : "");
                 setValueRelocationplace("");
               }}
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -660,6 +714,7 @@ export const UserPreference = (props) => {
                   name="relocationOption"
                   value="anywhere"
                   onChange={(e) => setValueRelocationplace(e.target.value)}
+                  onFocus={() => setError("")}
                 />
                 <br />
                 <h5>
@@ -671,6 +726,7 @@ export const UserPreference = (props) => {
                   name="relocationOption"
                   value="chooselocation"
                   onChange={(e) => setValueRelocationplace(e.target.value)}
+                  onFocus={() => setError("")}
                 />
                 <br />
                 {valueRelocationplace !== "anywhere" &&
@@ -717,8 +773,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="remotejob"
               onChange={(e) =>
-                setValueRemotejob(e.target.checked ? "Remote job" : "No")
+                setValueRemotejob(e.target.checked ? "Remote job" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -729,8 +786,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="hybridjob"
               onChange={(e) =>
-                setValueHybridjob(e.target.checked ? "Hybrid job" : "No")
+                setValueHybridjob(e.target.checked ? "Hybrid job" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -741,8 +799,9 @@ export const UserPreference = (props) => {
               type="checkbox"
               name="inpersonjob"
               onChange={(e) =>
-                setValueInperson(e.target.checked ? "In person job" : "No")
+                setValueInperson(e.target.checked ? "In person job" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -754,54 +813,71 @@ export const UserPreference = (props) => {
               name="temperoryremotejob"
               onChange={(e) =>
                 setValueTemperoryremotejob(
-                  e.target.checked ? "Temperory remote job" : "No"
+                  e.target.checked ? "Temperory remote job" : ""
                 )
               }
+              onFocus={() => setError("")}
             />
           </div>
+          <div style={{ color: "red" }}>{error}</div>
+
           <button
             onClick={() => {
-              actions.adduserpreference(
-                valueJobpreferenceName,
-                valueFulltimeJob,
-                valueParttimeJob,
-                valueContractJob,
-                valueTemperoryJob,
-                valueInternship,
-                valueMontoFri,
-                valueWeekendasneeded,
-                valueWeekendonly,
-                valueNoweekend,
-                valueHoliday,
-                valueRotatingweekend,
-                valueWeekdays,
-                valueEveryweekends,
-                valueFourhourshift,
-                valueEighthourshift,
-                valueTenhourshift,
-                valueTwelvehourshift,
-                valueDayshift,
-                valueNightshift,
-                valueEveningshift,
-                valueNonight,
-                valueOvernightshift,
-                valueRotatingshift,
-                valueSplitshift,
-                valueOvertime,
-                valueMinsalary,
-                valueSalarytype,
-                valueRelocation,
-                valueRelocationplace,
-                valueRemotejob,
-                valueHybridjob,
-                valueInperson,
-                valueTemperoryremotejob,
-                store.user.id
-              );
+              if (!valueJobpreferenceName) {
+                setError("Job preference name is required");
+              } else if (
+                !valueMinsalary ||
+                isNaN(valueMinsalary) ||
+                valueMinsalary <= 0
+              ) {
+                setError("Minimum salary must be a positive number");
+              } else if (!valueSalarytype) {
+                setError("Salary type required");
+              } else {
+                actions.adduserpreference(
+                  valueJobpreferenceName,
+                  valueFulltimeJob,
+                  valueParttimeJob,
+                  valueContractJob,
+                  valueTemperoryJob,
+                  valueInternship,
+                  valueMontoFri,
+                  valueWeekendasneeded,
+                  valueWeekendonly,
+                  valueNoweekend,
+                  valueHoliday,
+                  valueRotatingweekend,
+                  valueWeekdays,
+                  valueEveryweekends,
+                  valueFourhourshift,
+                  valueEighthourshift,
+                  valueTenhourshift,
+                  valueTwelvehourshift,
+                  valueDayshift,
+                  valueNightshift,
+                  valueEveningshift,
+                  valueNonight,
+                  valueOvernightshift,
+                  valueRotatingshift,
+                  valueSplitshift,
+                  valueOvertime,
+                  valueMinsalary,
+                  valueSalarytype,
+                  valueRelocation,
+                  valueRelocationplace,
+                  valueRemotejob,
+                  valueHybridjob,
+                  valueInperson,
+                  valueTemperoryremotejob,
+                  store.user.id
+                );
+                setError("");
+              }
             }}
           >
             Add
           </button>
+
           <button
             onClick={() => {
               setShowdetails(true);
@@ -827,6 +903,7 @@ export const UserPreference = (props) => {
               typeof="text"
               value={valueJobpreferenceName}
               onChange={(e) => setJobpreferenceName(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
           </div>
@@ -839,8 +916,9 @@ export const UserPreference = (props) => {
               name="fulltime"
               checked={valueFulltimeJob === "Fulltimejob"}
               onChange={(e) =>
-                setValueFulltimeJob(e.target.checked ? "Fulltimejob" : "No")
+                setValueFulltimeJob(e.target.checked ? "Fulltimejob" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -852,8 +930,9 @@ export const UserPreference = (props) => {
               name="parttime"
               checked={valueParttimeJob === "Parttime"}
               onChange={(e) =>
-                setParttimeJob(e.target.checked ? "Parttime" : "No")
+                setParttimeJob(e.target.checked ? "Parttime" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -865,8 +944,9 @@ export const UserPreference = (props) => {
               name="contract"
               checked={valueContractJob === "Contractjob"}
               onChange={(e) =>
-                setValueContractJob(e.target.checked ? "Contractjob" : "No")
+                setValueContractJob(e.target.checked ? "Contractjob" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -878,8 +958,9 @@ export const UserPreference = (props) => {
               name="temperory"
               checked={valueTemperoryJob === "Temperoryjob"}
               onChange={(e) =>
-                setValueTemperoryJob(e.target.checked ? "Temperoryjob" : "No")
+                setValueTemperoryJob(e.target.checked ? "Temperoryjob" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -891,8 +972,9 @@ export const UserPreference = (props) => {
               name="internship"
               checked={valueInternship === "Internship"}
               onChange={(e) =>
-                setValueInternship(e.target.checked ? "Internship" : "No")
+                setValueInternship(e.target.checked ? "Internship" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -904,8 +986,9 @@ export const UserPreference = (props) => {
               name="mondaytofriday"
               checked={valueMontoFri === "Monday-to-Friday"}
               onChange={(e) =>
-                setValueMontoFri(e.target.checked ? "Monday-to-Friday" : "No")
+                setValueMontoFri(e.target.checked ? "Monday-to-Friday" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -918,9 +1001,10 @@ export const UserPreference = (props) => {
               checked={valueWeekendasneeded === "Weekend as needed"}
               onChange={(e) =>
                 setValueWeekendasneeded(
-                  e.target.checked ? "Weekend as needed" : "No"
+                  e.target.checked ? "Weekend as needed" : ""
                 )
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -932,8 +1016,9 @@ export const UserPreference = (props) => {
               name="weekendsonly"
               checked={valueWeekendonly === "Weekend Only"}
               onChange={(e) =>
-                setValueWeekendonly(e.target.checked ? "Weekend Only" : "No")
+                setValueWeekendonly(e.target.checked ? "Weekend Only" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -945,8 +1030,9 @@ export const UserPreference = (props) => {
               name="noweekends"
               checked={valueNoweekend === "No weekend"}
               onChange={(e) =>
-                setValueNoweekend(e.target.checked ? "No weekend" : "No")
+                setValueNoweekend(e.target.checked ? "No weekend" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -958,8 +1044,9 @@ export const UserPreference = (props) => {
               name="holidays"
               checked={valueHoliday === "Holiday"}
               onChange={(e) =>
-                setValueHoliday(e.target.checked ? "Holiday" : "No")
+                setValueHoliday(e.target.checked ? "Holiday" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -972,9 +1059,10 @@ export const UserPreference = (props) => {
               checked={valueRotatingweekend === "Rotating Weekend"}
               onChange={(e) =>
                 setValueRotatingweekend(
-                  e.target.checked ? "Rotating Weekend" : "No"
+                  e.target.checked ? "Rotating Weekend" : ""
                 )
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -986,8 +1074,9 @@ export const UserPreference = (props) => {
               name="weekdays"
               checked={valueWeekdays === "Weekdays"}
               onChange={(e) =>
-                setValueWeekdays(e.target.checked ? "Weekdays" : "No")
+                setValueWeekdays(e.target.checked ? "Weekdays" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -999,10 +1088,9 @@ export const UserPreference = (props) => {
               name="everyweekend"
               checked={valueEveryweekends === "Every Weekends"}
               onChange={(e) =>
-                setValueEveryweekends(
-                  e.target.checked ? "Every Weekends" : "No"
-                )
+                setValueEveryweekends(e.target.checked ? "Every Weekends" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1014,8 +1102,9 @@ export const UserPreference = (props) => {
               name="fourhourshift"
               checked={valueFourhourshift === "4-Hour shift"}
               onChange={(e) =>
-                setValueFourhourshift(e.target.checked ? "4-Hour shift" : "No")
+                setValueFourhourshift(e.target.checked ? "4-Hour shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1027,8 +1116,9 @@ export const UserPreference = (props) => {
               name="eighthourshift"
               checked={valueEighthourshift === "8-hour shift"}
               onChange={(e) =>
-                setValueEighthourshift(e.target.checked ? "8-hour shift" : "No")
+                setValueEighthourshift(e.target.checked ? "8-hour shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1040,8 +1130,9 @@ export const UserPreference = (props) => {
               name="tenhourshift"
               checked={valueTenhourshift === "10-hour shift"}
               onChange={(e) =>
-                setValueTenhourshift(e.target.checked ? "10-hour shift" : "No")
+                setValueTenhourshift(e.target.checked ? "10-hour shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1053,10 +1144,9 @@ export const UserPreference = (props) => {
               name="twelvehourshift"
               checked={valueTwelvehourshift === "12-hour shift"}
               onChange={(e) =>
-                setValueTwelvehourshift(
-                  e.target.checked ? "12-hour shift" : "No"
-                )
+                setValueTwelvehourshift(e.target.checked ? "12-hour shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1068,8 +1158,9 @@ export const UserPreference = (props) => {
               name="dayshift"
               checked={valueDayshift === "Day shift"}
               onChange={(e) =>
-                setValueDayshift(e.target.checked ? "Day shift" : "No")
+                setValueDayshift(e.target.checked ? "Day shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1081,8 +1172,9 @@ export const UserPreference = (props) => {
               name="nightshift"
               checked={valueNightshift === "Night shift"}
               onChange={(e) =>
-                setValueNightshift(e.target.checked ? "Night shift" : "No")
+                setValueNightshift(e.target.checked ? "Night shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1094,8 +1186,9 @@ export const UserPreference = (props) => {
               name="eveningshift"
               checked={valueEveningshift === "Evening shift"}
               onChange={(e) =>
-                setValueEveningshift(e.target.checked ? "Evening shift" : "No")
+                setValueEveningshift(e.target.checked ? "Evening shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1107,8 +1200,9 @@ export const UserPreference = (props) => {
               name="nonights"
               checked={valueNonight === "No nights"}
               onChange={(e) =>
-                setValueNonight(e.target.checked ? "No nights" : "No")
+                setValueNonight(e.target.checked ? "No nights" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1118,12 +1212,13 @@ export const UserPreference = (props) => {
             <input
               type="checkbox"
               name="overnightshift"
-              checked={valueOvernightshift === "overnight shift"}
+              checked={valueOvernightshift === "Overnight shift"}
               onChange={(e) =>
                 setValueOvernightshift(
-                  e.target.checked ? "Overnight shift" : "No"
+                  e.target.checked ? "Overnight shift" : ""
                 )
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1135,10 +1230,9 @@ export const UserPreference = (props) => {
               name="rotatingshift"
               checked={valueRotatingshift === "Rotating shift"}
               onChange={(e) =>
-                setValueRotatingshift(
-                  e.target.checked ? "Rotating shift" : "No"
-                )
+                setValueRotatingshift(e.target.checked ? "Rotating shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1150,8 +1244,9 @@ export const UserPreference = (props) => {
               name="splitshift"
               checked={valueSplitshift === "Split shift"}
               onChange={(e) =>
-                setValueSplitshift(e.target.checked ? "Split shift" : "No")
+                setValueSplitshift(e.target.checked ? "Split shift" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1161,10 +1256,11 @@ export const UserPreference = (props) => {
             <input
               type="checkbox"
               name="overtine"
-              checked={valueOvernightshift === "Overtime"}
+              checked={valueOvertime === "Overtime"}
               onChange={(e) =>
-                setValueOvertime(e.target.checked ? "Overtime" : "No")
+                setValueOvertime(e.target.checked ? "Overtime" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1175,6 +1271,7 @@ export const UserPreference = (props) => {
               typeof="number"
               value={valueMinsalary}
               onChange={(e) => setValueMinsalary(e.target.value)}
+              onFocus={() => setError("")}
               required
             ></input>
           </div>
@@ -1187,7 +1284,15 @@ export const UserPreference = (props) => {
               id="salary"
               value={valueSalarytype}
               onChange={(e) => setValueSalarytype(e.target.value)}
+              onFocus={() => setError("")}
             >
+              <option
+                value=""
+                onClick={() => setValueSalarytype("")}
+                onFocus={() => setError("")}
+              >
+                Select Salary Type
+              </option>
               <option value="per hour">per hour</option>
               <option value="per week">per week</option>
               <option value="per month">per month</option>
@@ -1203,9 +1308,10 @@ export const UserPreference = (props) => {
               name="relocation"
               checked={valueRelocation == "Yes"}
               onChange={(e) => {
-                setValueRelocation(e.target.checked ? "Yes" : "No");
+                setValueRelocation(e.target.checked ? "Yes" : "");
                 setValueRelocationplace("");
               }}
+              onFocus={() => setError("")}
             />
           </div>
           <div className="btn-group">
@@ -1221,6 +1327,7 @@ export const UserPreference = (props) => {
                   value="anywhere"
                   checked={valueRelocationplace === "anywhere"}
                   onChange={(e) => setValueRelocationplace(e.target.value)}
+                  onFocus={() => setError("")}
                 />
                 <br />
                 <h4>
@@ -1236,6 +1343,7 @@ export const UserPreference = (props) => {
                   }
                   value="chooselocation"
                   onChange={(e) => setValueRelocationplace(e.target.value)}
+                  onFocus={() => setError("")}
                 />
                 <br />
                 {valueRelocationplace !== "anywhere" &&
@@ -1287,8 +1395,9 @@ export const UserPreference = (props) => {
               name="remotejob"
               checked={valueRemotejob === "Remote job"}
               onChange={(e) =>
-                setValueRemotejob(e.target.checked ? "Remote job" : "No")
+                setValueRemotejob(e.target.checked ? "Remote job" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1300,8 +1409,9 @@ export const UserPreference = (props) => {
               name="hybridjob"
               checked={valueHybridjob === "Hybrid job"}
               onChange={(e) =>
-                setValueHybridjob(e.target.checked ? "Hybrid job" : "No")
+                setValueHybridjob(e.target.checked ? "Hybrid job" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1313,8 +1423,9 @@ export const UserPreference = (props) => {
               name="inpersonjob"
               checked={valueInperson === "In person job"}
               onChange={(e) =>
-                setValueInperson(e.target.checked ? "In person job" : "No")
+                setValueInperson(e.target.checked ? "In person job" : "")
               }
+              onFocus={() => setError("")}
             />
           </div>
           <div className="form-group">
@@ -1323,60 +1434,75 @@ export const UserPreference = (props) => {
             </h4>
             <input
               type="checkbox"
-              name="temperoryremotejob"
-              checked={valueInperson === "Temperory remote job"}
+              name="valueTemperoryremotejob"
+              checked={valueTemperoryremotejob === "Temperory remote job"}
               onChange={(e) =>
                 setValueTemperoryremotejob(
-                  e.target.checked ? "Temperory remote job" : "No"
+                  e.target.checked ? "Temperory remote job" : ""
                 )
               }
+              onFocus={() => setError("")}
             />
           </div>
+          <div style={{ color: "red" }}>{error}</div>
+
           <button
             onClick={() => {
-              actions
-                .editpreference(
-                  store.user.id,
-                  valueJobpreferenceName,
-                  valueFulltimeJob,
-                  valueParttimeJob,
-                  valueContractJob,
-                  valueTemperoryJob,
-                  valueInternship,
-                  valueMontoFri,
-                  valueWeekendasneeded,
-                  valueWeekendonly,
-                  valueNoweekend,
-                  valueHoliday,
-                  valueRotatingweekend,
-                  valueWeekdays,
-                  valueEveryweekends,
-                  valueFourhourshift,
-                  valueEighthourshift,
-                  valueTenhourshift,
-                  valueTwelvehourshift,
-                  valueDayshift,
-                  valueNightshift,
-                  valueEveningshift,
-                  valueNonight,
-                  valueOvernightshift,
-                  valueRotatingshift,
-                  valueSplitshift,
-                  valueOvertime,
-                  valueMinsalary,
-                  valueSalarytype,
-                  valueRelocation,
-                  valueRelocationplace,
-                  valueRemotejob,
-                  valueHybridjob,
-                  valueInperson,
-                  valueTemperoryremotejob
-                )
-                .then(() => window.location.reload());
+              if (!valueJobpreferenceName) {
+                setError("Job preference name is required");
+              } else if (
+                !valueMinsalary ||
+                isNaN(valueMinsalary) ||
+                valueMinsalary <= 0
+              ) {
+                setError("Minimum salary must be a positive number");
+              } else {
+                actions
+                  .editpreference(
+                    store.user.id,
+                    valueJobpreferenceName,
+                    valueFulltimeJob,
+                    valueParttimeJob,
+                    valueContractJob,
+                    valueTemperoryJob,
+                    valueInternship,
+                    valueMontoFri,
+                    valueWeekendasneeded,
+                    valueWeekendonly,
+                    valueNoweekend,
+                    valueHoliday,
+                    valueRotatingweekend,
+                    valueWeekdays,
+                    valueEveryweekends,
+                    valueFourhourshift,
+                    valueEighthourshift,
+                    valueTenhourshift,
+                    valueTwelvehourshift,
+                    valueDayshift,
+                    valueNightshift,
+                    valueEveningshift,
+                    valueNonight,
+                    valueOvernightshift,
+                    valueRotatingshift,
+                    valueSplitshift,
+                    valueOvertime,
+                    valueMinsalary,
+                    valueSalarytype,
+                    valueRelocation,
+                    valueRelocationplace,
+                    valueRemotejob,
+                    valueHybridjob,
+                    valueInperson,
+                    valueTemperoryremotejob
+                  )
+                  .then(() => window.location.reload());
+                setError("");
+              }
             }}
           >
             Update
           </button>
+
           <button
             onClick={() => {
               setShowdetails(true);

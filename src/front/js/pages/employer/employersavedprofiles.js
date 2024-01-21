@@ -57,39 +57,57 @@ export const EmployerSavedProfiles = () => {
       <div className="sidebar">
         <EmployerSidebar />
       </div>
-      <div>
+      <div className="details">
         {loading ? (
           <p>Loading applicants...</p> // Display a loading message or a spinner
         ) : store.saveduserfiles.length === 0 ? (
-          <p>No profile saved yet.</p>
+          <p style={{ margin: "50%" }}>No profile saved yet.</p>
         ) : (
-          <div className="list of applicants">
-            {Array.isArray(store.saveduserfiles) &&
-              store.saveduserfiles.length > 0 &&
-              store.saveduserfiles.map((item, index) => {
-                return (
-                  <Usersearchprofilecard
-                    key={index}
-                    name={item.user.user_bio.first_name}
-                    experience={item.user.user_experience}
-                    education={item.user.user_education}
-                    onViewClick={handleViewClick}
-                    userid={item.user_id}
-                    employerid={store.employer.id}
-                    displaysave={"none"}
-                    displayunsave={displayunsave(item.user_id)}
-                    displaycontact={displaycontact(item.user_id)}
-                    displayuncontact={displayuncontact(item.user_id)}
-                  />
-                );
-              })}
+          <div className="userprofiletable">
+            <table className="styled-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Job Title</th>
+                  <th>Degree</th>
+                  <th>Location</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(store.saveduserfiles) &&
+                  store.saveduserfiles.length > 0 &&
+                  store.saveduserfiles.map((item, index) => {
+                    if (item.user.user_bio) {
+                      return (
+                        <Usersearchprofilecard
+                          key={index}
+                          name={item.user.user_bio.first_name}
+                          experience={item.user.user_experience}
+                          education={item.user.user_education}
+                          location={item.user.user_bio.location}
+                          onViewClick={handleViewClick}
+                          userid={item.user_id}
+                          employerid={store.employer.id}
+                          displaysave={"none"}
+                          displayunsave={displayunsave(item.user_id)}
+                          displaycontact={displaycontact(item.user_id)}
+                          displayuncontact={displayuncontact(item.user_id)}
+                        />
+                      );
+                    }
+                  })}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
       {showPopup && (
-        <div className="popup">
-          <button onClick={() => setShowPopup(false)}>Close</button>
-          <Viewusersprofile />
+        <div>
+          <p className="popup">
+            <button onClick={() => setShowPopup(false)}>Close</button>
+            <Viewusersprofile />
+          </p>
         </div>
       )}
     </div>

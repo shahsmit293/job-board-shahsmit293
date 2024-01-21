@@ -6,15 +6,21 @@ export const EmployerSidebar = () => {
   return (
     <div className="sidebar">
       <ul>
-        <li onClick={() => navigate("/employercreatejobpost")}>
-          <i class="fa-solid fa-plus"></i>
-        </li>
-        <li onClick={() => navigate("/employerhome")}>Manage All Jobs</li>
-        <li onClick={() => navigate("/searchprofiles")}>Search Profiles</li>
-        <li onClick={() => navigate("/contactedprofiles")}>
+        <button onClick={() => navigate("/employercreatejobpost")}>
+          <i class="fa-solid fa-plus"></i> Create Job
+        </button>
+        <button onClick={() => navigate("/employerhome")}>
+          Manage All Jobs
+        </button>
+        <button onClick={() => navigate("/searchprofiles")}>
+          Search Profiles
+        </button>
+        <button onClick={() => navigate("/contactedprofiles")}>
           Contacted Profiles
-        </li>
-        <li onClick={() => navigate("/savedprofiles")}>Saved Profiles</li>
+        </button>
+        <button onClick={() => navigate("/savedprofiles")}>
+          Saved Profiles
+        </button>
       </ul>
     </div>
   );

@@ -25,6 +25,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       useraccessToken: null,
       activejobseeker: undefined,
       currentviewjobpost: undefined,
+      error_message_login: undefined,
+      error_message_signup: undefined,
       success_message_resume: undefined,
       resumeUrl: undefined,
       resume_detail: undefined,
@@ -101,9 +103,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         });
         if (resp.status === 409) {
-          alert("Email already exists. Please use a different email.");
-          window.location.reload();
-          throw new Error("Email conflict");
+          setStore({
+            error_message_signup:
+              "Email already exists. Please use a different email.",
+          });
         }
         const data = await resp.json();
         setStore({
@@ -124,7 +127,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           body: JSON.stringify({ email: email, password: password }),
         });
         const data = await resp.json();
-        if (data.token) {
+        if (resp.ok) {
           const actions = getActions();
           actions.logUserInTheStore(data);
           actions.watchjobpost(data.employer.id);
@@ -467,11 +470,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             password: password,
           }),
         });
-        if (resp.status === 409) {
-          alert("Email already exists. Please use a different email.");
-          window.location.reload();
-          throw new Error("Email conflict");
-        }
+        if (resp.status === 409)
+          setStore({
+            error_message_signup:
+              "Email already exists. Please use a different email.",
+          });
         const data = await resp.json();
         setStore({
           user: data.user,
@@ -1465,7 +1468,24 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((resp) => resp.json())
           .then((data) => {
             console.log(data);
-            setStore({ viewapplicantprofile: data, viewuserprofile: data });
+            setStore({ viewapplicantprofile: data });
+          });
+      },
+
+      //get usersearch profile
+      getuserprofile: (userid) => {
+        const store = getStore();
+        fetch(`${backend}api/viewuserprofile/${userid}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.accessToken}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            setStore({ viewuserprofile: data });
           });
       },
 

@@ -2,13 +2,16 @@ import React, { useContext, useState } from "react";
 import "../../../styles/loginsignup.css";
 import { Context } from "../../store/appContext";
 import { useNavigate } from "react-router-dom";
-import ForgotPassword from "../forgotPassword";
+import ForgotPassword from "./forgotPassword";
 export const UserLoginSignup = () => {
   const [loginEmailValue, setloginEmailValue] = useState("");
   const [loginPasswordValue, setloginPasswordValue] = useState("");
   const [signupEmailValue, setsignupEmailValue] = useState("");
   const [signupPasswordValue, setsignupPasswordValue] = useState("");
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [signupRetypePasswordValue, setsignupRetypePasswordValue] =
+    useState("");
+  const [matchpassword, setmatchpassword] = useState("");
   const { store, actions } = useContext(Context);
   const navigate = useNavigate("");
   return (
@@ -29,10 +32,15 @@ export const UserLoginSignup = () => {
               onChange={(e) => {
                 setloginEmailValue(e.target.value);
               }}
+              onFocus={() => {
+                if (store.error_message_login === "Email is not correct!") {
+                  store.error_message_login = "";
+                }
+              }}
             />
-            <div id="emailHelp" className="form-text">
-              We'll never share your email with anyone else.
-            </div>
+            {store.error_message_login === "Email is not correct!" && (
+              <div style={{ color: "red" }}>Email is not correct!</div>
+            )}
           </div>
           <div className="mb-3">
             <label htmlFor="exampleInputPassword1" className="form-label">
@@ -46,7 +54,15 @@ export const UserLoginSignup = () => {
               onChange={(e) => {
                 setloginPasswordValue(e.target.value);
               }}
+              onFocus={() => {
+                if (store.error_message_login === "Password is not correct!") {
+                  store.error_message_login = "";
+                }
+              }}
             />
+            {store.error_message_login === "Password is not correct!" && (
+              <div style={{ color: "red" }}>Password is not correct!</div>
+            )}
           </div>
           <div onClick={() => setShowForgotPassword(true)}>
             Forgot Password?
@@ -58,9 +74,17 @@ export const UserLoginSignup = () => {
           <button
             type="submit"
             className="btn btn-primary"
-            onClick={() => {
-              actions.jobseekerlogin(loginEmailValue, loginPasswordValue);
-              navigate("/");
+            onClick={async (event) => {
+              event.preventDefault();
+              const data = await actions.jobseekerlogin(
+                loginEmailValue,
+                loginPasswordValue
+              );
+              if (!store.error_message_login) {
+                navigate("/");
+              } else {
+                console.log(store.error_message_login);
+              }
             }}
           >
             Log In
@@ -83,10 +107,21 @@ export const UserLoginSignup = () => {
               onChange={(e) => {
                 setsignupEmailValue(e.target.value);
               }}
+              onFocus={() => {
+                if (
+                  store.error_message_signup ===
+                  "Email already exists. Please use a different email."
+                ) {
+                  store.error_message_signup = "";
+                }
+              }}
             />
-            <div id="emailHelp" className="form-text">
-              We'll never share your email with anyone else.
-            </div>
+            {store.error_message_signup ===
+              "Email already exists. Please use a different email." && (
+              <div style={{ color: "red" }}>
+                Email already exists. Please use a different email
+              </div>
+            )}
           </div>
           <div className="mb-3">
             <label htmlFor="exampleInputPassword1" className="form-label">
@@ -102,13 +137,35 @@ export const UserLoginSignup = () => {
               }}
             />
           </div>
-
+          <div className="mb-3">
+            <label className="form-label">Retype Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="exampleInputPassword2"
+              value={signupRetypePasswordValue}
+              onChange={(e) => {
+                setsignupRetypePasswordValue(e.target.value);
+              }}
+              onFocus={() => setmatchpassword("")}
+            />
+            <div style={{ color: "red" }}>{matchpassword}</div>
+          </div>
           <button
             type="submit"
             className="btn btn-primary"
-            onClick={() => {
-              actions.jobseekersignup(signupEmailValue, signupPasswordValue);
-              navigate("/");
+            onClick={async (event) => {
+              event.preventDefault();
+              if (signupPasswordValue !== signupRetypePasswordValue) {
+                setmatchpassword("password not matching");
+              } else {
+                setmatchpassword("");
+                const data = await actions.jobseekersignup(
+                  signupEmailValue,
+                  signupPasswordValue
+                );
+                if (!store.error_message_signup) navigate("/");
+              }
             }}
           >
             Create Account
