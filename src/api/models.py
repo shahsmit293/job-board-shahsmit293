@@ -721,3 +721,16 @@ class Contacteduserprofile(db.Model):
             "user_id":self.user_id,
             "user":self.user.serialize(),
         }
+    
+
+
+class Temp(db.Model):
+    __tablename__ = 'temp'
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+
+    def __init__(self,email):
+        self.email=email
+
+
+
