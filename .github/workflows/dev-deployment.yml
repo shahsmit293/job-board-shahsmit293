@@ -16,6 +16,8 @@ jobs:
 
     - run: npm install
     - run: sudo npm install -g pm2
+    - run: npm install react-html-parser
+    - run : npm install socket.io-client
     - run: cp env-develop .env 
     - run: pm2 restart hiring
     #- run: pm2 start "npm run start" --name "hiring"
