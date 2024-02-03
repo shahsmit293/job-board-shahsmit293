@@ -16,6 +16,7 @@ export const UserLoginSignup = () => {
   const navigate = useNavigate("");
   return (
     <div className="register-form">
+      <h1>Applicant Login</h1>
       <div className="login">
         <form>
           <div className="mb-3">

@@ -68,6 +68,7 @@ export const UserSavedJobs = () => {
                     min: element.min_salary,
                     max: element.max_salary,
                   }}
+                  totalapplicants={element.total_applicants}
                   viewid={element.id}
                   onViewClick={handleViewClick}
                   jobid={element.id}

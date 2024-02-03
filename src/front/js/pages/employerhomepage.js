@@ -4,7 +4,7 @@ import "../../styles/employerhomepage.css";
 import { EmployerSidebar } from "../component/employersidebar";
 import { ViewJobPost } from "./employer/viewjobpost";
 import { useNavigate } from "react-router-dom";
-
+import CryptoJS from "crypto-js";
 export const EmployerHome = () => {
   const { store, actions } = useContext(Context);
   const [showPopup, setShowPopup] = useState(false);
@@ -52,7 +52,16 @@ export const EmployerHome = () => {
                       </button>
                       <button
                         className="styled-button"
-                        onClick={() => navigate(`/editpost/${element.id}`)}
+                        onClick={() => {
+                          // Encrypt element.id before navigating
+                          const encryptedJobId = CryptoJS.AES.encrypt(
+                            element.id.toString(),
+                            "secret"
+                          ).toString();
+                          const encodedJobId =
+                            encodeURIComponent(encryptedJobId);
+                          navigate(`/editpost/${encodedJobId}`);
+                        }}
                       >
                         Edit
                       </button>
@@ -65,10 +74,13 @@ export const EmployerHome = () => {
                       <button
                         className="styled-button"
                         onClick={() => {
-                          store.allapplicants = [];
-                          actions.getallapplicants(element.id);
-                          navigate(`/applicants/${element.id}`);
-                          actions.getemployersaveduser(element.id);
+                          const encryptedJobId = CryptoJS.AES.encrypt(
+                            element.id.toString(),
+                            "secret"
+                          ).toString();
+                          const encodedJobId =
+                            encodeURIComponent(encryptedJobId);
+                          navigate(`/applicants/${encodedJobId}`);
                         }}
                       >
                         Applicants

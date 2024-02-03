@@ -4,21 +4,31 @@ import { ReceivedApplicants } from "../../component/receivedapplicants";
 import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../../store/appContext";
 import { ViewApplicantProfile } from "./viewapplicantprofile";
-
+import CryptoJS from "crypto-js";
 export const Applicants = () => {
   const { jobid } = useParams();
   const { store, actions } = useContext(Context);
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate("");
-  let job_id = parseInt(jobid);
   const [loading, setLoading] = useState(true);
   const [showallapplicants, setallapplicants] = useState(true);
   const [showssavedapplicants, setsavedapplicants] = useState(false);
+  let decryptedJobId = CryptoJS.AES.decrypt(jobid, "secret").toString(
+    CryptoJS.enc.Utf8
+  );
+  let jobIdParam = parseInt(decryptedJobId);
   useEffect(() => {
-    actions.getemployersaveduser(job_id);
+    // Decrypt and decode jobid from URL
+    let decryptedJobId = CryptoJS.AES.decrypt(jobid, "secret").toString(
+      CryptoJS.enc.Utf8
+    );
+    let jobIdParam = parseInt(decryptedJobId);
+    console.log(jobIdParam);
+    actions.getemployersaveduser(jobIdParam);
     const fetchApplicants = async () => {
       try {
-        await actions.allapplicant(job_id);
+        await actions.getemployersaveduser(jobIdParam);
+        await actions.allapplicant(jobIdParam);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -27,7 +37,7 @@ export const Applicants = () => {
     };
 
     fetchApplicants();
-  }, [store.employer]);
+  }, [store.employer.id]);
 
   const displaysave = (id, userid) => {
     let employersavedusers = Array.isArray(store.employersavedusers)
@@ -69,7 +79,17 @@ export const Applicants = () => {
           >
             Saved Applicants
           </button>
-          <button onClick={() => navigate(`/employerinbox/${job_id}`)}>
+          <button
+            onClick={() => {
+              // Encrypt jobIdParam before navigating
+              const encryptedJobId = CryptoJS.AES.encrypt(
+                jobIdParam.toString(),
+                "secret"
+              ).toString();
+              const encodedJobId = encodeURIComponent(encryptedJobId);
+              navigate(`/employerinbox/${encodedJobId}`);
+            }}
+          >
             Inbox
           </button>
         </ul>

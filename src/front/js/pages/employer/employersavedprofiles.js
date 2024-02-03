@@ -61,7 +61,7 @@ export const EmployerSavedProfiles = () => {
         {loading ? (
           <p>Loading applicants...</p> // Display a loading message or a spinner
         ) : store.saveduserfiles.length === 0 ? (
-          <p style={{ margin: "50%" }}>No profile saved yet.</p>
+          <p style={{ marginLeft: "50%" }}>No profile saved yet.</p>
         ) : (
           <div className="userprofiletable">
             <table className="styled-table">

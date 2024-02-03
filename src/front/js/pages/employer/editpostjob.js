@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { EmployerSidebar } from "../../component/employersidebar";
 import ReactQuill from "react-quill";
+import CryptoJS from "crypto-js";
+
 export const EditPostJob = () => {
   let states = [
     "Alabama",
@@ -64,10 +66,18 @@ export const EditPostJob = () => {
   const [error, setError] = useState("");
 
   const [location, setLocation] = useState("");
+  let decryptedJobId = CryptoJS.AES.decrypt(post_id, "secret").toString(
+    CryptoJS.enc.Utf8
+  );
+  let jobIdParam = parseInt(decryptedJobId);
   useEffect(() => {
+    let decryptedJobId = CryptoJS.AES.decrypt(post_id, "secret").toString(
+      CryptoJS.enc.Utf8
+    );
+    let jobIdParam = parseInt(decryptedJobId);
     // Fetch the book details when the component mounts
     actions.geteditjobs(
-      +post_id,
+      jobIdParam,
       setCompanyNameValue,
       setFirstNameValue,
       setLastNameValue,
@@ -90,7 +100,31 @@ export const EditPostJob = () => {
       setLanguageValue,
       setDescriptionValue
     );
-  }, [post_id]);
+    return () => {
+      // Clear all state values when component unmounts
+      setCompanyNameValue("");
+      setFirstNameValue("");
+      setLastNameValue("");
+      setPhoneNumberValue("");
+      setCompanyEmailValue("");
+      setJobTitleValue("");
+      setNumberHiringValue("");
+      setWorkLocationTypeValue("");
+      setJobTypeValue("");
+      setLocation("");
+      setWorkingHoursValue("");
+      setExperienceLevelValue("");
+      setMinExperienceValue("");
+      setMaxExperienceValue("");
+      setMinSalaryValue("");
+      setMaxSalaryValue("");
+      setWorkingTimesValue("");
+      setWeekendRequiredValue("");
+      setLanguageValue("");
+      setDescriptionValue("");
+      setEducationValue("");
+    };
+  }, [jobIdParam]);
   const [companyNameValue, setCompanyNameValue] = useState("");
   const [firstNameValue, setFirstNameValue] = useState("");
   const [lastNameValue, setLastNameValue] = useState("");
@@ -538,7 +572,7 @@ export const EditPostJob = () => {
                   } else {
                     actions
                       .editjobs(
-                        post_id,
+                        jobIdParam,
                         companyNameValue,
                         firstNameValue,
                         lastNameValue,

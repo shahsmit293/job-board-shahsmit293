@@ -5,19 +5,19 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
 from api.models import db, Employer
-from api.models import db
 from api.routes import JWT_SECRET_KEY, api
 from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
 from werkzeug.security import generate_password_hash
-
+from flask_socketio import SocketIO, join_room, leave_room, send
 
 load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
+socketio = SocketIO(app, cors_allowed_origins="*") # Enable CORS
 
 app.url_map.strict_slashes = False
 
@@ -97,6 +97,31 @@ def reset_password():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@socketio.on('join')
+def on_join(data):
+    username = data['username']
+    room = data['room']
+    join_room(room)
+    print(f"{username} has joined the room: {room}")
+
+@socketio.on('leave')
+def on_leave(data):
+    username = data['username']
+    room = data['room']
+    leave_room(room)
+    print(f"{username} has left the room: {room}")
+
+@socketio.on('message')
+def message(data):
+    room = data['room']
+    sender_id = data['senderId']  # Access the senderId from the data
+    message_content = data['message']
+    print(f"Message received in room {room} from sender {sender_id}: {message_content}")
+    
+    # Send the message back to the client with the senderId included
+    send({"message": message_content, "senderId": sender_id}, room=room)
+
+
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
-    app.run(host='0.0.0.0', port=PORT, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True)

@@ -53,7 +53,7 @@ export const EmployerContactedProfiles = () => {
         {loading ? (
           <p>Loading applicants...</p> // Display a loading message or a spinner
         ) : store.contacteduserfiles.length === 0 ? (
-          <p style={{ margin: "50%" }}>No profile contacted yet.</p>
+          <p style={{ marginLeft: "50%" }}>No profile contacted yet.</p>
         ) : (
           <div className="userprofiletable">
             <table className="styled-table">

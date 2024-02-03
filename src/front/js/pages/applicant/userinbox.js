@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../../store/appContext";
 import { JobCard } from "../../component/jobcard";
-import { Sidebar } from "../../component/sidebar";
 import { ViewJobPage } from "./viewjobpage";
 export const Userinbox = () => {
   const { store, actions } = useContext(Context);
@@ -31,6 +30,19 @@ export const Userinbox = () => {
         : "none";
     }
   };
+  const timeAgo = (date, time) => {
+    const currentDate = new Date();
+    const givenDate = new Date(date + "T" + time);
+    const diffTime = Math.abs(currentDate - givenDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) {
+      return "today";
+    } else if (diffDays === 1) {
+      return "yesterday";
+    } else {
+      return diffDays + "days ago";
+    }
+  };
   return (
     <div>
       {store.alljobs &&
@@ -47,26 +59,31 @@ export const Userinbox = () => {
               Company={element.company_name}
               Location={element.location}
               Jobtype={element.job_type}
+              worktype={element.work_location_type}
+              experiencelevel={element.experience_level_type}
+              shift={element.working_times}
+              salary={{ min: element.min_salary, max: element.max_salary }}
+              totalapplicants={element.total_applicants}
               viewid={element.id}
               onViewClick={handleViewClick}
               jobid={element.id}
               display={"none"}
               displayunsave={"none"}
               displayapplied={displayapplied(element.id)}
+              dateposted={timeAgo(element.current_date, element.current_time)}
             />
           ))}
       {store.contacted && store.contacted.length === 0 && (
         <p>No chat initiated yet</p>
       )}
       {showPopup && (
-        <div className="popup">
-          <button onClick={() => setShowPopup(false)}>Close</button>
-          <ViewJobPage />
+        <div>
+          <p className="popup">
+            <button onClick={() => setShowPopup(false)}>Close</button>
+            <ViewJobPage />
+          </p>
         </div>
       )}
-      <div className="sidebar">
-        <Sidebar />
-      </div>
     </div>
   );
 };

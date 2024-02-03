@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import CryptoJS from "crypto-js";
 
 export const ReceivedApplicants = (props) => {
   const { store, actions } = useContext(Context);
@@ -66,9 +67,20 @@ export const ReceivedApplicants = (props) => {
           Unsave
         </button>
         <button
-          onClick={() =>
-            navigate(`/employerchat/${props.userid}/${props.jobid}`)
-          }
+          onClick={() => {
+            // Encrypt userid and jobid before navigating
+            const encryptedUserId = CryptoJS.AES.encrypt(
+              props.userid.toString(),
+              "secret"
+            ).toString();
+            const encryptedJobId = CryptoJS.AES.encrypt(
+              props.jobid.toString(),
+              "secret"
+            ).toString();
+            const encodedUserId = encodeURIComponent(encryptedUserId);
+            const encodedJobId = encodeURIComponent(encryptedJobId);
+            navigate(`/employerchat/${encodedUserId}/${encodedJobId}`);
+          }}
         >
           Chat
         </button>

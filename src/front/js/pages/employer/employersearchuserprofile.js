@@ -4,6 +4,7 @@ import { Context } from "../../store/appContext";
 import { Usersearchprofilecard } from "../../component/usersearchprofilecard";
 import { Viewusersprofile } from "./viewusersprofile";
 import { EmployerSidebar } from "../../component/employersidebar";
+import { useNavigate } from "react-router-dom";
 
 export const EmployersearchUserprofile = () => {
   const states = [
@@ -79,12 +80,34 @@ export const EmployersearchUserprofile = () => {
   const [location, setLocation] = useState("");
   const [valueexperiencelevel, setexperiencelevel] = useState("");
   const [valueeducation, seteducationValue] = useState("");
+  const navigate = useNavigate("");
+
   useEffect(() => {
     const fetchApplicants = async () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const valueJobtitle = searchParams.get("valueJobtitle") || "";
+      const location = searchParams.get("location") || "";
+      const valueworklocation = searchParams.get("valueworklocation") || "";
+      const jobtype = searchParams.get("jobtype") || "";
+      const experiencelevel = searchParams.get("experiencelevel") || "";
+      const education = searchParams.get("education") || "";
+      const workingtimes = searchParams.get("workingtimes") || "";
+      const postdays = searchParams.get("postdays") || "";
+      const salary = searchParams.get("salary") || "";
       actions.getsaveduserprofiles(store.employer.id);
       actions.getcontacteduserprofiles(store.employer.id);
       try {
-        await actions.searchprofile("", "", "", "");
+        await actions.searchprofile(
+          valueJobtitle,
+          location,
+          valueworklocation,
+          jobtype,
+          experiencelevel,
+          education,
+          workingtimes,
+          postdays,
+          salary
+        );
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -93,7 +116,19 @@ export const EmployersearchUserprofile = () => {
     };
 
     fetchApplicants();
-  }, [store.employer]);
+
+    const popstateListener = () => {
+      // Wait for 1 millisecond before fetching data
+      setTimeout(fetchApplicants, 100);
+    };
+
+    // Fetch data when the URL changes
+    window.addEventListener("popstate", popstateListener);
+
+    return () => {
+      window.removeEventListener("popstate", popstateListener);
+    };
+  }, []);
 
   const displaysave = (userid) => {
     let saveduserfiles = Array.isArray(store.saveduserfiles)
@@ -140,7 +175,45 @@ export const EmployersearchUserprofile = () => {
       valueexperiencelevel,
       valueeducation
     );
-  }, [valueJobtitle, location, valueexperiencelevel, valueeducation]);
+  }, []);
+  useEffect(() => {
+    // Event listener for popstate event
+    const handlePopstate = () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const valueJobtitle = searchParams.get("valueJobtitle") || "";
+      const location = searchParams.get("location") || "";
+      const valueexperiencelevel =
+        searchParams.get("valueexperiencelevel") || "";
+      const valueeducation = searchParams.get("valueeducation") || "";
+
+      setValueJobtitile(valueJobtitle);
+      setLocation(location);
+      setexperiencelevel(valueexperiencelevel);
+      seteducationValue(valueeducation);
+
+      // If all search parameters are empty, set the URL to "/searchprofiles"
+      if (
+        !searchParams.get("valueJobtitle") &&
+        !searchParams.get("location") &&
+        !searchParams.get("valueexperiencelevel") &&
+        !searchParams.get("valueeducation")
+      ) {
+        window.history.replaceState(null, "", "/searchprofiles");
+      }
+    };
+
+    // Add event listener for popstate
+    window.addEventListener("popstate", handlePopstate);
+
+    // Call the handler once to update the state when the component mounts
+    handlePopstate();
+
+    // Cleanup function to remove event listener
+    return () => {
+      window.removeEventListener("popstate", handlePopstate);
+    };
+  }, []);
+
   return (
     <div className="searchuserprofile">
       <div className="sidebar">
@@ -173,7 +246,26 @@ export const EmployersearchUserprofile = () => {
               </option>
             ))}
           </select>{" "}
-          <i class="fas fa-trash-alt" onClick={() => setLocation("")}></i>
+          <i
+            class="fas fa-trash-alt"
+            onClick={() => {
+              setLocation("");
+              // Fetch data with the updated state values
+              actions.searchprofile(
+                valueJobtitle,
+                "", // location is cleared
+                valueexperiencelevel,
+                valueeducation
+              );
+              // Create a new URLSearchParams object
+              const searchParams = new URLSearchParams(window.location.search);
+              // Remove the specific parameter
+              searchParams.delete("location");
+
+              // Navigate to the new URL without the specific parameter
+              navigate(`/searchprofiles/?${searchParams.toString()}`);
+            }}
+          ></i>
         </div>
         <div className="tag">
           <label>Experience Level</label>
@@ -198,7 +290,23 @@ export const EmployersearchUserprofile = () => {
           </select>{" "}
           <i
             class="fas fa-trash-alt"
-            onClick={() => setexperiencelevel("")}
+            onClick={() => {
+              setexperiencelevel("");
+              // Fetch data with the updated state values
+              actions.searchprofile(
+                valueJobtitle,
+                location, // location is cleared
+                "",
+                valueeducation
+              );
+              // Create a new URLSearchParams object
+              const searchParams = new URLSearchParams(window.location.search);
+              // Remove the specific parameter
+              searchParams.delete("valueexperiencelevel");
+
+              // Navigate to the new URL without the specific parameter
+              navigate(`/searchprofiles/?${searchParams.toString()}`);
+            }}
           ></i>
         </div>
         <div className="tag">
@@ -222,18 +330,40 @@ export const EmployersearchUserprofile = () => {
               </option>
             ))}
           </select>{" "}
-          <i class="fas fa-trash-alt" onClick={() => seteducationValue("")}></i>
+          <i
+            class="fas fa-trash-alt"
+            onClick={() => {
+              seteducationValue("");
+              // Fetch data with the updated state values
+              actions.searchprofile(
+                valueJobtitle,
+                location, // location is cleared
+                valueexperiencelevel,
+                ""
+              );
+              // Create a new URLSearchParams object
+              const searchParams = new URLSearchParams(window.location.search);
+              // Remove the specific parameter
+              searchParams.delete("valueeducation");
+
+              // Navigate to the new URL without the specific parameter
+              navigate(`/searchprofiles/?${searchParams.toString()}`);
+            }}
+          ></i>
         </div>
         <div className="tag">
           <button
-            onClick={() =>
+            onClick={() => {
               actions.searchprofile(
                 valueJobtitle,
                 location,
                 valueexperiencelevel,
                 valueeducation
-              )
-            }
+              );
+              navigate(
+                `/searchprofiles/?valueJobtitle=${valueJobtitle}&location=${location}&valueexperiencelevel=${valueexperiencelevel}&valueeducation=${valueeducation}`
+              );
+            }}
           >
             Search
           </button>
@@ -241,10 +371,14 @@ export const EmployersearchUserprofile = () => {
         <div className="tag">
           <button
             onClick={() => {
-              setValueJobtitile(""),
-                setLocation(""),
-                setexperiencelevel(""),
-                seteducationValue("");
+              setValueJobtitile("");
+              setLocation("");
+              setexperiencelevel("");
+              seteducationValue("");
+              navigate("/searchprofiles");
+
+              // Fetch data with empty values
+              actions.searchprofile("", "", "", "");
             }}
           >
             Clear All

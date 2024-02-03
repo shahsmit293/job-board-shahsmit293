@@ -111,11 +111,26 @@ def add_job():
     return job.serialize()
 
 
+from sqlalchemy import func
+
 @api.route('/alljobs', methods=['GET'])
 def all_jobs():
     jobs = Postjobs.query.all()
-    alljobs_dictionary = [job.serialize() for job in jobs]
+    alljobs_dictionary = []
+    
+    for job in jobs:
+        # Querying the number of applicants for each job
+        total_applicants = db.session.query(func.count(Applicants.id)).filter_by(job_id=job.id).scalar()
+        
+        # Serializing the job and adding total_applicants to the serialized data
+        serialized_job = job.serialize()
+        serialized_job["total_applicants"] = total_applicants
+        
+        # Appending the serialized job to the list
+        alljobs_dictionary.append(serialized_job)
+    
     return jsonify(alljobs_dictionary), 200
+
 
 @api.route('/watchjob/<int:id>', methods=['GET'])
 @jwt_required()
@@ -1293,6 +1308,8 @@ def employer_inbox(jobid):
     return jsonify(serialized_chats), 200
 
 
+from sqlalchemy import func
+
 @api.route('/searchjobs', methods=['GET'])
 def search_jobs():
     jobtitle = request.args.get('jobtitle', default=None, type=str)
@@ -1304,7 +1321,9 @@ def search_jobs():
     workingtimes = request.args.get('workingtimes', default=None, type=str)
     daysposted = request.args.get('daysposted', default=None, type=str)
     salary = request.args.get('salary', default=None, type=str)
+    
     query = Postjobs.query
+    
     if jobtitle:
         jobtitle = jobtitle.lower().split()
         query = query.filter(or_(Postjobs.job_title.ilike('%' + title + '%') for title in jobtitle))
@@ -1327,13 +1346,27 @@ def search_jobs():
             query = query.filter(Postjobs.current_date >= datetime.now() - timedelta(days=7))
         elif daysposted == "Last Month":
             query = query.filter(Postjobs.current_date >= datetime.now() - timedelta(days=30))
-    if salary:
+    if salary and salary != 'undefined':
         salary = int(salary.replace('+', ''))
         query = query.filter(Postjobs.min_salary >= salary)
 
+
     jobs = query.all()
-    alljobs_dictionary = [job.serialize() for job in jobs]
+    alljobs_dictionary = []
+    
+    for job in jobs:
+        # Querying the number of applicants for each job
+        total_applicants = db.session.query(func.count(Applicants.id)).filter_by(job_id=job.id).scalar()
+        
+        # Serializing the job and adding total_applicants to the serialized data
+        serialized_job = job.serialize()
+        serialized_job["total_applicants"] = total_applicants
+        
+        # Appending the serialized job to the list
+        alljobs_dictionary.append(serialized_job)
+    
     return jsonify(alljobs_dictionary), 200
+
 
 
 

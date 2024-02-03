@@ -1,27 +1,114 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { Context } from "../../store/appContext";
+import io from "socket.io-client";
+import CryptoJS from "crypto-js";
 
 export const Userchat = (props) => {
   const { store, actions } = useContext(Context);
   const { job_id } = useParams();
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
-
+  const [chats, setChats] = useState([]);
+  const socketRef = useRef();
+  let decryptedJobId = CryptoJS.AES.decrypt(job_id, "secret").toString(
+    CryptoJS.enc.Utf8
+  );
+  let jobIdParam = parseInt(decryptedJobId);
   useEffect(() => {
+    let decryptedJobId = CryptoJS.AES.decrypt(job_id, "secret").toString(
+      CryptoJS.enc.Utf8
+    );
+    let jobIdParam = parseInt(decryptedJobId);
+    // Connect to the Socket.IO server when the component mounts
+    socketRef.current = io.connect(process.env.BACKEND_URL, {
+      transports: ["websocket"],
+    });
+
+    // Join the room for the user (applicant)
+    socketRef.current.emit("join", {
+      username: store.user.id,
+      room: jobIdParam,
+    });
+
+    // Listen for incoming messages from the server
+    socketRef.current.on("message", (message) => {
+      // Check if the message is from the current user
+      if (message.senderId === store.user.id) {
+        return; // Ignore the message sent by the current user
+      }
+
+      const recievemessage = {
+        message: message,
+        current_date: new Date().toLocaleDateString(),
+        current_time: new Date().toLocaleTimeString(),
+        source: "employerchatsforapplicant", // Assuming the sender is the applicant
+      };
+
+      // Add the received message to local state
+      setChats((prevChats) => [...prevChats, recievemessage]);
+    });
+
+    // Fetch existing chats
     Promise.all([
-      actions
-        .getapplicantchats(store.user.id, job_id)
-        .then(() =>
-          actions.getemployerchatsforapplicants(store.user.id, job_id)
-        ),
+      actions.getapplicantchats(store.user.id, jobIdParam),
+      actions.getemployerchatsforapplicants(store.user.id, jobIdParam),
     ]).then(() => setLoading(false));
-  }, [store.user.id]);
+
+    // Cleanup: disconnect the socket and leave the room when the component unmounts
+    return () => {
+      socketRef.current.emit("leave", {
+        username: store.user.id,
+        room: jobIdParam,
+      });
+      socketRef.current.disconnect();
+    };
+  }, [store.user.id, jobIdParam]);
+
+  const sendMessage = () => {
+    // Emit a message to the server with the correct room
+    socketRef.current.emit("message", {
+      message: message,
+      room: jobIdParam,
+      senderId: store.user.id,
+    });
+    console.log("Sender ID:", store.user.id);
+    // Update local state immediately with the new message
+    const newMessage = {
+      message: message,
+      current_date: new Date().toLocaleDateString(),
+      current_time: new Date().toLocaleTimeString(),
+      source: "applicantchats", // Assuming the sender is the applicant
+    };
+
+    setChats((prevChats) => [...prevChats, newMessage]);
+
+    // Add the message to the database
+    actions
+      .addapplicantchats(store.user.id, jobIdParam, message)
+      // .then(() => actions.getapplicantchats(store.user.id, jobIdParam))
+      .then(() => setMessage(""));
+
+    // // Turn off message event temporarily
+    // socketRef.current.off("message");
+
+    // // Turn on message event after 1 second
+    // setTimeout(() => {
+    //   socketRef.current.on("message", (message) => {
+    //     const recievemessage = {
+    //       message: message,
+    //       current_date: new Date().toLocaleDateString(),
+    //       current_time: new Date().toLocaleTimeString(),
+    //       source: "employerchatsforapplicant", // Assuming the sender is the applicant
+    //     };
+    //     setChats((prevChats) => [...prevChats, recievemessage]);
+    //   });
+    // }, 1000);
+  };
 
   if (loading) {
     return <div>Loading...</div>;
   }
-
   // Your arrays
   let applicantchats = Array.isArray(store.applicantchats)
     ? store.applicantchats
@@ -51,7 +138,6 @@ export const Userchat = (props) => {
       return a.current_time.localeCompare(b.current_time);
     }
   );
-
   return (
     <div className="jumbotron">
       <input
@@ -60,60 +146,43 @@ export const Userchat = (props) => {
         onChange={(e) => setMessage(e.target.value)}
         value={message}
       ></input>
-      <button
-        onClick={() => {
-          actions
-            .addapplicantchats(store.user.id, +job_id, message)
-            .then(() => actions.getapplicantchats(store.user.id, job_id))
-            .then(() => setMessage(""));
-        }}
-      >
-        Send
-      </button>
-      {merged.map((item, index) => {
-        // Create Date objects for the current date and the item's date
-        const currentDate = new Date();
-        const itemDate = new Date(item.current_date);
+      <button onClick={sendMessage}>Send</button>
 
-        // Calculate the difference in time and convert it to days
-        const diffTime = Math.abs(currentDate - itemDate);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      {merged.map((item, index) => (
+        <p
+          key={index}
+          style={{
+            textAlign: item.source === "applicantchats" ? "right" : "left",
+          }}
+        >
+          {item.message} (Posted {item.current_date} {item.current_time})
+        </p>
+      ))}
 
-        // Array of days
-        const daysOfWeek = [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ];
-
-        let displayDate;
-
-        if (diffDays === 0) {
-          displayDate = "Today";
-        } else if (diffDays === 1) {
-          displayDate = "Yesterday";
-        } else if (diffDays < 7) {
-          displayDate = daysOfWeek[itemDate.getDay()];
-        } else {
-          displayDate = item.current_date;
-        }
-
-        return (
-          <p
-            key={index}
-            style={{
-              textAlign:
-                item.source === "employerchatsforapplicant" ? "left" : "right",
-            }}
-          >
-            {item.message} (Posted {displayDate})
-          </p>
-        );
-      })}
+      {chats &&
+        chats.map((item, index) =>
+          item.source == "applicantchats" ? (
+            <p
+              key={index}
+              style={{
+                textAlign: item.source === "applicantchats" ? "right" : "left",
+              }}
+            >
+              {item.message} (Posted {item.current_date}
+              {item.current_time})
+            </p>
+          ) : (
+            <p
+              key={index}
+              style={{
+                textAlign: item.source === "applicantchats" ? "right" : "left",
+              }}
+            >
+              {item.message.message} (Posted {item.current_date}
+              {item.current_time})
+            </p>
+          )
+        )}
     </div>
   );
 };

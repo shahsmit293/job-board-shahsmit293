@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/jobcard.css";
+import CryptoJS from "crypto-js";
 
 export const JobCard = (props) => {
   const { store, actions } = useContext(Context);
@@ -38,6 +39,7 @@ export const JobCard = (props) => {
             ${props.salary.min}-{props.salary.max} per Year
           </p>
           <p className="card-text">Posted {props.dateposted}</p>
+          <p className="card-text">Total Applicants: {props.totalapplicants}</p>
         </div>
         <div className="jobbuttons">
           <button
@@ -51,7 +53,15 @@ export const JobCard = (props) => {
             style={{
               display: props.displayapplied,
             }}
-            onClick={() => navigate(`/userchat/${props.jobid}`)}
+            onClick={() => {
+              // Encrypt element.id before navigating
+              const encryptedJobId = CryptoJS.AES.encrypt(
+                props.jobid.toString(),
+                "secret"
+              ).toString();
+              const encodedJobId = encodeURIComponent(encryptedJobId);
+              navigate(`/userchat/${encodedJobId}`);
+            }}
           >
             chat
           </button>
@@ -104,4 +114,5 @@ JobCard.PropTypes = {
   experiencelevel: PropTypes.string,
   shift: PropTypes.string,
   salary: PropTypes.object,
+  totalapplicants: PropTypes.string,
 };

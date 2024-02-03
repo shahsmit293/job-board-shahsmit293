@@ -16,6 +16,7 @@ export const EmployerLoginSignup = () => {
   const navigate = useNavigate("");
   return (
     <div className="register-form">
+      <h1>Employer Login</h1>
       <div className="login">
         <form>
           <div className="mb-3">
