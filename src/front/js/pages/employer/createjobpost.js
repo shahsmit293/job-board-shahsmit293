@@ -258,11 +258,7 @@ export const EmployerCreateJobPost = () => {
               <div className="label">
                 <label>Address:</label>
                 <select>
-                  <option
-                    value=""
-                    onClick={() => setLocation("")}
-                    onFocus={() => setError("")}
-                  >
+                  <option value="" onFocus={() => setError("")}>
                     Select a state
                   </option>
                   {states.map((state) => (
@@ -457,7 +453,7 @@ export const EmployerCreateJobPost = () => {
                     !phoneNumberValue ||
                     !numberHiringValue ||
                     !workLocationTypeValue ||
-                    !location ||
+                    // !location ||
                     !jobTypeValue ||
                     !workingHoursValue ||
                     !experienceLevelsValue ||
