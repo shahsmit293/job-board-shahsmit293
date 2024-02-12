@@ -1,0 +1,21 @@
+p.popup {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: #fff;
+  color: #fff;
+  border: 15px solid black;
+  z-index: 10;
+  margin-top: 0px;
+  overflow: auto;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  max-height: 100vh;
+}
+.viewuserprofilepage {
+  display: flex;
+  justify-content: center;
+}

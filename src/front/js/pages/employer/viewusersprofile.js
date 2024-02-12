@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
-import "../../../styles/home.css";
 import { Context } from "../../store/appContext";
+import "../../../styles/viewuserprofile.css";
 
 export const Viewusersprofile = () => {
   const { store, actions } = useContext(Context);
@@ -9,8 +9,8 @@ export const Viewusersprofile = () => {
     return <div>Loading...</div>;
   }
   return (
-    <div className="main">
-      <div className="container">
+    <div className="viewuserprofilepage">
+      <div className="userprofile">
         <h1 className="name">
           <b>
             {store.viewuserprofile && store.viewuserprofile.user_bio.first_name}{" "}
@@ -27,7 +27,7 @@ export const Viewusersprofile = () => {
         </h4>
         {store.viewuserprofile.user_education.map((item, index) => {
           return (
-            <div className="education" key={index}>
+            <div className="vieweducation" key={index}>
               <p>
                 <h4>{item.collage_name}</h4> {item.major}, {item.degree},
                 {item.location}, ({item.start_year} - {item.end_year})
@@ -40,7 +40,7 @@ export const Viewusersprofile = () => {
         </h4>
         {store.viewuserprofile.user_experience.map((item, index) => {
           return (
-            <div className="experience" key={index}>
+            <div className="viewexperience" key={index}>
               <p>
                 <h4>{item.company_name}</h4> {item.job_title}, {item.location},
                 ({item.start_year} - {item.end_year})

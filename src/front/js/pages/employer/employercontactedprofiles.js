@@ -97,7 +97,12 @@ export const EmployerContactedProfiles = () => {
       {showPopup && (
         <div>
           <p className="popup">
-            <button onClick={() => setShowPopup(false)}>Close</button>
+            <button
+              className="styled-button"
+              onClick={() => setShowPopup(false)}
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
             <Viewusersprofile />
           </p>
         </div>
