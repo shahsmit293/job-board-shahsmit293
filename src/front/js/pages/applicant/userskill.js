@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
 import propTypes from "prop-types";
+import "../../../styles/userskill.css";
+
 export const Userskill = (props) => {
   const { store, actions } = useContext(Context);
 
@@ -20,15 +22,15 @@ export const Userskill = (props) => {
   const [addvalueskillyear, setaddSkillyear] = useState("");
 
   return (
-    <div className="skillinfo">
+    <div className="skill">
       {showskilldetails && (
         <div className="skilldetails">
-          <h4>
+          <p>
             <b>Skill</b>:{props.skillname}
-          </h4>
-          <h4>
+          </p>
+          <p>
             <b>Year Of Experience</b>:{props.skillyear}
-          </h4>
+          </p>
           {props.track == 0 ? (
             <button
               onClick={() => {
@@ -65,7 +67,6 @@ export const Userskill = (props) => {
               >
                 Delete
               </button>
-              <hr />
             </>
           )}
         </div>
@@ -73,10 +74,8 @@ export const Userskill = (props) => {
 
       {addskillform && (
         <div className="addform">
-          <div className="form-group">
-            <h4>
-              <b>Skill</b>
-            </h4>
+          <div className="skill-group">
+            <label>Skill</label>
             <input
               typeof="text"
               value={addvalueSkillname}
@@ -85,10 +84,8 @@ export const Userskill = (props) => {
               required
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
-              <b>Year Of Experience</b>
-            </h4>
+          <div className="skill-group">
+            <label>Year Of Experience</label>
             <input
               value={addvalueskillyear}
               onChange={(e) => setaddSkillyear(e.target.value)}
@@ -127,10 +124,8 @@ export const Userskill = (props) => {
       )}
       {editskillinfo && (
         <div className="editform">
-          <div className="form-group">
-            <h4>
-              <b>Skill</b>
-            </h4>
+          <div className="skill-group">
+            <label>Skill</label>
             <input
               typeof="text"
               value={valueSkillname}
@@ -138,10 +133,8 @@ export const Userskill = (props) => {
               onFocus={() => setError("")}
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
-              <b>Year Of Experience</b>
-            </h4>
+          <div className="skill-group">
+            <label>Year Of Experience</label>
             <input
               typeof="number"
               value={valueskillyear}

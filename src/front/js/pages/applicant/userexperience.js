@@ -4,6 +4,7 @@ import propTypes from "prop-types";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ReactHtmlParser from "react-html-parser";
+import "../../../styles/userexperience.css";
 
 export const UserExperience = (props) => {
   const { store, actions } = useContext(Context);
@@ -99,30 +100,30 @@ export const UserExperience = (props) => {
   const [addvalueDescription, setadddescription] = useState("");
   const [addvalueLocation, setaddLocation] = useState("");
   return (
-    <div className="experienceinfo">
+    <div className="experience">
       {showexperiencedetails && (
         <div className="experiencedetails">
-          <h5>
+          <p>
             <b>Job Title</b>:{props.jobtitle}
-          </h5>
-          <h5>
+          </p>
+          <p>
             <b>Company Name</b>:{props.companyname}
-          </h5>
-          <h5>
-            <b>Job Type</b>:{props.jobtype}
-          </h5>
-          <h5>
-            <b>Start Year</b>:{props.startyear}
-          </h5>
-          <h5>
-            <b>End Year</b>:{props.endyear}
-          </h5>
-          <h5 style={{ whiteSpace: "pre-wrap" }}>
-            <b>Description</b>:{ReactHtmlParser(props.description)}
-          </h5>
-          <h5>
+          </p>
+          <p>
             <b>Location</b>:{props.location}
-          </h5>
+          </p>
+          <p>
+            <b>Job Type</b>:{props.jobtype}
+          </p>
+          <p>
+            <b>Start Year</b>:{props.startyear}
+          </p>
+          <p>
+            <b>End Year</b>:{props.endyear}
+          </p>
+          <p style={{ whiteSpace: "pre-wrap" }}>
+            <b>Description</b>:{ReactHtmlParser(props.description)}
+          </p>
           {props.track == 0 ? (
             <button
               onClick={() => {
@@ -165,7 +166,6 @@ export const UserExperience = (props) => {
               >
                 Delete
               </button>
-              <hr />
             </>
           )}
         </div>
@@ -173,10 +173,8 @@ export const UserExperience = (props) => {
 
       {addexperience && (
         <div className="addform">
-          <div className="form-group">
-            <h5>
-              <b>Job Title</b>
-            </h5>
+          <div className="experience-group">
+            <label>Job Title</label>
             <input
               typeof="text"
               value={addvalueJobtitle}
@@ -185,10 +183,8 @@ export const UserExperience = (props) => {
               required
             ></input>
           </div>
-          <div className="form-group">
-            <h5>
-              <b>Company Name</b>
-            </h5>
+          <div className="experience-group">
+            <label>Company Name</label>
             <input
               typeof="text"
               value={addvalueCompanyname}
@@ -196,10 +192,8 @@ export const UserExperience = (props) => {
               onFocus={() => setError("")}
             ></input>
           </div>
-          <div className="form-group">
-            <h5>
-              <b>Job Type</b>
-            </h5>
+          <div className="experience-group">
+            <label>Job Type</label>
             <select>
               <option
                 value=""
@@ -219,10 +213,8 @@ export const UserExperience = (props) => {
               ))}
             </select>
           </div>
-          <div className="form-group">
-            <h5>
-              <b>Start Year</b>
-            </h5>
+          <div className="experience-group">
+            <label>Start Year</label>
             <input
               type="date"
               id="startyear"
@@ -233,12 +225,10 @@ export const UserExperience = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
+          <div className="experience-group">
             {!addisWorking && (
               <>
-                <h5>
-                  <b>End Year</b>
-                </h5>
+                <label>End Year</label>
                 <input
                   type="date"
                   id="endyear"
@@ -251,10 +241,8 @@ export const UserExperience = (props) => {
               </>
             )}
           </div>
-          <div className="form-group">
-            <h5>
-              <b>Currently Working Here</b>
-            </h5>
+          <div className="experience-group">
+            <label>Currently Working Here</label>
             <input
               type="checkbox"
               checked={addisWorking}
@@ -262,10 +250,8 @@ export const UserExperience = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h5>
-              <b>Location</b>
-            </h5>
+          <div className="experience-group">
+            <label>Location</label>
             <select>
               <option
                 value=""
@@ -286,9 +272,7 @@ export const UserExperience = (props) => {
             </select>
           </div>
           <div>
-            <h5>
-              <b>Description</b>
-            </h5>
+            <label>Description</label>
           </div>
           <ReactQuill
             theme="snow"
@@ -340,10 +324,8 @@ export const UserExperience = (props) => {
       )}
       {editexperienceform && (
         <div className="editform">
-          <div className="form-group">
-            <h5>
-              <b>Job Title</b>
-            </h5>
+          <div className="experience-group">
+            <label>Job Title</label>
             <input
               typeof="text"
               value={valueJobtitle}
@@ -351,10 +333,8 @@ export const UserExperience = (props) => {
               onFocus={() => setError("")}
             ></input>
           </div>
-          <div className="form-group">
-            <h5>
-              <b>Company Name</b>
-            </h5>
+          <div className="experience-group">
+            <label>Company Name</label>
             <input
               typeof="text"
               value={valueCompanyname}
@@ -362,10 +342,8 @@ export const UserExperience = (props) => {
               onFocus={() => setError("")}
             ></input>
           </div>
-          <div className="form-group">
-            <h5>
-              <b>Job Type</b>
-            </h5>
+          <div className="experience-group">
+            <label>Job Type</label>
             <select value={valuejobtype}>
               <option
                 value=""
@@ -381,10 +359,8 @@ export const UserExperience = (props) => {
               ))}
             </select>
           </div>
-          <div className="form-group">
-            <h5>
-              <b>Start Year</b>
-            </h5>
+          <div className="experience-group">
+            <label>Start Year</label>
             <input
               type="date"
               id="startyear"
@@ -395,12 +371,10 @@ export const UserExperience = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
+          <div className="experience-group">
             {!addisWorking && (
               <>
-                <h5>
-                  <b>End Year</b>
-                </h5>
+                <label>End Year</label>
                 <input
                   type="date"
                   id="endyear"
@@ -413,10 +387,8 @@ export const UserExperience = (props) => {
               </>
             )}
           </div>
-          <div className="form-group">
-            <h5>
-              <b>Currently working here</b>
-            </h5>
+          <div className="experience-group">
+            <label>Currently working here</label>
             <input
               type="checkbox"
               checked={valueisWorking}
@@ -424,10 +396,8 @@ export const UserExperience = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h5>
-              <b>Location</b>
-            </h5>
+          <div className="experience-group">
+            <label>Location</label>
             <select value={valueLocation}>
               <option
                 value=""

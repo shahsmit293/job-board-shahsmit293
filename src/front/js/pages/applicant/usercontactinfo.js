@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
+import "../../../styles/usercontactinfo.css";
+
 import propTypes from "prop-types";
 export const UserContactInfo = (props) => {
   const { store, actions } = useContext(Context);
@@ -83,19 +85,19 @@ export const UserContactInfo = (props) => {
   return (
     <div className="contacts">
       {showdetails && (
-        <div className="showdetails">
-          <h4>
+        <div className="contactdetails">
+          <p>
             <b>First Name</b>: {props.firstname}
-          </h4>
-          <h4>
+          </p>
+          <p>
             <b>Last Name</b>: {props.lastname}
-          </h4>
-          <h4>
+          </p>
+          <p>
             <b>Location</b>: {props.location}{" "}
-          </h4>
-          <h4>
+          </p>
+          <p>
             <b>Contact Number</b>: {props.phonenumber}{" "}
-          </h4>
+          </p>
           {!props.firstname &&
           !props.lastname &&
           !props.location &&
@@ -123,10 +125,8 @@ export const UserContactInfo = (props) => {
 
       {addForm && (
         <div className="addform">
-          <div className="form-group">
-            <h4>
-              <b>First Name</b>
-            </h4>
+          <div className="contact-group">
+            <label>First Name</label>
             <input
               typeof="text"
               value={valueFirstname}
@@ -135,10 +135,10 @@ export const UserContactInfo = (props) => {
               required
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="contact-group">
+            <label>
               <b>Last Name</b>
-            </h4>
+            </label>
             <input
               typeof="text"
               value={valueLastname}
@@ -147,10 +147,10 @@ export const UserContactInfo = (props) => {
               required
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="contact-group">
+            <label>
               <b>Location</b>
-            </h4>
+            </label>
             <select>
               <option
                 value=""
@@ -171,10 +171,10 @@ export const UserContactInfo = (props) => {
               ))}
             </select>
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="contact-group">
+            <label>
               <b>Contact Number</b>
-            </h4>
+            </label>
             <input
               type="tel"
               id="phoneNumber"
@@ -216,10 +216,10 @@ export const UserContactInfo = (props) => {
       )}
       {editForm && (
         <div className="editform">
-          <div className="form-group">
-            <h4>
+          <div className="contact-group">
+            <label>
               <b>First Name</b>
-            </h4>
+            </label>
             <input
               typeof="text"
               value={valueFirstname}
@@ -228,10 +228,10 @@ export const UserContactInfo = (props) => {
               required
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="contact-group">
+            <label>
               <b>Last Name</b>
-            </h4>
+            </label>
             <input
               typeof="text"
               value={valueLastname}
@@ -240,10 +240,10 @@ export const UserContactInfo = (props) => {
               required
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="contact-group">
+            <label>
               <b>Location</b>
-            </h4>
+            </label>
             <select value={valueLocation}>
               <option
                 value=""
@@ -264,10 +264,10 @@ export const UserContactInfo = (props) => {
               ))}
             </select>
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="contact-group">
+            <label>
               <b>Contact Number</b>
-            </h4>
+            </label>
             <input
               type="tel"
               id="phoneNumber"

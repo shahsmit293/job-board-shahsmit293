@@ -3,9 +3,9 @@ import { Context } from "../../store/appContext";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { EmployerSidebar } from "../../component/employersidebar";
 import ReactQuill from "react-quill";
 import CryptoJS from "crypto-js";
+import "../../../styles/editjobposts.css";
 
 export const EditPostJob = () => {
   let states = [
@@ -200,11 +200,11 @@ export const EditPostJob = () => {
     }
   };
   return (
-    <div className="page">
+    <div className="editjobpostpage">
       {store.accessToken ? (
-        <div className="page">
-          <div className="sidebar">
-            <EmployerSidebar />
+        <div className="editjob">
+          <div className="title">
+            <h3>Edit Post Form</h3>
           </div>
           <div className="text-center mt-5">
             <form>
@@ -303,6 +303,7 @@ export const EditPostJob = () => {
                   id="workLocationType"
                   name="workLocationType"
                   value={workLocationTypeValue}
+                  style={{ margin: "0px" }}
                   onChange={sorted}
                   onFocus={() => setError("")}
                 >
@@ -319,6 +320,7 @@ export const EditPostJob = () => {
                   id="jobType"
                   name="jobType"
                   onChange={sorted}
+                  style={{ margin: "0px" }}
                   onFocus={() => setError("")}
                   value={jobTypeValue}
                 >
@@ -332,21 +334,15 @@ export const EditPostJob = () => {
               </div>
               <div className="label">
                 <label>Address:</label>
-                <select value={location}>
-                  <option
-                    value=""
-                    onClick={() => setLocation("")}
-                    onFocus={() => setError("")}
-                  >
-                    Select a state
-                  </option>
+                <select
+                  value={location}
+                  onFocus={() => setError("")}
+                  style={{ margin: "0px" }}
+                  onChange={(event) => setLocation(event.target.value)}
+                >
+                  <option value="">Select a state</option>
                   {states.map((state) => (
-                    <option
-                      key={state}
-                      value={state}
-                      onClick={() => setLocation(state)}
-                      onFocus={() => setError("")}
-                    >
+                    <option key={state} value={state}>
                       {state}
                     </option>
                   ))}
@@ -371,6 +367,7 @@ export const EditPostJob = () => {
                   name="experienceLevel"
                   value={experienceLevelsValue}
                   onChange={sorted}
+                  style={{ margin: "0px" }}
                   onFocus={() => setError("")}
                 >
                   <option value="">Select...</option>
@@ -390,6 +387,7 @@ export const EditPostJob = () => {
                   name="educationdegree"
                   value={educationdegreeValue}
                   onChange={sorted}
+                  style={{ margin: "0px" }}
                   onFocus={() => setError("")}
                 >
                   <option value="">Select...</option>
@@ -452,6 +450,7 @@ export const EditPostJob = () => {
                   id="workingTimes"
                   name="workingTimes"
                   onChange={sorted}
+                  style={{ margin: "0px" }}
                   onFocus={() => setError("")}
                   value={workingTimesValue}
                 >
@@ -468,6 +467,7 @@ export const EditPostJob = () => {
                   id="weekendRequired"
                   name="weekendRequired"
                   onChange={sorted}
+                  style={{ margin: "0px" }}
                   onFocus={() => setError("")}
                   value={weekendRequiredValue}
                 >
@@ -494,6 +494,7 @@ export const EditPostJob = () => {
                 theme="snow"
                 value={descriptionValue}
                 onChange={setDescriptionValue}
+                style={{ margin: "0px" }}
                 onFocus={() => setError("")}
               />
               <div style={{ color: "red" }}>{error}</div>

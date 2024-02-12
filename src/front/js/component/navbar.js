@@ -8,10 +8,10 @@ export const Navbar = () => {
   const { store, actions } = useContext(Context);
 
   return (
-    <nav className="navbar navbar-expand-lg">
-      <div className="container-fluid">
-        <button
-          className="navbar-brand btn btn-dark"
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a
+          class="navbar-brand"
           onClick={() => {
             if (store.activeuser) {
               navigate("/employerhome");
@@ -22,10 +22,10 @@ export const Navbar = () => {
             }
           }}
         >
-          Logooo
-        </button>
+          LOGO
+        </a>
         <button
-          className="navbar-toggler"
+          class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNavDropdown"
@@ -33,59 +33,112 @@ export const Navbar = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon" />
+          <i class="fa-solid fa-bars"></i>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul className="navbar-nav ml-auto">
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <div class="navbar-nav ml-auto">
             {!store.accessToken && !store.useraccessToken ? (
               <>
-                <li className="nav-item">
-                  <button
-                    className="nav-link active btn btn-dark"
-                    aria-current="page"
+                <div class="nav-item">
+                  <a
+                    class="nav-link"
                     onClick={() => navigate("/jobseekerloginsignup")}
                   >
                     Job Seeker
-                  </button>
-                </li>
-                <li className="nav-item">
-                  <button
-                    className="nav-link btn btn-dark"
+                  </a>
+                </div>
+                <div class="nav-item">
+                  <a
+                    class="nav-link"
                     onClick={() => navigate("/employerloginsignup")}
                   >
                     Employer
-                  </button>
-                </li>
+                  </a>
+                </div>
               </>
             ) : null}
 
             {store.accessToken ? (
               <>
-                <li className="nav-item">
-                  <button
-                    className="nav-link btn btn-dark"
-                    onClick={actions.handleLogout}
-                  >
+                <div
+                  class="nav-item"
+                  onClick={() => navigate("/employercreatejobpost")}
+                >
+                  <a class="nav-link" style={{ cursor: "pointer" }}>
+                    Create Job
+                  </a>
+                </div>
+                <div class="nav-item" onClick={() => navigate("/employerhome")}>
+                  <a class="nav-link" style={{ cursor: "pointer" }}>
+                    Manage All Jobs
+                  </a>
+                </div>
+                <div
+                  class="nav-item"
+                  onClick={() => navigate("/searchprofiles")}
+                >
+                  <a class="nav-link" style={{ cursor: "pointer" }}>
+                    Search Profiles
+                  </a>
+                </div>
+                <div
+                  class="nav-item"
+                  onClick={() => navigate("/contactedprofiles")}
+                >
+                  <a class="nav-link" style={{ cursor: "pointer" }}>
+                    Contacted Profiles
+                  </a>
+                </div>
+                <div
+                  class="nav-item"
+                  onClick={() => navigate("/savedprofiles")}
+                >
+                  <a class="nav-link" style={{ cursor: "pointer" }}>
+                    Saved Profiles
+                  </a>
+                </div>
+                <div class="nav-item" onClick={actions.handleLogout}>
+                  <a class="nav-link" style={{ cursor: "pointer" }}>
                     Log Out
-                  </button>
-                </li>
+                  </a>
+                </div>
               </>
             ) : store.useraccessToken ? (
               <>
-                <button onClick={() => navigate("/userinbox")}>Inbox</button>
-                <button onClick={() => navigate("/userappliedjobs")}>
-                  Applied Jobs
-                </button>
-                <button onClick={() => navigate("/usersavedjobs")}>
-                  Saved Jobs
-                </button>
-                <button onClick={() => navigate("/userprofile")}>
-                  Profile
-                </button>
-                <button onClick={actions.handleLogout}>Log Out</button>
+                <div class="nav-item">
+                  <a class="nav-link" onClick={() => navigate("/userinbox")}>
+                    Inbox
+                  </a>
+                </div>{" "}
+                <div class="nav-item">
+                  <a
+                    class="nav-link"
+                    onClick={() => navigate("/userappliedjobs")}
+                  >
+                    Applied Jobs
+                  </a>
+                </div>{" "}
+                <div class="nav-item">
+                  <a
+                    class="nav-link"
+                    onClick={() => navigate("/usersavedjobs")}
+                  >
+                    Saved Jobs
+                  </a>
+                </div>{" "}
+                <div class="nav-item">
+                  <a class="nav-link" onClick={() => navigate("/userprofile")}>
+                    Profile
+                  </a>
+                </div>{" "}
+                <div class="nav-item">
+                  <a class="nav-link" onClick={actions.handleLogout}>
+                    Log Out
+                  </a>
+                </div>
               </>
             ) : null}
-          </ul>
+          </div>
         </div>
       </div>
     </nav>

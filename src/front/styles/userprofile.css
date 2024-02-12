@@ -1,47 +1,92 @@
-.details {
-  margin-left: 20%;
-  margin-top: 25px;
-}
-.resume {
-  flex-direction: column;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 20px 20px 20px 0;
-}
-.addform {
-  width: 500px;
-}
-
-.editform,
-.resume {
-  width: 500px;
-}
-.checklocation {
-  display: flex;
-  flex-direction: row;
-}
-
-.checklocation h6 {
-  margin: 5px;
-}
-
 .profile {
   display: flex;
-  flex-direction: row;
+  margin: 0px 5% 0px 5%;
+  background-color: #f9f9fb;
+  min-height: 100vh;
+  background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
+  background-size: contain;
+}
+.profilemenu {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  padding: 10px;
+}
+.profilemenu div {
+  padding: 25px;
+  border-bottom: 0.5px lightgray solid;
+  border-right: 0.5px lightgray solid;
+  cursor: pointer;
+}
+.profilemenu p {
+  font-size: larger;
+}
+.profiledetails {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  padding: 10px;
+  align-items: center;
 }
 
-.profilemenu button {
-  background-color: chocolate;
+.infoheader {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
-.profilemenu ul {
+
+.contactinfo {
+  display: flex;
+  flex-direction: column;
+}
+.resumeinfo {
+  display: flex;
+  flex-direction: column;
+}
+.resume {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 25px;
+  border-radius: 10%;
+  background-color: #fff;
+}
+
+.qualificationinfo {
   display: flex;
   flex-direction: column;
 }
 
-.profilemenu {
-  margin-top: 25px;
+.experienceinfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.skillinfo {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 1000px) {
+  .profile {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 5% 0px 5%;
+    align-items: center;
+    background-color: #f9f9fb;
+  }
+  .profilemenu {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    padding: 10px;
+    flex-wrap: wrap;
+  }
+  .profilemenu div {
+    padding: 5px;
+    margin: 5px;
+    border-bottom: 0.5px lightgray solid;
+    cursor: pointer;
+    border-left: 0.5px lightgray solid;
+  }
 }

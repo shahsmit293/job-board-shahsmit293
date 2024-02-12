@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import "../../../styles/home.css";
+import "../../../styles/employersavedprofiles.css";
 import { Usersearchprofilecard } from "../../component/usersearchprofilecard";
 import { Viewusersprofile } from "./viewusersprofile";
-import { EmployerSidebar } from "../../component/employersidebar";
 
 export const EmployerSavedProfiles = () => {
   const { store, actions } = useContext(Context);
@@ -53,17 +52,19 @@ export const EmployerSavedProfiles = () => {
     setShowPopup(true);
   };
   return (
-    <div>
-      <div className="sidebar">
-        <EmployerSidebar />
-      </div>
-      <div className="details">
-        {loading ? (
-          <p>Loading applicants...</p> // Display a loading message or a spinner
-        ) : store.saveduserfiles.length === 0 ? (
-          <p style={{ marginLeft: "50%" }}>No profile saved yet.</p>
-        ) : (
-          <div className="userprofiletable">
+    <div className="employersavedprofilespage">
+      {loading ? (
+        <p>Loading applicants...</p> // Display a loading message or a spinner
+      ) : !Array.isArray(store.saveduserfiles) ? (
+        <h1>No profile saved yet.</h1>
+      ) : (
+        <div className="employersavedprofilestable">
+          <div className="totalsavedprofile">
+            <p style={{ color: "blue" }}>
+              Toatal Saved Profile: {store.saveduserfiles.length}
+            </p>
+          </div>
+          <div className="table-container">
             <table className="styled-table">
               <thead>
                 <tr>
@@ -100,8 +101,8 @@ export const EmployerSavedProfiles = () => {
               </tbody>
             </table>
           </div>
-        )}
-      </div>
+        </div>
+      )}
       {showPopup && (
         <div>
           <p className="popup">

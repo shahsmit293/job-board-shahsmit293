@@ -1,43 +1,76 @@
-.register-form {
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+.account {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: rgb(9, 9, 40);
+  justify-content: space-between;
+  height: 600px;
+  margin-top: 5px;
+  background-color: #fff;
+
+  /* border: 1px solid red; */
+}
+.account-left {
+  /* border: 1px solid; */
+  width: 50%;
+  position: relative;
+}
+.account-right {
+  /* border: 1px solid; */
+  position: relative;
+  width: 50%;
+  background-image: url("https://s38924.pcdn.co/wp-content/uploads/2018/11/Job-Application-Form.png");
+  background-size: contain;
 }
 
-.login,
-.signup {
-  flex: 1;
-  margin: 0 20px;
-  padding: 20px;
-  background-color: rgb(9, 9, 40);
-  border-radius: 4px;
-  box-shadow: 0px 0px 10px 2px rgba(255, 255, 255, 0.577); /* white shadow for contrast */
-  width: 200px; /* smaller width */
-  height: 350px; /* smaller height */
-  transition: 0.3s;
-  color: whitesmoke; /* white text for contrast */
+.jobseeker-login {
+  /* border: 1px solid forestgreen; */
+  margin: 15%;
+}
+.employer-login {
+  /* border: 1px solid forestgreen; */
+  margin: 15%;
+}
+.form h2,
+label,
+input {
+  margin-top: 5px;
 }
 
-.login:hover,
-.signup:hover {
-  box-shadow: 0px 0px 20px 10px rgba(255, 255, 255, 0.2); /* glowing effect */
+.jobseeker-signup {
+  /* border: 1px solid forestgreen; */
+  margin: 15%;
 }
-
-.btn.btn-primary {
-  background-color: #ff9900; /* Amazon's button color */
-  border: none;
-  color: whitesmoke;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  transition-duration: 0.4s;
+.employer-signup {
+  /* border: 1px solid forestgreen; */
+  margin: 15%;
+}
+.forgotpassword {
   cursor: pointer;
 }
+.changetosignup {
+  display: flex;
+  flex-direction: row;
+}
 
-.btn.btn-primary:hover {
-  background-color: white;
-  color: #ff9900;
+.form {
+  border: 0.5px solid lightgray;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 1px 1px 0px #999, 2px 2px 0px #999, 3px 3px 0px #999,
+    4px 4px 0px #999, 5px 5px 0px #999, 6px 6px 0px #999;
+}
+
+@media (max-width: 760px) {
+  .account-right {
+    display: none;
+  }
+  .account-left {
+    width: 100%;
+    background-image: url("https://s38924.pcdn.co/wp-content/uploads/2018/11/Job-Application-Form.png");
+    background-size: cover;
+  }
+  .account-left .form {
+    background-color: azure;
+  }
 }

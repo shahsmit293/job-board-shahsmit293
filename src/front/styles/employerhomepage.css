@@ -1,15 +1,34 @@
+.employerhomepage {
+  background-color: #ffffffc6;
+  margin: 0px 5% 0px 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-height: 100vh;
+  background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
+  background-size: contain;
+}
+
+.employerhomepagetable {
+  text-align: center;
+}
+.managejobsheader {
+  margin-top: 2%;
+}
+
 .styled-table {
   border-collapse: collapse;
   font-size: 0.9em;
   font-family: sans-serif;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  margin-left: 15%;
-  width: fit-content;
+  align-self: center;
+  width: 100%;
+  background-color: #ffffff;
 }
 .styled-table thead tr {
   background-color: #009879;
   color: #ffffff;
-  text-align: left;
+  text-align: center;
 }
 .styled-table th,
 .styled-table td {
@@ -17,6 +36,7 @@
 }
 .styled-table tbody tr {
   border-bottom: 1px solid #dddddd;
+  text-align: center;
 }
 
 .styled-table tbody tr:last-of-type {
@@ -39,21 +59,71 @@
   background-color: #007f5f;
 }
 
-.sidebar {
-  position: fixed;
-  height: 50%;
-  background-color: #006a98;
-  color: whitesmoke;
-  padding: 5px;
-}
+@media (max-width: 600px) {
+  .table-container {
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
 
-.nav-link {
-  cursor: pointer;
-  padding: 10px;
-  transition: box-shadow 0.3s ease-in-out; /* Add this line for smooth transition */
-}
+  .styled-table {
+    border-collapse: collapse;
+    font-size: 0.5em;
+    font-family: sans-serif;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    align-self: center;
+    width: fit-content;
+    background-color: #ffffff;
+  }
 
-.nav-link:hover {
-  color: #212529;
-  box-shadow: 0 0 20px 10px #8bafd2; /* Add this line for the glow */
+  .styled-table thead {
+    display: flex;
+    width: 100%; /* Fit thead to parent width */
+    background-color: #009879;
+    color: #ffffff;
+    text-align: start;
+  }
+
+  .styled-table th,
+  .styled-table td {
+    padding: 5px; /* Add padding for better spacing */
+    text-align: center; /* Center align content */
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+
+  .styled-table tbody {
+    display: table; /* Ensure tbody follows thead width */
+    width: 100%; /* Fit tbody to parent width */
+    table-layout: fixed; /* Fix the layout to the width of the first row */
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+
+  .styled-table tbody tr {
+    display: table-row; /* Make rows behave like inline-block elements */
+    vertical-align: top; /* Align rows to the top */
+    border-bottom: 1px solid #dddddd;
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+
+  .styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+
+  .styled-button {
+    background-color: #009879;
+    color: #ffffff;
+    border: none;
+    padding: 0px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 5px;
+    margin: 0px;
+    cursor: pointer;
+    border-radius: 0px;
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+
+  .styled-button:hover {
+    background-color: #007f5f;
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
 }

@@ -14,35 +14,219 @@ button {
 button:hover {
   background-color: #007f5f;
 }
-.search {
+
+.mainpage {
   display: flex;
   flex-direction: column;
-  width: 20%;
-  margin-top: 25px;
-  margin-left: 10%;
+  justify-self: left;
+  margin: 0px 5% 0px 5%;
+  min-height: 100vh;
+  background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
+  background-size: contain;
 }
-.search div {
+.searchdetails {
   display: flex;
-  justify-content: space-between;
-  margin: 5px;
-  justify-self: center;
+  justify-content: center;
+  align-items: center;
 }
-.search select,
-button {
-  margin-bottom: 5px;
-  width: 100px;
+
+.searchbar {
+  display: flex;
+  margin: 25px;
+  /* border: 1px solid green; */
 }
-.search label {
-  width: 150px;
+.searchbar button {
+  margin-left: 5px;
 }
-.searchuserprofile {
+.actions {
+  display: flex;
+  background-color: #f9f9fbb0;
+  min-height: 100vh;
+  background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
+  background-size: contain;
+}
+.select {
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid green; */
+  width: 25%;
+  padding: 10px;
+  height: fit-content;
+  background-color: white;
+}
+.select div {
   display: flex;
 }
-.search .tag input {
+.dropdown {
+  padding: 5%;
+  border-bottom: 0.5px solid lightgray;
+}
+.dropdown a {
+  text-align: start;
+  padding: 0px;
   width: 100%;
 }
-.details {
-  margin: 25px;
-  padding: 0px;
-  top: 1;
+.employersearchprofilespage {
+  background-color: #ffffffc6;
+  margin: 0px 5% 0px 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100vh;
+  width: 75%;
+  min-height: 100vh;
+  background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
+  background-size: contain;
+}
+
+.table-container {
+  width: 100%;
+}
+
+.styled-table {
+  border-collapse: collapse;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  align-self: center;
+  width: 100%;
+}
+.styled-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: center;
+}
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+  text-align: center;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+.styled-button {
+  background-color: #009879;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.styled-button:hover {
+  background-color: #007f5f;
+}
+
+@media (max-width: 1000px) {
+  .actions {
+    display: flex;
+    flex-direction: column;
+  }
+  .employersearchprofilespage {
+    margin: 0px;
+    width: 100%;
+  }
+
+  .select {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: fit-content;
+    flex-wrap: wrap;
+    padding: 0px;
+    align-self: center;
+  }
+
+  .select div {
+    display: flex;
+    padding: 5%;
+    width: auto;
+  }
+  .dropdown {
+    padding: 5%;
+    width: fit-content;
+    border-bottom: 0.5px solid lightgray;
+  }
+  .dropdown a {
+    text-align: start;
+    padding: 0px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .table-container {
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+
+  .styled-table {
+    border-collapse: collapse;
+    font-size: 0.5em;
+    font-family: sans-serif;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    align-self: center;
+    width: fit-content;
+    background-color: #ffffff;
+  }
+
+  .styled-table thead {
+    display: flex;
+    width: 100%; /* Fit thead to parent width */
+    background-color: #009879;
+    color: #ffffff;
+    text-align: start;
+  }
+
+  .styled-table th,
+  .styled-table td {
+    padding: 5px; /* Add padding for better spacing */
+    text-align: center; /* Center align content */
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+
+  .styled-table tbody {
+    display: table; /* Ensure tbody follows thead width */
+    width: 100%; /* Fit tbody to parent width */
+    table-layout: fixed; /* Fix the layout to the width of the first row */
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+
+  .styled-table tbody tr {
+    display: table-row; /* Make rows behave like inline-block elements */
+    vertical-align: top; /* Align rows to the top */
+    border-bottom: 1px solid #dddddd;
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+
+  .styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+
+  .styled-button {
+    background-color: #009879;
+    color: #ffffff;
+    border: none;
+    padding: 0px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 5px;
+    margin: 0px;
+    cursor: pointer;
+    border-radius: 0px;
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+
+  .styled-button:hover {
+    background-color: #007f5f;
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
 }

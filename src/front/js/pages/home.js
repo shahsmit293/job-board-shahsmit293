@@ -242,345 +242,20 @@ export const Home = () => {
   };
   return (
     <div className="home">
-      <div className="select">
-        <div>
+      <div className="searchdetails">
+        <div className="searchbar">
           <input
-            className="form-control"
-            placeholder="Search here for job title, company name"
+            type="search"
+            class="form-control rounded"
+            placeholder="Search"
+            aria-label="Search"
+            aria-describedby="search-addon"
             value={valueJobtitle}
             onChange={(e) => setValueJobtitile(e.target.value)}
           />
-        </div>
-        <div>
-          <label>Location</label>
-          <select
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          >
-            <option value="" onClick={() => setLocation("")}>
-              Select...
-            </option>
-            {states.map((state) => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
-          <i
-            class="fas fa-trash-alt"
+          <button
+            className="searchbutton"
             onClick={() => {
-              setLocation("");
-              // Fetch data with the updated state values
-              actions.searchjobsdata(
-                valueJobtitle,
-                "", // location is cleared
-                valueworklocation,
-                jobtype,
-                experiencelevel,
-                education,
-                workingtimes,
-                postdays,
-                salary
-              ); // Create a new URLSearchParams object
-              const searchParams = new URLSearchParams(window.location.search);
-              // Remove the specific parameter
-              searchParams.delete("location");
-
-              // Navigate to the new URL without the specific parameter
-              navigate(`/?${searchParams.toString()}`);
-            }}
-          ></i>
-        </div>
-        <div>
-          <label>Location Type</label>
-          <select
-            id="workLocationType"
-            name="workLocationType"
-            value={valueworklocation}
-            onChange={(e) => setworklocation(e.target.value)}
-          >
-            <option value="" onClick={() => setworklocation("")}>
-              Select...
-            </option>
-            {workLocationTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-          <i
-            class="fas fa-trash-alt"
-            onClick={() => {
-              setworklocation("");
-              // Fetch data with the updated state values
-              actions.searchjobsdata(
-                valueJobtitle,
-                location, // location is cleared
-                "",
-                jobtype,
-                experiencelevel,
-                education,
-                workingtimes,
-                postdays,
-                salary
-              ); // Create a new URLSearchParams object
-              const searchParams = new URLSearchParams(window.location.search);
-              // Remove the specific parameter
-              searchParams.delete("valueworklocation");
-
-              // Navigate to the new URL without the specific parameter
-              navigate(`/?${searchParams.toString()}`);
-            }}
-          ></i>
-        </div>
-        <div>
-          <label>Job Type</label>
-          <select
-            id="jobType"
-            name="jobType"
-            value={jobtype}
-            onChange={(e) => setjobtype(e.target.value)}
-          >
-            <option value="" onClick={() => setjobtype("")}>
-              Select...
-            </option>
-            {jobTypes.map((type) => (
-              <option key={type} value={type} onClick={() => setjobtype(type)}>
-                {type}
-              </option>
-            ))}
-          </select>
-          <i
-            class="fas fa-trash-alt"
-            onClick={() => {
-              setjobtype("");
-              // Fetch data with the updated state values
-              actions.searchjobsdata(
-                valueJobtitle,
-                location, // location is cleared
-                valueworklocation,
-                "",
-                experiencelevel,
-                education,
-                workingtimes,
-                postdays,
-                salary
-              ); // Create a new URLSearchParams object
-              const searchParams = new URLSearchParams(window.location.search);
-              // Remove the specific parameter
-              searchParams.delete("jobtype");
-
-              // Navigate to the new URL without the specific parameter
-              navigate(`/?${searchParams.toString()}`);
-            }}
-          ></i>
-        </div>
-        <div>
-          <label>Experience Level</label>
-          <select
-            id="experienceLevel"
-            name="experienceLevel"
-            value={experiencelevel}
-            onChange={(e) => setexperiencelevel(e.target.value)}
-          >
-            <option value="" onClick={() => setexperiencelevel("")}>
-              Select...
-            </option>
-            {experienceLevels.map((level) => (
-              <option
-                key={level}
-                value={level}
-                onClick={() => setexperiencelevel(level)}
-              >
-                {level}
-              </option>
-            ))}
-          </select>
-          <i
-            class="fas fa-trash-alt"
-            onClick={() => {
-              setexperiencelevel("");
-              // Fetch data with the updated state values
-              actions.searchjobsdata(
-                valueJobtitle,
-                location, // location is cleared
-                valueworklocation,
-                jobtype,
-                "",
-                education,
-                workingtimes,
-                postdays,
-                salary
-              ); // Create a new URLSearchParams object
-              const searchParams = new URLSearchParams(window.location.search);
-              // Remove the specific parameter
-              searchParams.delete("experiencelevel");
-
-              // Navigate to the new URL without the specific parameter
-              navigate(`/?${searchParams.toString()}`);
-            }}
-          ></i>
-        </div>
-        <div>
-          <label>Degree</label>
-          <select
-            id="educationdegree"
-            name="educationdegree"
-            value={education}
-            onChange={(e) => seteducationValue(e.target.value)}
-          >
-            <option value="" onClick={() => seteducationValue("")}>
-              Select...
-            </option>
-            {educationDegrees.map((degree) => (
-              <option
-                key={degree}
-                value={degree}
-                onClick={() => seteducationValue(degree)}
-              >
-                {degree}
-              </option>
-            ))}
-          </select>
-          <i
-            class="fas fa-trash-alt"
-            onClick={() => {
-              seteducationValue("");
-              // Fetch data with the updated state values
-              actions.searchjobsdata(
-                valueJobtitle,
-                location, // location is cleared
-                valueworklocation,
-                jobtype,
-                experiencelevel,
-                "",
-                workingtimes,
-                postdays,
-                salary
-              ); // Create a new URLSearchParams object
-              const searchParams = new URLSearchParams(window.location.search);
-              // Remove the specific parameter
-              searchParams.delete("education");
-
-              // Navigate to the new URL without the specific parameter
-              navigate(`/?${searchParams.toString()}`);
-            }}
-          ></i>
-        </div>
-        <div>
-          <label>Shifts</label>
-          <select
-            id="workingTimes"
-            name="workingTimes"
-            value={workingtimes}
-            onChange={(e) => setworkingtimes(e.target.value)}
-          >
-            <option value="" onClick={() => setworkingtimes("")}>
-              Select...
-            </option>
-            {workingTimes.map((time) => (
-              <option
-                key={time}
-                value={time}
-                onClick={() => setworkingtimes(time)}
-              >
-                {time}
-              </option>
-            ))}
-          </select>
-          <i
-            class="fas fa-trash-alt"
-            onClick={() => {
-              setworkingtimes("");
-              // Fetch data with the updated state values
-              actions.searchjobsdata(
-                valueJobtitle,
-                location, // location is cleared
-                valueworklocation,
-                jobtype,
-                experiencelevel,
-                education,
-                "",
-                postdays,
-                salary
-              ); // Create a new URLSearchParams object
-              const searchParams = new URLSearchParams(window.location.search);
-              // Remove the specific parameter
-              searchParams.delete("workingtimes");
-
-              // Navigate to the new URL without the specific parameter
-              navigate(`/?${searchParams.toString()}`);
-            }}
-          ></i>
-        </div>
-        <div>
-          <label>Posted Job</label>
-          <select
-            id="posted"
-            name="posted"
-            value={postdays}
-            onChange={(e) => setpostdays(e.target.value)}
-          >
-            <option value="" onClick={() => setpostdays("")}>
-              Select...
-            </option>
-            {daysposted.map((day) => (
-              <option key={day} value={day} onClick={() => setpostdays(day)}>
-                {day}
-              </option>
-            ))}
-          </select>
-          <i
-            class="fas fa-trash-alt"
-            onClick={() => {
-              setpostdays("");
-              // Fetch data with the updated state values
-              actions.searchjobsdata(
-                valueJobtitle,
-                location, // location is cleared
-                valueworklocation,
-                jobtype,
-                experiencelevel,
-                education,
-                workingtimes,
-                "",
-                salary
-              ); // Create a new URLSearchParams object
-              const searchParams = new URLSearchParams(window.location.search);
-              // Remove the specific parameter
-              searchParams.delete("postdays");
-
-              // Navigate to the new URL without the specific parameter
-              navigate(`/?${searchParams.toString()}`);
-            }}
-          ></i>
-        </div>
-        <div>
-          <label>Salary</label>
-          <select
-            id="salary"
-            name="salary"
-            value={salary}
-            onChange={(e) => setsalary(e.target.value)}
-          >
-            <option value="" onClick={() => setsalary("")}>
-              Select...
-            </option>
-            {salaryPackage.map((salary) => (
-              <option
-                key={salary}
-                value={salary}
-                onClick={() => setsalary(salary)}
-              >
-                {salary}
-              </option>
-            ))}
-          </select>
-          <i
-            class="fas fa-trash-alt"
-            onClick={() => {
-              setsalary("");
-              // Fetch data with the updated state values
               actions.searchjobsdata(
                 valueJobtitle,
                 location,
@@ -589,62 +264,614 @@ export const Home = () => {
                 experiencelevel,
                 education,
                 workingtimes,
-                postdays,
-                ""
-              ); // Create a new URLSearchParams object
-              const searchParams = new URLSearchParams(window.location.search);
-              // Remove the specific parameter
-              searchParams.delete("salary");
-
-              // Navigate to the new URL without the specific parameter
-              navigate(`/?${searchParams.toString()}`);
+                postdays
+              );
+              navigate(
+                `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+              );
             }}
-          ></i>
-        </div>
-        <button
-          className="searchbutton"
-          onClick={() => {
-            actions.searchjobsdata(
-              valueJobtitle,
-              location,
-              valueworklocation,
-              jobtype,
-              experiencelevel,
-              education,
-              workingtimes,
-              postdays
-            );
-            navigate(
-              `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
-            );
-          }}
-        >
-          Search
-        </button>
-        <button
-          className="searchbutton"
-          onClick={() => {
-            setValueJobtitile("");
-            setLocation("");
-            setworklocation("");
-            setjobtype("");
-            setexperiencelevel("");
-            seteducationValue("");
-            setworkingtimes("");
-            setpostdays("");
-            navigate("/");
+          >
+            Search
+          </button>
+          <button
+            className="searchbutton"
+            onClick={() => {
+              setValueJobtitile("");
+              setLocation("");
+              setworklocation("");
+              setjobtype("");
+              setexperiencelevel("");
+              seteducationValue("");
+              setworkingtimes("");
+              setpostdays("");
+              navigate("/");
 
-            // Fetch data with empty values
-            actions.searchjobsdata("", "", "", "", "", "", "", "", "");
-          }}
-        >
-          Clear
-        </button>
+              // Fetch data with empty values
+              actions.searchjobsdata("", "", "", "", "", "", "", "", "");
+            }}
+          >
+            Reset
+          </button>
+        </div>
       </div>
-      <div className="row gy-3" style={{ margin: "5px", flexGrow: "1" }}>
-        {store.searchjobs && store.searchjobs.length > 0 ? (
-          store.searchjobs.map((element, index) => {
-            return (
+      <div className="actions">
+        <div className="select">
+          <div class="dropdown">
+            <a
+              class="btn  dropdown-toggle"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              onClick={() => setLocation("")}
+            >
+              {location || "Location..."}
+            </a>
+            <ul
+              class="dropdown-menu"
+              aria-labelledby="dropdownMenuLink"
+              style={{ height: "100px", overflowX: "auto" }}
+            >
+              {states.map((state) => (
+                <li>
+                  <a
+                    key={state}
+                    class="dropdown-item"
+                    onClick={() => setLocation(state)}
+                  >
+                    {state}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="trashsearch">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                onClick={() => {
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location,
+                    valueworklocation,
+                    jobtype,
+                    experiencelevel,
+                    education,
+                    workingtimes,
+                    postdays
+                  );
+                  navigate(
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                  );
+                }}
+              ></i>
+              <i
+                class="fas fa-trash-alt"
+                onClick={() => {
+                  setLocation("");
+                  // Fetch data with the updated state values
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    "", // location is cleared
+                    valueworklocation,
+                    jobtype,
+                    experiencelevel,
+                    education,
+                    workingtimes,
+                    postdays,
+                    salary
+                  ); // Create a new URLSearchParams object
+                  const searchParams = new URLSearchParams(
+                    window.location.search
+                  );
+                  // Remove the specific parameter
+                  searchParams.delete("location");
+
+                  // Navigate to the new URL without the specific parameter
+                  navigate(`/?${searchParams.toString()}`);
+                }}
+              ></i>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              class="btn  dropdown-toggle"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              onClick={() => setworklocation("")}
+            >
+              {valueworklocation || "Type..."}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              {workLocationTypes.map((type) => (
+                <li>
+                  <a
+                    key={type}
+                    class="dropdown-item"
+                    onClick={() => setworklocation(type)}
+                  >
+                    {type}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="trashsearch">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                onClick={() => {
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location,
+                    valueworklocation,
+                    jobtype,
+                    experiencelevel,
+                    education,
+                    workingtimes,
+                    postdays
+                  );
+                  navigate(
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                  );
+                }}
+              ></i>
+              <i
+                class="fas fa-trash-alt"
+                onClick={() => {
+                  setworklocation("");
+                  // Fetch data with the updated state values
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location, // location is cleared
+                    "",
+                    jobtype,
+                    experiencelevel,
+                    education,
+                    workingtimes,
+                    postdays,
+                    salary
+                  ); // Create a new URLSearchParams object
+                  const searchParams = new URLSearchParams(
+                    window.location.search
+                  );
+                  // Remove the specific parameter
+                  searchParams.delete("valueworklocation");
+
+                  // Navigate to the new URL without the specific parameter
+                  navigate(`/?${searchParams.toString()}`);
+                }}
+              ></i>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              class="btn  dropdown-toggle"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              onClick={() => setjobtype("")}
+            >
+              {jobtype || "Job Type..."}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              {jobTypes.map((type) => (
+                <li>
+                  <a
+                    key={type}
+                    class="dropdown-item"
+                    onClick={() => setjobtype(type)}
+                  >
+                    {type}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="trashsearch">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                onClick={() => {
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location,
+                    valueworklocation,
+                    jobtype,
+                    experiencelevel,
+                    education,
+                    workingtimes,
+                    postdays
+                  );
+                  navigate(
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                  );
+                }}
+              ></i>
+              <i
+                class="fas fa-trash-alt"
+                onClick={() => {
+                  setjobtype("");
+                  // Fetch data with the updated state values
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location, // location is cleared
+                    valueworklocation,
+                    "",
+                    experiencelevel,
+                    education,
+                    workingtimes,
+                    postdays,
+                    salary
+                  ); // Create a new URLSearchParams object
+                  const searchParams = new URLSearchParams(
+                    window.location.search
+                  );
+                  // Remove the specific parameter
+                  searchParams.delete("jobtype");
+
+                  // Navigate to the new URL without the specific parameter
+                  navigate(`/?${searchParams.toString()}`);
+                }}
+              ></i>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              class="btn  dropdown-toggle"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              onClick={() => setexperiencelevel("")}
+            >
+              {experiencelevel || "Experience..."}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              {experienceLevels.map((level) => (
+                <li>
+                  <a
+                    key={level}
+                    class="dropdown-item"
+                    onClick={() => setexperiencelevel(level)}
+                  >
+                    {level}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="trashsearch">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                onClick={() => {
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location,
+                    valueworklocation,
+                    jobtype,
+                    experiencelevel,
+                    education,
+                    workingtimes,
+                    postdays
+                  );
+                  navigate(
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                  );
+                }}
+              ></i>
+              <i
+                class="fas fa-trash-alt"
+                onClick={() => {
+                  setexperiencelevel("");
+                  // Fetch data with the updated state values
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location, // location is cleared
+                    valueworklocation,
+                    jobtype,
+                    "",
+                    education,
+                    workingtimes,
+                    postdays,
+                    salary
+                  ); // Create a new URLSearchParams object
+                  const searchParams = new URLSearchParams(
+                    window.location.search
+                  );
+                  // Remove the specific parameter
+                  searchParams.delete("experiencelevel");
+
+                  // Navigate to the new URL without the specific parameter
+                  navigate(`/?${searchParams.toString()}`);
+                }}
+              ></i>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              class="btn  dropdown-toggle"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              onClick={() => seteducationValue("")}
+            >
+              {education || "Degree..."}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              {educationDegrees.map((degree) => (
+                <li>
+                  <a
+                    key={degree}
+                    class="dropdown-item"
+                    onClick={() => seteducationValue(degree)}
+                  >
+                    {degree}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="trashsearch">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                onClick={() => {
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location,
+                    valueworklocation,
+                    jobtype,
+                    experiencelevel,
+                    education,
+                    workingtimes,
+                    postdays
+                  );
+                  navigate(
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                  );
+                }}
+              ></i>
+              <i
+                class="fas fa-trash-alt"
+                onClick={() => {
+                  seteducationValue("");
+                  // Fetch data with the updated state values
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location, // location is cleared
+                    valueworklocation,
+                    jobtype,
+                    experiencelevel,
+                    "",
+                    workingtimes,
+                    postdays,
+                    salary
+                  ); // Create a new URLSearchParams object
+                  const searchParams = new URLSearchParams(
+                    window.location.search
+                  );
+                  // Remove the specific parameter
+                  searchParams.delete("education");
+
+                  // Navigate to the new URL without the specific parameter
+                  navigate(`/?${searchParams.toString()}`);
+                }}
+              ></i>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              class="btn  dropdown-toggle"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              onClick={() => setworkingtimes("")}
+            >
+              {workingtimes || "Shifts..."}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              {workingTimes.map((time) => (
+                <li>
+                  <a
+                    key={time}
+                    class="dropdown-item"
+                    onClick={() => setworkingtimes(time)}
+                  >
+                    {time}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="trashsearch">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                onClick={() => {
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location,
+                    valueworklocation,
+                    jobtype,
+                    experiencelevel,
+                    education,
+                    workingtimes,
+                    postdays
+                  );
+                  navigate(
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                  );
+                }}
+              ></i>
+              <i
+                class="fas fa-trash-alt"
+                onClick={() => {
+                  setworkingtimes("");
+                  // Fetch data with the updated state values
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location, // location is cleared
+                    valueworklocation,
+                    jobtype,
+                    experiencelevel,
+                    education,
+                    "",
+                    postdays,
+                    salary
+                  ); // Create a new URLSearchParams object
+                  const searchParams = new URLSearchParams(
+                    window.location.search
+                  );
+                  // Remove the specific parameter
+                  searchParams.delete("workingtimes");
+
+                  // Navigate to the new URL without the specific parameter
+                  navigate(`/?${searchParams.toString()}`);
+                }}
+              ></i>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              class="btn  dropdown-toggle"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              onClick={() => setpostdays("")}
+            >
+              {postdays || "Posted Job..."}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              {daysposted.map((day) => (
+                <li>
+                  <a
+                    key={day}
+                    class="dropdown-item"
+                    onClick={() => setpostdays(day)}
+                  >
+                    {day}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="trashsearch">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                onClick={() => {
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location,
+                    valueworklocation,
+                    jobtype,
+                    experiencelevel,
+                    education,
+                    workingtimes,
+                    postdays
+                  );
+                  navigate(
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                  );
+                }}
+              ></i>
+              <i
+                class="fas fa-trash-alt"
+                onClick={() => {
+                  setpostdays("");
+                  // Fetch data with the updated state values
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location, // location is cleared
+                    valueworklocation,
+                    jobtype,
+                    experiencelevel,
+                    education,
+                    workingtimes,
+                    "",
+                    salary
+                  ); // Create a new URLSearchParams object
+                  const searchParams = new URLSearchParams(
+                    window.location.search
+                  );
+                  // Remove the specific parameter
+                  searchParams.delete("postdays");
+
+                  // Navigate to the new URL without the specific parameter
+                  navigate(`/?${searchParams.toString()}`);
+                }}
+              ></i>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              class="btn  dropdown-toggle"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              onClick={() => setsalary("")}
+            >
+              {salary || "Salary..."}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              {salaryPackage.map((salary) => (
+                <li>
+                  <a
+                    key={salary}
+                    class="dropdown-item"
+                    onClick={() => setsalary(salary)}
+                  >
+                    {salary}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="trashsearch">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                onClick={() => {
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location,
+                    valueworklocation,
+                    jobtype,
+                    experiencelevel,
+                    education,
+                    workingtimes,
+                    postdays
+                  );
+                  navigate(
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                  );
+                }}
+              ></i>
+              <i
+                class="fas fa-trash-alt"
+                onClick={() => {
+                  setsalary("");
+                  // Fetch data with the updated state values
+                  actions.searchjobsdata(
+                    valueJobtitle,
+                    location,
+                    valueworklocation,
+                    jobtype,
+                    experiencelevel,
+                    education,
+                    workingtimes,
+                    postdays,
+                    ""
+                  ); // Create a new URLSearchParams object
+                  const searchParams = new URLSearchParams(
+                    window.location.search
+                  );
+                  // Remove the specific parameter
+                  searchParams.delete("salary");
+
+                  // Navigate to the new URL without the specific parameter
+                  navigate(`/?${searchParams.toString()}`);
+                }}
+              ></i>
+            </div>
+          </div>
+        </div>
+        <div className="grid-container">
+          {store.searchjobs && store.searchjobs.length > 0 ? (
+            store.searchjobs.map((element, index) => (
               <JobCard
                 key={index}
                 jobtitlename={element.job_title}
@@ -664,11 +891,11 @@ export const Home = () => {
                 displayapplied={displayapplied(element.id)}
                 dateposted={timeAgo(element.current_date, element.current_time)}
               />
-            );
-          })
-        ) : (
-          <p>No jobs posted yet.</p>
-        )}
+            ))
+          ) : (
+            <p>No jobs found</p>
+          )}
+        </div>
       </div>
       {showPopup && (
         <div>

@@ -22,77 +22,92 @@ export const JobCard = (props) => {
   };
   const navigate = useNavigate("");
   return (
-    <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-      <div className="card">
-        <div className="card-body">
-          <h5 className="card-title">
+    <div className="grid-item">
+      <div className="card-body">
+        <p
+          className="correctsign"
+          style={{
+            display: props.displayapplied,
+            color: "green",
+          }}
+        >
+          <i class="fa-solid fa-check"></i>
+        </p>
+        <div className="jobtitle">
+          <h3>
             <b>{props.jobtitlename}</b>
+          </h3>
+        </div>
+
+        <div className="compaanylocation">
+          <h5>
+            <b>{props.Company}</b>
           </h5>
-          <p className="card-text">
-            {props.Company}, {props.Location}
+          <p>
+            <i class="fa-solid fa-location-dot"></i>
+            {"  "}
+            {props.Location}
           </p>
-          <p className="card-text">
-            {props.Jobtype},{props.worktype},{props.shift}
-          </p>
-          <p className="card-text">{props.experiencelevel}</p>
-          <p className="card-text">
-            ${props.salary.min}-{props.salary.max} per Year
-          </p>
-          <p className="card-text">Posted {props.dateposted}</p>
-          <p className="card-text">Total Applicants: {props.totalapplicants}</p>
         </div>
-        <div className="jobbuttons">
-          <button
-            onClick={() => {
-              actions.viewjob(props.viewid).then(() => props.onViewClick());
-            }}
-          >
-            View
-          </button>
-          <button
-            style={{
-              display: props.displayapplied,
-            }}
-            onClick={() => {
-              // Encrypt element.id before navigating
-              const encryptedJobId = CryptoJS.AES.encrypt(
-                props.jobid.toString(),
-                "secret"
-              ).toString();
-              const encodedJobId = encodeURIComponent(encryptedJobId);
-              navigate(`/userchat/${encodedJobId}`);
-            }}
-          >
-            chat
-          </button>
-          {store.user.id ? (
-            <div>
-              <button
-                style={{
-                  display: viewsave || props.display,
-                }}
-                onClick={handleSave}
-              >
-                <i class="far fa-bookmark"></i>
-              </button>
-              <button
-                style={{ display: viewunsave || props.displayunsave }}
-                onClick={handleUnsave}
-              >
-                Unsave
-              </button>
-              <p
-                className="correctsign"
-                style={{
-                  backgroundColor: "#009879",
-                  display: props.displayapplied,
-                }}
-              >
-                <i class="far fa-check-circle"></i>
-              </p>
-            </div>
-          ) : null}
+        <div className="salary">
+          <p>
+            <i class="fa-solid fa-money-bill-trend-up"></i>
+            {"    "}$ {props.salary.min}-{props.salary.max} / Year
+          </p>
         </div>
+        <div className="category">
+          <p className="jobtype">{props.Jobtype}</p>
+          <p className="worktype">{props.worktype}</p>
+          <p className="shift">{props.shift}</p>
+          <p className="experiencelevel">{props.experiencelevel}</p>
+        </div>
+        <div className="timeapplicants">
+          <p className="posted">{props.dateposted}</p>
+          <p className="applicants">{props.totalapplicants} Applicants</p>
+        </div>
+      </div>
+      <div className="postjobsbuttons">
+        <button
+          onClick={() => {
+            actions.viewjob(props.viewid).then(() => props.onViewClick());
+          }}
+        >
+          View
+        </button>
+        <button
+          style={{
+            display: props.displayapplied,
+          }}
+          onClick={() => {
+            // Encrypt element.id before navigating
+            const encryptedJobId = CryptoJS.AES.encrypt(
+              props.jobid.toString(),
+              "secret"
+            ).toString();
+            const encodedJobId = encodeURIComponent(encryptedJobId);
+            navigate(`/userchat/${encodedJobId}`);
+          }}
+        >
+          chat
+        </button>
+        {store.user.id ? (
+          <div>
+            <button
+              style={{
+                display: viewsave || props.display,
+              }}
+              onClick={handleSave}
+            >
+              <i class="far fa-bookmark"></i>
+            </button>
+            <button
+              style={{ display: viewunsave || props.displayunsave }}
+              onClick={handleUnsave}
+            >
+              Unsave
+            </button>
+          </div>
+        ) : null}
       </div>
     </div>
   );

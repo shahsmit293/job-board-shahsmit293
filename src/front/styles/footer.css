@@ -1,0 +1,26 @@
+.footer {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px;
+}
+div .tags {
+  display: flex;
+}
+
+.tags p {
+  margin: 15px;
+}
+div .icons {
+  display: flex;
+}
+.icons p {
+  margin: 15px;
+}
+.logo {
+  margin: 15px;
+}
+.footer {
+  border-top: 0.5px slategrey solid;
+}

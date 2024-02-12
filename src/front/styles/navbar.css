@@ -1,0 +1,25 @@
+/* navbar.css */
+* {
+  color: #000;
+}
+.navbar {
+  background-color: #fff;
+  font-size: larger;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.container-fluid {
+  margin: 0px 5% 0px 5%;
+}
+a {
+  cursor: pointer;
+}
+
+.navbar-toggler {
+  background-color: lightblue;
+  color: black;
+}
+
+.navbar-nav {
+  margin-inline-start: auto;
+}

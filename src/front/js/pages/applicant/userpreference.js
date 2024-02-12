@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
 import propTypes from "prop-types";
+import "../../../styles/userpreference.css";
 
 export const UserPreference = (props) => {
   const { store, actions } = useContext(Context);
@@ -181,27 +182,22 @@ export const UserPreference = (props) => {
   );
 
   return (
-    <div className="preferenceinfo">
+    <div className="preference">
       {showdetails && (
         <div className="preferencedetails">
-          <h1>
-            <b>
-              <u>My Preference</u>
-            </b>
-          </h1>
-          <h4>
+          <p>
             <b>Job Titles</b>:{props.jobtitlepreference}
-          </h4>
-          <h4>
+          </p>
+          <p>
             <b>Job Types</b>:{" "}
             <span style={{ color: "lightgrey" }}>{props.fulltimeob}</span>{" "}
             <span style={{ color: "grey" }}>{props.parttimejob}</span>{" "}
             <span style={{ color: "lightgrey" }}>{props.contractjob}</span>{" "}
             <span style={{ color: "grey" }}>{props.temperoryjob}</span>{" "}
             <span style={{ color: "lightgrey" }}>{props.internship}</span>{" "}
-          </h4>
+          </p>
 
-          <h4>
+          <p>
             <b>Work Schedule</b>:{" "}
             <span style={{ color: "lightgrey" }}>{props.mondaytofriday}</span>{" "}
             <span style={{ color: "grey" }}>{props.weekendasneeded}</span>{" "}
@@ -223,22 +219,22 @@ export const UserPreference = (props) => {
             <span style={{ color: "grey" }}>{props.rotatingshift}</span>{" "}
             <span style={{ color: "lightgrey" }}>{props.splitshift}</span>{" "}
             <span style={{ color: "grey" }}>{props.overtime}</span>{" "}
-          </h4>
+          </p>
 
-          <h4>
+          <p>
             <b>Minimum Pay</b>:{props.minsalary} {props.salarytype}
-          </h4>
-          <h4>
+          </p>
+          <p>
             <b>Relocation</b>:{props.relocation} {props.relocationplace}
-          </h4>
-          <h4>
+          </p>
+          <p>
             <b>Remote</b>:
             <span style={{ color: "lightgrey" }}>{props.remotejob}</span>{" "}
             <span style={{ color: "grey" }}>{props.hybridjob}</span>{" "}
             <span style={{ color: "lightgrey" }}>{props.inperson}</span>{" "}
             <span style={{ color: "grey" }}>{props.temperoryremotejob}</span>{" "}
             <span style={{ color: "lightgrey" }}>{props.temperoryjob}</span>{" "}
-          </h4>
+          </p>
           {!props.jobtitlepreference &&
           !props.fulltimeob &&
           !props.parttimejob &&
@@ -310,10 +306,10 @@ export const UserPreference = (props) => {
               <u>Add Preference</u>
             </b>
           </h1>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Job Preference Name</b>:
-            </h4>
+            </label>
             <input
               typeof="text"
               value={valueJobpreferenceName}
@@ -322,10 +318,10 @@ export const UserPreference = (props) => {
               required
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Full Time</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="fulltime"
@@ -335,10 +331,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Part Time</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="parttime"
@@ -348,10 +344,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Contract</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="contract"
@@ -361,10 +357,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Temporary</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="temperory"
@@ -374,10 +370,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Internship</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="internship"
@@ -387,10 +383,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Monday to Friday</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="mondaytofriday"
@@ -400,10 +396,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Weekends As Needed</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="weekendasneeded"
@@ -415,10 +411,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Weekends Only</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="weekendsonly"
@@ -428,10 +424,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>No Weekends</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="noweekends"
@@ -441,10 +437,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Holidays</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="holidays"
@@ -454,10 +450,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Rotating Weekends</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="rotatingweekends"
@@ -469,10 +465,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Weekdays</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="weekdays"
@@ -482,10 +478,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Every Weekend</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="everyweekend"
@@ -495,10 +491,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>4 Hour Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="fourhourshift"
@@ -508,10 +504,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>8 Hour Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="eighthourshift"
@@ -521,10 +517,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>10 Hour Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="tenhourshift"
@@ -534,10 +530,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>12 Hour Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="twelvehourshift"
@@ -547,10 +543,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Day Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="dayshift"
@@ -560,10 +556,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Night Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="nightshift"
@@ -573,10 +569,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Evening Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="eveningshift"
@@ -586,10 +582,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>No Night Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="nonights"
@@ -599,10 +595,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Overnight Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="overnightshift"
@@ -614,10 +610,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Rotating Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="rotatingshift"
@@ -627,10 +623,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Split Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="splitshift"
@@ -640,10 +636,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Overtime</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="overtime"
@@ -653,10 +649,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Minimum Salary</b>
-            </h4>
+            </label>
             <input
               typeof="number"
               value={valueMinsalary}
@@ -664,10 +660,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             ></input>
           </div>
-          <div className="form-group">
-            <h4 htmlFor="salary">
+          <div className="preference-group">
+            <label htmlFor="salary">
               <b>Choose Salary Type</b>
-            </h4>
+            </label>
             <select
               name="salary"
               id="salary"
@@ -688,10 +684,10 @@ export const UserPreference = (props) => {
               <option value="per year">per year</option>
             </select>
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Relocation</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="relocation"
@@ -702,7 +698,7 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
+          <div className="preference-group">
             {valueRelocation === "Yes" && (
               <>
                 <h5>
@@ -741,7 +737,10 @@ export const UserPreference = (props) => {
                         >
                           Choose Location
                         </button>
-                        <ul className="dropdown-menu">
+                        <ul
+                          className="dropdown-menu"
+                          style={{ height: "100px", overflowY: "auto" }}
+                        >
                           <li>
                             {states.map((location) => (
                               <div key={location} className="checklocation">
@@ -765,10 +764,10 @@ export const UserPreference = (props) => {
               </>
             )}
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Remote Job</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="remotejob"
@@ -778,10 +777,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Hybrid Job</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="hybridjob"
@@ -791,10 +790,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>In Person Job</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="inpersonjob"
@@ -804,10 +803,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Temperory Remote Job</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="temperoryremotejob"
@@ -890,15 +889,10 @@ export const UserPreference = (props) => {
       )}
       {editForm && (
         <div className="editform">
-          <h1>
-            <b>
-              <u>Edit Preference</u>
-            </b>
-          </h1>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Job Preference Name</b>:
-            </h4>
+            </label>
             <input
               typeof="text"
               value={valueJobpreferenceName}
@@ -907,10 +901,10 @@ export const UserPreference = (props) => {
               required
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Full Time</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="fulltime"
@@ -921,10 +915,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Part Time</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="parttime"
@@ -935,10 +929,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Contract</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="contract"
@@ -949,10 +943,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Temporary</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="temperory"
@@ -963,10 +957,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Internship</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="internship"
@@ -977,10 +971,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Monday to Friday</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="mondaytofriday"
@@ -991,10 +985,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Weekends As Needed</b>:
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="weekendasneeded"
@@ -1007,10 +1001,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Weekends Only</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="weekendsonly"
@@ -1021,10 +1015,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>No Weekends</b>:
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="noweekends"
@@ -1035,10 +1029,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Holidays</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="holidays"
@@ -1049,10 +1043,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Rotating Weekends</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="rotatingweekends"
@@ -1065,10 +1059,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Weekdays</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="weekdays"
@@ -1079,10 +1073,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Every Weekends</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="everyweekend"
@@ -1093,10 +1087,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>4 Hour Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="fourhourshift"
@@ -1107,10 +1101,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>8 Hour Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="eighthourshift"
@@ -1121,10 +1115,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>10 Hour Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="tenhourshift"
@@ -1135,10 +1129,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>12 Hour Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="twelvehourshift"
@@ -1149,10 +1143,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Day Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="dayshift"
@@ -1163,10 +1157,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Night Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="nightshift"
@@ -1177,10 +1171,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Evening Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="eveningshift"
@@ -1191,10 +1185,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>No Nights</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="nonights"
@@ -1205,10 +1199,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Overnight Shift</b>:
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="overnightshift"
@@ -1221,10 +1215,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Rotating Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="rotatingshift"
@@ -1235,10 +1229,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Split Shift</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="splitshift"
@@ -1249,10 +1243,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Overtime</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="overtine"
@@ -1263,10 +1257,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Minimum Salary</b>
-            </h4>
+            </label>
             <input
               typeof="number"
               value={valueMinsalary}
@@ -1275,10 +1269,10 @@ export const UserPreference = (props) => {
               required
             ></input>
           </div>
-          <div className="form-group">
-            <h4 htmlFor="salary">
+          <div className="preference-group">
+            <label htmlFor="salary">
               <b>Choose a Salary Type</b>
-            </h4>
+            </label>
             <select
               name="salary"
               id="salary"
@@ -1299,10 +1293,10 @@ export const UserPreference = (props) => {
               <option value="per year">per year</option>
             </select>
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Relocation</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="relocation"
@@ -1317,9 +1311,9 @@ export const UserPreference = (props) => {
           <div className="btn-group">
             {valueRelocation === "Yes" && (
               <>
-                <h4>
+                <label>
                   <b>Anywhere</b>
-                </h4>
+                </label>
                 <input
                   type="radio"
                   id="anywhere"
@@ -1330,9 +1324,9 @@ export const UserPreference = (props) => {
                   onFocus={() => setError("")}
                 />
                 <br />
-                <h4>
+                <label>
                   <b>Choose Location</b>
-                </h4>
+                </label>
                 <input
                   type="radio"
                   id="chooselocation"
@@ -1358,10 +1352,17 @@ export const UserPreference = (props) => {
                         >
                           Choose Location
                         </button>
-                        <ul className="dropdown-menu">
+                        <ul
+                          className="dropdown-menu"
+                          style={{ height: "100px", overflowY: "auto" }}
+                        >
                           <li>
                             {states.map((location) => (
-                              <div key={location} className="checklocation">
+                              <div
+                                key={location}
+                                className="checklocation"
+                                style={{ display: "flex" }}
+                              >
                                 <h6>
                                   <b>{location}</b>
                                 </h6>
@@ -1386,10 +1387,10 @@ export const UserPreference = (props) => {
             )}
           </div>
           <br />
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Remote Job</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="remotejob"
@@ -1400,10 +1401,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Hybrid Job</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="hybridjob"
@@ -1414,10 +1415,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>In Person Job</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="inpersonjob"
@@ -1428,10 +1429,10 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
+          <div className="preference-group">
+            <label>
               <b>Temperory Remote Job</b>
-            </h4>
+            </label>
             <input
               type="checkbox"
               name="valueTemperoryremotejob"

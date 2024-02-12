@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../../store/appContext";
 import { JobCard } from "../../component/jobcard";
 import { ViewJobPage } from "./viewjobpage";
+import "../../../styles/userinbox.css";
+
 export const Userinbox = () => {
   const { store, actions } = useContext(Context);
   const [showPopup, setShowPopup] = useState(false);
@@ -44,46 +46,60 @@ export const Userinbox = () => {
     }
   };
   return (
-    <div>
-      {store.alljobs &&
-        store.alljobs
-          .filter(
+    <div className="userinbox">
+      <div className="countinbox" style={{ color: "blue" }}>
+        <b>Total Contacted Jobs: </b>
+        {store.alljobs &&
+          store.alljobs.filter(
             (item) =>
               Array.isArray(store.contacted) &&
               store.contacted.some((contact) => contact.job_id === item.id)
-          )
-          .map((element, index) => (
-            <JobCard
-              key={index}
-              jobtitlename={element.job_title}
-              Company={element.company_name}
-              Location={element.location}
-              Jobtype={element.job_type}
-              worktype={element.work_location_type}
-              experiencelevel={element.experience_level_type}
-              shift={element.working_times}
-              salary={{ min: element.min_salary, max: element.max_salary }}
-              totalapplicants={element.total_applicants}
-              viewid={element.id}
-              onViewClick={handleViewClick}
-              jobid={element.id}
-              display={"none"}
-              displayunsave={"none"}
-              displayapplied={displayapplied(element.id)}
-              dateposted={timeAgo(element.current_date, element.current_time)}
-            />
-          ))}
-      {store.contacted && store.contacted.length === 0 && (
-        <p>No chat initiated yet</p>
-      )}
-      {showPopup && (
-        <div>
-          <p className="popup">
-            <button onClick={() => setShowPopup(false)}>Close</button>
-            <ViewJobPage />
+          ).length}
+      </div>
+      <div className="grid-container">
+        {Array.isArray(store.contacted) && store.contacted.length > 0 ? (
+          store.alljobs
+            .filter(
+              (item) =>
+                Array.isArray(store.contacted) &&
+                store.contacted.some((contact) => contact.job_id === item.id)
+            )
+            .map((element, index) => (
+              <JobCard
+                key={index}
+                jobtitlename={element.job_title}
+                Company={element.company_name}
+                Location={element.location}
+                Jobtype={element.job_type}
+                worktype={element.work_location_type}
+                experiencelevel={element.experience_level_type}
+                shift={element.working_times}
+                salary={{ min: element.min_salary, max: element.max_salary }}
+                totalapplicants={element.total_applicants}
+                viewid={element.id}
+                onViewClick={handleViewClick}
+                jobid={element.id}
+                display={"none"}
+                displayunsave={"none"}
+                displayapplied={displayapplied(element.id)}
+                dateposted={timeAgo(element.current_date, element.current_time)}
+              />
+            ))
+        ) : (
+          <p>
+            <p>No chat initiated yet</p>
           </p>
-        </div>
-      )}
+        )}
+
+        {showPopup && (
+          <div>
+            <p className="popup">
+              <button onClick={() => setShowPopup(false)}>Close</button>
+              <ViewJobPage />
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

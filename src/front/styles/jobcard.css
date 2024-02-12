@@ -1,13 +1,52 @@
-.card {
-  background-color: darkgoldenrod;
-  width: 18rem;
-  overflow: auto;
-  height: 350px;
-}
-.jobbuttons {
+.jobtitle,
+.compaanylocation,
+.salary,
+.category,
+.timeapplicants,
+.postjobsbuttons {
   display: flex;
-  justify-content: space-around;
+  margin-right: 5px;
+  justify-content: center;
 }
-.jobbuttons button {
-  width: 75px;
+.grid-item {
+  background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
+  background-size: contain;
+}
+
+.category .jobtype,
+.category .worktype,
+.category .shift,
+.category .experiencelevel {
+  font-size: small;
+  padding: 5px;
+}
+.category .jobtype {
+  background-color: rgb(179, 214, 245);
+  color: rgb(0, 128, 240);
+}
+.category .worktype {
+  background-color: rgb(202, 255, 185);
+  color: rgba(35, 139, 0, 0.987);
+}
+.category .shift {
+  background-color: rgb(243, 211, 190);
+  color: rgb(126, 52, 2);
+}
+.category .experiencelevel {
+  background-color: rgb(200, 160, 238);
+  color: rgb(70, 1, 134);
+}
+
+.timeapplicants .posted,
+.timeapplicants .applicants {
+  padding: 5px;
+  font-size: small;
+}
+.timeapplicants .posted {
+  background-color: rgb(243, 224, 176);
+  color: rgb(126, 91, 3);
+}
+.timeapplicants .applicants {
+  background-color: rgb(247, 178, 178);
+  color: rgb(124, 0, 0);
 }

@@ -1,4 +1,4 @@
-.createjobpostpage form {
+.editjobpostpage form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,7 +10,17 @@
   box-shadow: 1px 1px 0px #999, 2px 2px 0px #999, 3px 3px 0px #999,
     4px 4px 0px #999, 5px 5px 0px #999, 6px 6px 0px #999;
 }
-
+.editjob {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.editjobpostpage {
+  min-height: 100vh;
+  background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
+  background-size: contain;
+  margin: 0px 5% 0px 5%;
+}
 .label {
   flex-direction: row;
   padding: 15px;
@@ -36,28 +46,17 @@
   margin-top: 0;
   padding: 15px;
 }
-.createjob {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.createjobpostpage {
-  min-height: 100vh;
-  background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
-  background-size: contain;
-  margin: 0px 5% 0px 5%;
-}
 
 @media (max-width: 760px) {
-  .createjobpostpage form div {
+  .editjobpostpage form div {
     display: flex;
     flex-direction: column;
     margin: 0px;
   }
-  .createjobpostpage form div {
+  .editjobpostpage form div {
     margin: 0px;
   }
-  .createjobpostpage form {
+  .editjobpostpage form {
     display: flex;
     flex-direction: column;
     justify-content: center;

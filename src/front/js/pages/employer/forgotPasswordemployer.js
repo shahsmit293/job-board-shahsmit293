@@ -34,28 +34,16 @@ const ForgotPasswordEmployer = ({ onClose }) => {
   };
 
   return (
-    <div className=" justify-content-center align-items-center vh-100">
-      <div className="text-center login">
-        <div>
-          <input
-            className="input"
-            type="email"
-            name="email"
-            placeholder="Enter your email for password recovery"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </div>
-        <div>
-          <button
-            className="btn btn-secondary"
-            type="button"
-            onClick={handleForgotPassword}
-          >
-            Send Email
-          </button>
-        </div>
-      </div>
+    <div>
+      <input
+        className="input"
+        type="email"
+        name="email"
+        placeholder="Enter your email for password recovery"
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
+      />
+      <button onClick={handleForgotPassword}>Send Email</button>
     </div>
   );
 };

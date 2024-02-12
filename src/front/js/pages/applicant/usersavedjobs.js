@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import "../../../styles/home.css";
+import "../../../styles/usersavedjobs.css";
 import { JobCard } from "../../component/jobcard";
 import { ViewJobPage } from "./viewjobpage";
 
@@ -44,63 +44,69 @@ export const UserSavedJobs = () => {
     }
   };
   return (
-    <div className="row gy-3" style={{ margin: "5px" }}>
-      {store.alljobs && store.alljobs.length > 0 ? (
-        Array.isArray(store.usersaved) && store.usersaved.length > 0 ? (
-          store.alljobs
-            .filter(
-              (item) =>
-                Array.isArray(store.usersaved) &&
-                store.usersaved.some((b) => b.job_id === item.id)
-            )
-            .map((element, index) => {
-              return (
-                <JobCard
-                  key={element.id}
-                  jobtitlename={element.job_title}
-                  Company={element.company_name}
-                  Location={element.location}
-                  Jobtype={element.job_type}
-                  worktype={element.work_location_type}
-                  experiencelevel={element.experience_level_type}
-                  shift={element.working_times}
-                  salary={{
-                    min: element.min_salary,
-                    max: element.max_salary,
-                  }}
-                  totalapplicants={element.total_applicants}
-                  viewid={element.id}
-                  onViewClick={handleViewClick}
-                  jobid={element.id}
-                  display="none"
-                  displayunsave="inline"
-                  displayapplied={displayapplied(element.id)}
-                  dateposted={timeAgo(
-                    element.current_date,
-                    element.current_time
-                  )}
-                />
-              );
-            })
+    <div className="usersavedjobs">
+      <div className="countsavedjobs" style={{ color: "blue" }}>
+        <b>Total Saved Jobs: </b>
+        {store.usersaved.length}
+      </div>
+      <div className="grid-container">
+        {store.alljobs && store.alljobs.length > 0 ? (
+          Array.isArray(store.usersaved) && store.usersaved.length > 0 ? (
+            store.alljobs
+              .filter(
+                (item) =>
+                  Array.isArray(store.usersaved) &&
+                  store.usersaved.some((b) => b.job_id === item.id)
+              )
+              .map((element, index) => {
+                return (
+                  <JobCard
+                    key={element.id}
+                    jobtitlename={element.job_title}
+                    Company={element.company_name}
+                    Location={element.location}
+                    Jobtype={element.job_type}
+                    worktype={element.work_location_type}
+                    experiencelevel={element.experience_level_type}
+                    shift={element.working_times}
+                    salary={{
+                      min: element.min_salary,
+                      max: element.max_salary,
+                    }}
+                    totalapplicants={element.total_applicants}
+                    viewid={element.id}
+                    onViewClick={handleViewClick}
+                    jobid={element.id}
+                    display="none"
+                    displayunsave="inline"
+                    displayapplied={displayapplied(element.id)}
+                    dateposted={timeAgo(
+                      element.current_date,
+                      element.current_time
+                    )}
+                  />
+                );
+              })
+          ) : (
+            <p>No jobs saved yet.</p>
+          )
         ) : (
-          <p>No jobs saved yet.</p>
-        )
-      ) : (
-        <p>No jobs posted yet.</p>
-      )}
-      {showPopup && (
-        <div>
-          <p className="popup">
-            <button
-              className="styled-button"
-              onClick={() => setShowPopup(false)}
-            >
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-            <ViewJobPage />
-          </p>
-        </div>
-      )}
+          <p>No jobs posted yet.</p>
+        )}
+        {showPopup && (
+          <div>
+            <p className="popup">
+              <button
+                className="styled-button"
+                onClick={() => setShowPopup(false)}
+              >
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+              <ViewJobPage />
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

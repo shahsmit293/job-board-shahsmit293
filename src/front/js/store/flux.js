@@ -38,7 +38,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       usersaved: [],
       userappliedjobs: [],
       applicants: [],
-      employersavedusers: [],
+      employersavedusers: undefined,
       viewapplicantprofile: undefined,
       applliedapplicants: [],
       allapplicants: [],
@@ -356,7 +356,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         setNumberHiringValue,
         setWorkLocationTypeValue,
         setJobTypeValue,
-        setLocationValue,
+        setLocation,
         setWorkingHoursValue,
         setExperienceLevelValue,
         setEducationValue,
@@ -392,7 +392,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         setNumberHiringValue(data.number_hiring);
         setWorkLocationTypeValue(data.work_location_type);
         setJobTypeValue(data.job_type);
-        setLocationValue(data.location);
+        setLocation(data.location);
         setWorkingHoursValue(data.working_hours);
         setExperienceLevelValue(data.experience_level_type);
         setEducationValue(data.education_degree);

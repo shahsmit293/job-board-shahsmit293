@@ -15,13 +15,17 @@ export const UserProfile = () => {
   const [viewExperience, SetViewExperience] = useState(false);
   const [viewPreference, SetViewPreference] = useState(false);
   const [viewSkill, SetViewSkill] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("contact");
 
-  const [file, setFile] = useState(null); // Create a state variable for the file
-  const { store, actions } = useContext(Context); // Access your Flux actions
-  const navigate = useNavigate("");
+  const handlecolor = (tabName) => {
+    setSelectedTab(tabName);
+  };
+
+  const [file, setFile] = useState(null);
+  const { store, actions } = useContext(Context);
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]); // Update the file state when a file is selected
+    setFile(event.target.files[0]);
   };
 
   useEffect(() => {
@@ -35,8 +39,12 @@ export const UserProfile = () => {
   return (
     <div className="profile">
       <div className="profilemenu">
-        <ul>
-          <button
+        <div
+          style={{
+            backgroundColor: selectedTab === "contact" ? "lightblue" : null,
+          }}
+        >
+          <p
             onClick={() => {
               SetViewResume(false);
               SetViewContact(true);
@@ -44,11 +52,18 @@ export const UserProfile = () => {
               SetViewExperience(false);
               SetViewPreference(false);
               SetViewSkill(false);
+              handlecolor("contact");
             }}
           >
             Contact
-          </button>
-          <button
+          </p>
+        </div>
+        <div
+          style={{
+            backgroundColor: selectedTab === "resume" ? "lightblue" : null,
+          }}
+        >
+          <p
             onClick={() => {
               SetViewResume(true);
               SetViewContact(false);
@@ -56,11 +71,19 @@ export const UserProfile = () => {
               SetViewExperience(false);
               SetViewPreference(false);
               SetViewSkill(false);
+              handlecolor("resume");
             }}
           >
-            Reume
-          </button>
-          <button
+            Resume
+          </p>
+        </div>
+        <div
+          style={{
+            backgroundColor:
+              selectedTab === "qualification" ? "lightblue" : null,
+          }}
+        >
+          <p
             onClick={() => {
               SetViewResume(false);
               SetViewContact(false);
@@ -68,11 +91,18 @@ export const UserProfile = () => {
               SetViewExperience(false);
               SetViewPreference(false);
               SetViewSkill(false);
+              handlecolor("qualification");
             }}
           >
             Qualification
-          </button>
-          <button
+          </p>
+        </div>
+        <div
+          style={{
+            backgroundColor: selectedTab === "experience" ? "lightblue" : null,
+          }}
+        >
+          <p
             onClick={() => {
               SetViewResume(false);
               SetViewContact(false);
@@ -80,11 +110,18 @@ export const UserProfile = () => {
               SetViewExperience(true);
               SetViewPreference(false);
               SetViewSkill(false);
+              handlecolor("experience");
             }}
           >
             Experience
-          </button>
-          <button
+          </p>
+        </div>
+        <div
+          style={{
+            backgroundColor: selectedTab === "skills" ? "lightblue" : null,
+          }}
+        >
+          <p
             onClick={() => {
               SetViewResume(false);
               SetViewContact(false);
@@ -92,11 +129,18 @@ export const UserProfile = () => {
               SetViewExperience(false);
               SetViewPreference(false);
               SetViewSkill(true);
+              handlecolor("skills");
             }}
           >
             Skills
-          </button>
-          <button
+          </p>
+        </div>
+        <div
+          style={{
+            backgroundColor: selectedTab === "preference" ? "lightblue" : null,
+          }}
+        >
+          <p
             onClick={() => {
               SetViewResume(false);
               SetViewContact(false);
@@ -104,73 +148,22 @@ export const UserProfile = () => {
               SetViewExperience(false);
               SetViewPreference(true);
               SetViewSkill(false);
+              handlecolor("preference");
             }}
           >
             Preference
-          </button>
-        </ul>
-      </div>
-      <div className="details">
-        <div className="resume">
-          {viewResume && (
-            <div className="resume">
-              <h1>
-                <b>
-                  <u>Your Resume</u>
-                </b>
-              </h1>
-              {!store.resume_detail ? (
-                <>
-                  <div className="form-group">
-                    <h4>
-                      <b>Resume:</b>
-                    </h4>
-                    <input type="file" onChange={handleFileChange}></input>
-                  </div>
-                  <div>
-                    <button
-                      onClick={() => {
-                        actions.adduserresume(store.user.id, file);
-                      }}
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  {store.resume_detail.map((item) => {
-                    return (
-                      <div key={item.id}>
-                        <h4>{item.resume_name}</h4>
-                        <button
-                          onClick={() => actions.downloadResume(store.user.id)}
-                        >
-                          Download
-                        </button>
-                        <button
-                          onClick={() => {
-                            actions.deleteresume(item.id);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    );
-                  })}
-                </>
-              )}
-            </div>
-          )}
+          </p>
         </div>
-        <div className="contact">
+      </div>
+      <div className="profiledetails">
+        <div className="contactinfo">
           {viewContact && (
             <>
-              <h1>
-                <b>
-                  <u>Contact Information</u>
-                </b>
-              </h1>
+              <div className="infoheader">
+                <h4>
+                  <b>CONTACT INFORMATION</b>
+                </h4>
+              </div>
               <UserContactInfo
                 firstname={store.userbio && store.userbio.first_name}
                 lastname={store.userbio && store.userbio.last_name}
@@ -180,25 +173,83 @@ export const UserProfile = () => {
             </>
           )}
         </div>
-        <div className="qualification">
+        <div className="resumeinfo">
+          {viewResume && (
+            <>
+              <div className="infoheader">
+                <h4>
+                  <b>MY RESUME</b>
+                </h4>
+              </div>
+
+              <div className="resume">
+                {!store.resume_detail ? (
+                  <>
+                    <p>
+                      <b>Resume:</b>
+                    </p>
+                    <input type="file" onChange={handleFileChange} />
+                    <button
+                      onClick={() => {
+                        actions.adduserresume(store.user.id, file);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {store.resume_detail.map((item) => {
+                      return (
+                        <div key={item.id}>
+                          <h4>
+                            {" "}
+                            <i class="fa-solid fa-file-lines"></i>{" "}
+                            {item.resume_name}
+                          </h4>
+                          <button
+                            onClick={() =>
+                              actions.downloadResume(store.user.id)
+                            }
+                          >
+                            Download
+                          </button>
+                          <button
+                            onClick={() => {
+                              actions.deleteresume(item.id);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="qualificationinfo">
           {viewQualification &&
             (!Array.isArray(store.usereducation) ||
             store.usereducation.length === 0 ? (
               <>
-                <h1>
-                  <b>
-                    <u>Qualification</u>
-                  </b>
-                </h1>
+                <div className="infoheader">
+                  <h4>
+                    <b>QUALIFICATION</b>
+                  </h4>
+                </div>
                 <UserQualification />
               </>
             ) : (
               <>
-                <h1>
-                  <b>
-                    <u>Qualification</u>
-                  </b>
-                </h1>
+                <div className="infoheader">
+                  <h4>
+                    <b>QUALIFICATION</b>
+                  </h4>
+                </div>
                 {store.usereducation.map((education, index) => (
                   <UserQualification
                     key={index}
@@ -218,25 +269,25 @@ export const UserProfile = () => {
             ))}
         </div>
 
-        <div className="experience">
+        <div className="experienceinfo">
           {viewExperience &&
             (!Array.isArray(store.userexperience) ||
             store.userexperience.length === 0 ? (
               <>
-                <h1>
-                  <b>
-                    <u>Experience</u>
-                  </b>
-                </h1>
+                <div className="infoheader">
+                  <h4>
+                    <b>EXPERIENCE</b>
+                  </h4>
+                </div>
                 <UserExperience />
               </>
             ) : (
               <>
-                <h1>
-                  <b>
-                    <u>Experience</u>
-                  </b>
-                </h1>
+                <div className="infoheader">
+                  <h4>
+                    <b>EXPERIENCE</b>
+                  </h4>
+                </div>
                 {store.userexperience.map((education, index) => (
                   <UserExperience
                     key={index}
@@ -255,24 +306,24 @@ export const UserProfile = () => {
               </>
             ))}
         </div>
-        <div className="skill">
+        <div className="skillinfo">
           {viewSkill &&
             (!Array.isArray(store.userskill) || store.userskill.length === 0 ? (
               <>
-                <h1>
-                  <b>
-                    <u>Skills</u>
-                  </b>
-                </h1>
+                <div className="infoheader">
+                  <h4>
+                    <b>SKILLS</b>
+                  </h4>
+                </div>
                 <Userskill />
               </>
             ) : (
               <>
-                <h1>
-                  <b>
-                    <u>Skills</u>
-                  </b>
-                </h1>
+                <div className="infoheader">
+                  <h4>
+                    <b>SKILLS</b>
+                  </h4>
+                </div>
                 {store.userskill.map((skills, index) => (
                   <Userskill
                     key={index}
@@ -286,102 +337,113 @@ export const UserProfile = () => {
               </>
             ))}
         </div>
-        <div className="preference">
+        <div className="preferenceinfo">
           {viewPreference && (
-            <UserPreference
-              jobtitlepreference={
-                store.userpreference &&
-                store.userpreference.job_title_preference
-              }
-              fulltimeob={
-                store.userpreference && store.userpreference.full_time_job
-              }
-              parttimejob={
-                store.userpreference && store.userpreference.part_time_job
-              }
-              contractjob={
-                store.userpreference && store.userpreference.contract_job
-              }
-              temperoryjob={
-                store.userpreference && store.userpreference.temperory_job
-              }
-              internship={
-                store.userpreference && store.userpreference.internship
-              }
-              mondaytofriday={
-                store.userpreference && store.userpreference.monday_to_friday
-              }
-              weekendasneeded={
-                store.userpreference && store.userpreference.weekend_as_needed
-              }
-              weekendonly={
-                store.userpreference && store.userpreference.weekend_only
-              }
-              noweekends={
-                store.userpreference && store.userpreference.no_weekends
-              }
-              holidays={store.userpreference && store.userpreference.holidays}
-              rotatingweekends={
-                store.userpreference && store.userpreference.rotating_weekends
-              }
-              weekdays={store.userpreference && store.userpreference.weekdays}
-              everyweekend={
-                store.userpreference && store.userpreference.every_weekend
-              }
-              fourhourshift={
-                store.userpreference && store.userpreference.four_hour_shift
-              }
-              eighthourshift={
-                store.userpreference && store.userpreference.eight_hour_shift
-              }
-              tenhourshift={
-                store.userpreference && store.userpreference.ten_hour_shift
-              }
-              twelvehourshift={
-                store.userpreference && store.userpreference.twelve_hour_shift
-              }
-              dayshift={store.userpreference && store.userpreference.day_shift}
-              nightshift={
-                store.userpreference && store.userpreference.night_shift
-              }
-              eveningshift={
-                store.userpreference && store.userpreference.evening_shift
-              }
-              nonight={store.userpreference && store.userpreference.no_night}
-              overnightshift={
-                store.userpreference && store.userpreference.overnight_shift
-              }
-              rotatingshift={
-                store.userpreference && store.userpreference.rotating_shift
-              }
-              splitshift={
-                store.userpreference && store.userpreference.split_shift
-              }
-              overtime={store.userpreference && store.userpreference.overtime}
-              minsalary={
-                store.userpreference && store.userpreference.min_salary
-              }
-              salarytype={
-                store.userpreference && store.userpreference.salary_type
-              }
-              relocation={
-                store.userpreference && store.userpreference.relocation
-              }
-              relocationplace={
-                store.userpreference && store.userpreference.relocation_place
-              }
-              remotejob={
-                store.userpreference && store.userpreference.remote_job
-              }
-              hybridjob={
-                store.userpreference && store.userpreference.hybrid_job
-              }
-              inperson={store.userpreference && store.userpreference.in_person}
-              temperoryremotejob={
-                store.userpreference &&
-                store.userpreference.temperory_remote_job
-              }
-            />
+            <>
+              <div className="infoheader">
+                <h4>
+                  <b>MY PREFERENCE</b>
+                </h4>
+              </div>
+              <UserPreference
+                jobtitlepreference={
+                  store.userpreference &&
+                  store.userpreference.job_title_preference
+                }
+                fulltimeob={
+                  store.userpreference && store.userpreference.full_time_job
+                }
+                parttimejob={
+                  store.userpreference && store.userpreference.part_time_job
+                }
+                contractjob={
+                  store.userpreference && store.userpreference.contract_job
+                }
+                temperoryjob={
+                  store.userpreference && store.userpreference.temperory_job
+                }
+                internship={
+                  store.userpreference && store.userpreference.internship
+                }
+                mondaytofriday={
+                  store.userpreference && store.userpreference.monday_to_friday
+                }
+                weekendasneeded={
+                  store.userpreference && store.userpreference.weekend_as_needed
+                }
+                weekendonly={
+                  store.userpreference && store.userpreference.weekend_only
+                }
+                noweekends={
+                  store.userpreference && store.userpreference.no_weekends
+                }
+                holidays={store.userpreference && store.userpreference.holidays}
+                rotatingweekends={
+                  store.userpreference && store.userpreference.rotating_weekends
+                }
+                weekdays={store.userpreference && store.userpreference.weekdays}
+                everyweekend={
+                  store.userpreference && store.userpreference.every_weekend
+                }
+                fourhourshift={
+                  store.userpreference && store.userpreference.four_hour_shift
+                }
+                eighthourshift={
+                  store.userpreference && store.userpreference.eight_hour_shift
+                }
+                tenhourshift={
+                  store.userpreference && store.userpreference.ten_hour_shift
+                }
+                twelvehourshift={
+                  store.userpreference && store.userpreference.twelve_hour_shift
+                }
+                dayshift={
+                  store.userpreference && store.userpreference.day_shift
+                }
+                nightshift={
+                  store.userpreference && store.userpreference.night_shift
+                }
+                eveningshift={
+                  store.userpreference && store.userpreference.evening_shift
+                }
+                nonight={store.userpreference && store.userpreference.no_night}
+                overnightshift={
+                  store.userpreference && store.userpreference.overnight_shift
+                }
+                rotatingshift={
+                  store.userpreference && store.userpreference.rotating_shift
+                }
+                splitshift={
+                  store.userpreference && store.userpreference.split_shift
+                }
+                overtime={store.userpreference && store.userpreference.overtime}
+                minsalary={
+                  store.userpreference && store.userpreference.min_salary
+                }
+                salarytype={
+                  store.userpreference && store.userpreference.salary_type
+                }
+                relocation={
+                  store.userpreference && store.userpreference.relocation
+                }
+                relocationplace={
+                  store.userpreference && store.userpreference.relocation_place
+                }
+                remotejob={
+                  store.userpreference && store.userpreference.remote_job
+                }
+                hybridjob={
+                  store.userpreference && store.userpreference.hybrid_job
+                }
+                inperson={
+                  store.userpreference && store.userpreference.in_person
+                }
+                temperoryremotejob={
+                  store.userpreference &&
+                  store.userpreference.temperory_remote_job
+                }
+              />
+            </>
           )}
         </div>
       </div>

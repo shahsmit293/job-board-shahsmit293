@@ -5,6 +5,7 @@ import { Context } from "../../store/appContext";
 import { ReceivedApplicants } from "../../component/receivedapplicants";
 import { ViewApplicantProfile } from "./viewapplicantprofile";
 import CryptoJS from "crypto-js";
+import "../../../styles/employerinbox.css";
 
 export const Employerinbox = () => {
   const { store, actions } = useContext(Context);
@@ -35,46 +36,26 @@ export const Employerinbox = () => {
   }
 
   return (
-    <div className="page">
-      <div className="sidebar">
-        <ul>
-          <button
-            onClick={() => {
-              setallapplicants(true);
-              setsavedapplicants(false);
-            }}
-          >
-            All Applicants
-          </button>
-          <button
-            onClick={() => {
-              setsavedapplicants(true);
-              setallapplicants(false);
-            }}
-          >
-            Saved Applicants
-          </button>
-          <button
-            onClick={() => {
-              // Encrypt jobIdParam before navigating
-              const encryptedJobId = CryptoJS.AES.encrypt(
-                jobIdParam.toString(),
-                "secret"
-              ).toString();
-              const encodedJobId = encodeURIComponent(encryptedJobId);
-              navigate(`/employerinbox/${encodedJobId}`);
-            }}
-          >
-            Inbox
-          </button>
-        </ul>
-      </div>
+    <div className="employerinboxpage">
       {loading ? (
         <p>Loading applicants...</p>
       ) : store.contactedemployer.length === 0 ? (
-        <p>No profile saved yet.</p>
+        <p>No profile contacted yet.</p>
       ) : (
-        <div className="text-center mt-5">
+        <div className="employerinboxtable">
+          <div className="totalcontacted">
+            <p style={{ color: "blue" }}>
+              Toatal Contacted:{" "}
+              {store.allapplicants &&
+                store.allapplicants.filter(
+                  (item) =>
+                    Array.isArray(store.contactedemployer) &&
+                    store.contactedemployer.some(
+                      (contact) => contact.user_id === item.user_id
+                    )
+                ).length}
+            </p>
+          </div>
           <table className="styled-table">
             <thead>
               <tr>

@@ -1,0 +1,29 @@
+.experience {
+  display: flex;
+  width: auto;
+  padding: 25px;
+  justify-content: center;
+  border: 0.5px solid lightgray;
+  background-color: #fff;
+  box-shadow: 1px 1px 0px #999, 2px 2px 0px #999, 3px 3px 0px #999,
+    4px 4px 0px #999, 5px 5px 0px #999, 6px 6px 0px #999;
+}
+.experiencedetails {
+  width: 100%;
+  padding: 25px;
+}
+.experience-group {
+  display: flex;
+  width: 100%;
+}
+
+.experience-group input,
+select {
+  margin-inline-start: auto;
+  width: 50%;
+}
+
+.experience-group label {
+  margin-inline-end: auto;
+  width: 50%;
+}

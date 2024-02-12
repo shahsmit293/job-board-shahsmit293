@@ -1,0 +1,104 @@
+.chatpage {
+  display: flex;
+  background-color: #f9f9fb;
+  margin: 0px 5% 0px 5%;
+  background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
+  background-size: contain;
+}
+.chatjob {
+  width: 25%;
+}
+.chatjob .grid-item {
+  width: 100%;
+  height: auto;
+  justify-items: start;
+}
+.chatlayout {
+  width: 75%;
+  border: 1px solid lightgray;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding: 5px;
+}
+.chatlayout .chattitle {
+  display: flex;
+  justify-content: start;
+  align-self: center;
+  margin-bottom: 5px;
+  background-color: #fff;
+  width: 100%;
+  align-items: center;
+}
+.chattitle p {
+  margin-left: 5px;
+}
+
+.typemessage {
+  display: flex;
+  margin-top: 10px;
+  border: 0.5px solid lightgray;
+  background-color: #fff;
+  align-items: center;
+}
+.typemessage input {
+  background-color: #fff;
+  width: 95%;
+  border: none;
+  height: 50px;
+  margin: 0px;
+}
+
+.typemessage i {
+  cursor: pointer;
+  margin-left: 15px;
+}
+.sender {
+  display: flex;
+  flex-direction: column;
+  background-color: lightblue;
+  width: fit-content;
+  border-radius: 5px;
+  overflow-wrap: anywhere;
+  margin-inline-start: auto;
+}
+
+.receiver {
+  display: flex;
+  flex-direction: column;
+  background-color: lightgreen;
+  width: fit-content;
+  border-radius: 5%;
+  overflow-wrap: anywhere;
+}
+
+.setsender {
+  display: flex;
+  margin-left: 50%;
+}
+
+.setreceiver {
+  display: flex;
+  margin-right: 50%;
+}
+.messages {
+  height: 550px;
+  overflow-y: auto;
+}
+
+@media (max-width: 1000px) {
+  .chatpage {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+  }
+  .chatjob {
+    width: 100%;
+    align-items: center;
+  }
+  .chatlayout {
+    align-items: start;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+  }
+}

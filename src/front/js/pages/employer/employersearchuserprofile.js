@@ -3,7 +3,6 @@ import "../../../styles/employersearchuserprofile.css";
 import { Context } from "../../store/appContext";
 import { Usersearchprofilecard } from "../../component/usersearchprofilecard";
 import { Viewusersprofile } from "./viewusersprofile";
-import { EmployerSidebar } from "../../component/employersidebar";
 import { useNavigate } from "react-router-dom";
 
 export const EmployersearchUserprofile = () => {
@@ -215,143 +214,14 @@ export const EmployersearchUserprofile = () => {
   }, []);
 
   return (
-    <div className="searchuserprofile">
-      <div className="sidebar">
-        <EmployerSidebar />
-      </div>
-      <div className="search">
-        <div className="tag">
+    <div className="mainpage">
+      <div className="searchdetails">
+        <div className="searchbar">
           <input
-            placeholder="Type Job Title..."
+            placeholder="search..."
             value={valueJobtitle}
             onChange={(e) => setValueJobtitile(e.target.value)}
           ></input>
-        </div>
-        <div className="tag">
-          <label>Location </label>
-          <select
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          >
-            <option value="" onClick={() => setLocation("")}>
-              Select...
-            </option>
-            {states.map((state) => (
-              <option
-                key={state}
-                value={state}
-                onClick={() => setLocation(state)}
-              >
-                {state}
-              </option>
-            ))}
-          </select>{" "}
-          <i
-            class="fas fa-trash-alt"
-            onClick={() => {
-              setLocation("");
-              // Fetch data with the updated state values
-              actions.searchprofile(
-                valueJobtitle,
-                "", // location is cleared
-                valueexperiencelevel,
-                valueeducation
-              );
-              // Create a new URLSearchParams object
-              const searchParams = new URLSearchParams(window.location.search);
-              // Remove the specific parameter
-              searchParams.delete("location");
-
-              // Navigate to the new URL without the specific parameter
-              navigate(`/searchprofiles/?${searchParams.toString()}`);
-            }}
-          ></i>
-        </div>
-        <div className="tag">
-          <label>Experience Level</label>
-          <select
-            id="experienceLevel"
-            name="experienceLevel"
-            value={valueexperiencelevel}
-            onChange={(e) => setexperiencelevel(e.target.value)}
-          >
-            <option value="" onClick={() => setexperiencelevel("")}>
-              Select...
-            </option>
-            {experienceLevels.map((level) => (
-              <option
-                key={level}
-                value={level}
-                onClick={() => setexperiencelevel(level)}
-              >
-                {level}
-              </option>
-            ))}
-          </select>{" "}
-          <i
-            class="fas fa-trash-alt"
-            onClick={() => {
-              setexperiencelevel("");
-              // Fetch data with the updated state values
-              actions.searchprofile(
-                valueJobtitle,
-                location, // location is cleared
-                "",
-                valueeducation
-              );
-              // Create a new URLSearchParams object
-              const searchParams = new URLSearchParams(window.location.search);
-              // Remove the specific parameter
-              searchParams.delete("valueexperiencelevel");
-
-              // Navigate to the new URL without the specific parameter
-              navigate(`/searchprofiles/?${searchParams.toString()}`);
-            }}
-          ></i>
-        </div>
-        <div className="tag">
-          <label>Education Degree</label>
-          <select
-            id="educationdegree"
-            name="educationdegree"
-            value={valueeducation}
-            onChange={(e) => seteducationValue(e.target.value)}
-          >
-            <option value="" onClick={() => seteducationValue("")}>
-              Select...
-            </option>
-            {educationDegrees.map((degree) => (
-              <option
-                key={degree}
-                value={degree}
-                onClick={() => seteducationValue(degree)}
-              >
-                {degree}
-              </option>
-            ))}
-          </select>{" "}
-          <i
-            class="fas fa-trash-alt"
-            onClick={() => {
-              seteducationValue("");
-              // Fetch data with the updated state values
-              actions.searchprofile(
-                valueJobtitle,
-                location, // location is cleared
-                valueexperiencelevel,
-                ""
-              );
-              // Create a new URLSearchParams object
-              const searchParams = new URLSearchParams(window.location.search);
-              // Remove the specific parameter
-              searchParams.delete("valueeducation");
-
-              // Navigate to the new URL without the specific parameter
-              navigate(`/searchprofiles/?${searchParams.toString()}`);
-            }}
-          ></i>
-        </div>
-        <div className="tag">
           <button
             onClick={() => {
               actions.searchprofile(
@@ -367,8 +237,6 @@ export const EmployersearchUserprofile = () => {
           >
             Search
           </button>
-        </div>
-        <div className="tag">
           <button
             onClick={() => {
               setValueJobtitile("");
@@ -385,52 +253,251 @@ export const EmployersearchUserprofile = () => {
           </button>
         </div>
       </div>
-      <div className="details">
-        {loading ? (
-          <p>Loading applicants...</p> // Display a loading message or a spinner
-        ) : store.searchprofiles.length === 0 ? (
-          <p>No profile avilable yet.</p>
-        ) : (
-          <div className="userprofiletable">
-            <table className="styled-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Job Title</th>
-                  <th>Degree</th>
-                  <th>Location</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.isArray(store.searchprofiles) &&
-                  store.searchprofiles.length > 0 &&
-                  store.searchprofiles.map((item, index) => {
-                    if (item.user_bio) {
-                      return (
-                        <Usersearchprofilecard
-                          key={index}
-                          name={item.user_bio.first_name}
-                          experience={item.user_experience}
-                          education={item.user_education}
-                          location={item.user_bio.location}
-                          onViewClick={handleViewClick}
-                          userid={item.id}
-                          employerid={store.employer.id}
-                          displaysave={displaysave(item.id)}
-                          displayunsave={displayunsave(item.id)}
-                          displaycontact={displaycontact(item.user_bio.user_id)}
-                          displayuncontact={displayuncontact(
-                            item.user_bio.user_id
-                          )}
-                        />
-                      );
-                    }
-                  })}
-              </tbody>
-            </table>
+      <div className="actions">
+        <div className="select">
+          <div class="dropdown">
+            <a
+              class="btn  dropdown-toggle"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              onClick={() => setLocation("")}
+            >
+              {location || "Location..."}
+            </a>
+            <ul
+              class="dropdown-menu"
+              aria-labelledby="dropdownMenuLink"
+              style={{ height: "200px", overflowY: "auto" }}
+            >
+              {states.map((state) => (
+                <li>
+                  <a
+                    key={state}
+                    class="dropdown-item"
+                    onClick={() => setLocation(state)}
+                  >
+                    {state}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="trashsearch">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                onClick={() => {
+                  actions.searchprofile(
+                    valueJobtitle,
+                    location,
+                    valueexperiencelevel,
+                    valueeducation
+                  );
+                  navigate(
+                    `/searchprofiles/?valueJobtitle=${valueJobtitle}&location=${location}&valueexperiencelevel=${valueexperiencelevel}&valueeducation=${valueeducation}`
+                  );
+                }}
+              ></i>
+              <i
+                class="fas fa-trash-alt"
+                onClick={() => {
+                  setLocation("");
+                  // Fetch data with the updated state values
+                  actions.searchprofile(
+                    valueJobtitle,
+                    "", // location is cleared
+                    valueexperiencelevel,
+                    valueeducation
+                  );
+                  // Create a new URLSearchParams object
+                  const searchParams = new URLSearchParams(
+                    window.location.search
+                  );
+                  // Remove the specific parameter
+                  searchParams.delete("location");
+
+                  // Navigate to the new URL without the specific parameter
+                  navigate(`/searchprofiles/?${searchParams.toString()}`);
+                }}
+              ></i>
+            </div>
           </div>
-        )}
+          <div class="dropdown">
+            <a
+              class="btn  dropdown-toggle"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              onClick={() => setexperiencelevel("")}
+            >
+              {valueexperiencelevel || "ExperienceLevels..."}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              {experienceLevels.map((experience) => (
+                <li>
+                  <a
+                    key={experience}
+                    class="dropdown-item"
+                    onClick={() => setexperiencelevel(experience)}
+                  >
+                    {experience}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="trashsearch">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                onClick={() => {
+                  actions.searchprofile(
+                    valueJobtitle,
+                    location,
+                    valueexperiencelevel,
+                    valueeducation
+                  );
+                  navigate(
+                    `/searchprofiles/?valueJobtitle=${valueJobtitle}&location=${location}&valueexperiencelevel=${valueexperiencelevel}&valueeducation=${valueeducation}`
+                  );
+                }}
+              ></i>
+              <i
+                class="fas fa-trash-alt"
+                onClick={() => {
+                  setexperiencelevel("");
+                  // Fetch data with the updated state values
+                  actions.searchprofile(
+                    valueJobtitle,
+                    location, // location is cleared
+                    "",
+                    valueeducation
+                  );
+                  // Create a new URLSearchParams object
+                  const searchParams = new URLSearchParams(
+                    window.location.search
+                  );
+                  // Remove the specific parameter
+                  searchParams.delete("valueexperiencelevel");
+
+                  // Navigate to the new URL without the specific parameter
+                  navigate(`/searchprofiles/?${searchParams.toString()}`);
+                }}
+              ></i>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              class="btn  dropdown-toggle"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              onClick={() => seteducationValue("")}
+            >
+              {valueeducation || "Education..."}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              {educationDegrees.map((degree) => (
+                <li>
+                  <a
+                    key={degree}
+                    class="dropdown-item"
+                    onClick={() => seteducationValue(degree)}
+                  >
+                    {degree}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="trashsearch">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                onClick={() => {
+                  actions.searchprofile(
+                    valueJobtitle,
+                    location,
+                    valueexperiencelevel,
+                    valueeducation
+                  );
+                  navigate(
+                    `/searchprofiles/?valueJobtitle=${valueJobtitle}&location=${location}&valueexperiencelevel=${valueexperiencelevel}&valueeducation=${valueeducation}`
+                  );
+                }}
+              ></i>
+              <i
+                class="fas fa-trash-alt"
+                onClick={() => {
+                  seteducationValue("");
+                  // Fetch data with the updated state values
+                  actions.searchprofile(
+                    valueJobtitle,
+                    location, // location is cleared
+                    valueexperiencelevel,
+                    ""
+                  );
+                  // Create a new URLSearchParams object
+                  const searchParams = new URLSearchParams(
+                    window.location.search
+                  );
+                  // Remove the specific parameter
+                  searchParams.delete("valueeducation");
+
+                  // Navigate to the new URL without the specific parameter
+                  navigate(`/searchprofiles/?${searchParams.toString()}`);
+                }}
+              ></i>
+            </div>
+          </div>
+        </div>
+        <div className="employersearchprofilespage">
+          {loading ? (
+            <p>Loading applicants...</p> // Display a loading message or a spinner
+          ) : !Array.isArray(store.searchprofiles) ? (
+            <h1>No profile avilable yet.</h1>
+          ) : (
+            <div className="table-container">
+              <table className="styled-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Job Title</th>
+                    <th>Degree</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.isArray(store.searchprofiles) &&
+                    store.searchprofiles.length > 0 &&
+                    store.searchprofiles.map((item, index) => {
+                      if (item.user_bio) {
+                        return (
+                          <Usersearchprofilecard
+                            key={index}
+                            name={item.user_bio.first_name}
+                            experience={item.user_experience}
+                            education={item.user_education}
+                            location={item.user_bio.location}
+                            onViewClick={handleViewClick}
+                            userid={item.id}
+                            employerid={store.employer.id}
+                            displaysave={displaysave(item.id)}
+                            displayunsave={displayunsave(item.id)}
+                            displaycontact={displaycontact(
+                              item.user_bio.user_id
+                            )}
+                            displayuncontact={displayuncontact(
+                              item.user_bio.user_id
+                            )}
+                          />
+                        );
+                      }
+                    })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
       {showPopup && (
         <div>

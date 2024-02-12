@@ -55,6 +55,7 @@ export const ResetPassword = () => {
             placeholder="Paste the token received by email"
             value={token}
             onChange={(event) => setToken(event.target.value)}
+            style={{display:"none"}}
           />
         </div>
         <div>

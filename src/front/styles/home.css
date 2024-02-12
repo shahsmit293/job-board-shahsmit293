@@ -4,16 +4,16 @@ p.popup {
   right: 0;
   bottom: 0;
   top: 0;
-  background: rgb(41, 41, 98);
-  color: whitesmoke;
-  border: 1px solid black;
+  background: #fff;
+  color: #fff;
+  border: 15px solid black;
   z-index: 10;
   margin-top: 0px;
   overflow: auto;
   justify-content: center;
   align-items: center;
   height: auto;
-  max-height: 100vh; /* Adjust this value as needed */
+  max-height: 100vh;
 }
 
 div.popup {
@@ -21,54 +21,58 @@ div.popup {
   right: 0;
   bottom: 0;
   top: 0;
-  background: whitesmoke;
+  background: #a6e6ea;
   color: black;
+  border: 5px solid rgb(87, 82, 155);
   overflow: auto;
   justify-content: center;
   align-items: center;
-  width: 450px;
-  height: 400px;
+  width: 500px;
+  height: 50vh;
   justify-content: space-around;
 }
-body {
-  background-color: rgb(9, 9, 40);
-  color: whitesmoke;
-}
 
-/* body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: linear-gradient(red, blue);
-  mix-blend-mode: multiply;
-} */
 .home {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-self: left;
+  min-height: 100vh;
+  background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
+  background-size: contain;
+}
+.searchdetails {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.searchbar {
+  display: flex;
+  margin: 25px;
+}
+.searchbar button {
+  margin-left: 5px;
+}
+.actions {
+  display: flex;
+  background-color: #f9f9fbb0;
+  margin: 0px 5% 0px 5%;
 }
 .select {
   display: flex;
   flex-direction: column;
-  width: 28%;
-  margin-top: 25px;
+  width: 10%;
 }
 .select div {
   display: flex;
-  justify-content: space-between;
-  margin: 5px;
-  justify-self: center;
 }
-.select select,
-button {
-  margin-bottom: 5px;
-  width: 100px;
+.dropdown {
+  padding: 5%;
+  border-bottom: 0.5px solid lightgray;
 }
-.select label {
-  width: 150px;
+.dropdown a {
+  text-align: start;
+  padding: 0px;
+  width: 100%;
 }
 .contactinformation {
   display: flex;
@@ -87,10 +91,125 @@ button {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 10px; /* Adjust this value to increase or decrease the distance */
+  gap: 10px;
 }
 
 .contactinformation label,
 .contactinformation input {
   margin: 0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
+  height: auto;
+  width: 90%;
+}
+.grid-item {
+  border-radius: 5%;
+  padding: 5px;
+  width: auto;
+  height: 100%;
+  border: 1px solid lightgray;
+  border-radius: 2%;
+  background-color: #ffffffc6;
+}
+
+/* Media Queries for responsiveness */
+
+@media (max-width: 1200px) {
+  .grid-container {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media (max-width: 1024px) {
+  .actions {
+    display: flex;
+  }
+  .grid-container {
+    grid-template-columns: auto;
+    justify-content: center;
+    width: 90%;
+  }
+  .select {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    flex-wrap: wrap;
+    padding: 0px;
+  }
+
+  .select div {
+    display: flex;
+    padding: 5%;
+    width: auto;
+  }
+  .dropdown {
+    padding: 5%;
+    width: fit-content;
+    border-bottom: 0.5px solid lightgray;
+  }
+  .dropdown a {
+    text-align: start;
+    padding: 0px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .actions {
+    display: flex;
+    flex-direction: column;
+  }
+  .grid-container {
+    grid-template-columns: auto;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .select {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: fit-content;
+    flex-wrap: wrap;
+    padding: 0px;
+    align-self: center;
+  }
+
+  .select div {
+    display: flex;
+    padding: 5%;
+    width: auto;
+  }
+  .dropdown {
+    padding: 5%;
+    width: fit-content;
+    border-bottom: 0.5px solid lightgray;
+  }
+  .dropdown a {
+    text-align: start;
+    padding: 0px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  div.popup {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: #a6e6ea;
+    color: black;
+    border: 5px solid rgb(87, 82, 155);
+    overflow: auto;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50vh;
+    justify-content: space-around;
+  }
 }

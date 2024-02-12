@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
 import propTypes from "prop-types";
+import "../../../styles/userqualification.css";
 
 export const UserQualification = (props) => {
   const { store, actions } = useContext(Context);
@@ -91,30 +92,30 @@ export const UserQualification = (props) => {
   const [addvalueDegree, setaddDegree] = useState("");
   const [addvalueLocation, setaddLocation] = useState("");
   return (
-    <div className="educationinfo">
+    <div className="qualification">
       {showeducationdetails && (
-        <div className="educatondetails">
-          <h4>
+        <div className="educationdetails">
+          <p>
             <b>Collage Name</b>: {props.collagename}
-          </h4>
-          <h4>
+          </p>
+          <p>
             <b>Start Year</b>: {props.startyear}
-          </h4>
-          <h4>
+          </p>
+          <p>
             <b>End Year</b>: {props.endyear}{" "}
-          </h4>
-          <h4>
+          </p>
+          <p>
             <b>GPA</b>: {props.gpa}{" "}
-          </h4>
-          <h4>
+          </p>
+          <p>
             <b>Major</b>: {props.major}{" "}
-          </h4>
-          <h4>
+          </p>
+          <p>
             <b>Degree</b>: {props.degree}{" "}
-          </h4>
-          <h4>
+          </p>
+          <p>
             <b>Location</b>: {props.location}{" "}
-          </h4>
+          </p>
           {props.track == 0 ? (
             <button
               onClick={() => {
@@ -157,7 +158,6 @@ export const UserQualification = (props) => {
               >
                 Delete
               </button>
-              <hr />
             </>
           )}
         </div>
@@ -165,10 +165,8 @@ export const UserQualification = (props) => {
 
       {addeducationform && (
         <div className="addform">
-          <div className="form-group">
-            <h4>
-              <b>Collage Name</b>
-            </h4>
+          <div className="qualification-group">
+            <label>Collage Name</label>
             <input
               typeof="text"
               value={addvalueCollagename}
@@ -177,10 +175,8 @@ export const UserQualification = (props) => {
               required
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
-              <b>Start Year</b>
-            </h4>
+          <div className="qualification-group">
+            <label>Start Year</label>
             <input
               id="startyear"
               name="startyear"
@@ -189,10 +185,8 @@ export const UserQualification = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
-              <b>End Year</b>
-            </h4>
+          <div className="qualification-group">
+            <label>End Year</label>
             <input
               id="endyear"
               name="endyear"
@@ -202,10 +196,8 @@ export const UserQualification = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
-              <b>GPA</b>
-            </h4>
+          <div className="qualification-group">
+            <label>GPA</label>
             <input
               typeof="number"
               step="any"
@@ -215,10 +207,8 @@ export const UserQualification = (props) => {
               required
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
-              <b>Major</b>
-            </h4>
+          <div className="qualification-group">
+            <label>Major</label>
             <input
               typeof="text"
               value={addvalueMajor}
@@ -226,10 +216,8 @@ export const UserQualification = (props) => {
               onFocus={() => setError("")}
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
-              <b>Degree</b>
-            </h4>
+          <div className="qualification-group">
+            <label>Degree</label>
             <select>
               <option
                 value=""
@@ -249,10 +237,8 @@ export const UserQualification = (props) => {
               ))}
             </select>
           </div>
-          <div className="form-group">
-            <h4>
-              <b>Location</b>
-            </h4>
+          <div className="qualification-group">
+            <label>Location</label>
             <select>
               <option
                 value=""
@@ -326,10 +312,8 @@ export const UserQualification = (props) => {
       )}
       {editeducationform && (
         <div className="editform">
-          <div className="form-group">
-            <h4>
-              <b>Collage Name</b>
-            </h4>
+          <div className="qualification-group">
+            <label>Collage Name</label>
             <input
               typeof="text"
               value={valueCollagename}
@@ -338,10 +322,8 @@ export const UserQualification = (props) => {
               required
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
-              <b>Start Year</b>
-            </h4>
+          <div className="qualification-group">
+            <label>Start Year</label>
             <input
               id="startyear"
               name="startyear"
@@ -350,10 +332,8 @@ export const UserQualification = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
-              <b>End Year</b>
-            </h4>
+          <div className="qualification-group">
+            <label>End Year</label>
             <input
               id="endyear"
               name="endyear"
@@ -363,10 +343,8 @@ export const UserQualification = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="form-group">
-            <h4>
-              <b>GPA</b>
-            </h4>
+          <div className="qualification-group">
+            <label>GPA</label>
             <input
               typeof="number"
               step="any"
@@ -376,10 +354,8 @@ export const UserQualification = (props) => {
               required
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
-              <b>Major</b>
-            </h4>
+          <div className="qualification-group">
+            <label>Major</label>
             <input
               typeof="text"
               value={valueMajor}
@@ -387,10 +363,8 @@ export const UserQualification = (props) => {
               onFocus={() => setError("")}
             ></input>
           </div>
-          <div className="form-group">
-            <h4>
-              <b>Degree</b>
-            </h4>
+          <div className="qualification-group">
+            <label>Degree</label>
             <select value={valueDegree}>
               <option
                 value=""
@@ -410,10 +384,8 @@ export const UserQualification = (props) => {
               ))}
             </select>
           </div>
-          <div className="form-group">
-            <h4>
-              <b>Location</b>
-            </h4>
+          <div className="qualification-group">
+            <label>Location</label>
             <select value={valueLocation}>
               <option
                 value=""
