@@ -541,7 +541,7 @@ class Applicants(db.Model):
     email = db.Column(db.String(120), unique=False, nullable=False)
     first_name=db.Column(db.String(40),unique=False,nullable=False)
     last_name=db.Column(db.String(40),unique=False,nullable=False)
-    phone_number=db.Column(db.Integer,unique=False,nullable=False)
+    phone_number=db.Column(db.String(20),unique=False,nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('postjobs.id'),nullable=True)
     employer_id = db.Column(db.Integer, db.ForeignKey('employer.id'),nullable=True)
     user = db.relationship(User, backref="user_applicants")

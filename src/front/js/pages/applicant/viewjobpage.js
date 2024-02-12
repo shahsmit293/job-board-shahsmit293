@@ -171,7 +171,8 @@ export const ViewJobPage = (props) => {
                   <div>
                     <label>Phone Number:</label>
                     <input
-                      typeof="number"
+                      typeof="tel"
+                      maxlength="20"
                       value={valuePhone}
                       onChange={(e) => setPhone(e.target.value)}
                       required
