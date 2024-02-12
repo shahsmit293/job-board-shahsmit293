@@ -340,12 +340,12 @@ export const ViewJobPage = (props) => {
                         setSubmit(false);
                         setConfirm(false);
                         setShowPopup(false);
-                        actions.sendemailforapply(
-                          valueEmail,
-                          store.currentviewjobpost.company_name,
-                          store.currentviewjobpost.job_title,
-                          store.currentviewjobpost.location
-                        );
+                        // actions.sendemailforapply(
+                        //   valueEmail,
+                        //   store.currentviewjobpost.company_name,
+                        //   store.currentviewjobpost.job_title,
+                        //   store.currentviewjobpost.location
+                        // );
                       }}
                     >
                       Submit
