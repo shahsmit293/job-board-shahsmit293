@@ -251,6 +251,7 @@ export const EditPostJob = () => {
                 <label htmlFor="phoneNumber">Phone Number</label>
                 <input
                   type="tel"
+                  maxlength="20"
                   id="phoneNumber"
                   name="phoneNumber"
                   value={phoneNumberValue}
