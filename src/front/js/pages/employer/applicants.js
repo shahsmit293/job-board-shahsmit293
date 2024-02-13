@@ -27,6 +27,7 @@ export const Applicants = () => {
       CryptoJS.enc.Utf8
     );
     let jobIdParam = parseInt(decryptedJobId);
+    store.allapplicants = [];
     console.log(jobIdParam);
     actions.getemployersaveduser(jobIdParam);
     const fetchApplicants = async () => {

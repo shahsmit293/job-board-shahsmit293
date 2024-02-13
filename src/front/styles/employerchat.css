@@ -5,6 +5,8 @@
   background-color: #f9f9fb;
   margin: 0px 5% 0px 5%;
   min-height: 100vh;
+  background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
+  background-size: contain;
 }
 .chatjob {
   width: 75%;

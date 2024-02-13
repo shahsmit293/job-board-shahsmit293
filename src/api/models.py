@@ -47,7 +47,7 @@ class UserBio(db.Model):
     first_name=db.Column(db.String(40),unique=False,nullable=False)
     last_name=db.Column(db.String(40),unique=False,nullable=False)
     location=db.Column(db.String(80),unique=False,nullable=True)
-    phone_number=db.Column(db.Integer,unique=True,nullable=True)
+    phone_number=db.Column(db.String(20),unique=True,nullable=False)
 
     def __init__(self,user_id,first_name,last_name,location,phone_number):
         self.user_id=user_id

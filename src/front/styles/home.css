@@ -37,6 +37,7 @@ div.popup {
   flex-direction: column;
   justify-self: left;
   min-height: 100vh;
+  margin: 0px 5% 0px 5%;
   background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
   background-size: contain;
 }
@@ -103,7 +104,7 @@ div.popup {
   display: grid;
   grid-template-columns: auto auto auto;
   grid-gap: 10px;
-  height: auto;
+  height: 100%;
   width: 90%;
 }
 .grid-item {
@@ -114,6 +115,8 @@ div.popup {
   border: 1px solid lightgray;
   border-radius: 2%;
   background-color: #ffffffc6;
+  box-shadow: 1px 1px 0px #999, 2px 2px 0px #999, 3px 3px 0px #999,
+    4px 4px 0px #999, 5px 5px 0px #999, 6px 6px 0px #999;
 }
 
 /* Media Queries for responsiveness */

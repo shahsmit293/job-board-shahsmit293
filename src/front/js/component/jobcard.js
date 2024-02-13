@@ -34,15 +34,13 @@ export const JobCard = (props) => {
           <i class="fa-solid fa-check"></i>
         </p>
         <div className="jobtitle">
-          <h3>
+          <h4>
             <b>{props.jobtitlename}</b>
-          </h3>
+          </h4>
         </div>
 
         <div className="compaanylocation">
-          <h5>
-            <b>{props.Company}</b>
-          </h5>
+          <h5 style={{ marginRight: "5px" }}>{props.Company}</h5>
           <p>
             <i class="fa-solid fa-location-dot"></i>
             {"  "}

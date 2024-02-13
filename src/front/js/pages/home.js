@@ -345,6 +345,7 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
+                style={{ marginLeft: "5px", marginRight: "10px" }}
                 onClick={() => {
                   setLocation("");
                   // Fetch data with the updated state values
@@ -416,6 +417,7 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
+                style={{ marginLeft: "5px", marginRight: "10px" }}
                 onClick={() => {
                   setworklocation("");
                   // Fetch data with the updated state values
@@ -487,6 +489,7 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
+                style={{ marginLeft: "5px", marginRight: "10px" }}
                 onClick={() => {
                   setjobtype("");
                   // Fetch data with the updated state values
@@ -558,6 +561,7 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
+                style={{ marginLeft: "5px", marginRight: "10px" }}
                 onClick={() => {
                   setexperiencelevel("");
                   // Fetch data with the updated state values
@@ -629,6 +633,7 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
+                style={{ marginLeft: "5px", marginRight: "10px" }}
                 onClick={() => {
                   seteducationValue("");
                   // Fetch data with the updated state values
@@ -700,6 +705,7 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
+                style={{ marginLeft: "5px", marginRight: "10px" }}
                 onClick={() => {
                   setworkingtimes("");
                   // Fetch data with the updated state values
@@ -771,6 +777,7 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
+                style={{ marginLeft: "5px", marginRight: "10px" }}
                 onClick={() => {
                   setpostdays("");
                   // Fetch data with the updated state values
@@ -842,6 +849,7 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
+                style={{ marginLeft: "5px", marginRight: "10px" }}
                 onClick={() => {
                   setsalary("");
                   // Fetch data with the updated state values
