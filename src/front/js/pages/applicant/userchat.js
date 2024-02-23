@@ -165,6 +165,7 @@ export const Userchat = (props) => {
                 key={index}
                 jobtitlename={element.job.job_title}
                 Company={element.job.company_name}
+                logo={element.company_logo}
                 Location={element.job.location}
                 Jobtype={element.job.job_type}
                 worktype={element.job.work_location_type}

@@ -431,6 +431,7 @@ class Postjobs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     employer_id = db.Column(db.Integer, db.ForeignKey('employer.id'),nullable=True)
     company_name=db.Column(db.String(80),unique=False,nullable=True)
+    company_logo=db.Column(db.String(2000),unique=False,nullable=True)
     first_name=db.Column(db.String(40),unique=False,nullable=True)
     last_name=db.Column(db.String(40),unique=False,nullable=True)
     job_title=db.Column(db.String(500),unique=False,nullable=True)
@@ -462,7 +463,7 @@ class Postjobs(db.Model):
     employerchat = db.relationship('Employerchat', backref='postjobs', cascade='all, delete-orphan')
     uersavedjobs = db.relationship('Usersavedjobs', backref='postjobs', cascade='all, delete-orphan')
 
-    def __init__(self,employer_id,company_name
+    def __init__(self,employer_id,company_name,company_logo
                  ,first_name,last_name,job_title,
                  company_email,company_phone_number,number_hiring,
                  work_location_type,location,job_type,working_hours,
@@ -470,6 +471,7 @@ class Postjobs(db.Model):
                  min_salary,max_salary,working_times,description,weekend_job,language):
         self.employer_id=employer_id
         self.company_name=company_name
+        self.company_logo=company_logo
         self.first_name=first_name
         self.last_name=last_name
         self.job_title=job_title
@@ -496,6 +498,7 @@ class Postjobs(db.Model):
             "id": self.id,
             "employer_id": self.employer_id,
             "company_name": self.company_name,
+            "company_logo":self.company_logo,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "job_title": self.job_title,

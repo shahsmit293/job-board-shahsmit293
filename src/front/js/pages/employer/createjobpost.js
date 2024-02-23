@@ -84,6 +84,7 @@ export const EmployerCreateJobPost = () => {
   const [languageValue, setLanguageValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
   const [educationdegreeValue, setEducationValue] = useState("");
+  const [logoValue, setLogo] = useState("");
   const sorted = (e) => {
     if (e.target.value === "Remote") {
       setWorkLocationTypeValue("Remote");
@@ -158,6 +159,18 @@ export const EmployerCreateJobPost = () => {
               />
               <br />
             </div>
+            <div className="label">
+              <label>Image:</label>
+              <input
+                className="form-control"
+                type="file"
+                id="logo"
+                name="logo"
+                onChange={(e) => setLogo(e.target.files[0])}
+              />
+              <br />
+            </div>
+
             <div className="label">
               <label>First Name</label>
               <input
@@ -506,6 +519,7 @@ export const EmployerCreateJobPost = () => {
                     .addjob(
                       store.employer.id,
                       companyNameValue,
+                      logoValue,
                       firstNameValue,
                       lastNameValue,
                       jobTitleValue,

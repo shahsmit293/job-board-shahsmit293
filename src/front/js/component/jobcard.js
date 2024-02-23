@@ -33,6 +33,9 @@ export const JobCard = (props) => {
         >
           <i class="fa-solid fa-check"></i>
         </p>
+        <div className="companylogo">
+          <img src={props.logo}></img>
+        </div>
         <div className="jobtitle">
           <h4>
             <b>{props.jobtitlename}</b>
@@ -114,6 +117,7 @@ export const JobCard = (props) => {
 JobCard.PropTypes = {
   jobtitlename: PropTypes.string,
   Company: PropTypes.string,
+  logo: PropTypes.string,
   Location: PropTypes.string,
   Jobtype: PropTypes.number,
   viewid: PropTypes.number,

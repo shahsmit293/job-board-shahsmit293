@@ -13,6 +13,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
 import os
+from sqlalchemy import func
+import boto3
 import jwt
 from sqlalchemy import or_
 from flask import Response
@@ -72,6 +74,44 @@ def employerLogin():
     return jsonify(token=token, employer=employer.serialize()), 200
 
 
+# @api.route('/addjob', methods=['POST'])
+# @jwt_required()
+# def add_job():
+#     email = get_jwt_identity()
+#     employer = Employer.query.filter_by(email=email).one_or_none()
+#     if employer is None:
+#         return jsonify("employer doesn't exist"), 400
+
+#     data = request.get_json()
+
+#     job = Postjobs(
+#         employer_id=data["employer_id"],
+#         company_name=data["company_name"],
+#         first_name=data["first_name"],
+#         last_name=data["last_name"],
+#         job_title=data["job_title"],
+#         company_email=data["company_email"],
+#         company_phone_number=data["company_phone_number"],
+#         number_hiring=data["number_hiring"],
+#         work_location_type=data["work_location_type"],
+#         location=data["location"],
+#         job_type=data["job_type"],
+#         working_hours=data["working_hours"],
+#         experience_level_type=data["experience_level_type"],
+#         education_degree=data["education_degree"],
+#         min_experience=data["min_experience"],
+#         max_experience=data["max_experience"],
+#         min_salary=data["min_salary"],
+#         max_salary=data["max_salary"],
+#         working_times=data["working_times"],
+#         description=data["description"],
+#         weekend_job=data["weekend_job"],
+#         language=data["language"],
+#     )
+#     db.session.add(job)
+#     db.session.commit()
+#     return job.serialize()
+
 @api.route('/addjob', methods=['POST'])
 @jwt_required()
 def add_job():
@@ -80,38 +120,54 @@ def add_job():
     if employer is None:
         return jsonify("employer doesn't exist"), 400
 
-    data = request.get_json()
+    if 'company_logo' not in request.files:
+        default_image_url = 'https://hiremasterylogo.s3.amazonaws.com/defaultlogo.png'
+        company_logo_url = default_image_url
+        
+    company_logo = request.files['company_logo']
+
+    session = boto3.Session(
+        aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+        aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+        region_name='us-east-2'
+    )
+    s3 = session.client('s3')
+    s3.upload_fileobj(company_logo, 'hiremasterylogo', company_logo.filename)
+
+    # Generate a presigned URL for the uploaded file
+    company_logo_url = s3.generate_presigned_url('get_object', Params={'Bucket': 'hiremasterylogo', 'Key': company_logo.filename}, ExpiresIn=3600)
 
     job = Postjobs(
-        employer_id=data["employer_id"],
-        company_name=data["company_name"],
-        first_name=data["first_name"],
-        last_name=data["last_name"],
-        job_title=data["job_title"],
-        company_email=data["company_email"],
-        company_phone_number=data["company_phone_number"],
-        number_hiring=data["number_hiring"],
-        work_location_type=data["work_location_type"],
-        location=data["location"],
-        job_type=data["job_type"],
-        working_hours=data["working_hours"],
-        experience_level_type=data["experience_level_type"],
-        education_degree=data["education_degree"],
-        min_experience=data["min_experience"],
-        max_experience=data["max_experience"],
-        min_salary=data["min_salary"],
-        max_salary=data["max_salary"],
-        working_times=data["working_times"],
-        description=data["description"],
-        weekend_job=data["weekend_job"],
-        language=data["language"],
+        employer_id=request.form.get("employer_id"),
+        company_name=request.form.get("company_name"),
+        company_logo=company_logo_url,
+        first_name=request.form.get("first_name"),
+        last_name=request.form.get("last_name"),
+        job_title=request.form.get("job_title"),
+        company_email=request.form.get("company_email"),
+        company_phone_number=request.form.get("company_phone_number"),
+        number_hiring=request.form.get("number_hiring"),
+        work_location_type=request.form.get("work_location_type"),
+        location=request.form.get("location"),
+        job_type=request.form.get("job_type"),
+        working_hours=request.form.get("working_hours"),
+        experience_level_type=request.form.get("experience_level_type"),
+        education_degree=request.form.get("education_degree"),
+        min_experience=request.form.get("min_experience"),
+        max_experience=request.form.get("max_experience"),
+        min_salary=request.form.get("min_salary"),
+        max_salary=request.form.get("max_salary"),
+        working_times=request.form.get("working_times"),
+        description=request.form.get("description"),
+        weekend_job=request.form.get("weekend_job"),
+        language=request.form.get("language"),
     )
     db.session.add(job)
     db.session.commit()
     return job.serialize()
 
 
-from sqlalchemy import func
+
 
 @api.route('/alljobs', methods=['GET'])
 def all_jobs():

@@ -69,6 +69,7 @@ export const Userinbox = () => {
                 key={index}
                 jobtitlename={element.job_title}
                 Company={element.company_name}
+                logo={element.company_logo}
                 Location={element.location}
                 Jobtype={element.job_type}
                 worktype={element.work_location_type}
