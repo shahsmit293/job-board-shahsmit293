@@ -6,66 +6,16 @@ import { useEffect } from "react";
 import ReactQuill from "react-quill";
 import CryptoJS from "crypto-js";
 import "../../../styles/editjobposts.css";
+import LocationSearchInput from "../locationSearchInput";
 
 export const EditPostJob = () => {
-  let states = [
-    "Alabama",
-    "Alaska",
-    "Arizona",
-    "Arkansas",
-    "California",
-    "Colorado",
-    "Connecticut",
-    "Delaware",
-    "Florida",
-    "Georgia",
-    "Hawaii",
-    "Idaho",
-    "Illinois",
-    "Indiana",
-    "Iowa",
-    "Kansas",
-    "Kentucky",
-    "Louisiana",
-    "Maine",
-    "Maryland",
-    "Massachusetts",
-    "Michigan",
-    "Minnesota",
-    "Mississippi",
-    "Missouri",
-    "Montana",
-    "Nebraska",
-    "Nevada",
-    "New Hampshire",
-    "New Jersey",
-    "New Mexico",
-    "New York",
-    "North Carolina",
-    "North Dakota",
-    "Ohio",
-    "Oklahoma",
-    "Oregon",
-    "Pennsylvania",
-    "Rhode Island",
-    "South Carolina",
-    "South Dakota",
-    "Tennessee",
-    "Texas",
-    "Utah",
-    "Vermont",
-    "Virginia",
-    "Washington",
-    "West Virginia",
-    "Wisconsin",
-    "Wyoming",
-  ];
   const { post_id } = useParams();
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
   const [location, setLocation] = useState("");
+
   let decryptedJobId = CryptoJS.AES.decrypt(post_id, "secret").toString(
     CryptoJS.enc.Utf8
   );
@@ -333,21 +283,13 @@ export const EditPostJob = () => {
                 </select>
                 <br />
               </div>
+
               <div className="label">
                 <label>Address:</label>
-                <select
-                  value={location}
-                  onFocus={() => setError("")}
-                  style={{ margin: "0px" }}
-                  onChange={(event) => setLocation(event.target.value)}
-                >
-                  <option value="">Select a state</option>
-                  {states.map((state) => (
-                    <option key={state} value={state}>
-                      {state}
-                    </option>
-                  ))}
-                </select>
+                <LocationSearchInput
+                  setLocation={setLocation}
+                  location={location}
+                />
                 <br />
               </div>
               <div className="label">

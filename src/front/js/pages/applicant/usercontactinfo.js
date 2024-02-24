@@ -1,63 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
 import "../../../styles/usercontactinfo.css";
+import LocationSearchInput from "../locationSearchInput";
 
 import propTypes from "prop-types";
 export const UserContactInfo = (props) => {
   const { store, actions } = useContext(Context);
   const [error, setError] = useState("");
-  const states = [
-    "Alabama",
-    "Alaska",
-    "Arizona",
-    "Arkansas",
-    "California",
-    "Colorado",
-    "Connecticut",
-    "Delaware",
-    "Florida",
-    "Georgia",
-    "Hawaii",
-    "Idaho",
-    "Illinois",
-    "Indiana",
-    "Iowa",
-    "Kansas",
-    "Kentucky",
-    "Louisiana",
-    "Maine",
-    "Maryland",
-    "Massachusetts",
-    "Michigan",
-    "Minnesota",
-    "Mississippi",
-    "Missouri",
-    "Montana",
-    "Nebraska",
-    "Nevada",
-    "New Hampshire",
-    "New Jersey",
-    "New Mexico",
-    "New York",
-    "North Carolina",
-    "North Dakota",
-    "Ohio",
-    "Oklahoma",
-    "Oregon",
-    "Pennsylvania",
-    "Rhode Island",
-    "South Carolina",
-    "South Dakota",
-    "Tennessee",
-    "Texas",
-    "Utah",
-    "Vermont",
-    "Virginia",
-    "Washington",
-    "West Virginia",
-    "Wisconsin",
-    "Wyoming",
-  ];
+
   useEffect(() => {
     actions.getuserbio(
       store.user.id,
@@ -148,7 +98,7 @@ export const UserContactInfo = (props) => {
             ></input>
           </div>
           <div className="contact-group">
-            <label>
+            {/* <label>
               <b>Location</b>
             </label>
             <select>
@@ -169,7 +119,12 @@ export const UserContactInfo = (props) => {
                   {state}
                 </option>
               ))}
-            </select>
+            </select> */}
+            <label>Address:</label>
+            <LocationSearchInput
+              setLocation={setLocation}
+              location={valueLocation}
+            />
           </div>
           <div className="contact-group">
             <label>
@@ -241,28 +196,12 @@ export const UserContactInfo = (props) => {
             ></input>
           </div>
           <div className="contact-group">
-            <label>
-              <b>Location</b>
-            </label>
-            <select value={valueLocation}>
-              <option
-                value=""
-                onClick={() => setLocation("")}
-                onFocus={() => setError("")}
-              >
-                Select a state
-              </option>
-              {states.map((state) => (
-                <option
-                  key={state}
-                  value={state}
-                  onClick={() => setLocation(state)}
-                  onFocus={() => setError("")}
-                >
-                  {state}
-                </option>
-              ))}
-            </select>
+
+            <label>Address:</label>
+            <LocationSearchInput
+              setLocation={setLocation}
+              location={valueLocation}
+            />
           </div>
           <div className="contact-group">
             <label>

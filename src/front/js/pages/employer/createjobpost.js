@@ -4,61 +4,9 @@ import { Context } from "../../store/appContext";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import LocationSearchInput from "../locationSearchInput";
 
 export const EmployerCreateJobPost = () => {
-  let states = [
-    "Alabama",
-    "Alaska",
-    "Arizona",
-    "Arkansas",
-    "California",
-    "Colorado",
-    "Connecticut",
-    "Delaware",
-    "Florida",
-    "Georgia",
-    "Hawaii",
-    "Idaho",
-    "Illinois",
-    "Indiana",
-    "Iowa",
-    "Kansas",
-    "Kentucky",
-    "Louisiana",
-    "Maine",
-    "Maryland",
-    "Massachusetts",
-    "Michigan",
-    "Minnesota",
-    "Mississippi",
-    "Missouri",
-    "Montana",
-    "Nebraska",
-    "Nevada",
-    "New Hampshire",
-    "New Jersey",
-    "New Mexico",
-    "New York",
-    "North Carolina",
-    "North Dakota",
-    "Ohio",
-    "Oklahoma",
-    "Oregon",
-    "Pennsylvania",
-    "Rhode Island",
-    "South Carolina",
-    "South Dakota",
-    "Tennessee",
-    "Texas",
-    "Utah",
-    "Vermont",
-    "Virginia",
-    "Washington",
-    "West Virginia",
-    "Wisconsin",
-    "Wyoming",
-  ];
-
   const [location, setLocation] = useState("");
   const { store, actions } = useContext(Context);
   const navigate = useNavigate("");
@@ -104,7 +52,7 @@ export const EmployerCreateJobPost = () => {
       setExperienceLevelValue("Internship");
     } else if (e.target.value === "Entry level") {
       setExperienceLevelValue("Entry level");
-    } else if (e.target.value === "Associate level") {
+    } else if (e.target.value === "Associate") {
       setExperienceLevelValue("Associate");
     } else if (e.target.value === "Mid-Senior level") {
       setExperienceLevelValue("Mid-Senior level");
@@ -264,22 +212,15 @@ export const EmployerCreateJobPost = () => {
               </select>
             </div>
             <br />
+
             <div className="label">
               <label>Address:</label>
-              <select
-                style={{ margin: "0px" }}
-                onFocus={() => setError("")}
-                onChange={(event) => setLocation(event.target.value)}
-              >
-                <option value="">Select a state</option>
-                {states.map((state) => (
-                  <option key={state} value={state}>
-                    {state}
-                  </option>
-                ))}
-              </select>
+              <LocationSearchInput
+                setLocation={setLocation}
+                location={location}
+              />
+              <br />
             </div>
-            <br />
             <div className="label">
               <label>Job Type</label>
               <select
@@ -465,7 +406,7 @@ export const EmployerCreateJobPost = () => {
                   !phoneNumberValue ||
                   !numberHiringValue ||
                   !workLocationTypeValue ||
-                  // !location ||
+                  !location ||
                   !jobTypeValue ||
                   !workingHoursValue ||
                   !experienceLevelsValue ||

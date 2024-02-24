@@ -2,61 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
 import propTypes from "prop-types";
 import "../../../styles/userqualification.css";
-
+import LocationSearchInput from "../locationSearchInput";
 export const UserQualification = (props) => {
   const { store, actions } = useContext(Context);
-  const states = [
-    "Alabama",
-    "Alaska",
-    "Arizona",
-    "Arkansas",
-    "California",
-    "Colorado",
-    "Connecticut",
-    "Delaware",
-    "Florida",
-    "Georgia",
-    "Hawaii",
-    "Idaho",
-    "Illinois",
-    "Indiana",
-    "Iowa",
-    "Kansas",
-    "Kentucky",
-    "Louisiana",
-    "Maine",
-    "Maryland",
-    "Massachusetts",
-    "Michigan",
-    "Minnesota",
-    "Mississippi",
-    "Missouri",
-    "Montana",
-    "Nebraska",
-    "Nevada",
-    "New Hampshire",
-    "New Jersey",
-    "New Mexico",
-    "New York",
-    "North Carolina",
-    "North Dakota",
-    "Ohio",
-    "Oklahoma",
-    "Oregon",
-    "Pennsylvania",
-    "Rhode Island",
-    "South Carolina",
-    "South Dakota",
-    "Tennessee",
-    "Texas",
-    "Utah",
-    "Vermont",
-    "Virginia",
-    "Washington",
-    "West Virginia",
-    "Wisconsin",
-    "Wyoming",
-  ];
+
   const degrees = [
     "High School Degree",
     "Associate Degree",
@@ -218,45 +167,28 @@ export const UserQualification = (props) => {
           </div>
           <div className="qualification-group">
             <label>Degree</label>
-            <select>
-              <option
-                value=""
-                onClick={() => setaddDegree("")}
-                onFocus={() => setError("")}
-              >
-                Select a state
-              </option>
+            <select
+              value={addvalueDegree}
+              onChange={(e) => {
+                setaddDegree(e.target.value);
+                setError("");
+              }}
+            >
+              <option value="">Select a degree</option>
               {degrees.map((degree) => (
-                <option
-                  key={degree}
-                  value={degree}
-                  onClick={() => setaddDegree(degree)}
-                >
+                <option key={degree} value={degree}>
                   {degree}
                 </option>
               ))}
             </select>
           </div>
           <div className="qualification-group">
-            <label>Location</label>
-            <select>
-              <option
-                value=""
-                onClick={() => setaddLocation("")}
-                onFocus={() => setError("")}
-              >
-                Select a state
-              </option>
-              {states.map((state) => (
-                <option
-                  key={state}
-                  value={state}
-                  onClick={() => setaddLocation(state)}
-                >
-                  {state}
-                </option>
-              ))}
-            </select>
+
+            <label>Address:</label>
+            <LocationSearchInput
+              setLocation={setaddLocation}
+              location={addvalueLocation}
+            />
           </div>
           <div style={{ color: "red" }}>{error}</div>
           <button
@@ -365,13 +297,19 @@ export const UserQualification = (props) => {
           </div>
           <div className="qualification-group">
             <label>Degree</label>
-            <select value={valueDegree}>
+            <select
+              value={valueDegree}
+              onChange={(e) => {
+                setDegree(e.target.value);
+                setError("");
+              }}
+            >
               <option
                 value=""
                 onClick={() => setDegree("")}
                 onFocus={() => setError("")}
               >
-                Select a state
+                Select a Degree
               </option>
               {degrees.map((degree) => (
                 <option
@@ -385,25 +323,12 @@ export const UserQualification = (props) => {
             </select>
           </div>
           <div className="qualification-group">
-            <label>Location</label>
-            <select value={valueLocation}>
-              <option
-                value=""
-                onClick={() => setLocation("")}
-                onFocus={() => setError("")}
-              >
-                Select a state
-              </option>
-              {states.map((state) => (
-                <option
-                  key={state}
-                  value={state}
-                  onClick={() => setLocation(state)}
-                >
-                  {state}
-                </option>
-              ))}
-            </select>
+
+            <label>Address:</label>
+            <LocationSearchInput
+              setLocation={setLocation}
+              location={valueLocation}
+            />
           </div>
           <div style={{ color: "red" }}>{error}</div>
           <button

@@ -4,60 +4,9 @@ import { Context } from "../../store/appContext";
 import { Usersearchprofilecard } from "../../component/usersearchprofilecard";
 import { Viewusersprofile } from "./viewusersprofile";
 import { useNavigate } from "react-router-dom";
+import LocationSearchInput from "../locationSearchInput";
 
 export const EmployersearchUserprofile = () => {
-  const states = [
-    "Alabama",
-    "Alaska",
-    "Arizona",
-    "Arkansas",
-    "California",
-    "Colorado",
-    "Connecticut",
-    "Delaware",
-    "Florida",
-    "Georgia",
-    "Hawaii",
-    "Idaho",
-    "Illinois",
-    "Indiana",
-    "Iowa",
-    "Kansas",
-    "Kentucky",
-    "Louisiana",
-    "Maine",
-    "Maryland",
-    "Massachusetts",
-    "Michigan",
-    "Minnesota",
-    "Mississippi",
-    "Missouri",
-    "Montana",
-    "Nebraska",
-    "Nevada",
-    "New Hampshire",
-    "New Jersey",
-    "New Mexico",
-    "New York",
-    "North Carolina",
-    "North Dakota",
-    "Ohio",
-    "Oklahoma",
-    "Oregon",
-    "Pennsylvania",
-    "Rhode Island",
-    "South Carolina",
-    "South Dakota",
-    "Tennessee",
-    "Texas",
-    "Utah",
-    "Vermont",
-    "Virginia",
-    "Washington",
-    "West Virginia",
-    "Wisconsin",
-    "Wyoming",
-  ];
   const educationDegrees = [
     "High School Degree",
     "Associate Degree",
@@ -222,6 +171,7 @@ export const EmployersearchUserprofile = () => {
             value={valueJobtitle}
             onChange={(e) => setValueJobtitile(e.target.value)}
           ></input>
+          <LocationSearchInput setLocation={setLocation} location={location} />
           <button
             onClick={() => {
               actions.searchprofile(
@@ -255,73 +205,6 @@ export const EmployersearchUserprofile = () => {
       </div>
       <div className="actions">
         <div className="select">
-          <div class="dropdown">
-            <a
-              class="btn  dropdown-toggle"
-              role="button"
-              id="dropdownMenuLink"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              onClick={() => setLocation("")}
-            >
-              {location || "Location..."}
-            </a>
-            <ul
-              class="dropdown-menu"
-              aria-labelledby="dropdownMenuLink"
-              style={{ height: "200px", overflowY: "auto" }}
-            >
-              {states.map((state) => (
-                <li>
-                  <a
-                    key={state}
-                    class="dropdown-item"
-                    onClick={() => setLocation(state)}
-                  >
-                    {state}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <div className="trashsearch">
-              <i
-                class="fa-solid fa-magnifying-glass"
-                onClick={() => {
-                  actions.searchprofile(
-                    valueJobtitle,
-                    location,
-                    valueexperiencelevel,
-                    valueeducation
-                  );
-                  navigate(
-                    `/searchprofiles/?valueJobtitle=${valueJobtitle}&location=${location}&valueexperiencelevel=${valueexperiencelevel}&valueeducation=${valueeducation}`
-                  );
-                }}
-              ></i>
-              <i
-                class="fas fa-trash-alt"
-                onClick={() => {
-                  setLocation("");
-                  // Fetch data with the updated state values
-                  actions.searchprofile(
-                    valueJobtitle,
-                    "", // location is cleared
-                    valueexperiencelevel,
-                    valueeducation
-                  );
-                  // Create a new URLSearchParams object
-                  const searchParams = new URLSearchParams(
-                    window.location.search
-                  );
-                  // Remove the specific parameter
-                  searchParams.delete("location");
-
-                  // Navigate to the new URL without the specific parameter
-                  navigate(`/searchprofiles/?${searchParams.toString()}`);
-                }}
-              ></i>
-            </div>
-          </div>
           <div class="dropdown">
             <a
               class="btn  dropdown-toggle"

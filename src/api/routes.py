@@ -1384,7 +1384,8 @@ def search_jobs():
         jobtitle = jobtitle.lower().split()
         query = query.filter(or_(Postjobs.job_title.ilike('%' + title + '%') for title in jobtitle))
     if location:
-        query = query.filter(Postjobs.location.ilike('%' + location + '%'))
+        location_keywords = location.lower().split(',')
+        query = query.filter(or_(Postjobs.location.ilike('%' + keyword.strip() + '%') for keyword in location_keywords))
     if valueworklocation:
         query = query.filter(Postjobs.work_location_type.ilike('%' + valueworklocation + '%'))
     if jobtype:
@@ -1405,7 +1406,6 @@ def search_jobs():
     if salary and salary != 'undefined':
         salary = int(salary.replace('+', ''))
         query = query.filter(Postjobs.min_salary >= salary)
-
 
     jobs = query.all()
     alljobs_dictionary = []

@@ -2,77 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
 import propTypes from "prop-types";
 import "../../../styles/userpreference.css";
-
+import LocationSearchInput from "../locationSearchInput";
 export const UserPreference = (props) => {
   const { store, actions } = useContext(Context);
-  const states = [
-    "Alabama",
-    "Alaska",
-    "Arizona",
-    "Arkansas",
-    "California",
-    "Colorado",
-    "Connecticut",
-    "Delaware",
-    "Florida",
-    "Georgia",
-    "Hawaii",
-    "Idaho",
-    "Illinois",
-    "Indiana",
-    "Iowa",
-    "Kansas",
-    "Kentucky",
-    "Louisiana",
-    "Maine",
-    "Maryland",
-    "Massachusetts",
-    "Michigan",
-    "Minnesota",
-    "Mississippi",
-    "Missouri",
-    "Montana",
-    "Nebraska",
-    "Nevada",
-    "New Hampshire",
-    "New Jersey",
-    "New Mexico",
-    "New York",
-    "North Carolina",
-    "North Dakota",
-    "Ohio",
-    "Oklahoma",
-    "Oregon",
-    "Pennsylvania",
-    "Rhode Island",
-    "South Carolina",
-    "South Dakota",
-    "Tennessee",
-    "Texas",
-    "Utah",
-    "Vermont",
-    "Virginia",
-    "Washington",
-    "West Virginia",
-    "Wisconsin",
-    "Wyoming",
-  ];
-  const handleLocationChange = (event) => {
-    let newLocations = valueRelocationplace
-      .split(", ")
-      .filter((location) => location !== "chooselocation");
-    if (event.target.checked) {
-      newLocations.push(event.target.value);
-    } else {
-      newLocations = newLocations.filter(
-        (location) => location !== event.target.value
-      );
-    }
-    if (newLocations.length === 0) {
-      newLocations.push("chooselocation");
-    }
-    setValueRelocationplace(newLocations.join(", "));
-  };
   const [showdetails, setShowdetails] = useState(true);
   const [addForm, setaddform] = useState(false);
   const [editForm, setEditform] = useState(false);
@@ -166,6 +98,13 @@ export const UserPreference = (props) => {
     props.relocation ? props.relocation : ""
   );
   const [valueRelocationplace, setValueRelocationplace] = useState(
+    props.relocationplace == "anywhere"
+      ? props.relocationplace
+      : props.relocationplace !== "anywhere" && props.relocationplace !== ""
+      ? "chooselocation"
+      : ""
+  );
+  const [location, setlocation] = useState(
     props.relocationplace ? props.relocationplace : ""
   );
   const [valueRemotejob, setValueRemotejob] = useState(
@@ -180,7 +119,6 @@ export const UserPreference = (props) => {
   const [valueTemperoryremotejob, setValueTemperoryremotejob] = useState(
     props.temperoryremotejob ? props.temperoryremotejob : ""
   );
-
   return (
     <div className="preference">
       {showdetails && (
@@ -694,6 +632,7 @@ export const UserPreference = (props) => {
               onChange={(e) => {
                 setValueRelocation(e.target.checked ? "Yes" : "");
                 setValueRelocationplace("");
+                setlocation("");
               }}
               onFocus={() => setError("")}
             />
@@ -710,6 +649,7 @@ export const UserPreference = (props) => {
                   name="relocationOption"
                   value="anywhere"
                   onChange={(e) => setValueRelocationplace(e.target.value)}
+                  onClick={() => setlocation("")}
                   onFocus={() => setError("")}
                 />
                 <br />
@@ -722,6 +662,7 @@ export const UserPreference = (props) => {
                   name="relocationOption"
                   value="chooselocation"
                   onChange={(e) => setValueRelocationplace(e.target.value)}
+                  onClick={() => setlocation("")}
                   onFocus={() => setError("")}
                 />
                 <br />
@@ -729,35 +670,10 @@ export const UserPreference = (props) => {
                   valueRelocationplace !== "" && (
                     <>
                       <div className="btn-group">
-                        <button
-                          type="button"
-                          className="btn btn-light dropdown-toggle"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          Choose Location
-                        </button>
-                        <ul
-                          className="dropdown-menu"
-                          style={{ height: "100px", overflowY: "auto" }}
-                        >
-                          <li>
-                            {states.map((location) => (
-                              <div key={location} className="checklocation">
-                                <h6>
-                                  <b>{location}</b>
-                                </h6>
-                                <input
-                                  type="checkbox"
-                                  id={location}
-                                  name="location"
-                                  value={location}
-                                  onChange={handleLocationChange}
-                                />
-                              </div>
-                            ))}
-                          </li>
-                        </ul>
+                        <LocationSearchInput
+                          setLocation={setlocation}
+                          location={location}
+                        />
                       </div>
                     </>
                   )}
@@ -832,6 +748,11 @@ export const UserPreference = (props) => {
                 setError("Minimum salary must be a positive number");
               } else if (!valueSalarytype) {
                 setError("Salary type required");
+              } else if (
+                valueRelocationplace === "chooselocation" &&
+                location == ""
+              ) {
+                setError("please choose location");
               } else {
                 actions.adduserpreference(
                   valueJobpreferenceName,
@@ -863,7 +784,7 @@ export const UserPreference = (props) => {
                   valueMinsalary,
                   valueSalarytype,
                   valueRelocation,
-                  valueRelocationplace,
+                  location ? location : valueRelocationplace,
                   valueRemotejob,
                   valueHybridjob,
                   valueInperson,
@@ -1304,6 +1225,7 @@ export const UserPreference = (props) => {
               onChange={(e) => {
                 setValueRelocation(e.target.checked ? "Yes" : "");
                 setValueRelocationplace("");
+                setlocation("");
               }}
               onFocus={() => setError("")}
             />
@@ -1321,6 +1243,7 @@ export const UserPreference = (props) => {
                   value="anywhere"
                   checked={valueRelocationplace === "anywhere"}
                   onChange={(e) => setValueRelocationplace(e.target.value)}
+                  onClick={() => setlocation("")}
                   onFocus={() => setError("")}
                 />
                 <br />
@@ -1337,6 +1260,7 @@ export const UserPreference = (props) => {
                   }
                   value="chooselocation"
                   onChange={(e) => setValueRelocationplace(e.target.value)}
+                  onClick={() => setlocation("")}
                   onFocus={() => setError("")}
                 />
                 <br />
@@ -1344,42 +1268,10 @@ export const UserPreference = (props) => {
                   valueRelocationplace !== "" && (
                     <>
                       <div className="btn-group">
-                        <button
-                          type="button"
-                          className="btn btn-light dropdown-toggle"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          Choose Location
-                        </button>
-                        <ul
-                          className="dropdown-menu"
-                          style={{ height: "100px", overflowY: "auto" }}
-                        >
-                          <li>
-                            {states.map((location) => (
-                              <div
-                                key={location}
-                                className="checklocation"
-                                style={{ display: "flex" }}
-                              >
-                                <h6>
-                                  <b>{location}</b>
-                                </h6>
-                                <input
-                                  type="checkbox"
-                                  id={location}
-                                  name="location"
-                                  value={location}
-                                  onChange={handleLocationChange}
-                                  checked={valueRelocationplace
-                                    .split(", ")
-                                    .includes(location)}
-                                />
-                              </div>
-                            ))}
-                          </li>
-                        </ul>
+                        <LocationSearchInput
+                          setLocation={setlocation}
+                          location={location}
+                        />
                       </div>
                     </>
                   )}
@@ -1457,6 +1349,11 @@ export const UserPreference = (props) => {
                 valueMinsalary <= 0
               ) {
                 setError("Minimum salary must be a positive number");
+              } else if (
+                valueRelocationplace === "chooselocation" &&
+                location == ""
+              ) {
+                setError("please choose location");
               } else {
                 actions
                   .editpreference(
@@ -1490,7 +1387,7 @@ export const UserPreference = (props) => {
                     valueMinsalary,
                     valueSalarytype,
                     valueRelocation,
-                    valueRelocationplace,
+                    location ? location : valueRelocationplace,
                     valueRemotejob,
                     valueHybridjob,
                     valueInperson,

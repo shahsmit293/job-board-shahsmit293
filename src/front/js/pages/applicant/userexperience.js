@@ -5,61 +5,10 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ReactHtmlParser from "react-html-parser";
 import "../../../styles/userexperience.css";
+import LocationSearchInput from "../locationSearchInput";
 
 export const UserExperience = (props) => {
   const { store, actions } = useContext(Context);
-  const states = [
-    "Alabama",
-    "Alaska",
-    "Arizona",
-    "Arkansas",
-    "California",
-    "Colorado",
-    "Connecticut",
-    "Delaware",
-    "Florida",
-    "Georgia",
-    "Hawaii",
-    "Idaho",
-    "Illinois",
-    "Indiana",
-    "Iowa",
-    "Kansas",
-    "Kentucky",
-    "Louisiana",
-    "Maine",
-    "Maryland",
-    "Massachusetts",
-    "Michigan",
-    "Minnesota",
-    "Mississippi",
-    "Missouri",
-    "Montana",
-    "Nebraska",
-    "Nevada",
-    "New Hampshire",
-    "New Jersey",
-    "New Mexico",
-    "New York",
-    "North Carolina",
-    "North Dakota",
-    "Ohio",
-    "Oklahoma",
-    "Oregon",
-    "Pennsylvania",
-    "Rhode Island",
-    "South Carolina",
-    "South Dakota",
-    "Tennessee",
-    "Texas",
-    "Utah",
-    "Vermont",
-    "Virginia",
-    "Washington",
-    "West Virginia",
-    "Wisconsin",
-    "Wyoming",
-  ];
   const jobtype = ["Full Time", "Part Time", "Temporary", "Contract"];
   const [showexperiencedetails, setshowexperiencedetails] = useState(true);
   const [addexperience, setaddexperience] = useState(false);
@@ -194,25 +143,20 @@ export const UserExperience = (props) => {
           </div>
           <div className="experience-group">
             <label>Job Type</label>
-            <select>
-              <option
-                value=""
-                onClick={() => setaddjobtype("")}
-                onFocus={() => setError("")}
-              >
-                Select a state
-              </option>
+            <select
+              onChange={(e) => setaddjobtype(e.target.value)}
+              onFocus={() => setError("")}
+              value={addvaluejobtype}
+            >
+              <option value="">Select job type</option>
               {jobtype.map((job) => (
-                <option
-                  key={job}
-                  value={job}
-                  onClick={() => setaddjobtype(job)}
-                >
+                <option key={job} value={job}>
                   {job}
                 </option>
               ))}
             </select>
           </div>
+
           <div className="experience-group">
             <label>Start Year</label>
             <input
@@ -251,25 +195,11 @@ export const UserExperience = (props) => {
             />
           </div>
           <div className="experience-group">
-            <label>Location</label>
-            <select>
-              <option
-                value=""
-                onClick={() => setaddLocation("")}
-                onFocus={() => setError("")}
-              >
-                Select a state
-              </option>
-              {states.map((state) => (
-                <option
-                  key={state}
-                  value={state}
-                  onClick={() => setaddLocation(state)}
-                >
-                  {state}
-                </option>
-              ))}
-            </select>
+            <label>Address:</label>
+            <LocationSearchInput
+              setLocation={setaddLocation}
+              location={addvalueLocation}
+            />
           </div>
           <div>
             <label>Description</label>
@@ -277,7 +207,7 @@ export const UserExperience = (props) => {
           <ReactQuill
             theme="snow"
             value={addvalueDescription}
-            onChange={(e) => setadddescription(e.target.value)}
+            onChange={setadddescription}
             onFocus={() => setError("")}
           />
 
@@ -350,7 +280,7 @@ export const UserExperience = (props) => {
                 onClick={() => setJobtype("")}
                 onFocus={() => setError("")}
               >
-                Select a state
+                Select a job type
               </option>
               {jobtype.map((job) => (
                 <option key={job} value={job} onClick={() => setJobtype(job)}>
@@ -397,7 +327,7 @@ export const UserExperience = (props) => {
             />
           </div>
           <div className="experience-group">
-            <label>Location</label>
+            {/* <label>Location</label>
             <select value={valueLocation}>
               <option
                 value=""
@@ -416,7 +346,12 @@ export const UserExperience = (props) => {
                   {state}
                 </option>
               ))}
-            </select>
+            </select> */}
+            <label>Address:</label>
+            <LocationSearchInput
+              setLocation={setLocation}
+              location={valueLocation}
+            />
           </div>
           <ReactQuill
             theme="snow"
