@@ -123,6 +123,7 @@ def add_job():
     if 'company_logo' not in request.files:
         default_image_url = 'https://hiremasterylogo.s3.amazonaws.com/hiremasterydefaultlogo.png'
         company_logo_url = default_image_url
+        print(company_logo_url)
         
     company_logo = request.files['company_logo']
 
