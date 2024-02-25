@@ -34,7 +34,10 @@ export const JobCard = (props) => {
           <i class="fa-solid fa-check"></i>
         </p>
         <div className="companylogo">
-          <img src={props.logo}></img>
+          <img
+            src={props.logo}
+            style={{ height: "25px", width: "25px", borderRadius: "50%" }}
+          ></img>
         </div>
         <div className="jobtitle">
           <h4>

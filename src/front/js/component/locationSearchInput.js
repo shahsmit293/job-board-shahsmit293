@@ -26,6 +26,7 @@ const LocationSearchInput = ({ setLocation, setCoordinates, location }) => {
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div>
           <input
+            style={{ width: "100%" }}
             {...getInputProps({
               placeholder: "Enter Address ...",
               className: "location-search-input form-control",

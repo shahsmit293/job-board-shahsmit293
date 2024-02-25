@@ -135,7 +135,7 @@ def add_job():
     s3.upload_fileobj(company_logo, 'hiremasterylogo', company_logo.filename)
 
     # Generate a presigned URL for the uploaded file
-    company_logo_url = s3.generate_presigned_url('get_object', Params={'Bucket': 'hiremasterylogo', 'Key': company_logo.filename}, ExpiresIn=3600)
+    company_logo_url = s3.generate_presigned_url('get_object', Params={'Bucket': 'hiremasterylogo', 'Key': company_logo.filename}, ExpiresIn=31536000)
 
     job = Postjobs(
         employer_id=request.form.get("employer_id"),
@@ -218,7 +218,10 @@ def edit_post(post_id):
         return jsonify("Job doesn't exist"), 400
 
     data = request.form
-
+    # Check if company logo is not provided, use default logo URL
+    if 'company_logo' not in request.files:
+        default_image_url = 'https://hiremasterylogo.s3.amazonaws.com/defaultlogo.png'
+        job.company_logo = default_image_url
     # Handle company logo upload
     if 'company_logo' in request.files:
         company_logo = request.files['company_logo']
@@ -232,7 +235,7 @@ def edit_post(post_id):
         s3.upload_fileobj(company_logo, 'hiremasterylogo', company_logo.filename)
 
         # Generate a presigned URL for the uploaded file
-        company_logo_url = s3.generate_presigned_url('get_object', Params={'Bucket': 'hiremasterylogo', 'Key': company_logo.filename}, ExpiresIn=3600)
+        company_logo_url = s3.generate_presigned_url('get_object', Params={'Bucket': 'hiremasterylogo', 'Key': company_logo.filename}, ExpiresIn=31536000)
 
         # Update job's company logo URL
         job.company_logo = company_logo_url
@@ -260,10 +263,7 @@ def edit_post(post_id):
     job.weekend_job = data.get("weekend_job")
     job.language = data.get("language")
 
-    # Check if company logo is not provided, use default logo URL
-    if 'company_logo' not in request.files:
-        default_image_url = 'https://hiremasterylogo.s3.amazonaws.com/defaultlogo.png'
-        job.company_logo = default_image_url
+
 
     db.session.commit()
     return jsonify(job.serialize())
