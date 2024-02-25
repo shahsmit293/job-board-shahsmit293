@@ -449,7 +449,7 @@ class Postjobs(db.Model):
     min_salary=db.Column(db.Integer,unique=False,nullable=True)
     max_salary=db.Column(db.Integer,unique=False,nullable=True)
     working_times=db.Column(db.String(80),unique=False,nullable=True)
-    description=db.Column(db.String(5000),unique=False,nullable=True)
+    description=db.Column(db.String(10000),unique=False,nullable=True)
     weekend_job=db.Column(db.String(80),unique=False,nullable=True)
     # benefits = db.Column(ARRAY(db.String), unique=False, nullable=True)
     language=db.Column(db.String(50),unique=False,nullable=True)
@@ -724,16 +724,6 @@ class Contacteduserprofile(db.Model):
             "user_id":self.user_id,
             "user":self.user.serialize(),
         }
-    
-
-
-class Temp(db.Model):
-    __tablename__ = 'temp'
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    
-    def __init__(self,email,password):
-        self.email=email
 
 
 
