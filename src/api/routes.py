@@ -121,7 +121,7 @@ def add_job():
         return jsonify("employer doesn't exist"), 400
 
     if 'company_logo' not in request.files:
-        default_image_url = 'https://hiremasterylogo.s3.amazonaws.com/defaultlogo.png'
+        default_image_url = 'https://hiremasterylogo.s3.amazonaws.com/hiremasterydefaultlogo.png'
         company_logo_url = default_image_url
         
     company_logo = request.files['company_logo']
@@ -220,7 +220,7 @@ def edit_post(post_id):
     data = request.form
     # Check if company logo is not provided, use default logo URL
     if 'company_logo' not in request.files:
-        default_image_url = 'https://hiremasterylogo.s3.amazonaws.com/defaultlogo.png'
+        default_image_url = 'https://hiremasterylogo.s3.amazonaws.com/hiremasterydefaultlogo.png'
         job.company_logo = default_image_url
     # Handle company logo upload
     if 'company_logo' in request.files:
