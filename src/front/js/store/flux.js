@@ -280,10 +280,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
       },
 
-      //for edit book
       editjobs: async (
         post_id,
         company_name,
+        company_logo,
         first_name,
         last_name,
         job_title,
@@ -303,40 +303,41 @@ const getState = ({ getStore, getActions, setStore }) => {
         working_times,
         description,
         weekend_job,
-        language
+        language,
+        file
       ) => {
         const store = getStore();
-        const data = {
-          company_name,
-          first_name,
-          last_name,
-          job_title,
-          company_email,
-          company_phone_number,
-          number_hiring,
-          work_location_type,
-          location,
-          job_type,
-          working_hours,
-          experience_level_type,
-          education_degree,
-          min_experience,
-          max_experience,
-          min_salary,
-          max_salary,
-          working_times,
-          description,
-          weekend_job,
-          language,
-        };
+        const data = new FormData();
+        data.append("company_name", company_name);
+        data.append("company_logo", company_logo);
+        data.append("first_name", first_name);
+        data.append("last_name", last_name);
+        data.append("job_title", job_title);
+        data.append("company_email", company_email);
+        data.append("company_phone_number", company_phone_number);
+        data.append("number_hiring", number_hiring);
+        data.append("work_location_type", work_location_type);
+        data.append("location", location);
+        data.append("job_type", job_type);
+        data.append("working_hours", working_hours);
+        data.append("experience_level_type", experience_level_type);
+        data.append("education_degree", education_degree);
+        data.append("min_experience", min_experience);
+        data.append("max_experience", max_experience);
+        data.append("min_salary", min_salary);
+        data.append("max_salary", max_salary);
+        data.append("working_times", working_times);
+        data.append("description", description);
+        data.append("weekend_job", weekend_job);
+        data.append("language", language);
+        data.append("file", file);
 
         const resp = await fetch(`${backend}api/editpost/${post_id}`, {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${store.accessToken}`,
           },
-          body: JSON.stringify(data),
+          body: data,
         });
 
         const respData = await resp.json();
@@ -349,6 +350,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       geteditjobs: async (
         post_id,
         setCompanyNameValue,
+        setCompanyLogo,
         setFirstNameValue,
         setLastNameValue,
         setPhoneNumberValue,
@@ -385,6 +387,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         const data = await response.json();
         console.log(data);
         setCompanyNameValue(data.company_name);
+        setCompanyLogo(data.company_logo);
         setFirstNameValue(data.first_name);
         setLastNameValue(data.last_name);
         setPhoneNumberValue(data.company_phone_number);

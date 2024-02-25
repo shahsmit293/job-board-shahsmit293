@@ -29,6 +29,7 @@ export const EditPostJob = () => {
     actions.geteditjobs(
       jobIdParam,
       setCompanyNameValue,
+      setCompanyLogo,
       setFirstNameValue,
       setLastNameValue,
       setPhoneNumberValue,
@@ -50,9 +51,11 @@ export const EditPostJob = () => {
       setLanguageValue,
       setDescriptionValue
     );
+
     return () => {
       // Clear all state values when component unmounts
       setCompanyNameValue("");
+      setCompanyLogo("");
       setFirstNameValue("");
       setLastNameValue("");
       setPhoneNumberValue("");
@@ -75,7 +78,9 @@ export const EditPostJob = () => {
       setEducationValue("");
     };
   }, [jobIdParam]);
+
   const [companyNameValue, setCompanyNameValue] = useState("");
+  const [companyLogo, setCompanyLogo] = useState("");
   const [firstNameValue, setFirstNameValue] = useState("");
   const [lastNameValue, setLastNameValue] = useState("");
   const [phoneNumberValue, setPhoneNumberValue] = useState("");
@@ -95,7 +100,7 @@ export const EditPostJob = () => {
   const [languageValue, setLanguageValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
   const [educationdegreeValue, setEducationValue] = useState("");
-
+  const [showimagefile, setshowimagefile] = useState(false);
   const sorted = (e) => {
     if (e.target.value === "Remote") {
       setWorkLocationTypeValue("Remote");
@@ -149,6 +154,7 @@ export const EditPostJob = () => {
       setEducationValue("Doctoral Degree");
     }
   };
+
   return (
     <div className="editjobpostpage">
       {store.accessToken ? (
@@ -170,6 +176,38 @@ export const EditPostJob = () => {
                   onFocus={() => setError("")}
                 />
                 <br />
+              </div>
+              <div className="label">
+                <label>Image:</label>
+                {showimagefile ? (
+                  <input
+                    className="form-control"
+                    type="file"
+                    id="logo"
+                    name="logo"
+                    onChange={(e) => setCompanyLogo(e.target.files[0])}
+                  />
+                ) : (
+                  <span>
+                    {companyLogo && companyLogo.includes(".com/")
+                      ? companyLogo.split(".com/")[1].split("?")[0] ==
+                        "defaultlogo.png"
+                        ? "default logo uploaded"
+                        : companyLogo.split(".com/")[1].split("?")[0]
+                      : "No file selected"}
+                  </span>
+                )}
+
+                <i
+                  className="fa-solid fa-trash"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setshowimagefile(true);
+                    setCompanyLogo("");
+                    setLocation("defaultlogo.png");
+                    document.getElementById("logo").value = "";
+                  }}
+                ></i>
               </div>
               <div className="label">
                 <label htmlFor="firstName">First Name</label>
@@ -518,6 +556,7 @@ export const EditPostJob = () => {
                       .editjobs(
                         jobIdParam,
                         companyNameValue,
+                        companyLogo,
                         firstNameValue,
                         lastNameValue,
                         jobTitleValue,

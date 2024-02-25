@@ -116,7 +116,14 @@ export const EmployerCreateJobPost = () => {
                 name="logo"
                 onChange={(e) => setLogo(e.target.files[0])}
               />
-              <br />
+              <i
+                className="fa-solid fa-trash"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setLogo("");
+                  document.getElementById("logo").value = "";
+                }}
+              ></i>
             </div>
 
             <div className="label">

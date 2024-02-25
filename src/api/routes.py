@@ -26,7 +26,7 @@ from werkzeug.wrappers import Response
 from werkzeug.utils import secure_filename
 from sqlalchemy import union
 from sqlalchemy import or_
-
+from botocore.exceptions import ClientError
 
 api = Blueprint('api', __name__)
 # Allow CORS requests to this API
@@ -203,45 +203,71 @@ def watch_job_post(id):
     else:
         return jsonify({"message": "Jobs not found"}), 404
 
-# edit book
+
+
 @api.route('/editpost/<int:post_id>', methods=['PUT'])
 @jwt_required()
 def edit_post(post_id):
     email = get_jwt_identity()
     employer = Employer.query.filter_by(email=email).one_or_none()
     if employer is None:
-        return jsonify("employer doesn't exist"), 400
+        return jsonify("Employer doesn't exist"), 400
 
     job = Postjobs.query.get(post_id)
     if job is None:
         return jsonify("Job doesn't exist"), 400
 
-    data = request.get_json()
+    data = request.form
 
-    job.company_name = data["company_name"]
-    job.first_name = data["first_name"]
-    job.last_name = data["last_name"]
-    job.job_title = data["job_title"]
-    job.company_email = data["company_email"]
-    job.company_phone_number = data["company_phone_number"]
-    job.number_hiring = data["number_hiring"]
-    job.work_location_type = data["work_location_type"]
-    job.location = data["location"]
-    job.job_type = data["job_type"]
-    job.working_hours = data["working_hours"]
-    job.experience_level_type = data["experience_level_type"]
-    job.education_degree=data["education_degree"]
-    job.min_experience = data["min_experience"]
-    job.max_experience = data["max_experience"]
-    job.min_salary = data["min_salary"]
-    job.max_salary = data["max_salary"]
-    job.working_times = data["working_times"]
-    job.description = data["description"]
-    job.weekend_job = data["weekend_job"]
-    job.language = data["language"]
+    # Handle company logo upload
+    if 'company_logo' in request.files:
+        company_logo = request.files['company_logo']
+
+        session = boto3.Session(
+            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+            region_name='us-east-1'
+        )
+        s3 = session.client('s3')
+        s3.upload_fileobj(company_logo, 'hiremasterylogo', company_logo.filename)
+
+        # Generate a presigned URL for the uploaded file
+        company_logo_url = s3.generate_presigned_url('get_object', Params={'Bucket': 'hiremasterylogo', 'Key': company_logo.filename}, ExpiresIn=3600)
+
+        # Update job's company logo URL
+        job.company_logo = company_logo_url
+
+    # Update job data
+    job.company_name = data.get("company_name")
+    job.first_name = data.get("first_name")
+    job.last_name = data.get("last_name")
+    job.job_title = data.get("job_title")
+    job.company_email = data.get("company_email")
+    job.company_phone_number = data.get("company_phone_number")
+    job.number_hiring = data.get("number_hiring")
+    job.work_location_type = data.get("work_location_type")
+    job.location = data.get("location")
+    job.job_type = data.get("job_type")
+    job.working_hours = data.get("working_hours")
+    job.experience_level_type = data.get("experience_level_type")
+    job.education_degree = data.get("education_degree")
+    job.min_experience = data.get("min_experience")
+    job.max_experience = data.get("max_experience")
+    job.min_salary = data.get("min_salary")
+    job.max_salary = data.get("max_salary")
+    job.working_times = data.get("working_times")
+    job.description = data.get("description")
+    job.weekend_job = data.get("weekend_job")
+    job.language = data.get("language")
+
+    # Check if company logo is not provided, use default logo URL
+    if 'company_logo' not in request.files:
+        default_image_url = 'https://hiremasterylogo.s3.amazonaws.com/defaultlogo.png'
+        job.company_logo = default_image_url
 
     db.session.commit()
     return jsonify(job.serialize())
+
 
 #get  edit book
 @api.route('/geteditpost/<int:post_id>', methods=['GET'])
