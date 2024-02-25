@@ -204,7 +204,6 @@ export const EditPostJob = () => {
                   onClick={() => {
                     setshowimagefile(true);
                     setCompanyLogo("");
-                    setLocation("defaultlogo.png");
                     document.getElementById("logo").value = "";
                   }}
                 ></i>
