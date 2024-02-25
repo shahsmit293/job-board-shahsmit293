@@ -449,7 +449,7 @@ class Postjobs(db.Model):
     min_salary=db.Column(db.Integer,unique=False,nullable=True)
     max_salary=db.Column(db.Integer,unique=False,nullable=True)
     working_times=db.Column(db.String(80),unique=False,nullable=True)
-    description=db.Column(db.String(10000),unique=False,nullable=True)
+    description=db.Column(db.String(9000),unique=False,nullable=True)
     weekend_job=db.Column(db.String(80),unique=False,nullable=True)
     # benefits = db.Column(ARRAY(db.String), unique=False, nullable=True)
     language=db.Column(db.String(50),unique=False,nullable=True)
