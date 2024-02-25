@@ -124,19 +124,20 @@ def add_job():
         default_image_url = 'https://hiremasterylogo.s3.amazonaws.com/hiremasterydefaultlogo.png'
         company_logo_url = default_image_url
         print(company_logo_url)
-        
-    company_logo = request.files['company_logo']
 
-    session = boto3.Session(
-        aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-        aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-        region_name='us-east-1'
-    )
-    s3 = session.client('s3')
-    s3.upload_fileobj(company_logo, 'hiremasterylogo', company_logo.filename)
+    if 'company_logo' in request.files:    
+        company_logo = request.files['company_logo']
 
-    # Generate a presigned URL for the uploaded file
-    company_logo_url = s3.generate_presigned_url('get_object', Params={'Bucket': 'hiremasterylogo', 'Key': company_logo.filename}, ExpiresIn=31536000)
+        session = boto3.Session(
+            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+            region_name='us-east-1'
+        )
+        s3 = session.client('s3')
+        s3.upload_fileobj(company_logo, 'hiremasterylogo', company_logo.filename)
+
+        # Generate a presigned URL for the uploaded file
+        company_logo_url = s3.generate_presigned_url('get_object', Params={'Bucket': 'hiremasterylogo', 'Key': company_logo.filename}, ExpiresIn=31536000)
 
     job = Postjobs(
         employer_id=request.form.get("employer_id"),
