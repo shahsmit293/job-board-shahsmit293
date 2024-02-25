@@ -1413,7 +1413,13 @@ def search_jobs():
         query = query.filter(or_(Postjobs.job_title.ilike('%' + title + '%') for title in jobtitle))
     if location:
         location_keywords = location.lower().split(',')
-        query = query.filter(or_(Postjobs.location.ilike('%' + keyword.strip() + '%') for keyword in location_keywords))
+        for keyword in location_keywords:
+            query = query.filter(Postjobs.location.ilike('%' + keyword.strip() + '%'))
+            if query.count() > 0:
+                break  # Exit the loop if a match is found
+
+# Continue with other filtering logic or operations...
+
     if valueworklocation:
         query = query.filter(Postjobs.work_location_type.ilike('%' + valueworklocation + '%'))
     if jobtype:
