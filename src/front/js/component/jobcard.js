@@ -24,19 +24,24 @@ export const JobCard = (props) => {
   return (
     <div className="grid-item">
       <div className="card-body">
-        <p
-          className="correctsign"
-          style={{
-            display: props.displayapplied,
-            color: "green",
-          }}
-        >
-          <i class="fa-solid fa-check"></i>
-        </p>
         <div className="companylogo">
+          <p
+            className="correctsign"
+            style={{
+              display: props.displayapplied,
+              color: "green",
+            }}
+          >
+            <i class="fa-solid fa-check"></i>
+          </p>
           <img
             src={props.logo}
-            style={{ height: "25px", width: "25px", borderRadius: "50%" }}
+            style={{
+              height: "25px",
+              width: "25px",
+              borderRadius: "50%",
+              marginLeft: "40%",
+            }}
           ></img>
         </div>
         <div className="jobtitle">

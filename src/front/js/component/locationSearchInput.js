@@ -3,6 +3,8 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
+import "../../styles/home.css";
+import "../../styles/locationSearchInput.css";
 
 const LocationSearchInput = ({ setLocation, setCoordinates, location }) => {
   const handleChange = (newAddress) => {
@@ -26,7 +28,6 @@ const LocationSearchInput = ({ setLocation, setCoordinates, location }) => {
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div>
           <input
-            style={{ width: "100%" }}
             {...getInputProps({
               placeholder: "Enter Address ...",
               className: "location-search-input form-control",

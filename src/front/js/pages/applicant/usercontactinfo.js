@@ -196,8 +196,9 @@ export const UserContactInfo = (props) => {
             ></input>
           </div>
           <div className="contact-group">
-
-            <label>Address:</label>
+            <label>
+              <b>Address</b>
+            </label>
             <LocationSearchInput
               setLocation={setLocation}
               location={valueLocation}

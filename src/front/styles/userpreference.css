@@ -28,3 +28,55 @@ select {
   margin-inline-end: auto;
   width: 50%;
 }
+
+.btn-group .location-search-input {
+  width: 100%;
+  padding: 0px;
+  margin-top: 5px;
+  height: auto;
+  border: 1px solid black;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.btn-group .autocomplete-dropdown-container {
+  position: absolute;
+  z-index: 1;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.btn-group .suggestion-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.btn-group .suggestion-item--active {
+  background-color: #fafafa;
+}
+
+@media (max-width: 1200px) {
+  /* Style for the parent container */
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Style for the radio buttons and labels */
+  .btn-group input[type="radio"],
+  .btn-group label {
+    display: inline-flex; /* Display the radio buttons and labels in a row */
+    align-items: center; /* Align items vertically */
+  }
+
+  /* Additional style for LocationSearchInput */
+  .btn-group .location-search-input {
+    width: 100%; /* Example styling */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+}

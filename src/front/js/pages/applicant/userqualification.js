@@ -183,7 +183,6 @@ export const UserQualification = (props) => {
             </select>
           </div>
           <div className="qualification-group">
-
             <label>Address:</label>
             <LocationSearchInput
               setLocation={setaddLocation}
@@ -323,7 +322,6 @@ export const UserQualification = (props) => {
             </select>
           </div>
           <div className="qualification-group">
-
             <label>Address:</label>
             <LocationSearchInput
               setLocation={setLocation}

@@ -19,6 +19,7 @@
   margin-left: 50px;
   margin-right: 50px;
   padding: 5px;
+  background-color: lightgray;
 }
 .chatlayout .chattitle {
   display: flex;

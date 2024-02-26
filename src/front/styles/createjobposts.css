@@ -73,3 +73,35 @@
     margin: 0px;
   }
 }
+
+.label .location-search-input {
+  width: 100%;
+  padding: 0px;
+  margin-top: 5px;
+  height: auto;
+  border: 1px solid black;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.label .autocomplete-dropdown-container {
+  position: absolute;
+  z-index: 1;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.label .suggestion-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.label .suggestion-item--active {
+  background-color: #fafafa;
+}
+.quill {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

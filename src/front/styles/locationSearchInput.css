@@ -1,0 +1,25 @@
+.location-search-input {
+  width: 100%; /* Example styling */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.autocomplete-dropdown-container {
+  position: absolute;
+  z-index: 1;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestion-item--active {
+  background-color: #fafafa;
+}

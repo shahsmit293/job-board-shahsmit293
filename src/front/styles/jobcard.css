@@ -12,7 +12,9 @@
   background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
   background-size: contain;
 }
-
+.card-body {
+  height: 80%;
+}
 .category .jobtype,
 .category .worktype,
 .category .shift,

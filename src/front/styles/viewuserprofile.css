@@ -1,20 +1,30 @@
-p.popup {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  background: #fff;
-  color: #fff;
-  border: 15px solid black;
-  z-index: 10;
-  margin-top: 0px;
-  overflow: auto;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-  max-height: 100vh;
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
 }
+
+p.popup {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #000;
+  border: none; /* Remove border */
+  z-index: 1000;
+  height: auto;
+  max-height: calc(100vh - 30px);
+  overflow-y: auto;
+  animation: glowing 2s infinite alternate; /* Add glowing animation */
+}
+
 .viewuserprofilepage {
   display: flex;
   justify-content: center;

@@ -202,7 +202,11 @@ export const Home = () => {
             value={valueJobtitle}
             onChange={(e) => setValueJobtitile(e.target.value)}
           />
+        </div>
+        <div className="searchbar">
           <LocationSearchInput setLocation={setLocation} location={location} />
+        </div>
+        <div className="searchbar">
           <button
             className="searchbutton"
             onClick={() => {
@@ -214,10 +218,11 @@ export const Home = () => {
                 experiencelevel,
                 education,
                 workingtimes,
-                postdays
+                postdays,
+                salary
               );
               navigate(
-                `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}&salary=${salary}`
               );
             }}
           >
@@ -234,10 +239,11 @@ export const Home = () => {
               seteducationValue("");
               setworkingtimes("");
               setpostdays("");
+              setsalary("");
               navigate("/");
 
               // Fetch data with empty values
-              actions.searchjobsdata("", "", "", "", "", "", "", "", "");
+              actions.searchjobsdata("", "", "", "", "", "", "", "", "", "");
             }}
           >
             Reset
@@ -282,10 +288,11 @@ export const Home = () => {
                     experiencelevel,
                     education,
                     workingtimes,
-                    postdays
+                    postdays,
+                    salary
                   );
                   navigate(
-                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}&salary=${salary}`
                   );
                 }}
               ></i>
@@ -354,10 +361,11 @@ export const Home = () => {
                     experiencelevel,
                     education,
                     workingtimes,
-                    postdays
+                    postdays,
+                    salary
                   );
                   navigate(
-                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}&salary=${salary}`
                   );
                 }}
               ></i>
@@ -426,10 +434,11 @@ export const Home = () => {
                     experiencelevel,
                     education,
                     workingtimes,
-                    postdays
+                    postdays,
+                    salary
                   );
                   navigate(
-                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}&salary=${salary}`
                   );
                 }}
               ></i>
@@ -498,10 +507,11 @@ export const Home = () => {
                     experiencelevel,
                     education,
                     workingtimes,
-                    postdays
+                    postdays,
+                    salary
                   );
                   navigate(
-                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}&salary=${salary}`
                   );
                 }}
               ></i>
@@ -570,10 +580,11 @@ export const Home = () => {
                     experiencelevel,
                     education,
                     workingtimes,
-                    postdays
+                    postdays,
+                    salary
                   );
                   navigate(
-                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}&salary=${salary}`
                   );
                 }}
               ></i>
@@ -642,10 +653,11 @@ export const Home = () => {
                     experiencelevel,
                     education,
                     workingtimes,
-                    postdays
+                    postdays,
+                    salary
                   );
                   navigate(
-                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}&salary=${salary}`
                   );
                 }}
               ></i>
@@ -714,10 +726,11 @@ export const Home = () => {
                     experiencelevel,
                     education,
                     workingtimes,
-                    postdays
+                    postdays,
+                    salary
                   );
                   navigate(
-                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}`
+                    `/?valueJobtitle=${valueJobtitle}&location=${location}&valueworklocation=${valueworklocation}&jobtype=${jobtype}&experiencelevel=${experiencelevel}&education=${education}&workingtimes=${workingtimes}&postdays=${postdays}&salary=${salary}`
                   );
                 }}
               ></i>

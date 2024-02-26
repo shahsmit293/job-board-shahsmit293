@@ -1,35 +1,40 @@
-p.popup {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  background: #fff;
-  color: #fff;
-  border: 15px solid black;
-  z-index: 10;
-  margin-top: 0px;
-  overflow: auto;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-  max-height: 100vh;
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
 }
 
-div.popup {
+p.popup {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #000;
+  border: none; /* Remove border */
+  z-index: 1000;
+  height: auto;
+  max-height: calc(100vh - 30px);
+  overflow-y: auto;
+  animation: glowing 2s infinite alternate; /* Add glowing animation */
+}
+
+div .popup {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  background: #a6e6ea;
+  left: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ecefd8;
   color: black;
   border: 5px solid rgb(87, 82, 155);
   overflow: auto;
-  justify-content: center;
-  align-items: center;
-  width: 500px;
-  height: 50vh;
-  justify-content: space-around;
 }
 
 .home {
@@ -37,7 +42,7 @@ div.popup {
   flex-direction: column;
   justify-self: left;
   min-height: 100vh;
-  margin: 0px 5% 0px 5%;
+  margin: 0px 5% 2% 5%;
   background-image: url("https://www.bypeople.com/wp-content/uploads/2014/05/light-live-background-css.jpg");
   background-size: contain;
 }
@@ -45,7 +50,19 @@ div.popup {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: fit-content;
 }
+.autocomplete-dropdown-container {
+  position: absolute;
+  max-width: 250px;
+  z-index: 1;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
 .searchbar {
   display: flex;
   margin: 25px;
@@ -80,7 +97,7 @@ div.popup {
   flex-direction: column;
 }
 .applybutton {
-  margin-left: 50%;
+  margin-left: 0%;
 }
 
 .application {
@@ -159,6 +176,19 @@ div.popup {
     padding: 0px;
     width: 100%;
   }
+  div .popup {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ecefd8;
+    color: black;
+    border: 5px solid rgb(87, 82, 155);
+    overflow: auto;
+    width: 50vw;
+    height: 50vh;
+  }
 }
 
 @media (max-width: 760px) {
@@ -197,22 +227,42 @@ div.popup {
     padding: 0px;
     width: 100%;
   }
-}
+  .contactinformation div {
+    display: flex;
+    flex-direction: column;
+  }
+  p.popup {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    color: #000;
+    border: 1px solid black;
+    z-index: 100;
+    height: auto;
+    max-height: calc(100vh - 30px);
+    overflow-y: auto;
+  }
 
-@media (max-width: 576px) {
-  div.popup {
+  div .popup {
     position: absolute;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    background: #a6e6ea;
+    left: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ecefd8;
     color: black;
     border: 5px solid rgb(87, 82, 155);
     overflow: auto;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    width: 50vw;
     height: 50vh;
-    justify-content: space-around;
+  }
+}
+
+@media (max-width: 576px) {
+  .searchdetails {
+    display: flex;
+    flex-direction: column;
   }
 }

@@ -408,6 +408,7 @@ export const EmployerCreateJobPost = () => {
                   !companyNameValue ||
                   !firstNameValue ||
                   !lastNameValue ||
+                  !logoValue ||
                   !jobTitleValue ||
                   !companyEmailValue ||
                   !phoneNumberValue ||

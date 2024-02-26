@@ -637,34 +637,36 @@ export const UserPreference = (props) => {
               onFocus={() => setError("")}
             />
           </div>
-          <div className="preference-group">
+          <div className="btn-group">
             {valueRelocation === "Yes" && (
               <>
-                <h5>
+                <label>
                   <b>Anywhere</b>
-                </h5>
-                <input
-                  type="radio"
-                  id="anywhere"
-                  name="relocationOption"
-                  value="anywhere"
-                  onChange={(e) => setValueRelocationplace(e.target.value)}
-                  onClick={() => setlocation("")}
-                  onFocus={() => setError("")}
-                />
+                  <input
+                    type="radio"
+                    id="anywhere"
+                    name="relocationOption"
+                    value="anywhere"
+                    onChange={(e) => setValueRelocationplace(e.target.value)}
+                    onClick={() => setlocation("")}
+                    onFocus={() => setError("")}
+                  />
+                </label>
+
                 <br />
-                <h5>
+                <label>
                   <b>Choose Location</b>
-                </h5>
-                <input
-                  type="radio"
-                  id="chooselocation"
-                  name="relocationOption"
-                  value="chooselocation"
-                  onChange={(e) => setValueRelocationplace(e.target.value)}
-                  onClick={() => setlocation("")}
-                  onFocus={() => setError("")}
-                />
+                  <input
+                    type="radio"
+                    id="chooselocation"
+                    name="relocationOption"
+                    value="chooselocation"
+                    onChange={(e) => setValueRelocationplace(e.target.value)}
+                    onClick={() => setlocation("")}
+                    onFocus={() => setError("")}
+                  />
+                </label>
+
                 <br />
                 {valueRelocationplace !== "anywhere" &&
                   valueRelocationplace !== "" && (
@@ -1235,34 +1237,36 @@ export const UserPreference = (props) => {
               <>
                 <label>
                   <b>Anywhere</b>
+                  <input
+                    type="radio"
+                    id="anywhere"
+                    name="relocationOption"
+                    value="anywhere"
+                    checked={valueRelocationplace === "anywhere"}
+                    onChange={(e) => setValueRelocationplace(e.target.value)}
+                    onClick={() => setlocation("")}
+                    onFocus={() => setError("")}
+                  />
                 </label>
-                <input
-                  type="radio"
-                  id="anywhere"
-                  name="relocationOption"
-                  value="anywhere"
-                  checked={valueRelocationplace === "anywhere"}
-                  onChange={(e) => setValueRelocationplace(e.target.value)}
-                  onClick={() => setlocation("")}
-                  onFocus={() => setError("")}
-                />
+
                 <br />
                 <label>
                   <b>Choose Location</b>
+                  <input
+                    type="radio"
+                    id="chooselocation"
+                    name="relocationOption"
+                    checked={
+                      valueRelocationplace !== "anywhere" &&
+                      valueRelocationplace !== ""
+                    }
+                    value="chooselocation"
+                    onChange={(e) => setValueRelocationplace(e.target.value)}
+                    onClick={() => setlocation("")}
+                    onFocus={() => setError("")}
+                  />
                 </label>
-                <input
-                  type="radio"
-                  id="chooselocation"
-                  name="relocationOption"
-                  checked={
-                    valueRelocationplace !== "anywhere" &&
-                    valueRelocationplace !== ""
-                  }
-                  value="chooselocation"
-                  onChange={(e) => setValueRelocationplace(e.target.value)}
-                  onClick={() => setlocation("")}
-                  onFocus={() => setError("")}
-                />
+
                 <br />
                 {valueRelocationplace !== "anywhere" &&
                   valueRelocationplace !== "" && (
