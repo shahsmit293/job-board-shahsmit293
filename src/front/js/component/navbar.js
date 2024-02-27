@@ -22,7 +22,12 @@ export const Navbar = () => {
             }
           }}
         >
-          LOGO
+          <img
+            src="https://www.shutterstock.com/shutterstock/photos/405401863/display_1500/stock-vector-business-handshake-contract-agreement-flat-vector-icon-for-apps-and-websites-405401863.jpg"
+            alt="home image"
+            width="30"
+            height="30"
+          />
         </a>
         <button
           class="navbar-toggler"
