@@ -232,6 +232,7 @@ export const EmployersearchUserprofile = () => {
             <div className="trashsearch">
               <i
                 class="fa-solid fa-magnifying-glass"
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   actions.searchprofile(
                     valueJobtitle,
@@ -246,23 +247,19 @@ export const EmployersearchUserprofile = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   setexperiencelevel("");
-                  // Fetch data with the updated state values
                   actions.searchprofile(
                     valueJobtitle,
-                    location, // location is cleared
+                    location,
                     "",
                     valueeducation
                   );
-                  // Create a new URLSearchParams object
                   const searchParams = new URLSearchParams(
                     window.location.search
                   );
-                  // Remove the specific parameter
                   searchParams.delete("valueexperiencelevel");
-
-                  // Navigate to the new URL without the specific parameter
                   navigate(`/searchprofiles/?${searchParams.toString()}`);
                 }}
               ></i>
@@ -295,6 +292,7 @@ export const EmployersearchUserprofile = () => {
             <div className="trashsearch">
               <i
                 class="fa-solid fa-magnifying-glass"
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   actions.searchprofile(
                     valueJobtitle,
@@ -309,6 +307,7 @@ export const EmployersearchUserprofile = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   seteducationValue("");
                   // Fetch data with the updated state values

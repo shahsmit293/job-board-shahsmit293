@@ -29,3 +29,20 @@ p.popup {
   display: flex;
   justify-content: center;
 }
+
+@media (max-width: 760px) {
+  p.popup {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    color: #000;
+    border: 1px solid black;
+    z-index: 100;
+    height: auto;
+    max-height: calc(100vh - 30px);
+    overflow-y: auto;
+    width: 90%;
+  }
+}

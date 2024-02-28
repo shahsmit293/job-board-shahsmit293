@@ -48,18 +48,18 @@ button:hover {
 .select {
   display: flex;
   flex-direction: column;
-  /* border: 1px solid green; */
   width: 25%;
   padding: 10px;
   height: fit-content;
-  background-color: white;
+  background-color: #f5f5f5;
 }
 .select div {
   display: flex;
+  background-color: #f5f5f5;
 }
 .dropdown {
   padding: 5%;
-  border-bottom: 0.5px solid lightgray;
+  border-bottom: 0.5px solid #f5f5f5;
 }
 .dropdown a {
   text-align: start;

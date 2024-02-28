@@ -186,7 +186,7 @@ export const Home = () => {
     } else if (diffDays === 1) {
       return "yesterday";
     } else {
-      return diffDays + "days ago";
+      return diffDays + "days";
     }
   };
   return (
@@ -279,6 +279,7 @@ export const Home = () => {
             <div className="trashsearch">
               <i
                 class="fa-solid fa-magnifying-glass"
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   actions.searchjobsdata(
                     valueJobtitle,
@@ -298,7 +299,11 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
-                style={{ marginLeft: "5px", marginRight: "10px" }}
+                style={{
+                  marginLeft: "5px",
+                  marginRight: "10px",
+                  cursor: "pointer",
+                }}
                 onClick={() => {
                   setworklocation("");
                   // Fetch data with the updated state values
@@ -352,6 +357,7 @@ export const Home = () => {
             <div className="trashsearch">
               <i
                 class="fa-solid fa-magnifying-glass"
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   actions.searchjobsdata(
                     valueJobtitle,
@@ -371,7 +377,11 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
-                style={{ marginLeft: "5px", marginRight: "10px" }}
+                style={{
+                  marginLeft: "5px",
+                  marginRight: "10px",
+                  cursor: "pointer",
+                }}
                 onClick={() => {
                   setjobtype("");
                   // Fetch data with the updated state values
@@ -425,6 +435,7 @@ export const Home = () => {
             <div className="trashsearch">
               <i
                 class="fa-solid fa-magnifying-glass"
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   actions.searchjobsdata(
                     valueJobtitle,
@@ -444,7 +455,11 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
-                style={{ marginLeft: "5px", marginRight: "10px" }}
+                style={{
+                  marginLeft: "5px",
+                  marginRight: "10px",
+                  cursor: "pointer",
+                }}
                 onClick={() => {
                   setexperiencelevel("");
                   // Fetch data with the updated state values
@@ -498,6 +513,7 @@ export const Home = () => {
             <div className="trashsearch">
               <i
                 class="fa-solid fa-magnifying-glass"
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   actions.searchjobsdata(
                     valueJobtitle,
@@ -517,7 +533,11 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
-                style={{ marginLeft: "5px", marginRight: "10px" }}
+                style={{
+                  marginLeft: "5px",
+                  marginRight: "10px",
+                  cursor: "pointer",
+                }}
                 onClick={() => {
                   seteducationValue("");
                   // Fetch data with the updated state values
@@ -571,6 +591,7 @@ export const Home = () => {
             <div className="trashsearch">
               <i
                 class="fa-solid fa-magnifying-glass"
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   actions.searchjobsdata(
                     valueJobtitle,
@@ -590,7 +611,11 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
-                style={{ marginLeft: "5px", marginRight: "10px" }}
+                style={{
+                  marginLeft: "5px",
+                  marginRight: "10px",
+                  cursor: "pointer",
+                }}
                 onClick={() => {
                   setworkingtimes("");
                   // Fetch data with the updated state values
@@ -644,6 +669,7 @@ export const Home = () => {
             <div className="trashsearch">
               <i
                 class="fa-solid fa-magnifying-glass"
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   actions.searchjobsdata(
                     valueJobtitle,
@@ -663,7 +689,11 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
-                style={{ marginLeft: "5px", marginRight: "10px" }}
+                style={{
+                  marginLeft: "5px",
+                  marginRight: "10px",
+                  cursor: "pointer",
+                }}
                 onClick={() => {
                   setpostdays("");
                   // Fetch data with the updated state values
@@ -717,6 +747,7 @@ export const Home = () => {
             <div className="trashsearch">
               <i
                 class="fa-solid fa-magnifying-glass"
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   actions.searchjobsdata(
                     valueJobtitle,
@@ -736,7 +767,11 @@ export const Home = () => {
               ></i>
               <i
                 class="fas fa-trash-alt"
-                style={{ marginLeft: "5px", marginRight: "10px" }}
+                style={{
+                  marginLeft: "5px",
+                  marginRight: "10px",
+                  cursor: "pointer",
+                }}
                 onClick={() => {
                   setsalary("");
                   // Fetch data with the updated state values
