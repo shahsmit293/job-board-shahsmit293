@@ -45,6 +45,7 @@ export const UserAppliedJobs = () => {
     <div className="userappliedjobs">
       <div className="countappliedjobs" style={{ color: "blue" }}>
         <b>Total Appied Jobs: </b>
+        {store.applliedapplicants.length}
       </div>
       <div className="grid-container">
         {store.alljobs && store.alljobs.length > 0 ? (
