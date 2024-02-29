@@ -6,7 +6,10 @@ import "../../styles/navbar.css";
 export const Navbar = () => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
-
+  function closeNav() {
+    let navBar = document.querySelector("#navbarNavDropdown");
+    navBar.classList.remove("show");
+  }
   return (
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
@@ -47,7 +50,10 @@ export const Navbar = () => {
                 <div class="nav-item">
                   <a
                     class="nav-link"
-                    onClick={() => navigate("/jobseekerloginsignup")}
+                    onClick={() => {
+                      navigate("/jobseekerloginsignup");
+                      closeNav();
+                    }}
                   >
                     Job Seeker
                   </a>
@@ -55,7 +61,10 @@ export const Navbar = () => {
                 <div class="nav-item">
                   <a
                     class="nav-link"
-                    onClick={() => navigate("/employerloginsignup")}
+                    onClick={() => {
+                      navigate("/employerloginsignup");
+                      closeNav();
+                    }}
                   >
                     Employer
                   </a>
@@ -67,20 +76,32 @@ export const Navbar = () => {
               <>
                 <div
                   class="nav-item"
-                  onClick={() => navigate("/employercreatejobpost")}
+                  onClick={() => {
+                    navigate("/employercreatejobpost");
+                    closeNav();
+                  }}
                 >
                   <a class="nav-link" style={{ cursor: "pointer" }}>
                     Create Job
                   </a>
                 </div>
-                <div class="nav-item" onClick={() => navigate("/employerhome")}>
+                <div
+                  class="nav-item"
+                  onClick={() => {
+                    navigate("/employerhome");
+                    closeNav();
+                  }}
+                >
                   <a class="nav-link" style={{ cursor: "pointer" }}>
                     Manage All Jobs
                   </a>
                 </div>
                 <div
                   class="nav-item"
-                  onClick={() => navigate("/searchprofiles")}
+                  onClick={() => {
+                    navigate("/searchprofiles");
+                    closeNav();
+                  }}
                 >
                   <a class="nav-link" style={{ cursor: "pointer" }}>
                     Search Profiles
@@ -88,7 +109,10 @@ export const Navbar = () => {
                 </div>
                 <div
                   class="nav-item"
-                  onClick={() => navigate("/contactedprofiles")}
+                  onClick={() => {
+                    navigate("/contactedprofiles");
+                    closeNav();
+                  }}
                 >
                   <a class="nav-link" style={{ cursor: "pointer" }}>
                     Contacted Profiles
@@ -96,7 +120,10 @@ export const Navbar = () => {
                 </div>
                 <div
                   class="nav-item"
-                  onClick={() => navigate("/savedprofiles")}
+                  onClick={() => {
+                    navigate("/savedprofiles");
+                    closeNav();
+                  }}
                 >
                   <a class="nav-link" style={{ cursor: "pointer" }}>
                     Saved Profiles
@@ -111,14 +138,23 @@ export const Navbar = () => {
             ) : store.useraccessToken ? (
               <>
                 <div class="nav-item">
-                  <a class="nav-link" onClick={() => navigate("/userinbox")}>
+                  <a
+                    class="nav-link"
+                    onClick={() => {
+                      navigate("/userinbox");
+                      closeNav();
+                    }}
+                  >
                     Inbox
                   </a>
                 </div>{" "}
                 <div class="nav-item">
                   <a
                     class="nav-link"
-                    onClick={() => navigate("/userappliedjobs")}
+                    onClick={() => {
+                      navigate("/userappliedjobs");
+                      closeNav();
+                    }}
                   >
                     Applied Jobs
                   </a>
@@ -126,13 +162,22 @@ export const Navbar = () => {
                 <div class="nav-item">
                   <a
                     class="nav-link"
-                    onClick={() => navigate("/usersavedjobs")}
+                    onClick={() => {
+                      navigate("/usersavedjobs");
+                      closeNav();
+                    }}
                   >
                     Saved Jobs
                   </a>
                 </div>{" "}
                 <div class="nav-item">
-                  <a class="nav-link" onClick={() => navigate("/userprofile")}>
+                  <a
+                    class="nav-link"
+                    onClick={() => {
+                      navigate("/userprofile");
+                      closeNav();
+                    }}
+                  >
                     Profile
                   </a>
                 </div>{" "}
